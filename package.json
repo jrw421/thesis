@@ -1,0 +1,24 @@
+{
+  "name": "thesis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PCVEbaker/thesis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PCVEbaker/thesis/issues"
+  },
+  "homepage": "https://github.com/PCVEbaker/thesis#readme",
+  "dependencies": {
+    "bookshelf": "^0.12.1",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0"
+  }
+}
