@@ -65,3 +65,5 @@ export default function currentEvent(state = intialState, action) {
     // reassign item to guest
     // add guest
     // toggle guest from invited to attending
+
+    store.dispatch()
