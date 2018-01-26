@@ -34,6 +34,7 @@ knex.schema.hasTable('event').then(function(exists){
             table.string('description', 500);
             table.string('date', 100);
             table.string('location', 100);
+            table.string('image', 200);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 });
