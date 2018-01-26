@@ -1,6 +1,6 @@
 const express = require('express');
-// const models = require('./Models');
-const schema = require('./Schema/schema');
+// const models = require('./ModelsGQL');
+const schema = require('./SchemaGQL/schema');
 const expressGraphQL = require('express-graphql');
 const bodyParser = require('body-parser');
 
