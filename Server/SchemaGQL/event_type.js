@@ -2,18 +2,20 @@ const graphql = require('graphql')
 const {
   GraphQLInt,
   GraphQLString,
-  GraphQLObjectType
-} = graphql;id
+  GraphQLObjectType,
+  GraphQLID
+} = graphql
 
 const EventType = new GraphQLObjectType({
   name: 'Event',
   fields: () => ({
-    id: { type: GraphQLInt },
+    id: { type: GraphQLID },
     description: { type: GraphQLString },
     date: { type: GraphQLString },
     location: { type: GraphQLString },
     user: { type: GraphQLInt }
     })
 })
+
 
 module.exports = EventType
