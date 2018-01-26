@@ -19,7 +19,7 @@ knex.schema.hasTable('user').then(function(exists){
             table.string('email', 100);
             table.string('token', 150);
             table.boolean('member_status');
-        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)}) 
+        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 }).catch((err) => {
     console.log(err)
@@ -34,7 +34,7 @@ knex.schema.hasTable('event').then(function(exists){
             table.string('description', 500);
             table.string('date', 100);
             table.string('location', 100);
-        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)}) 
+        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 });
 
@@ -45,7 +45,7 @@ knex.schema.hasTable('event_attendee').then(function(exists){
             table.increments('id').primary();
             table.integer('user_id').unsigned().references('id').inTable('user');
             table.integer('event_id').unsigned().references('id').inTable('event');
-        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)}) 
+        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 });
 
@@ -57,7 +57,7 @@ knex.schema.hasTable('item').then(function(exists){
             table.string('name', 100);
             table.integer('user_id').unsigned().references('id').inTable('user');
             table.integer('event_id').unsigned().references('id').inTable('event');
-        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)}) 
+        }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 });
 
@@ -68,4 +68,3 @@ module.exports = {
     knex,
     bookshelf
 };
-
