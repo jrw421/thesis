@@ -2,8 +2,9 @@ const graphql = require('graphql')
 const {
   GraphQLInt,
   GraphQLString,
-  GraphQLObjectType
-} = graphql;id
+  GraphQLObjectType,
+  GraphQLID
+} = graphql
 
 const EventType = new GraphQLObjectType({
   name: 'Event',

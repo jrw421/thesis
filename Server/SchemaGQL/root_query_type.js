@@ -1,6 +1,8 @@
 const graphql = require('graphql');
 const UserType = require('./user_type');
 const EventType = require('./event_type');
+const _ = require('lodash');
+const schema = require('./schema');
 
 const {
   GraphQLInt,
@@ -8,7 +10,19 @@ const {
 } = graphql;
 
 
-const RootQuery = new GraphQLObjectType({
+
+var users = [
+  { id: 23, name: 'Bill', email: 'csfsd@sdfss.com', token: '234234', member_status: false},
+  { id: 28, name: 'Alice', email: 'csfsd@sdfsdfsss.com', token: '23sdf4234', member_status: false}
+]
+
+let events = [
+  { id: 22, userId: 23, description: 'a party', date: '04-13-2019', location: '23 Pine Street'},
+  { id: 29, userId: 28, description: 'another party', date: '04-13-2019', location: '23 Pine Street'}
+]
+
+
+const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: () => ({
     user: {
@@ -29,3 +43,5 @@ const RootQuery = new GraphQLObjectType({
     }
   })
 })
+
+module.exports = RootQueryType

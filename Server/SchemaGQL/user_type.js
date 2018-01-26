@@ -6,6 +6,8 @@ const {
   GraphQLObjectType
 } = graphql
 
+
+
 const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
@@ -16,5 +18,7 @@ const UserType = new GraphQLObjectType({
     member_status: { type: GraphQLInt }
   })
 });
+
+
 
 module.exports = UserType;
