@@ -38,12 +38,6 @@ export default function currentEvent(state = intialState, action) {
             return Object.assign({}, state, {
                 currentEventRegistry: copy
             })
-        case 'REASSIGN_ITEM':
-            let copy = [...state.currentEventRegistery];
-            copy[action.index].userId = action.userId;
-            return Object.assign({}, state, {
-                currentEventRegistry: copy
-            })
         case 'ADD_GUEST':
             return Object.assign({}, state, {
                 invitedGuests: [...state.invitedGuests, action.guest] 
