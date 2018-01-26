@@ -12,6 +12,8 @@ const intialState = {
 
 export default function currentEvent(state = intialState, action) {
     switch (action.type) {
+        case 'SET_CURRENT_EVENT':
+            return Object.assign({}, state, action.event)
         case 'UPDATE_LOCATION':
             return Object.assign({}, state, {
                 location: action.location
@@ -48,6 +50,8 @@ export default function currentEvent(state = intialState, action) {
             return Object.assign({}, state, {
                 attending: copy
             })
+        default:
+            return state
     }
 }
 

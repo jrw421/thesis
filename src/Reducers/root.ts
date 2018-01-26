@@ -25,7 +25,8 @@
 //     },
 //     pastEvents: {
 //         id: {},
-//         id: {}    
+//         id: {},
+                
 //     }
 //     // ui state
 // }

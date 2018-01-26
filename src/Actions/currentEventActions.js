@@ -9,6 +9,13 @@
     // add guest
     // toggle guest from invited to attending
 
+export const setCurrentEvent = event => {
+    return {
+        type: 'SET_CURRENT_EVENT',
+        event
+    }
+}
+
 export const updateLocation = location => {
     return {
         type: 'UPDATE_LOCATION',
