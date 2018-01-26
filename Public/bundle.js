@@ -72,11 +72,10 @@ module.exports = __webpack_require__(1);
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/EvanBaker/thesis/src/Containers/app.ts'");
 
 /***/ })
 /******/ ]);

@@ -43,6 +43,7 @@ knex.schema.hasTable('event_attendee').then(function(exists){
     if (!exists) {
         knex.schema.createTable('event_attendee', function(table){
             table.increments('id').primary();
+            table.boolean('reply');
             table.integer('user_id').unsigned().references('id').inTable('user');
             table.integer('event_id').unsigned().references('id').inTable('event');
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})

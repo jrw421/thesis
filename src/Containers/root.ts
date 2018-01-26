@@ -5,17 +5,25 @@ import { createStore } from 'redux'
 import { Component } from 'react'
 
 // Reducer Dependencies
-import { root } from '../Reducers/root.ts'
+import { combinedReducer } from '../Reducers/root.ts'
 
-const store = createStore(root)
+// Components
+import DashboardContainer from './DashboardContainer'
+import CreateEventContainer from './CreateEventContainer'
+import EditEventContainer from './EditEventContainer'
+import EventPageContainer from './EventPageContainer'
 
+// Create Redux Store and pass it Root Reducer
+const store = createStore(combinedReducer)
+
+// Set up Root Component
 const Root = ({ store }) => (
     <Provider store={store}>
       <Router>
         <Route path="/" component={DashboardContainer} />
-        <Route path="/createEvent" component={createEventContainer} />
-        <Route path="/editEvent" component={editEventContainer} />
-        <Route path="/event" component={eventPageContainer} />
+        <Route path="/createEvent" component={CreateEventContainer} />
+        <Route path="/editEvent" component={EditEventContainer} />
+        <Route path="/event" component={EventPageContainer} />
       </Router>
     </Provider>
   )
