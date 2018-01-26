@@ -17,8 +17,13 @@
   },
   "homepage": "https://github.com/PCVEbaker/thesis#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "bookshelf": "^0.12.1",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.12.3",
     "knex": "^0.14.2",
+    "lodash": "^4.17.4",
     "mysql": "^2.15.0"
   }
 }
