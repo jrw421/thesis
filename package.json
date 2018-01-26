@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,17 @@
   },
   "homepage": "https://github.com/PCVEbaker/thesis#readme",
   "dependencies": {
+    "@types/react": "^16.0.35",
+    "@types/react-dom": "^16.0.3",
     "bookshelf": "^0.12.1",
     "knex": "^0.14.2",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "ts-loader": "^3.3.1",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
   }
 }
