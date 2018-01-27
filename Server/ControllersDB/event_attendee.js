@@ -2,38 +2,25 @@ const knex = require('../dbConfig.js').knex
 const Event_Attendee = require('../ModelsDB/event_attendee.js')
 
 eventAttendeeController = {
-	add : (body, cb) =>{
+	add : function(body){
 		const newEventAttendee = new Event_Attendee({
       user_id: body.user,
-      event_id: body.event
+      event_id: body.event, 
+      reply: null
   	})
-  	newEventAttendee.save()
-  	.then(eventAttendee => {
-  		cb(true, eventAttendee);
-  	})
-  	.catch(err => {
-  		cb(false, err)
-  	})
+  	return newEventAttendee.save()
 	}, 
-	getEventAttendeeByEvent: (event_id, cb) => {
-		knex.select('*').from('event_attendee')
-		.where('event_id', event_id)
-		.then(eventUsers => {
-			cb(eventUsers);
-		})
+	getPair: function(id) {
+		return knex.select('*').from('event_attendee').where('id', id)
 	},
-	getEventAttendeeByAttendee: (user_id, cb) => {
-		knex.select('*').from('event_attendee')
-		.where('user_id', user_id)
-		.then(userEvents => {
-			cb(userEvents);
-		})
+	getAttendees: function(event_id) {
+		return knex.select('*').from('event_attendee').where('event_id', event_id)
 	},
-	findAll : (cb) =>{
-		knex.select('*').from('event_attendee')
-    .then((result) => {
-      cb(result);
-  	})
+	getEvents: function(user_id) {
+		return knex.select('*').from('event_attendee').where('user_id', user_id)
+	},
+	findAll : function() {
+		return knex.select('*').from('event_attendee')
 	}
 }
 

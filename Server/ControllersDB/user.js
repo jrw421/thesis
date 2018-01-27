@@ -2,33 +2,20 @@ const knex = require('../dbConfig.js').knex
 const User = require('../ModelsDB/user.js')
 
 userController = {
-	add : (body, cb) =>{
+	add : function(body){
 		const newUser = new User({
   		name: body.name,
       email: body.email,
-      token: body.token
+      token: body.token,
   		member_status: body.status
   	})
-  	newUser.save()
-  	.then(user => {
-  		cb(true, user);
-  	})
-  	.catch(err => {
-  		cb(false, err)
-  	})
+  	return newUser.save()
 	}, 
-	getUser: (id, cb) => {
-		knex.select('*').from('user')
-		.where('id', id)
-		.then(user=> {
-			cb(user);
-		})
+	getUser: function(id) {
+		return knex.select('*').from('user').where('id', id)
 	},
-	findAll : (cb) =>{
-    knex.select('*').from('user')
-    .then((result) => {
-      cb(result);
-  	})
+	findAll : function(){
+    return knex.select('*').from('user')
 	}
 }
 

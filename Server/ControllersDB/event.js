@@ -1,8 +1,9 @@
 const knex = require('../dbConfig.js').knex
 const Event = require('../ModelsDB/event.js')
 
+
 eventController = {
-	add : (body, cb) =>{
+	add : function(body){
 		const newEvent = new Event({
 			host_id: body.host
   		description: body.description,
@@ -10,26 +11,20 @@ eventController = {
       location: body.location, 
       image: body.image
   	})
-  	newEvent.save()
-  	.then(event => {
-  		cb(true, event);
-  	})
-  	.catch(err => {
-  		cb(false, err)
-  	})
+  	return newEvent.save()
 	}, 
-	getEvent: (id, cb) => {
-		knex.select('*').from('event')
-		.where('id', id)
-		.then(event=> {
-			cb(event);
-		})
+	getHostedEvents : function(host_id){
+		return knex.select('*').from('event').where('host_id', host_id)
 	},
-	findAll : (cb) =>{
-		knex.select('*').from('event')
-    .then((result) => {
-      cb(result);
-  	})
+	// bydate: function(date, user_id){
+	// 	var newDate = new Date()
+	// 	knex.select('*').from('event_attendee').where('user_id', user_id).orderBy('date', 'ASC')
+	// },
+	getEvent: function(id){
+		return knex.select('*').from('event').where('id', id)
+	},
+	findAll : function(){
+		return knex.select('*').from('event')
 	}
 }
 

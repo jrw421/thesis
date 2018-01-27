@@ -2,32 +2,25 @@ const knex = require('../dbConfig.js').knex
 const Item = require('../ModelsDB/item.js')
 
 itemController = {
-	add : (body, cb) =>{
+	add : function(body){
 		const newItem = new Item({
   		name: body.name,
       user_id: body.user,
       event_id: body.event
   	})
-  	newItem.save()
-  	.then(item => {
-  		cb(true, item);
-  	})
-  	.catch(err => {
-  		cb(false, err)
-  	})
+  	return newItem.save()
 	}, 
-	getItem: (id, cb) => {
-		knex.select('*').from('item')
-		.where('id', id)
-		.then(item=> {
-			cb(item);
-		})
+	getItem: function(id) {
+		return knex.select('*').from('item').where('id', id)
 	},
-	findAll : (cb) =>{
-		knex.select('*').from('item')
-    .then((result) => {
-      cb(result);
-  	})
+	getItemsByUserId: function(user_id) {
+		return knex.select('*').from('item').where('user_id', user_id)
+	}, 
+	getItemsByEventId: function(event_id) {
+		return knex.select('*').from('item').where('event_id', event_id)
+	}, 
+	findAll : function(){
+		return knex.select('*').from('item')
 	}
 }
 
