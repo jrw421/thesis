@@ -21,6 +21,12 @@ itemController = {
 	}, 
 	findAll : function(){
 		return knex.select('*').from('item')
+	}, 
+	deleteItem: function(id){
+		return knex('item').where('id', id).del()
+	}, 
+	updateField: function(id, field, newValue){
+		return knex('item').where('id', id).update(field, newValue)
 	}
 }
 
