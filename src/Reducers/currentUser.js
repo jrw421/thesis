@@ -5,7 +5,7 @@ const initialState = {
     member_status: ''
 }
 
-export const currentUser (state = initialState, action) => {
+const currentUser = (state = initialState, action) => {
     switch (action.type) {
         case 'TOGGLE_MEMBER_STATUS': 
             return Object.assign({}, state, {
@@ -15,3 +15,5 @@ export const currentUser (state = initialState, action) => {
                 return state
     }
 }
+
+export default currentUser

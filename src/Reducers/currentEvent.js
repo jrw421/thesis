@@ -10,7 +10,7 @@ const intialState = {
             attending: []
         }
 
-export default function currentEvent(state = intialState, action) {
+function currentEvent(state = intialState, action) {
     switch (action.type) {
         case 'SET_CURRENT_EVENT':
             return Object.assign({}, state, action.event)
@@ -35,10 +35,10 @@ export default function currentEvent(state = intialState, action) {
                 currentEventRegistry: [...state.currentEventRegistry].splice(action.index, 1)
             })
         case 'ASSIGN_ITEM':
-            let copy = [...state.currentEventRegistery];
-            copy[action.index].userId = action.userId;
+            let copyOfEventRegistery = [...state.currentEventRegistery];
+            copyOfEventRegistery[action.index].userId = action.userId;
             return Object.assign({}, state, {
-                currentEventRegistry: copy
+                currentEventRegistry: copyOfEventRegistery
             })
         case 'ADD_GUEST':
             return Object.assign({}, state, {
@@ -55,15 +55,4 @@ export default function currentEvent(state = intialState, action) {
     }
 }
 
-// Actions
-    // update location
-    // update Description
-    // update Dat
-    // add item to registery
-    // remove item from registery
-    // assign item to guest
-    // reassign item to guest
-    // add guest
-    // toggle guest from invited to attending
-
-    store.dispatch()
+export default currentEvent

@@ -23,6 +23,7 @@ export const updateLocation = location => {
     }
 }
 
+
 export const updateDescription = description => {
     return {
         type: 'UPDATE_DESCRIPTION',

@@ -16,8 +16,8 @@
 //         email: ''
 //     },
 //     attendingEvents: {
-//         id: {},
-//         id: {} 
+//       id: {},
+//       id: {} 
 //     },
 //     hostingEvents: {
 //         id: {},
@@ -26,9 +26,8 @@
 //     pastEvents: {
 //         id: {},
 //         id: {},
-
 //     }
-//     // ui state
+//  
 // }
 
 // Import redux dependencies
@@ -37,9 +36,8 @@ import { combineReducers } from 'redux'
 // import split reducers
 import { currentEvent } from './currentEvent'
 import { hostingEvents } from './hostingEvents'
-import { currentEvent } from './currentEvent'
 import { currentUser } from './currentUser'
 
-const combinedReducer = combineReducers(currentEvent, hostingEvents, currentUser, attendingEvents)
+const combinedReducer = combineReducers(currentEvent, hostingEvents, currentUser)
 
 module.exports = combinedReducer;
