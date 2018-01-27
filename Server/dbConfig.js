@@ -32,7 +32,7 @@ knex.schema.hasTable('event').then(function(exists){
             table.increments('id').primary();
             table.integer('host_id').unsigned().references('id').inTable('user');
             table.string('description', 500);
-            table.string('date', 100);
+            table.date('date');
             table.string('location', 100);
             table.string('image', 200);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
@@ -44,6 +44,7 @@ knex.schema.hasTable('event_attendee').then(function(exists){
     if (!exists) {
         knex.schema.createTable('event_attendee', function(table){
             table.increments('id').primary();
+            table.boolean('reply');
             table.integer('user_id').unsigned().references('id').inTable('user');
             table.integer('event_id').unsigned().references('id').inTable('event');
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
