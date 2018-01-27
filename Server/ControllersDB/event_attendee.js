@@ -21,6 +21,15 @@ eventAttendeeController = {
 	},
 	findAll : function() {
 		return knex.select('*').from('event_attendee')
+	}, 	
+	deleteById: function(id){
+		return knex('event_attendee').where('id', id).del()
+	}, 
+	deleteByEventOrUser: function(field, user_or_event_id){
+		return knex('event_attendee').where(field, user_or_event_id).del()
+	},
+	deleteByEventAndUser: function(user_id, event_id){
+		return knex('event_attendee').where({'event_id': event_id, 'user_id' : user_id}).del()
 	}
 }
 
