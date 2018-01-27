@@ -1,8 +1,8 @@
-const bookshelf = require('./dbConfig.js').bookshelf;
+const bookshelf = require('../dbConfig.js').bookshelf;
 const User = require('./user.js');
 const Event = require('./event.js');
 
-var Item = bookshelf.Model.extend({
+const Item = bookshelf.Model.extend({
   tableName: 'item',
   event: function() {
     return this.belongsTo(Event)
@@ -12,4 +12,4 @@ var Item = bookshelf.Model.extend({
   }
 });
 
-module.exports = bookshelf.model('Item', Item);
+module.exports = Item
