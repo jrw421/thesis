@@ -16,6 +16,12 @@ userController = {
 	},
 	findAll : function(){
     return knex.select('*').from('user')
+	}, 
+	deleteUser: function(id){
+		return knex('user').where('id', id).del()
+	}, 
+	editField: function(id, field, newValue){
+		return knex('user').where('id', id).update(field, newValue)
 	}
 }
 

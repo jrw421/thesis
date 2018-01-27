@@ -32,7 +32,7 @@ knex.schema.hasTable('event').then(function(exists){
             table.increments('id').primary();
             table.integer('host_id').unsigned().references('id').inTable('user');
             table.string('description', 500);
-            table.date('date');
+            table.timestamp('date');
             table.string('location', 100);
             table.string('image', 200);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})

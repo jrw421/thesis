@@ -25,6 +25,12 @@ eventController = {
 	},
 	findAll : function(){
 		return knex.select('*').from('event')
+	}, 
+	deleteEvent : function(id){
+		return knex('event').where('id', id).del()
+	}, 
+	editField : function(id, field, newValue){
+		return knex('event').where('id', id).update(field, newValue)
 	}
 }
 
