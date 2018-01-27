@@ -29,10 +29,6 @@ app.post('/', (req, res, next) => {
   });
 });
 
-server.get('/', (req, res, next) => {
-  let instruction = 'POST GraphQL queries to' + server.url + '. Sample query: {contributor (id: "1")}';
-  res.send(instruction);
-});
 
 //express-graphql will accept requests with 3 parameters: (query, variables, operationName)
 
