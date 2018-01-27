@@ -3,6 +3,7 @@ const UserType = require('./user_type');
 const EventType = require('./event_type');
 const _ = require('lodash');
 const schema = require('./schema');
+const db = require('../ControllersDB/mainController.js')
 
 const {
   GraphQLInt,
@@ -30,7 +31,10 @@ const RootQueryType = new GraphQLObjectType({
       type: UserType,
       args: { id: { type: GraphQLInt } },
       resolve(parentValue, args) {
-        return _.find(users, { id: args.id })
+         db.user.getUser(args.id)
+          .then((item) => {return res.send})
+          .catch((err) => {console.error(err)})
+          
         //this is where ^ controller functions would be input
 
       //args is an object that gets called for whatever we input into our query
