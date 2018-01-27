@@ -5,7 +5,8 @@ const Event = require('../ModelsDB/event.js')
 eventController = {
 	add : function(body){
 		const newEvent = new Event({
-			host_id: body.host
+			name: body.name,
+			host_id: body.host,
   		description: body.description,
       date: body.date,
       location: body.location, 

@@ -15,9 +15,11 @@ userController = {
 		return knex.select('*').from('user').where('id', id)
 	},
 	findAll : function(){
-    return knex.select('*').from('user')
+		return knex.select('*').from('user')
+		
 	}
 }
+
 
 module.exports = userController
 
