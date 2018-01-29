@@ -9,7 +9,7 @@ const app = express();
 
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
 app.use(/\/((?!graphql).)*/, bodyParser.json());
-app.use('/static', express.static(path.join(__dirname, '../Public')))
+app.use('/', express.static(path.join(__dirname, '../Public')))
 app.use('/graphql', expressGraphQL({
   schema,
   graphiql: true,
