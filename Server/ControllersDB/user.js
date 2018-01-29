@@ -2,7 +2,7 @@ const knex = require('../dbConfig.js').knex
 const User = require('../ModelsDB/user.js')
 
 userController = {
-	add : function(body){
+	addUser : function(body){
 		const newUser = new User({
   		name: body.name,
       email: body.email,

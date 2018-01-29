@@ -14,7 +14,8 @@ const EventType = new GraphQLObjectType({
     description: { type: GraphQLString },
     date: { type: GraphQLString },
     location: { type: GraphQLString },
-    user: { type: GraphQLInt }
+    user: { type: GraphQLInt },
+    image: { type: GraphQLString }
     })
   // usersAttending: {
   //   type: GraphQLList: UserType
