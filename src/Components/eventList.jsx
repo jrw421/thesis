@@ -1,12 +1,14 @@
+import React from 'react'
 import Event from './event.jsx'
 
-const EventList = ({events, onEventClick}) => (
+const EventList = ({events}) => (
     <ul>
         {events.map(event =>
             <Event 
                 event={event}
-                onEventClick={onEventClick}
             />
         )}
     </ul>
 )
+
+export default EventList
