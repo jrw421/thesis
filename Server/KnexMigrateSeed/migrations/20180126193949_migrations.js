@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       table.string('name', 100);
       table.string('email', 100);
       table.string('token', 150);
-      table.boolean('member_status');
+      table.integer('member_status');
   }),
   
   knex.schema.createTableIfNotExists('event', function(table){
@@ -18,17 +18,13 @@ exports.up = function(knex, Promise) {
     table.string('date', 100);
     table.string('location', 100);
     table.string('image', 200);
-
-    // table.foreign('host_id').references('id').inTable('user');
   }),
   
   knex.schema.createTableIfNotExists('event_attendee', function(table){
     table.increments('id').primary();
     table.integer('user_id');
     table.integer('event_id');
-
-    // table.foreign('user_id').references('user.id');
-    // table.foreign('event_id').references('id').inTable('event')
+    table.integer('reply')
   }),
   
   knex.schema.createTableIfNotExists('item', function(table){
@@ -36,10 +32,6 @@ exports.up = function(knex, Promise) {
     table.string('name', 100);
     table.integer('user_id');
     table.integer('event_id');
-
-    // table.foreign('user_id').references('user.id');
-    // table.foreign('event_id').references('event.id');
-
   }),
   
   ])
