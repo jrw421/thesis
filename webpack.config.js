@@ -10,6 +10,7 @@ const config = {
     // tells webpack in what folder to store the bundled
     // javascript files and what name to give to final
     // bundled Javascript file
+    watch: true,
     output: {
         path: DIST_DIR,
         filename: 'bundle.js'

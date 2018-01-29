@@ -3,15 +3,85 @@ const schema = require('./SchemaGQL/schema');
 const expressGraphQL = require('express-graphql');
 const bodyParser = require('body-parser');
 const path = require('path');
-// const graphql = require('graphql')
+const graphql = require('graphql')
+
+// auth dependencies
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const logger = require('express-logger')
+const methodOverride = require('method-override')
+const passport = require('passport');
+const flash = require('connect-flash');
+const util = require('util')
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const app = express();
 
+// auth //
+/////////
+passport.use(new GoogleStrategy({
+  clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
+  clientSecret: '4qDzcSsqkWieHEABXAf1XMpH',
+  callbackURL: 'http://localhost:4000/login/google/return'
+},
+function(accessToken, refreshToken, profile, cb) {
+  console.log("inside")
+  // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+  //   return cb(err, user);
+  // });
+}
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs');
+// app.use(logger());
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(session({ secret: 'keyboard cat' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/dashboard', express.static(path.join(__dirname, '../Public')))
+
+app.get('/', function(req, res){
+  res.render('home', { user: req.user });
+});
+
+app.get('/login',
+  function(req, res){
+    res.render('login');
+});
+
+app.get('/login/google', passport.authenticate('google', {scope: 'https://www.googleapis.com/auth/plus.login'}));
+
+app.get('/login/google/return', 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/profile');
+});
+
+app.get('/profile',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    console.log('going to profile')
+    res.render('profile', { user: req.user });
+});
+
+// graphql //
+////////////
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
 app.use(/\/((?!graphql).)*/, bodyParser.json());
-app.use('/', express.static(path.join(__dirname, '../Public')))
 app.use('/graphql', expressGraphQL({
-  schema,
+  schema: schema,
   graphiql: true,
   //this allows the graphiql interface (GQL's postman) to load in browser
   //to access: 'localhost:4000/graphiql'
@@ -34,3 +104,14 @@ app.post('/', (req, res, next) => {
 app.listen(4000, () => {
   console.log('Listening on port 4000')
 });
+
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
