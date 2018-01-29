@@ -18,11 +18,11 @@ knex.schema.hasTable('user').then(function(exists){
             table.string('name', 100);
             table.string('email', 100);
             table.string('token', 150);
-            table.boolean('member_status');
+            table.integer('member_status');
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 }).catch((err) => {
-    console.log(err)
+    console.log(err) 
 });
 
 
@@ -46,7 +46,7 @@ knex.schema.hasTable('event_attendee').then(function(exists){
     if (!exists) {
         knex.schema.createTable('event_attendee', function(table){
             table.increments('id').primary();
-            table.boolean('reply');
+            table.integer('reply');
             table.integer('user_id')
             table.integer('event_id')
             // table.foreign('user_id').references('id').inTable('user');

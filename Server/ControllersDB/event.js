@@ -23,8 +23,9 @@ eventController = {
 	// 	var newDate = new Date()
 	// 	knex.select('*').from('event_attendee').where('user_id', user_id).orderBy('date', 'ASC')
 	// },
-	getEvent: function(id){
-		return knex.select('*').from('event').where('id', id)
+	getEvent: async function(id){
+		let result = await knex.select('*').from('event').where('id', id)
+		return result[0]
 	},
 	findAll : function(){
 		return knex.select('*').from('event')
