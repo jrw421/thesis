@@ -11,8 +11,9 @@ userController = {
   	})
   	return newUser.save()
 	}, 
-	getUser: function(id) {
-		return knex.select('*').from('user').where('id', id)
+	getUser: async function(id) {
+		let result =  await knex.select('*').from('user').where('id', id)
+		return result[0]
 	},
 	findAll : function(){
     return knex.select('*').from('user')

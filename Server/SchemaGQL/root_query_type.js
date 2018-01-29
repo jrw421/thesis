@@ -1,6 +1,6 @@
 const graphql = require('graphql');
-const UserType = require('./user_type');
-const EventType = require('./event_type');
+const UserType = require('./types').UserType;
+const EventType = require('./types').EventType;
 const _ = require('lodash');
 const schema = require('./schema');
 const db = require('../ControllersDB/mainController.js')
@@ -44,7 +44,6 @@ const RootQueryType = new GraphQLObjectType({
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
         return db.user.getUser(args.id)
-          .then(user => user[0])
       }
     },
     events: {
