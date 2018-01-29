@@ -70,7 +70,7 @@ module.exports = RootQueryType
 // }
 // GET SINGLE USER
 // {
-// 	User(id: 1) {
+// 	user(id: 1) {
 // 		email
 // 		id
 // 		member_status

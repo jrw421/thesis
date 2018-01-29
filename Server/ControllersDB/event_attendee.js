@@ -17,7 +17,10 @@ eventAttendeeController = {
 		return knex.select('*').from('event_attendee').where('event_id', event_id)
 	},
 	getEvents: function(user_id) {
-		return knex.select('*').from('event_attendee').where('user_id', user_id)
+		//did this to avoid nested/async queries in graphql
+	  return knex.select('*').from('event_attendee')
+	  					 .where('user_id', user_id)
+	  					 .innerJoin('event', 'event_attendee.event_id', 'event.id')
 	},
 	findAll : function() {
 		return knex.select('*').from('event_attendee')

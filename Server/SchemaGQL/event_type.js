@@ -16,6 +16,9 @@ const EventType = new GraphQLObjectType({
     location: { type: GraphQLString },
     user: { type: GraphQLInt }
     })
+  // usersAttending: {
+  //   type: GraphQLList: UserType
+  // }
 })
 
 module.exports = EventType
