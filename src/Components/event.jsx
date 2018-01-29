@@ -1,8 +1,10 @@
 import React from 'react'
 
-const Event = ({event, onEventClick}) => (
-    <div>
-        <img src={event.image}/>
+const Event = ({event, handleEventClick}) => (
+    <div
+        onClick={() => {handleEventClick(event)}}
+    >
+        {event.name}
     </div>
 )
 
