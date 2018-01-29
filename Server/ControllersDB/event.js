@@ -3,7 +3,7 @@ const Event = require('../ModelsDB/event.js')
 
 
 eventController = {
-	add : function(body){
+	addEvent : async (body) => {
 		const newEvent = new Event({
 			name: body.name,
 			host_id: body.host,
@@ -12,8 +12,10 @@ eventController = {
       location: body.location, 
       image: body.image
   	})
-  	return newEvent.save()
-	}, 
+		 var result = await newEvent.save()
+		 return result.attributes
+	},
+
 	getHostedEvents : function(host_id){
 		return knex.select('*').from('event').where('host_id', host_id)
 	},
