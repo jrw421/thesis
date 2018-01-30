@@ -33,7 +33,7 @@ const mutations = new GraphQLObjectType({
     type: EventType,
     args: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      host_id: { type: new GraphQLNonNull(GraphQLInt) },
+      host_id: { type: new GraphQLNonNull(GraphQLID) },
       description: { type: new GraphQLNonNull(GraphQLString) },
       date: { type: GraphQLString } , 
       location: { type: new GraphQLNonNull(GraphQLString)},
@@ -42,15 +42,36 @@ const mutations = new GraphQLObjectType({
     resolve(parentValue, args) {
       return db.event.addEvent({
         host_id: args.host_id,
+        //host id isnt adding for some reason
         name: args.name,
         description: args.description,
         date: args.date,
         location: args.location
       })
     }
-  }
+  },
+  editEventFields: {
+    type: EventType,
+    args: {
+      id: { type: new GraphQLNonNull(GraphQLID)},
+      name: { type: GraphQLString },
+      description: {type: GraphQLString },
+      date: { type: GraphQLString },
+      location: { type: GraphQLString },
+      image: { type: GraphQLString }
+    },
+    resolve(parentValues, args) {
+      return db.event.editEventFields(args.id, args)
+        .then(editedEvent =>  editedEvent[0])
+    }
+    }
   }
 })
+
+
+
+
+
 
 
 module.exports = mutations;
