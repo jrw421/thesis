@@ -4,7 +4,6 @@ const expressGraphQL = require('express-graphql');
 const bodyParser = require('body-parser');
 const path = require('path');
 const graphql = require('graphql')
-const axios = require('axios')
 
 // auth dependencies
 const cookieParser = require('cookie-parser');
@@ -14,7 +13,7 @@ const methodOverride = require('method-override')
 const passport = require('passport');
 const flash = require('connect-flash');
 const util = require('util')
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const app = express();
 
@@ -30,7 +29,6 @@ function(request, accessToken, refreshToken, profile, done) {
   // User.findOrCreate({ googleId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
-  console.log('profile', profile)
   process.nextTick(()=> {return done(null, profile)})
 }
 ));
@@ -49,7 +47,7 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
-app.use(session({ 
+app.use(session({
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: true
@@ -58,14 +56,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/dashboard', ensureAuthenticated, express.static(path.join(__dirname, '../Public')))
+app.use('/Public', express.static(path.join(__dirname, '../Public')))
 
 app.get('/', function(req, res){
   res.render('login', { user: req.user });
 });
 
-app.get('/login/google', passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.google.com/m8/feeds/', 'https://www.googleapis.com/auth/plus.profile.emails.read']}));
+// app.get('/login',
+//   function(req, res){
+//     res.render('login', {user: req.user});
+// });
 
-app.get('/login/google/return', 
+app.get('/login/google', passport.authenticate('google', {scope: 'https://www.googleapis.com/auth/plus.login'}));
+
+app.get('/login/google/return',
   passport.authenticate('google', { failureRedirect: '/', successRedirect: '/dashboard' })),
   // function(req, res) {
   //   cosole.log('redirecting to dashboard')
@@ -73,27 +77,9 @@ app.get('/login/google/return',
 // });
 
 app.get('/logout', function(req, res){
-  req.session.destroy(function (err) {
-    req.logout()
-    res.redirect('/'); //Inside a callback… bulletproof!
-  });
+  req.logout();
+  res.redirect('/');
 });
-
-// Google Contacts //
-/////////////////////
-
-app.get('/emails', function(req, res){
-  console.log('inside emails route')
-  axios.get('https://www.google.com/m8/feeds/contacts/3van90@gmail.com/full')
-      .then(data => {
-        console.log('data', data)
-        res.end(data)
-      })
-      .catch(error => {
-        console.log('error', error)
-        res.end(error)
-      })
-})
 
 // graphql //
 ////////////
@@ -132,5 +118,5 @@ app.listen(4000, () => {
 //   login page.
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login/google')
+  res.redirect('/login')
 }
