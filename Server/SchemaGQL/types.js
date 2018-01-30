@@ -38,7 +38,7 @@ const EventType = new GraphQLObjectType({
       resolve(parentValue, args){
         return db.item.getItemsByEventId(parentValue.id)
       }
-    }
+    } 
   })
 })
 

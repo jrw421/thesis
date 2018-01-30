@@ -10,7 +10,6 @@ const EventType = require('./types.js').EventType
 const ItemType = require('./types.js').ItemType
 
 
-
 const RootQueryType = require('./root_query_type');
 
 

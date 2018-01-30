@@ -15,7 +15,7 @@ exports.up = function(knex, Promise) {
     table.integer('host_id');
     table.string('name');
     table.string('description', 500);
-    table.string('date', 100);
+    table.integer('date', 8);
     table.string('location', 100);
     table.string('image', 200);
   }),

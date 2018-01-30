@@ -16,13 +16,20 @@ eventController = {
 		 return result.attributes
 	},
 
-	getHostedEvents : function(host_id){
-		return knex.select('*').from('event').where('host_id', host_id)
+	getHostedEvents : function(user_id){
+		return knex.select('*').from('event').where('host_id', user_id)
 	},
-	// bydate: function(date, user_id){
-	// 	var newDate = new Date()
-	// 	knex.select('*').from('event_attendee').where('user_id', user_id).orderBy('date', 'ASC')
-	// },
+	filterEvents: async function(user_id){
+		let current = new Date()
+		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
+		return Promise.all([knex('event').where('date', '>=', dateNum), knex('event').where('date', '<', dateNum)])
+					 .then(vals => {
+					 	let obj = {}
+					 	obj['attending'] = vals[0]
+					 	obj['past'] = vals[1]
+					 	return obj
+					 })
+	},
 	getEvent: async function(id){
 		let result = await knex.select('*').from('event').where('id', id)
 		return result[0]
@@ -49,6 +56,13 @@ eventController = {
 	
 }
 
+<<<<<<< HEAD
 
 
 module.exports = eventController
+=======
+eventController.filterEvents()
+
+
+module.exports = eventController
+>>>>>>> feature
