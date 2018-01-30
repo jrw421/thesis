@@ -16,9 +16,9 @@ exports.seed = function(knex, Promise) {
 
 
    knex('event').insert([
-      {id: 1, host_id: 1, name: 'My Birthday Party', description: 'Come to my birthday please', date: '02-13-2017', location: '23 Orchard Street'},
-      {id: 2, host_id: 2, name: 'Bar Mitzvah', description: 'Yeah, Hi', date: '04-16-2018', location: '8 Pine Road'},
-      {id: 3, host_id: 3, name: 'Dance Night', description: 'Its Friday guys', date: '08-19-2018', location: '23 Wall Street, New York, New York'}
+      {id: 1, host_id: 1, name: 'My Birthday Party', description: 'Come to my birthday please', date: 2018025, location: '23 Orchard Street'},
+      {id: 2, host_id: 2, name: 'Bar Mitzvah', description: 'Yeah, Hi', date: 2018031, location: '8 Pine Road'},
+      {id: 3, host_id: 3, name: 'Dance Night', description: 'Its Friday guys', date: 2018028, location: '23 Wall Street, New York, New York'}
     ]),
 
    knex('event_attendee').insert([
