@@ -17,7 +17,9 @@ knex.schema.hasTable('user').then(function(exists){
             table.increments('id').primary()
             table.string('name', 100);
             table.string('email', 100);
-            table.string('token', 150);
+            table.string('img', 150);
+            table.string('google_id', 150);
+            table.string('etag', 300);
             table.integer('member_status');
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
@@ -32,6 +34,9 @@ knex.schema.hasTable('event').then(function(exists){
             table.increments('id').primary();
             table.integer('host_id')
             // table.foreign('host_id').references('id').inTable('user');
+            table.string('img', 150);
+            table.string('google_id', 150);
+            table.string('etag', 300);
             table.string('description', 500);
             table.string('name', 500);
             table.integer('date', 8);
