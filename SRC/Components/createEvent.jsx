@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
+import axios from 'axios'
+
 
 class createEvent extends React.Component {
   constructor(props) {
@@ -20,7 +22,10 @@ class createEvent extends React.Component {
       hostId: 1
     }
 
+
     this.handleItems = this.handleItems.bind(this)
+    this.getEmails = this.getEmails.bind(this)
+
   }
 
   submitForm = () => {
@@ -91,6 +96,8 @@ class createEvent extends React.Component {
         <br></br>
         <br></br>
         <FlatButton label="Submit" secondary={true} onClick={() => this.submitForm()}/>
+        <button onClick={() => {this.getEmails()}}>Get Emails</button>
+
       </div>
     )
   }
