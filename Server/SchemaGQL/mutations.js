@@ -76,8 +76,22 @@ const mutations = new GraphQLObjectType({
         return db.item.claimItem(args.id, args.userId)
           .then(response => response[0])
       }
+  },
+  findOrCreateUser: {
+    type: UserType,
+    args: {
+      name: { type: new GraphQLNonNull(GraphQLString)},
+      img: { type: new GraphQLNonNull(GraphQLString)},
+      google_id: { type: new GraphQLNonNull(GraphQLString)},
+      etag: { type: new GraphQLNonNull(GraphQLString)},
+      email: { type: new GraphQLNonNull(GraphQLString)},
+    },
+    resolve(parentValues, args) {
+      return db.user.findOrCreateUser(args)
+        .then(response => response)
     }
   }
+}
 })
 
 
