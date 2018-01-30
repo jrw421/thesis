@@ -2,14 +2,25 @@ const knex = require('../dbConfig.js').knex
 const User = require('../ModelsDB/user.js')
 
 userController = {
-	addUser : function(body){
-		const newUser = new User({
-  		name: body.name,
-      email: body.email,
-      token: body.token,
-  		member_status: body.status
-  	})
-  	return newUser.save()
+	findOrCreateUser : function(body){
+
+		return knex.select('*').from('user').where('google_id', body.google_id)
+			.then((profileCheck) => {
+				if (profileCheck.length > 0) {
+					return profileCheck[0]
+				} else {
+						const newUser = new User({
+						name: body.name,
+						img: body.img,
+						google_id: body.google_id,
+						etag: body.etag,
+						email: body.email,
+					})
+					return newUser.save()
+						.then(user => user.attributes)
+				}
+			})
+
 	}, 
 	getUser: async function(id) {
 		let result =  await knex.select('*').from('user').where('id', id)
@@ -25,6 +36,7 @@ userController = {
 		return knex('user').where('id', id).update(field, newValue)
 	}
 }
+
 
 
 module.exports = userController
