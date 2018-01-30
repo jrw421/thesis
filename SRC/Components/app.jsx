@@ -15,8 +15,13 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log('document', document)
-    console.log('window', window)
+    axios.get('/user')
+          .then(data => {
+            console.log(data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
   }
 
   render() {
