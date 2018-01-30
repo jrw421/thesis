@@ -14,6 +14,11 @@ class App extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    console.log('document', document)
+    console.log('window', window)
+  }
+
   render() {
     return (
       <MuiThemeProvider>

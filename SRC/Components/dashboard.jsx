@@ -23,11 +23,11 @@ class Dashboard extends React.Component {
   render() {
     console.log('this props ', this.props)
     if (this.props.dashboardQuery.error) {
-      return (this.props.error)
+      return <div>Error</div>
     }
 
     if (this.props.dashboardQuery.loading) {
-      return <div>this.props.loading</div>
+      return <div>Loading</div>
     }
     return (
       <div>
@@ -53,6 +53,15 @@ class Dashboard extends React.Component {
     )
   }
 }
+
+// const DASHBOARD_QUERY = gql `
+//   query dashboardQuery {
+//     user (id: 1) {
+//         id
+//         name
+//     }
+//   } 
+// `
 
 const DASHBOARD_QUERY = gql `
   query dashboardQuery {
@@ -81,6 +90,26 @@ const DASHBOARD_QUERY = gql `
           date
           img
         }
+        items {
+          id
+          name
+        }
+      }
+      currentEvents{
+        id
+        name
+        description
+        date
+        location
+        users {
+          id
+          name
+        }
+        items {
+          id
+          name
+        }
+      }
     }
   }
 `
