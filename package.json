@@ -35,6 +35,7 @@
     "graphql": "^0.12.3",
     "graphql-tag": "^2.6.1",
     "knex": "^0.14.2",
+    "material-ui": "^0.20.0",
     "method-override": "^2.3.10",
     "mysql": "^2.15.0",
     "passport": "^0.4.0",

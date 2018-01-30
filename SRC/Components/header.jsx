@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import AppBar from 'material-ui/AppBar';
 
 class Header extends Component {
   render() {
     return (
       <div>
-        <div>
-          <div>Placeholder</div>
+        <AppBar
+          // className="bar"
+          title="Host.ly"
+        />
           <Link to="/">
             Dashboard
           </Link>
-          <div>|</div>
+          <div></div>
           <Link to="/createEvent">
             Create Event
           </Link>
-          <a href="/logout">Logout</a>
-        </div>
       </div>
     )
   }

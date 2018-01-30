@@ -1,0 +1,89 @@
+#login {
+  background-color: blue
+}
+
+/* .bar {
+  background-color: red !important;
+} */
+
+#body {
+  /* background-color: #DCD0C0 */
+}
+
+#loginBody {
+  font-family: URW Chancery L, cursive;
+}
+
+#banner {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+#title {
+  color: RGB(161, 127, 26);
+  font-weight: 900;
+  font-size: 600%;
+  font-family: URW Chancery L, cursive;
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  font-size: 250%;
+  color: #C0B283
+}
+
+h2 {
+  font-size: 150%;
+  color: #C0B283
+}
+
+.link {
+  text-align: center;
+  font-size: 150%;
+  color: #C0B283
+}
+
+.container {
+  /* background-color: WhiteSmoke; */
+  font-size: 150%;
+  /* background-color:#92a8d1; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.col1 {
+  color: #C0B283;
+  /* background-color: #DCD0C0; */
+  position: relative;
+  width: 80%;
+  text-align: center;
+  grid-column: 2/3;
+  grid-row: 1;
+}
+
+
+.col2 {
+  color: #C0B283;
+  /* background-color: #DCD0C0; */
+  position: relative;
+  width: 80%;
+  float: right;
+  text-align: center;
+  grid-template-columns: 1/3;
+  grid-row: 1;
+}
+
+.col3 {
+  color: #C0B283;
+  /* background-color: #DCD0C0; */
+  width: 80%;
+  position: relative;
+  text-align: center;
+  grid-template-columns: 2/3;
+  grid-row: 1;
+}
