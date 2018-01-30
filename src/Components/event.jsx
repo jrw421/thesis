@@ -5,6 +5,8 @@ const Event = ({event, handleEventClick}) => (
         onClick={() => {handleEventClick(event)}}
     >
         {event.name}
+        <br></br>
+        {event.description}
     </div>
 )
 

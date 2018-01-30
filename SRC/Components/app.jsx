@@ -21,7 +21,7 @@ class App extends React.Component {
         <Header />
         <div>
           <Switch>
-            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route path="/eventPage" component={EventPage} />
             <Route path="/createEvent" component={CreateEvent} />
           </Switch>
