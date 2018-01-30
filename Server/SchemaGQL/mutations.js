@@ -2,6 +2,7 @@ const graphql = require('graphql')
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLInt } = graphql;
 const UserType = require('./types').UserType
 const EventType = require('./types').EventType;
+const ItemType = require('./types').ItemType;
 const db = require('../ControllersDB/mainController.js');
 
 
@@ -64,6 +65,17 @@ const mutations = new GraphQLObjectType({
       return db.event.editEventFields(args.id, args)
         .then(editedEvent =>  editedEvent[0])
     }
+    },
+    toggleClaimOfItem: {
+      type: ItemType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID)},
+        userId: { type: new GraphQLNonNull(GraphQLID)}
+      },
+      resolve(parentValues, args) {
+        return db.item.claimItem(args.id, args.userId)
+          .then(response => response[0])
+      }
     }
   }
 })
