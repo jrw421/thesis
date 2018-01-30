@@ -17,18 +17,20 @@ eventController = {
 	},
 
 	getHostedEvents : function(user_id){
-		return knex.select('*').from('event').where('host_id', user_id)
-	},
-	filterEvents: async function(user_id){
 		let current = new Date()
 		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
-		return Promise.all([knex('event').where('date', '>=', dateNum), knex('event').where('date', '<', dateNum)])
-					 .then(vals => {
-					 	let obj = {}
-					 	obj['attending'] = vals[0]
-					 	obj['past'] = vals[1]
-					 	return obj
-					 })
+		return knex('event').where('host_id', user_id).andWhere('date', '>=', dateNum)
+	},
+	getPastEvents: function(user_id){
+		let current = new Date()
+		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
+		return  knex('event').where('date', '<', dateNum)
+					 
+	},
+	getCurrentEvents: function(user_id){
+		let current = new Date()
+		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
+		return knex('event').where('date', '>=', dateNum)
 	},
 	getEvent: async function(id){
 		let result = await knex.select('*').from('event').where('id', id)
@@ -56,13 +58,4 @@ eventController = {
 	
 }
 
-<<<<<<< HEAD
-
-
 module.exports = eventController
-=======
-eventController.filterEvents()
-
-
-module.exports = eventController
->>>>>>> feature

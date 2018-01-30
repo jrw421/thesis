@@ -20,6 +20,7 @@ const EventType = new GraphQLObjectType({
     date: { type: GraphQLString },
     location: { type: GraphQLString },
     host_id: { type: GraphQLInt },
+    user_id: {type: GraphQLInt},
     host: {
       type : UserType,
       resolve(parentValue, args){
@@ -38,7 +39,7 @@ const EventType = new GraphQLObjectType({
       resolve(parentValue, args){
         return db.item.getItemsByEventId(parentValue.id)
       }
-    } 
+    }
   })
 })
 
@@ -73,10 +74,22 @@ const UserType = new GraphQLObjectType({
     token: { type: GraphQLString },
     member_status: { type: GraphQLInt },
     reply: {type: GraphQLInt},
-    events: {
+    hostedEvents: {
       type: new GraphQLList(EventType), 
       resolve(parentValue, args){
-        return db.event_attendee.getEvents(parentValue.id)
+        return db.event.getHostedEvents(parentValue.id)
+      }
+    }, 
+    pastEvents: {
+      type: new GraphQLList(EventType), 
+      resolve(parentValue, args){
+        return db.event.getPastEvents(parentValue.id)
+      }
+    }, 
+    currentEvents: {
+      type: new GraphQLList(EventType), 
+      resolve(parentValue, args){
+        return db.event.getCurrentEvents(parentValue.id)
       }
     }
   })

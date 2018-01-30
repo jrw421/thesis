@@ -22,9 +22,11 @@ eventAttendeeController = {
 	},
 	getEvents: async function(user_id) {
 		//did this to avoid nested/async queries in graphql
-	  return knex.select('*').from('event_attendee')
+	  let arr = await knex.select('*').from('event_attendee')
 	  					 .where('user_id', user_id)
 	  					 .innerJoin('event', 'event_attendee.event_id', 'event.id')
+	  		arr.forEach(obj => obj['user_id'] = user_id)
+	  		return arr
 
 	},
 	findAll : function() {
