@@ -8,7 +8,6 @@ class Header extends Component {
     return (
       <div>
         <AppBar
-          // className="bar"
           title="Host.ly"
         />
           <Link to="/">

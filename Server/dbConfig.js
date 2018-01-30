@@ -24,7 +24,7 @@ knex.schema.hasTable('user').then(function(exists){
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 }).catch((err) => {
-    console.log(err) 
+    console.log(err)
 });
 
 
@@ -41,7 +41,7 @@ knex.schema.hasTable('event').then(function(exists){
             table.string('name', 500);
             table.integer('date', 8);
             table.string('location', 100);
-            table.string('image', 200);
+            // table.string('image', 200);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 });
