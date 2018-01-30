@@ -1,7 +1,7 @@
 const graphql = require('graphql')
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLInt } = graphql;
-const UserType = require('./user_type')
-const EventType = require('./event_type');
+const UserType = require('./types').UserType
+const EventType = require('./types').EventType;
 const db = require('../ControllersDB/mainController.js');
 
 

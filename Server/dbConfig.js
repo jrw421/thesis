@@ -34,7 +34,7 @@ knex.schema.hasTable('event').then(function(exists){
             // table.foreign('host_id').references('id').inTable('user');
             table.string('description', 500);
             table.string('name', 500);
-            table.timestamp('date');
+            table.integer('date', 8);
             table.string('location', 100);
             table.string('image', 200);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
