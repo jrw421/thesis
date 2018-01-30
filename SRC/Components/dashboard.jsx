@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import axios from 'axios'
 
 import EventList from './eventList.jsx'
 
@@ -18,6 +19,12 @@ class Dashboard extends React.Component {
     }))
   }
 
+  getEmails = () => {
+    axios.get('/emails')
+        .then(data => {console.log(data)})
+        .catch(error => {console.log(error)})
+  }
+
   render() {
     if (this.props.dashboardQuery.error) {
       return (this.props.error)
@@ -26,15 +33,16 @@ class Dashboard extends React.Component {
     if (this.props.dashboardQuery.loading) {
       return <div>this.props.loading</div>
     }
-
+    console.log(this.props.dashboardQuery)
     return (
       <div>
         <h1>Placeholder</h1>
         <h3>Another Placeholder</h3>
-        <EventList 
+        {/* <EventList 
         events={this.props.dashboardQuery.user.events}
         handleEventClick={this.handleEventClick}
-        />
+        /> */}
+        <button onClick={() => {this.getEmails()}}>Get Emails</button>
         {/* <EventList events={this.props.dashboardQuery}/>
         <EventList events={this.props.dashboardQuery}/> */}
       </div>
