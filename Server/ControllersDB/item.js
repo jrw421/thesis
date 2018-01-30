@@ -13,6 +13,24 @@ itemController = {
 	getItem: function(id) {
 		return knex.select('*').from('item').where('id', id)
 	},
+	claimItem: function(id, userId) {
+		return knex.select('*').from('item').where('id', id)
+		.then((itemData) => {
+
+			if(userId == itemData[0].user_id) {
+				 return knex.select('*').from('item').where('id', id).update('user_id', null)
+				.then(() => {
+					return knex.select('*').from('item').where('id', id)
+				})
+
+			} else if (JSON.parse(itemData[0].user_id) === null) {
+				 return knex.select('*').from('item').where('id', id).update('user_id', userId)
+				.then(() => {
+					return knex.select('*').from('item').where('id', id)
+				})
+			}
+		})
+	},
 	getItemsByUserId: function(user_id) {
 		return knex.select('*').from('item').where('user_id', user_id)
 	}, 
@@ -29,5 +47,6 @@ itemController = {
 		return knex('item').where('id', id).update(field, newValue)
 	}
 }
+
 
 module.exports = itemController
