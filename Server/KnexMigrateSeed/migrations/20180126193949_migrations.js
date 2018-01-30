@@ -5,10 +5,14 @@ exports.up = function(knex, Promise) {
   knex.schema.createTableIfNotExists('user', function(table) {
       table.increments('id').primary()
       table.string('name', 100);
+      table.string('img', 150);
+      table.string('google_id', 150);
+      table.string('etag', 300);
       table.string('email', 100);
-      table.string('token', 150);
       table.integer('member_status');
   }),
+
+  // { name: data.displayName, image: data.image.url, id: data.id, etag: data.etag }
   
   knex.schema.createTableIfNotExists('event', function(table){
     table.increments('id').primary();

@@ -56,13 +56,7 @@ eventController = {
 	
 }
 
-<<<<<<< HEAD
-
-
-module.exports = eventController
-=======
 eventController.filterEvents()
 
 
 module.exports = eventController
->>>>>>> feature

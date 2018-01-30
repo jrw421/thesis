@@ -70,7 +70,9 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
     email: { type: GraphQLString },
-    token: { type: GraphQLString },
+    img: { type: GraphQLString },
+    google_id: { type: GraphQLString },
+    etag: { type: GraphQLString },
     member_status: { type: GraphQLInt },
     reply: {type: GraphQLInt},
     events: {
