@@ -22,13 +22,14 @@ const app = express();
 passport.use(new GoogleStrategy({
   clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
   clientSecret: '4qDzcSsqkWieHEABXAf1XMpH',
-  callbackURL: 'http://localhost:4000/login/google/return'
+  callbackURL: 'http://localhost:4000/login/google/return',
+  passReqToCallback: true
 },
-function(accessToken, refreshToken, profile, cb) {
-  console.log("inside")
+function(request, accessToken, refreshToken, profile, done) {
   // User.findOrCreate({ googleId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
+  process.nextTick(()=> {return done(null, profile)})
 }
 ));
 
@@ -46,11 +47,15 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({ 
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/dashboard', express.static(path.join(__dirname, '../Public')))
+app.use('/dashboard', ensureAuthenticated, express.static(path.join(__dirname, '../Public')))
 
 app.get('/', function(req, res){
   res.render('home', { user: req.user });
@@ -58,22 +63,21 @@ app.get('/', function(req, res){
 
 app.get('/login',
   function(req, res){
-    res.render('login');
+    res.render('login', {user: req.user});
 });
 
 app.get('/login/google', passport.authenticate('google', {scope: 'https://www.googleapis.com/auth/plus.login'}));
 
 app.get('/login/google/return', 
-  passport.authenticate('google', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/profile');
-});
+  passport.authenticate('google', { failureRedirect: '/', successRedirect: '/dashboard' })),
+  // function(req, res) {
+  //   cosole.log('redirecting to dashboard')
+  //   res.redirect('/dashboard');
+// });
 
-app.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    console.log('going to profile')
-    res.render('profile', { user: req.user });
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 // graphql //

@@ -24107,6 +24107,11 @@ var Header = function (_Component) {
             _reactRouterDom.Link,
             { to: '/createEvent' },
             'Create Event'
+          ),
+          _react2.default.createElement(
+            'a',
+            { href: '/logout' },
+            'Logout'
           )
         )
       );
