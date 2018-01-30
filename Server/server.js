@@ -85,6 +85,25 @@ app.get('/user', function(req, res) {
   }
 });
 
+
+/////////////////////
+
+app.get('/emails', function(req, res){
+  console.log('inside emails route')
+  console.log('req', req, 'json', req._json, 'emails', req)
+  res.end()
+  // axios.get('https://www.google.com/m8/feeds/contacts/3van90@gmail.com/full')
+  //     .then(data => {
+  //       console.log('data', data)
+  //       res.end(data)
+  //     })
+  //     .catch(error => {
+  //       console.log('error', error)
+  //       res.end(error)
+  //     })
+})
+
+
 // graphql //
 ////////////
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));

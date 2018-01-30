@@ -24,6 +24,7 @@ const imageStyle = {
   margin: 'auto'
 }
 
+
 class createEvent extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +40,7 @@ class createEvent extends React.Component {
       hostId: 1,
       uploadedFileCloudinaryUrl: ''
     }
+
     //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
     //this.onSubmit = this.onSubmit(this)
@@ -69,6 +71,7 @@ class createEvent extends React.Component {
         });
       }
     });
+
   }
 
   submitForm = () => {
