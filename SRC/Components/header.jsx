@@ -15,6 +15,7 @@ class Header extends Component {
           <Link to="/createEvent">
             Create Event
           </Link>
+          <a href="/logout">Logout</a>
         </div>
       </div>
     )
