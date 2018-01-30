@@ -24694,6 +24694,12 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      console.log('document', document);
+      console.log('window', window);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -24706,7 +24712,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _dashboard2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard', component: _dashboard2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/eventPage', component: _eventPage2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/createEvent', component: _createEvent2.default })
           )
@@ -24774,7 +24780,7 @@ var Header = function (_Component) {
           ),
           _react2.default.createElement(
             _reactRouterDom.Link,
-            { to: '/' },
+            { to: '/dashboard' },
             'Dashboard'
           ),
           _react2.default.createElement(
@@ -27844,7 +27850,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  query dashboardQuery {\n    user (id: 1) {\n        events {\n          id\n          name\n          location\n          description\n          date\n        }\n    }\n  } \n'], ['\n  query dashboardQuery {\n    user (id: 1) {\n        events {\n          id\n          name\n          location\n          description\n          date\n        }\n    }\n  } \n']);
+var _templateObject = _taggedTemplateLiteral(['\n  query dashboardQuery {\n    user (id: 1) {\n      hostedEvents{\n        id\n        name\n        description\n        date\n        location\n        users {\n          id\n          name\n        }\n        items {\n          id\n          name\n        } \n      }\n      pastEvents{\n        id\n        name\n        description\n        date\n        location\n        users {\n          id\n          name\n        }\n        items {\n          id\n          name\n        }\n      }\n      currentEvents{\n        id\n        name\n        description\n        date\n        location\n        users {\n          id\n          name\n        }\n        items {\n          id\n          name\n        }\n      }\n    }\n  }\n'], ['\n  query dashboardQuery {\n    user (id: 1) {\n      hostedEvents{\n        id\n        name\n        description\n        date\n        location\n        users {\n          id\n          name\n        }\n        items {\n          id\n          name\n        } \n      }\n      pastEvents{\n        id\n        name\n        description\n        date\n        location\n        users {\n          id\n          name\n        }\n        items {\n          id\n          name\n        }\n      }\n      currentEvents{\n        id\n        name\n        description\n        date\n        location\n        users {\n          id\n          name\n        }\n        items {\n          id\n          name\n        }\n      }\n    }\n  }\n']);
 
 var _react = __webpack_require__(0);
 
@@ -27889,35 +27895,39 @@ var Dashboard = function (_React$Component) {
       }));
     };
 
-    _this.getEmails = function () {
-      _axios2.default.get('/emails').then(function (data) {
-        console.log(data);
-      }).catch(function (error) {
-        console.log(error);
-      });
-    };
-
     _this.handleEventClick = _this.handleEventClick.bind(_this);
     return _this;
   }
 
   _createClass(Dashboard, [{
     key: 'render',
+
+
+    // getEmails = () => {
+    //   axios.get('/emails')
+    //       .then(data => {console.log(data)})
+    //       .catch(error => {console.log(error)})
+    // }
+
     value: function render() {
-      var _this2 = this;
+      console.log(this.props);
 
       if (this.props.dashboardQuery.error) {
-        return this.props.error;
+        return _react2.default.createElement(
+          'div',
+          null,
+          'Error'
+        );
       }
 
       if (this.props.dashboardQuery.loading) {
         return _react2.default.createElement(
           'div',
           null,
-          'this.props.loading'
+          'Loading'
         );
       }
-      console.log(this.props.dashboardQuery);
+
       return _react2.default.createElement(
         'div',
         null,
@@ -27932,18 +27942,47 @@ var Dashboard = function (_React$Component) {
           'Another Placeholder'
         ),
         _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              _this2.getEmails();
-            } },
-          'Get Emails'
-        )
+          'h4',
+          null,
+          'Hosted Events'
+        ),
+        _react2.default.createElement(_eventList2.default, {
+          events: this.props.dashboardQuery.user.hostedEvents,
+          handleEventClick: this.handleEventClick
+        }),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Attending Events'
+        ),
+        _react2.default.createElement(_eventList2.default, {
+          events: this.props.dashboardQuery.user.currentEvents,
+          handleEventClick: this.handleEventClick
+        }),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Past Events'
+        ),
+        _react2.default.createElement(_eventList2.default, {
+          events: this.props.dashboardQuery.user.pastEvents,
+          handleEventClick: this.handleEventClick
+        })
       );
     }
   }]);
 
   return Dashboard;
 }(_react2.default.Component);
+
+// const DASHBOARD_QUERY = gql `
+//   query dashboardQuery {
+//     user (id: 1) {
+//         id
+//         name
+//     }
+//   } 
+// `
 
 var DASHBOARD_QUERY = (0, _graphqlTag2.default)(_templateObject);
 

@@ -19,50 +19,109 @@ class Dashboard extends React.Component {
     }))
   }
 
-  getEmails = () => {
-    axios.get('/emails')
-        .then(data => {console.log(data)})
-        .catch(error => {console.log(error)})
-  }
+  // getEmails = () => {
+  //   axios.get('/emails')
+  //       .then(data => {console.log(data)})
+  //       .catch(error => {console.log(error)})
+  // }
 
   render() {
+    console.log(this.props)
+    
     if (this.props.dashboardQuery.error) {
-      return (this.props.error)
+      return <div>Error</div>
     }
 
     if (this.props.dashboardQuery.loading) {
-      return <div>this.props.loading</div>
+      return <div>Loading</div>
     }
-    console.log(this.props.dashboardQuery)
+
     return (
       <div>
         <h1>Placeholder</h1>
         <h3>Another Placeholder</h3>
-        {/* <EventList 
-        events={this.props.dashboardQuery.user.events}
-        handleEventClick={this.handleEventClick}
-        /> */}
-        <button onClick={() => {this.getEmails()}}>Get Emails</button>
-        {/* <EventList events={this.props.dashboardQuery}/>
-        <EventList events={this.props.dashboardQuery}/> */}
+
+        <h4>Hosted Events</h4>
+        <EventList 
+          events={this.props.dashboardQuery.user.hostedEvents}
+          handleEventClick={this.handleEventClick}
+        />
+
+        <h4>Attending Events</h4>
+        <EventList 
+          events={this.props.dashboardQuery.user.currentEvents}
+          handleEventClick={this.handleEventClick}
+        />
+        <h4>Past Events</h4>
+        <EventList 
+          events={this.props.dashboardQuery.user.pastEvents}
+          handleEventClick={this.handleEventClick}
+        />
       </div>
     )
   }
 }
 
+// const DASHBOARD_QUERY = gql `
+//   query dashboardQuery {
+//     user (id: 1) {
+//         id
+//         name
+//     }
+//   } 
+// `
+
 const DASHBOARD_QUERY = gql `
   query dashboardQuery {
     user (id: 1) {
-        events {
+      hostedEvents{
+        id
+        name
+        description
+        date
+        location
+        users {
           id
           name
-          location
-          description
-          date
         }
+        items {
+          id
+          name
+        } 
+      }
+      pastEvents{
+        id
+        name
+        description
+        date
+        location
+        users {
+          id
+          name
+        }
+        items {
+          id
+          name
+        }
+      }
+      currentEvents{
+        id
+        name
+        description
+        date
+        location
+        users {
+          id
+          name
+        }
+        items {
+          id
+          name
+        }
+      }
     }
-  } 
+  }
 `
 
-export default graphql(DASHBOARD_QUERY, { name: 'dashboardQuery' }) (Dashboard)
+export default graphql(DASHBOARD_QUERY, {name: 'dashboardQuery'}) (Dashboard)
 

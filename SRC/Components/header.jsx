@@ -8,7 +8,7 @@ class Header extends Component {
       <div>
         <div>
           <div>Placeholder</div>
-          <Link to="/">
+          <Link to="/dashboard">
             Dashboard
           </Link>
           <div>|</div>

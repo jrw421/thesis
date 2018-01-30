@@ -10,13 +10,18 @@ class App extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    console.log('document', document)
+    console.log('window', window)
+  }
+
   render() {
     return (
       <div>
         <Header />
         <div>
           <Switch>
-            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route path="/eventPage" component={EventPage} />
             <Route path="/createEvent" component={CreateEvent} />
           </Switch>
