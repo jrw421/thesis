@@ -49,7 +49,7 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
-app.use(session({ 
+app.use(session({
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: true
@@ -58,6 +58,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/dashboard', ensureAuthenticated, express.static(path.join(__dirname, '../Public')))
+app.use('/Public', express.static(path.join(__dirname, '../Public')))
 
 app.get('/', function(req, res){
   res.render('login', { user: req.user });
@@ -65,7 +66,7 @@ app.get('/', function(req, res){
 
 app.get('/login/google', passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.google.com/m8/feeds/', 'https://www.googleapis.com/auth/plus.profile.emails.read']}));
 
-app.get('/login/google/return', 
+app.get('/login/google/return',
   passport.authenticate('google', { failureRedirect: '/', successRedirect: '/dashboard' })),
   // function(req, res) {
   //   cosole.log('redirecting to dashboard')

@@ -1,7 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import axios from 'axios'
 
 import EventList from './eventList.jsx'
 
@@ -10,6 +9,8 @@ class Dashboard extends React.Component {
     super(props)
 
     this.handleEventClick = this.handleEventClick.bind(this)
+    console.log('this is props ', this.props)
+    // console.log('this is props ', this.props.dashboardQuery.user.hostedEvents)
   }
 
   handleEventClick = (event) => {
@@ -19,13 +20,8 @@ class Dashboard extends React.Component {
     }))
   }
 
-  getEmails = () => {
-    axios.get('/emails')
-        .then(data => {console.log(data)})
-        .catch(error => {console.log(error)})
-  }
-
   render() {
+    console.log('this props ', this.props)
     if (this.props.dashboardQuery.error) {
       return (this.props.error)
     }
@@ -33,18 +29,23 @@ class Dashboard extends React.Component {
     if (this.props.dashboardQuery.loading) {
       return <div>this.props.loading</div>
     }
-    console.log(this.props.dashboardQuery)
     return (
       <div>
-        <h1>Placeholder</h1>
-        <h3>Another Placeholder</h3>
-        {/* <EventList 
-        events={this.props.dashboardQuery.user.events}
-        handleEventClick={this.handleEventClick}
-        /> */}
-        <button onClick={() => {this.getEmails()}}>Get Emails</button>
-        {/* <EventList events={this.props.dashboardQuery}/>
-        <EventList events={this.props.dashboardQuery}/> */}
+        <h1 style={{"textAlign":"center"}}>Your Events</h1>
+        <h3 style={{"textAlign": "center"}}>Click on an event to see page</h3>
+        <h3 style={{"textAlign": "center"}}>Currently hosting:</h3>
+        <EventList
+          events={this.props.dashboardQuery.user.currentEvents}
+          handleEventClick={this.handleEventClick}
+        />
+        <h3 style={{"textAlign": "center"}}>Hosted events:</h3>
+        <EventList
+          events={this.props.dashboardQuery.user.hostedEvents}
+          handleEventClick={this.handleEventClick}/>
+        <h3 style={{"textAlign": "center"}}>Past events:</h3>
+        <EventList
+          events={this.props.dashboardQuery.user.pastEvents}
+          handleEventClick={this.handleEventClick}/>
       </div>
     )
   }
@@ -53,7 +54,21 @@ class Dashboard extends React.Component {
 const DASHBOARD_QUERY = gql `
   query dashboardQuery {
     user (id: 1) {
-        events {
+        hostedEvents {
+          id
+          name
+          location
+          description
+          date
+        }
+        currentEvents {
+          id
+          name
+          location
+          description
+          date
+        }
+        pastEvents {
           id
           name
           location
@@ -61,8 +76,7 @@ const DASHBOARD_QUERY = gql `
           date
         }
     }
-  } 
+  }
 `
 
 export default graphql(DASHBOARD_QUERY, { name: 'dashboardQuery' }) (Dashboard)
-

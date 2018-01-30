@@ -2,15 +2,17 @@ import React from 'react'
 import Event from './event.jsx'
 
 const EventList = ({events, handleEventClick}) => (
-    <ul>
+  <div>
+    <ul style={{"textAlign": "center"}}>
         {events.map(event =>
-            <Event 
+            <Event
                 event={event}
                 handleEventClick={handleEventClick}
                 key={event.id}
             />
         )}
     </ul>
+  </div>
 )
 
 export default EventList
