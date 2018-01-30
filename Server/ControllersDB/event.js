@@ -15,7 +15,6 @@ eventController = {
 		 var result = await newEvent.save()
 		 return result.attributes
 	},
-
 	getHostedEvents : function(user_id){
 		let current = new Date()
 		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
@@ -24,8 +23,7 @@ eventController = {
 	getPastEvents: function(user_id){
 		let current = new Date()
 		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
-		return  knex('event').where('date', '<', dateNum)
-					 
+		return  knex('event').where('date', '<', dateNum)				 
 	},
 	getCurrentEvents: function(user_id){
 		let current = new Date()
