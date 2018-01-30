@@ -40,7 +40,27 @@ eventAttendeeController = {
 	},
 	deleteByEventAndUser: function(user_id, event_id){
 		return knex('event_attendee').where({'event_id': event_id, 'user_id' : user_id}).del()
+	},
+	confirmPresence: function(userId, event_id){
+		let rsvp
+		return knex.select('*').from('event_attendee').where({'user_id': userId, 'event_id': event_id})
+		.update('reply', 1)
+			.then(user => {
+				return knex.select('*').from('user').where({'id': userId})
+					.then(item => item[0])
+			})
+	},
+	denyPresence: function(userId, event_id) {
+		let rsvp
+		return knex.select('*').from('event_attendee').where({'user_id': userId, 'event_id': event_id})
+		.update('reply', 0)
+			.then(user => {
+				return knex.select('*').from('user').where({'id': userId})
+					.then(item => item[0])
+			})
 	}
 }
+
+
 
 module.exports = eventAttendeeController
