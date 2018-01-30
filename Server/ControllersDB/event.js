@@ -55,7 +55,6 @@ eventController = {
 		}
 		}
 	}
-	
 }
 
 module.exports = eventController
