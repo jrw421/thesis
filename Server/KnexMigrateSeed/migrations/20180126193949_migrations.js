@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
       table.string('etag', 300);
       table.string('email', 100);
       table.integer('member_status');
+      table.string('cookie', 300);
   }),
 
   // { name: data.displayName, image: data.image.url, id: data.id, etag: data.etag }
@@ -21,7 +22,7 @@ exports.up = function(knex, Promise) {
     table.string('description', 500);
     table.integer('date', 8);
     table.string('location', 100);
-    table.string('image', 200);
+    table.string('img', 200);
   }),
   
   knex.schema.createTableIfNotExists('event_attendee', function(table){
