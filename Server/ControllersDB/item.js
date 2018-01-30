@@ -5,10 +5,12 @@ itemController = {
 	add : function(body){
 		const newItem = new Item({
   		name: body.name,
-      user_id: body.user,
-      event_id: body.event
-  	})
-  	return newItem.save()
+      user_id: body.user_id,
+      event_id: body.event_id
+		})
+		console.log(body)
+		return newItem.save()
+			.then(item => item.attributes)
 	}, 
 	getItem: function(id) {
 		return knex.select('*').from('item').where('id', id)

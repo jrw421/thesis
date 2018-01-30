@@ -9,18 +9,7 @@ const db = require('../ControllersDB/mainController.js');
 const mutations = new GraphQLObjectType({
   name: 'Mutation',
   fields: { 
-    addUser: {
-    type: UserType,
-    args: {
-      name: { type: new GraphQLNonNull(GraphQLString) },
-      email: { type: new GraphQLNonNull(GraphQLString) },
-      token: { type: new GraphQLNonNull(GraphQLString) }
-    },
-    resolve(parentValue, args) {
-      return db.user.addUser({name: args.name, email: args.email, token: args.token})
-      .then(item => item.attributes)
-    }
-  },
+
   deleteUser: {
     type: UserType,
     args: { id: { type: GraphQLInt }
@@ -90,6 +79,44 @@ const mutations = new GraphQLObjectType({
       return db.user.findOrCreateUser(args)
         .then(response => response)
     }
+  },
+  confirmPresence: {
+    type: UserType,
+    args: {
+      userId: { type: new GraphQLNonNull(GraphQLInt)},
+      eventId: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValues, args) {
+      return db.event_attendee.confirmPresence(args.userId, args.eventId)
+        .then(user => user)
+    }
+  },
+  denyPresence: {
+    type: UserType,
+    args: {
+      userId: { type: new GraphQLNonNull(GraphQLInt)},
+      eventId: { type: new GraphQLNonNull(GraphQLInt) }
+    },
+    resolve(parentValues, args) {
+      return db.event_attendee.confirmPresence(args.userId, args.eventId)
+        .then(user => user)
+    }
+  },
+  addItem: {
+    type: ItemType,
+    args: {
+      name: { type: new GraphQLNonNull(GraphQLString) },
+      userId: { type: GraphQLID },
+      eventId: { type: new GraphQLNonNull(GraphQLID)}
+    },
+    resolve(parentValues, args) {
+      return db.item.add({
+        name: args.name, 
+        user_id: args.userId,
+        event_id: args.eventId 
+      })
+      .then(item => item)
+    }
   }
 }
 })
@@ -103,10 +130,6 @@ const mutations = new GraphQLObjectType({
 module.exports = mutations;
 
 
-// addUser
-// removeUser
-// claimAnItem
-// --may not need to wait for Madison to finish before dealing with this
 // addEvent
 // deleteEvent
 // editEvent
