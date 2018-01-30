@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
+
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { withRouter } from 'react-router';
@@ -25,6 +26,7 @@ const imageStyle = {
 }
 
 
+
 class createEvent extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +42,7 @@ class createEvent extends React.Component {
       hostId: 1,
       uploadedFileCloudinaryUrl: ''
     }
+
 
     //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
@@ -71,6 +74,7 @@ class createEvent extends React.Component {
         });
       }
     });
+
 
   }
 
@@ -173,6 +177,7 @@ class createEvent extends React.Component {
         </ul>
         <br></br>
         <br></br>
+
         <FlatButton 
           label="Submit" 
           value="Submit" 
