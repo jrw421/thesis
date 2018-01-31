@@ -21,6 +21,7 @@ knex.schema.hasTable('user').then(function(exists){
             table.string('google_id', 150);
             table.string('etag', 300);
             table.integer('member_status');
+            table.string('cookie', 300);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 }).catch((err) => {
@@ -41,7 +42,6 @@ knex.schema.hasTable('event').then(function(exists){
             table.string('name', 500);
             table.integer('date', 8);
             table.string('location', 100);
-            table.string('image', 200);
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 });
