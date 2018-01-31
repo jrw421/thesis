@@ -16,9 +16,9 @@ exports.seed = function(knex, Promise) {
 
 
    knex('event').insert([
-      {id: 1, host_id: 1, name: 'My Birthday Party', description: 'Come to my birthday please', date: 2018025, location: '23 Orchard Street'},
-      {id: 2, host_id: 2, name: 'Bar Mitzvah', description: 'Yeah, Hi', date: 2018031, location: '8 Pine Road'},
-      {id: 3, host_id: 3, name: 'Dance Night', description: 'Its Friday guys', date: 2018028, location: '23 Wall Street, New York, New York'}
+      {id: 1, host_id: 1, name: 'My Birthday Party', description: 'Come to my birthday please', date: 2018025, location: '23 Orchard Street', img: 'https://static.pexels.com/photos/5156/people-eiffel-tower-lights-night.jpg'},
+      {id: 2, host_id: 2, name: 'Bar Mitzvah', description: 'Yeah, Hi', date: 2018031, location: '8 Pine Road', img: 'https://static.pexels.com/photos/196652/pexels-photo-196652.jpeg'},
+      {id: 3, host_id: 3, name: 'Dance Night', description: 'Its Friday guys', date: 2018028, location: '23 Wall Street, New York, New York', img: 'https://static.pexels.com/photos/285598/pexels-photo-285598.jpeg'}
     ]),
 
    knex('event_attendee').insert([
