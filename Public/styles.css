@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Barlow|Julius+Sans+One');
+
+
+
+
 #login {
   background-color: blue
 }
@@ -5,6 +10,19 @@
 /* .bar {
   background-color: red !important;
 } */
+
+.header {
+  height: 90vh;
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(52, 160, 249, 0.3),
+    rgba(104, 180, 243, 0.2)),
+  url("https://images.pexels.com/photos/313715/pexels-photo-313715.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb");
+  background-size: cover;
+  background-position: top;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%)
+}
+
 
 #body {
   /* background-color: #DCD0C0 */
@@ -15,7 +33,7 @@
 }
 
 #loginBody {
-  font-family: URW Chancery L, cursive;
+  font-family: 'Barlow', sans-serif;
 }
 
 #banner {
@@ -24,19 +42,27 @@
 }
 
 #title {
-  color: RGB(161, 127, 26);
-  font-weight: 900;
-  font-size: 600%;
-  font-family: URW Chancery L, cursive;
+  color: rgb(241, 216, 139);
+  font-weight: 800;
+  font-size: 700%;
+  font-family: 'Julius Sans One', sans-serif;
+  letter-spacing: 10px;
+}
+
+.header-container {
   position: absolute;
-  top: 150px;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
+.link {
+  top: 400px;
+}
+
 h1 {
   font-size: 250%;
-  color: #C0B283
+  color: rgb(233, 225, 201)
 }
 
 h2 {
@@ -91,3 +117,4 @@ h2 {
   grid-template-columns: 2/3;
   grid-row: 1;
 }
+
