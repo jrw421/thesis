@@ -73,12 +73,8 @@ const mutations = new GraphQLObjectType({
       img: { type: new GraphQLNonNull(GraphQLString)},
       google_id: { type: new GraphQLNonNull(GraphQLString)},
       etag: { type: new GraphQLNonNull(GraphQLString)},
-<<<<<<< HEAD
       email: { type: GraphQLString},
 
-=======
-      email: { type: GraphQLString}
->>>>>>> featBranch
     },
     resolve(parentValues, args) {
       return db.user.findOrCreateUser(args)
