@@ -16,7 +16,6 @@ userController = {
 						google_id: body.google_id,
 						etag: body.etag,
 						email: body.email,
-						cookie: body.cookie
 					})
 					return newUser.save()
 						.then(user => user.attributes)
