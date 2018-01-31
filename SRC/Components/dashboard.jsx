@@ -90,26 +90,6 @@ const DASHBOARD_QUERY = gql `
           date
           img
         }
-        items {
-          id
-          name
-        }
-      }
-      currentEvents{
-        id
-        name
-        description
-        date
-        location
-        users {
-          id
-          name
-        }
-        items {
-          id
-          name
-        }
-      }
     }
   }
 `
