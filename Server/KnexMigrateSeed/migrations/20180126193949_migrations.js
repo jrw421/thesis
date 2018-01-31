@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
       table.string('etag', 300);
       table.string('email', 100);
       table.integer('member_status');
+      table.string('cookie', 300);
   }),
 
   // { name: data.displayName, image: data.image.url, id: data.id, etag: data.etag }

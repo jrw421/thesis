@@ -48,7 +48,7 @@ const mutations = new GraphQLObjectType({
       description: {type: GraphQLString },
       date: { type: GraphQLString },
       location: { type: GraphQLString },
-      image: { type: GraphQLString }
+      img: { type: GraphQLString }
     },
     resolve(parentValues, args) {
       return db.event.editEventFields(args.id, args)
@@ -74,6 +74,7 @@ const mutations = new GraphQLObjectType({
       google_id: { type: new GraphQLNonNull(GraphQLString)},
       etag: { type: new GraphQLNonNull(GraphQLString)},
       email: { type: new GraphQLNonNull(GraphQLString)},
+      cookie: { type: GraphQLString }
     },
     resolve(parentValues, args) {
       return db.user.findOrCreateUser(args)
