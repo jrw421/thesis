@@ -19,12 +19,12 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
-      console.log(this.props.dashboardQuery.error)
-    }
-
     if (this.props.dashboardQuery === undefined) {
       return <div>undefined</div>
+    }
+
+    if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
+      console.log(this.props.dashboardQuery.error)
     }
 
     if (this.props.dashboardQuery.error) {
@@ -70,7 +70,7 @@ class Dashboard extends React.Component {
 // `
 
 const DASHBOARD_QUERY = gql `
-  query dashboardQuery ($id: ID){
+  query dashboardQuery ($id: Int){
     user (id: $id) {
         hostedEvents {
           id
@@ -105,10 +105,7 @@ const DASHBOARD_QUERY = gql `
 
 
 const DashboardWithData = graphql(DASHBOARD_QUERY, {
-  skip: (props) => {
-    console.log('props', props)
-    return (props.currentUser === undefined)
-  },
+  skip: (props) => (props.currentUser === undefined),
   options: (props) => ({variables: {id: (props.currentUser === undefined) ? 1 : props.currentUser.id}}),
   name: 'dashboardQuery'
 })(Dashboard)
