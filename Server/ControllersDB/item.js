@@ -8,9 +8,9 @@ itemController = {
       user_id: body.user_id,
       event_id: body.event_id
 		})
-		console.log(body)
 		return newItem.save()
 			.then(item => item.attributes)
+			.catch(error => error)
 	}, 
 	getItem: function(id) {
 		return knex.select('*').from('item').where('id', id)
@@ -32,6 +32,7 @@ itemController = {
 				})
 			}
 		})
+		.catch((error => error))
 	},
 	getItemsByUserId: function(user_id) {
 		return knex.select('*').from('item').where('user_id', user_id)

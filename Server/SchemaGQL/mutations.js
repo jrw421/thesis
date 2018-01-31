@@ -79,6 +79,7 @@ const mutations = new GraphQLObjectType({
     resolve(parentValues, args) {
       return db.user.findOrCreateUser(args)
         .then(response => response)
+        .catch(error => error)
     }
   },
   confirmPresence: {
@@ -90,6 +91,7 @@ const mutations = new GraphQLObjectType({
     resolve(parentValues, args) {
       return db.event_attendee.confirmPresence(args.userId, args.eventId)
         .then(user => user)
+        .catch(error => error)
     }
   },
   denyPresence: {
@@ -101,6 +103,7 @@ const mutations = new GraphQLObjectType({
     resolve(parentValues, args) {
       return db.event_attendee.confirmPresence(args.userId, args.eventId)
         .then(user => user)
+        .catch(error => error)
     }
   },
   addItem: {
@@ -117,6 +120,7 @@ const mutations = new GraphQLObjectType({
         event_id: args.eventId 
       })
       .then(item => item)
+      .catch(error => error)
     }
   }
 }

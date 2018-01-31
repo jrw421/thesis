@@ -48,6 +48,7 @@ eventAttendeeController = {
 			.then(user => {
 				return knex.select('*').from('user').where({'id': userId})
 					.then(item => item[0])
+					.catch(error => error)
 			})
 	},
 	denyPresence: function(userId, event_id) {
@@ -57,7 +58,9 @@ eventAttendeeController = {
 			.then(user => {
 				return knex.select('*').from('user').where({'id': userId})
 					.then(item => item[0])
+					.catch(error => error)
 			})
+			.catch(error => error)
 	}
 }
 
