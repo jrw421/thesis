@@ -10,13 +10,14 @@ class Header extends Component {
         <AppBar
           title="Host.ly"
         />
-          <Link to="/">
+          <Link to="/dashboard">
             Dashboard
           </Link>
           <div></div>
           <Link to="/createEvent">
             Create Event
           </Link>
+          <a href="/auth/logout">Logout</a>
       </div>
     )
   }

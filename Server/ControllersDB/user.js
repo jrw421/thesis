@@ -6,6 +6,7 @@ userController = {
 
 		return knex.select('*').from('user').where('google_id', body.google_id)
 			.then((profileCheck) => {
+				console.log('in controller', profileCheck)
 				if (profileCheck.length > 0) {
 					return profileCheck[0]
 				} else {

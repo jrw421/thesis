@@ -14,9 +14,12 @@ class createEvent extends React.Component {
       date: '',
       time: undefined,
       description: '',
+      currentItem: '',
       items: [],
       guests: []
     }
+
+    this.handleItems = this.handleItems.bind(this)
   }
 
   submitForm = () => {
@@ -32,6 +35,18 @@ class createEvent extends React.Component {
     //     description
     //   }
     // })
+  }
+
+  handleItems = (e) => {
+    if (e.key === 'Enter') {
+      this.setState({
+        items: [...this.state.items, this.state.currentItem]
+      }, () => {
+        this.setState({
+          currentItem: ''
+        })
+      })
+    }
   }
 
 
@@ -58,7 +73,18 @@ class createEvent extends React.Component {
         <TextField value={this.state.description} type="text" placeholder="Tell people what your party is all about!" onChange={e => this.setState({ description: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.items} type="text" placeholder="Whatcha want people to bring?" onChange={e => this.setState({ item: e.target.value })}/>
+        <TextField 
+          value={this.state.currentItem} 
+          type="text" 
+          placeholder="Whatcha want people to bring?" 
+          onChange={e => this.setState({ currentItem: e.target.value })}
+          onKeyPress={this.handleItems}
+        />
+        <ul>
+          {this.state.items.map(item => {
+            return <li>{item}</li>
+          })}
+        </ul>
         <br></br>
         <br></br>
         <FlatButton label="Submit" secondary={true} onClick={() => this.submitForm()}/>
