@@ -21,7 +21,7 @@ const EventType = new GraphQLObjectType({
     location: { type: GraphQLString },
     host_id: { type: GraphQLInt },
     user_id: {type: GraphQLInt},
-    img: { type: GraphQLString},
+    img: { type: GraphQLString },
     host: {
       type : UserType,
       resolve(parentValue, args){

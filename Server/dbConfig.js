@@ -25,7 +25,7 @@ knex.schema.hasTable('user').then(function(exists){
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 }).catch((err) => {
-    console.log(err) 
+    console.log(err)
 });
 
 

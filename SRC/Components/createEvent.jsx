@@ -13,7 +13,9 @@ class createEvent extends React.Component {
       location: '',
       date: '',
       time: undefined,
-      description: ''
+      description: '',
+      items: [],
+      guests: []
     }
   }
 
@@ -35,23 +37,28 @@ class createEvent extends React.Component {
 
   render() {
     return (
-      <div style={{"textAlign":"center", "marginTop": "100px"}}>
+      <div style={{"textAlign":"center", "marginTop": "20px"}}>
         <h1 style={{"height": "100%", "width": "100%"}}>CREATE YOUR EVENT</h1>
         <br></br>
-        <br></br>
-        <TextField value={this.state.eventTitle} type="text" placeholder="Event title" onChange={e => this.setState({ eventTitle: e.target.value })}/>
-        <br></br>
-        <br></br>
-        <TextField value={this.state.location} type="text" placeholder="location" onChange={e => this.setState({ location: e.target.value })}/>
+        <TextField value={this.state.eventTitle} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ eventTitle: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.date} type="date" placeholder="date" onChange={e => this.setState({ date: e.target.value })}/>
+        <TextField value={this.state.location} type="text" placeholder="Where's your party at?" onChange={e => this.setState({ location: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.time} type="time" placeholder="Event time" onChange={e => this.setState({ time: e.target.value })}/>
+        <TextField value={this.state.guests} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guests: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.description} type="text" placeholder="Event description" onChange={e => this.setState({ description: e.target.value })}/>
+        <TextField value={this.state.date} type="date" placeholder="What day?" onChange={e => this.setState({ date: e.target.value })}/>
+        <br></br>
+        <br></br>
+        <TextField value={this.state.time} type="time" placeholder="What time?" onChange={e => this.setState({ time: e.target.value })}/>
+        <br></br>
+        <br></br>
+        <TextField value={this.state.description} type="text" placeholder="Tell people what your party is all about!" onChange={e => this.setState({ description: e.target.value })}/>
+        <br></br>
+        <br></br>
+        <TextField value={this.state.items} type="text" placeholder="Whatcha want people to bring?" onChange={e => this.setState({ item: e.target.value })}/>
         <br></br>
         <br></br>
         <FlatButton label="Submit" secondary={true} onClick={() => this.submitForm()}/>
