@@ -18,7 +18,7 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/user')
           .then(data => {
-            console.log(data)
+            console.log('does data include token ?' , data)
           })
           .catch(error => {
             console.log(error)

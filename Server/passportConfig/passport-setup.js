@@ -26,9 +26,11 @@ passport.use(
       google_id: profile.id,
       name: profile.displayName,
       img: profile.photos[0].value,
-      etag:profile._json.etag
+      etag:profile._json.etag,
+      accessToken: accessToken
     }
-    
+
+    console.log('body is ', body)
     db.user.findOrCreateUser(body)
            .then(user => {
              done(null, user)

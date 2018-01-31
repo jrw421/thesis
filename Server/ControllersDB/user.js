@@ -15,24 +15,25 @@ userController = {
 						img: body.img,
 						google_id: body.google_id,
 						etag: body.etag,
-						email: body.email
+						email: body.email,
+						accessToken: body.accessToken
 					})
 					return newUser.save()
 						.then(user => user.attributes)
 				}
 			})
 
-	}, 
+	},
 	getUser: async function(id) {
 		let result =  await knex.select('*').from('user').where('id', id)
 		return result[0]
 	},
 	findAll : function(){
     return knex.select('*').from('user')
-	}, 
+	},
 	deleteUser: function(id){
 		return knex('user').where('id', id).del()
-	}, 
+	},
 	editField: function(id, field, newValue){
 		return knex('user').where('id', id).update(field, newValue)
 	}
@@ -41,4 +42,3 @@ userController = {
 
 
 module.exports = userController
-

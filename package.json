@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/PCVEbaker/thesis#readme",
   "dependencies": {
+    "ajax": "0.0.4",
     "apollo-client-preset": "^1.0.6",
     "axios": "^0.17.1",
     "bcrypt-nodejs": "0.0.3",
