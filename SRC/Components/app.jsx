@@ -14,6 +14,16 @@ class App extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    axios.get('/user')
+          .then(data => {
+            console.log(data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+  }
+
   render() {
     return (
       <MuiThemeProvider>

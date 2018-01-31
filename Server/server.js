@@ -80,6 +80,17 @@ app.get('/logout', function(req, res){
   });
 });
 
+app.get('/user', function(req, res) {
+  if (req.user === undefined) {
+      // The user is not logged in
+      res.json({});
+  } else {
+      res.json({
+          username: req.user
+      });
+  }
+});
+
 // Google Contacts //
 /////////////////////
 
