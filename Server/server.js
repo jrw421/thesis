@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
 })
 
 // create private route
+app.use('/', express.static(path.join(__dirname, '../PublicProtected')))
 app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../Public')))
 
 app.get('/user', function(req, res) {
