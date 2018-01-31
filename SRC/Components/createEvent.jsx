@@ -16,7 +16,8 @@ class createEvent extends React.Component {
       description: '',
       currentItem: '',
       items: [],
-      guests: []
+      guests: [],
+      hostId: 1
     }
 
     this.handleItems = this.handleItems.bind(this)
@@ -26,15 +27,16 @@ class createEvent extends React.Component {
     const {  eventTitle, location, date, time, description } = this.state
     console.log('state is ', this.state)
     console.log('this is props ', this.props)
-    // this.props.eventMutation({
-    //   variables: {
-    //     eventTitle,
-    //     location,
-    //     date,
-    //     time,
-    //     description
-    //   }
-    // })
+    this.props.addEvent({
+      variables: {
+        eventTitle,
+        location,
+        date,
+        time,
+        description,
+        hostId
+      }
+    })
   }
 
   handleItems = (e) => {
@@ -55,6 +57,7 @@ class createEvent extends React.Component {
       <div style={{"textAlign":"center", "marginTop": "20px"}}>
         <h1 style={{"height": "100%", "width": "100%"}}>CREATE YOUR EVENT</h1>
         <br></br>
+        <form>
         <TextField value={this.state.eventTitle} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ eventTitle: e.target.value })}/>
         <br></br>
         <br></br>
@@ -80,6 +83,7 @@ class createEvent extends React.Component {
           onChange={e => this.setState({ currentItem: e.target.value })}
           onKeyPress={this.handleItems}
         />
+        </form>
         <ul>
           {this.state.items.map(item => {
             return <li>{item}</li>
@@ -95,17 +99,17 @@ class createEvent extends React.Component {
 }
 
 const CREATE_EVENT_MUTATION = gql`
-# placeholder
-mutation EventMutation($description: String!, $url: String!) {
-  event(eventTitle: $eventTitle, location: $location, date: $date, time: $time, description: $description) {
+  mutation {
+    addEvent(name: $name, location: $location, date: $date, time: $time, description: $description, hostId: $hostId) {
     id
     eventTitle
     location
     date
     time
     description
+    hostId
   }
 }
 `
 
-export default graphql(CREATE_EVENT_MUTATION, { name: 'eventMutation' })(createEvent)
+export default graphql(CREATE_EVENT_MUTATION, { name: 'addEvent' })(createEvent)
