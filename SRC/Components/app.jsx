@@ -18,23 +18,28 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/user')
           .then(data => {
-            console.log(data)
+            console.log('id', data.username.id)
           })
           .catch(error => {
             console.log(error)
           })
   }
 
+
   render() {
+
+
+    console.log('this is current user', this.state.currentUser)
+
     return (
       <MuiThemeProvider>
       <div>
         <Header />
         <div>
           <Switch>
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route path="/eventPage" component={EventPage} />
-            <Route path="/createEvent" component={CreateEvent} />
+          <Route exact path="/dashboard" render={() => <DashboardWithData currentUser={this.state.currentUser} />}/>
+          <Route path="/eventPage" render={() => <EventPage currentUser={this.state.currentUser} />}/>
+          <Route path="/createEvent" render={() => <CreateEvent currentUser={this.state.currentUser} />}/>
           </Switch>
         </div>
       </div>
