@@ -7,78 +7,37 @@ const graphql = require('graphql')
 const axios = require('axios')
 
 // auth dependencies
-const cookieParser = require('cookie-parser');
+const passportSetup = require('./passportConfig/passport-setup')
+const authRoutes = require('./routes/auth-routes.js')
+const authCheck = require('./routes/private-routes.js')
+const cookieSession = require('cookie-session')
 const session = require('express-session');
-const logger = require('express-logger')
-const methodOverride = require('method-override')
 const passport = require('passport');
-const flash = require('connect-flash');
-const util = require('util')
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const app = express();
 
-// auth //
-/////////
-passport.use(new GoogleStrategy({
-  clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
-  clientSecret: '4qDzcSsqkWieHEABXAf1XMpH',
-  callbackURL: 'http://localhost:4000/login/google/return',
-  passReqToCallback: true
-},
-function(request, accessToken, refreshToken, profile, done) {
-  // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-  //   return cb(err, user);
-  // });
-  console.log('profile', profile)
-  process.nextTick(()=> {return done(null, profile)})
-}
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
 app.set('views', __dirname + '/views')
-app.set('view engine', 'ejs');
-// app.use(logger());
-app.use(cookieParser());
-app.use(bodyParser());
-app.use(methodOverride());
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+app.set('view engine', 'ejs')
 
-app.use('/dashboard', ensureAuthenticated, express.static(path.join(__dirname, '../Public')))
-app.use('/Public', express.static(path.join(__dirname, '../Public')))
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: ['asdfjkls']
+}))
 
-app.get('/', function(req, res){
-  res.render('login', { user: req.user });
-});
+// initialize passport
+app.use(passport.initialize())
+app.use(passport.session())
 
-app.get('/login/google', passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.google.com/m8/feeds/', 'https://www.googleapis.com/auth/plus.profile.emails.read']}));
+// set up routes
+app.use('/auth', authRoutes)
 
-app.get('/login/google/return',
-  passport.authenticate('google', { failureRedirect: '/', successRedirect: '/dashboard' })),
-  // function(req, res) {
-  //   cosole.log('redirecting to dashboard')
-  //   res.redirect('/dashboard');
-// });
+// create home route
+app.get('/', (req, res) => {
+  res.render('login')
+})
 
-app.get('/logout', function(req, res){
-  req.session.destroy(function (err) {
-    req.logout()
-    res.redirect('/'); //Inside a callback… bulletproof!
-  });
-});
+// create private route
+app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../Public')))
 
 app.get('/user', function(req, res) {
   if (req.user === undefined) {
@@ -90,22 +49,6 @@ app.get('/user', function(req, res) {
       });
   }
 });
-
-// Google Contacts //
-/////////////////////
-
-app.get('/emails', function(req, res){
-  console.log('inside emails route')
-  axios.get('https://www.google.com/m8/feeds/contacts/3van90@gmail.com/full')
-      .then(data => {
-        console.log('data', data)
-        res.end(data)
-      })
-      .catch(error => {
-        console.log('error', error)
-        res.end(error)
-      })
-})
 
 // graphql //
 ////////////
@@ -135,14 +78,3 @@ app.post('/', (req, res, next) => {
 app.listen(4000, () => {
   console.log('Listening on port 4000')
 });
-
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login/google')
-}
