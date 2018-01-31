@@ -46,7 +46,7 @@ app.get('/user', function(req, res) {
       res.json({});
   } else {
       res.json({
-          username: req.user
+          user: req.user
       });
   }
 });

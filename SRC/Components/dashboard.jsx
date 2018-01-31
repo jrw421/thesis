@@ -9,8 +9,6 @@ class Dashboard extends React.Component {
     super(props)
 
     this.handleEventClick = this.handleEventClick.bind(this)
-    console.log('this is props ', this.props)
-    // console.log('this is props ', this.props.dashboardQuery.user.hostedEvents)
   }
 
   handleEventClick = (event) => {
@@ -21,7 +19,14 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    console.log('this props ', this.props)
+    if (this.props.dashboardQuery === undefined) {
+      return <div>undefined</div>
+    }
+
+    if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
+      console.log(this.props.dashboardQuery.error)
+    }
+
     if (this.props.dashboardQuery.error) {
       return <div>Error</div>
     }
@@ -29,6 +34,7 @@ class Dashboard extends React.Component {
     if (this.props.dashboardQuery.loading) {
       return <div>Loading</div>
     }
+
     return (
       <div>
         <h1 style={{"textAlign":"center"}}>Your Events</h1>
@@ -64,8 +70,8 @@ class Dashboard extends React.Component {
 // `
 
 const DASHBOARD_QUERY = gql `
-  query dashboardQuery {
-    user (id: 3) {
+  query dashboardQuery ($id: Int){
+    user (id: $id) {
         hostedEvents {
           id
           name
@@ -94,4 +100,13 @@ const DASHBOARD_QUERY = gql `
   }
 `
 
-export default graphql(DASHBOARD_QUERY, { name: 'dashboardQuery' }) (Dashboard)
+// export default graphql(DASHBOARD_QUERY, { 
+//   options: (props) => ({variables: {id: props.currentUser.id}}), name: 'dashboardQuery' }) (Dashboard)
+
+
+const DashboardWithData = graphql(DASHBOARD_QUERY, {
+  skip: (props) => (props.currentUser === undefined),
+  options: (props) => ({variables: {id: (props.currentUser === undefined) ? 1 : props.currentUser.id}}),
+  name: 'dashboardQuery'
+})(Dashboard)
+export default DashboardWithData;
