@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
   }),
 
   // { name: data.displayName, image: data.image.url, id: data.id, etag: data.etag }
-  
+
   knex.schema.createTableIfNotExists('event', function(table){
     table.increments('id').primary();
     table.integer('host_id');
@@ -21,23 +21,23 @@ exports.up = function(knex, Promise) {
     table.string('description', 500);
     table.integer('date', 8);
     table.string('location', 100);
-    table.string('image', 200);
+    table.string('img', 200);
   }),
-  
+
   knex.schema.createTableIfNotExists('event_attendee', function(table){
     table.increments('id').primary();
     table.integer('user_id');
     table.integer('event_id');
     table.integer('reply')
   }),
-  
+
   knex.schema.createTableIfNotExists('item', function(table){
     table.increments('id').primary();
     table.string('name', 100);
     table.integer('user_id');
     table.integer('event_id');
   }),
-  
+
   ])
 };
 

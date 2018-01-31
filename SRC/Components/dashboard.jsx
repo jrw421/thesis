@@ -33,17 +33,20 @@ class Dashboard extends React.Component {
       <div>
         <h1 style={{"textAlign":"center"}}>Your Events</h1>
         <h3 style={{"textAlign": "center"}}>Click on an event to see page</h3>
-        <h3 style={{"textAlign": "center"}}>Currently hosting:</h3>
+        <h3 style={{"textAlign": "center"}}>Currently attending:</h3>
         <EventList
+          // img={this.props.dashboardQuery.user.img}
           events={this.props.dashboardQuery.user.currentEvents}
           handleEventClick={this.handleEventClick}
         />
-        <h3 style={{"textAlign": "center"}}>Hosted events:</h3>
+        <h3 style={{"textAlign": "center"}}>Currently hosting:</h3>
         <EventList
+          // img={this.props.dashboardQuery.user.img}
           events={this.props.dashboardQuery.user.hostedEvents}
           handleEventClick={this.handleEventClick}/>
         <h3 style={{"textAlign": "center"}}>Past events:</h3>
         <EventList
+          // img={this.props.dashboardQuery.user.img}
           events={this.props.dashboardQuery.user.pastEvents}
           handleEventClick={this.handleEventClick}/>
       </div>
@@ -53,13 +56,14 @@ class Dashboard extends React.Component {
 
 const DASHBOARD_QUERY = gql `
   query dashboardQuery {
-    user (id: 1) {
+    user (id: 3) {
         hostedEvents {
           id
           name
           location
           description
           date
+          img
         }
         currentEvents {
           id
@@ -67,6 +71,7 @@ const DASHBOARD_QUERY = gql `
           location
           description
           date
+          img
         }
         pastEvents {
           id
@@ -74,6 +79,7 @@ const DASHBOARD_QUERY = gql `
           location
           description
           date
+          img
         }
     }
   }
