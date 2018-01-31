@@ -26,7 +26,9 @@ passport.use(
       google_id: profile.id,
       name: profile.displayName,
       img: profile.photos[0].value,
-      etag:profile._json.etag
+      etag:profile._json.etag,
+      accessToken: accessToken,
+      refreshToken: refreshToken
     }
     
     db.user.findOrCreateUser(body)
