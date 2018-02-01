@@ -4,6 +4,24 @@ import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
+import Dropzone from 'react-dropzone';
+import request from 'superagent'; 
+
+const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxhj4dt9i/upload';
+
+const dropzoneStyle = {
+  height: '300px',
+  width: '300px',
+  margin: 'auto',
+  textAlign: 'center'
+}
+
+const imageStyle = {
+  height: '300px',
+  width: '300px',
+  margin: 'auto'
+}
 
 class createEvent extends React.Component {
   constructor(props) {
@@ -17,10 +35,37 @@ class createEvent extends React.Component {
       currentItem: '',
       items: [],
       guests: [],
-      hostId: 1
+      hostId: 1,
+      uploadedFileCloudinaryUrl: ''
     }
 
     this.handleItems = this.handleItems.bind(this)
+  }
+
+  onImageDrop(files) {
+    this.setState({
+      uploadedFile: files[0]
+    });
+
+    this.handleImageUpload(files[0]);
+  }
+
+  handleImageUpload(file) {
+    let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                        .field('file', file);
+
+    upload.end((err, response) => {
+      if (err) {
+        console.error(err);
+      }
+
+      if (response.body.secure_url !== '') {
+        this.setState({
+          uploadedFileCloudinaryUrl: response.body.secure_url
+        });
+      }
+    });
   }
 
   submitForm = () => {
@@ -58,6 +103,29 @@ class createEvent extends React.Component {
         <br></br>
         <form>
         <TextField value={this.state.eventTitle} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ eventTitle: e.target.value })}/>
+        <br></br>
+        <br></br>
+        <div style={dropzoneStyle}>
+          <Dropzone
+            multiple={false}
+            accept="image/*"
+            onDrop={this.onImageDrop.bind(this)}
+            >
+            <p>Drop an image or click to select a file to upload.</p>
+          </Dropzone>
+        </div>
+        <br></br>
+        <br></br>
+        <div>
+
+          <div>
+            {this.state.uploadedFileCloudinaryUrl === '' ? null :
+            <div >
+              <p>{this.state.uploadedFile.name}</p>
+              <img src={this.state.uploadedFileCloudinaryUrl} style={imageStyle}/>
+            </div>}
+          </div>
+        </div>
         <br></br>
         <br></br>
         <TextField value={this.state.location} type="text" placeholder="Where's your party at?" onChange={e => this.setState({ location: e.target.value })}/>
