@@ -13,7 +13,6 @@ class Dashboard extends React.Component {
   }
 
   handleEventClick = (event) => {
-    console.log('calling', this.props)
     this.props.history.push({
       pathname: '/eventPage',
       state: { event }
@@ -21,7 +20,6 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    console.log(this.props.dashboardQuery.user)
     if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
       console.log(this.props.dashboardQuery.error)
     }
