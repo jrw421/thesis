@@ -19,10 +19,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    if (this.props.dashboardQuery === undefined) {
-      return <div>undefined</div>
-    }
-
+    console.log(this.props.currentUser)
     if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
       console.log(this.props.dashboardQuery.error)
     }
@@ -106,7 +103,7 @@ const DASHBOARD_QUERY = gql `
 
 const DashboardWithData = graphql(DASHBOARD_QUERY, {
   skip: (props) => (props.currentUser === undefined),
-  options: (props) => ({variables: {id: (props.currentUser === undefined) ? 1 : props.currentUser.id}}),
+  options: (props) => ({variables: {id: (props.currentUser === undefined) ? null : props.currentUser.id}}),
   name: 'dashboardQuery'
 })(Dashboard)
 export default DashboardWithData;
