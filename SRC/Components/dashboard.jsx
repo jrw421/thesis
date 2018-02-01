@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { withRouter } from 'react-router'
 
 import EventList from './eventList.jsx'
 
@@ -107,4 +108,5 @@ const DashboardWithData = graphql(DASHBOARD_QUERY, {
   options: (props) => ({variables: {id: (props.currentUser === undefined) ? 22 : props.currentUser.id}}),
   name: 'dashboardQuery'
 })(Dashboard)
-export default DashboardWithData;
+
+export default withRouter(DashboardWithData);
