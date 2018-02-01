@@ -23,7 +23,9 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/user')
           .then(data => {
-            console.log('id', data.username.id)
+            this.setState({
+              currentUser: data.data.user
+            })
           })
           .catch(error => {
             console.log(error)
@@ -32,24 +34,24 @@ class App extends React.Component {
 
 
   render() {
-
-
-    console.log('this is current user', this.state.currentUser)
-
-    return (
-      <MuiThemeProvider>
-      <div>
-        <Header />
+    if (this.state.currentUser === undefined ) {
+      return null
+    } else {
+      return (
+        <MuiThemeProvider>
         <div>
-          <Switch>
-          <Route exact path="/dashboard" render={() => <DashboardWithData currentUser={this.state.currentUser} />}/>
-          <Route path="/eventPage" render={() => <EventPage currentUser={this.state.currentUser} />}/>
-          <Route path="/createEvent" render={() => <CreateEvent currentUser={this.state.currentUser} />}/>
-          </Switch>
+          <Header />
+          <div>
+            <Switch>
+              <Route exact path="/dashboard" render={() => <DashboardWithData currentUser={this.state.currentUser} />}/>
+              <Route path="/eventPage" render={() => <EventPage currentUser={this.state.currentUser} />}/>
+              <Route path="/createEvent" render={() => <CreateEvent currentUser={this.state.currentUser} />}/>
+            </Switch>
+          </div>
         </div>
-      </div>
-    </MuiThemeProvider>
-    )
+      </MuiThemeProvider>
+      )
+    }
   }
 }
 
