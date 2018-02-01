@@ -64,12 +64,12 @@ class Dashboard extends React.Component {
 //         id
 //         name
 //     }
-//   } 
+//   }
 // `
 
 const DASHBOARD_QUERY = gql `
-  query dashboardQuery ($id: Int){
-    user (id: $id) {
+  query dashboardQuery {
+    user (id: 1) {
         hostedEvents {
           id
           name
@@ -98,7 +98,7 @@ const DASHBOARD_QUERY = gql `
   }
 `
 
-// export default graphql(DASHBOARD_QUERY, { 
+// export default graphql(DASHBOARD_QUERY, {
 //   options: (props) => ({variables: {id: props.currentUser.id}}), name: 'dashboardQuery' }) (Dashboard)
 
 
