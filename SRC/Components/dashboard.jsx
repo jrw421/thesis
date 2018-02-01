@@ -12,14 +12,15 @@ class Dashboard extends React.Component {
   }
 
   handleEventClick = (event) => {
-    console.log(this.props.history.push({
+    console.log('calling', this.props)
+    this.props.history.push({
       pathname: '/eventPage',
       state: { event }
-    }))
+    })
   }
 
   render() {
-    console.log(this.props.currentUser)
+    console.log(this.props.dashboardQuery.user)
     if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
       console.log(this.props.dashboardQuery.error)
     }
@@ -31,7 +32,7 @@ class Dashboard extends React.Component {
     if (this.props.dashboardQuery.loading) {
       return <div>Loading</div>
     }
-
+    console.log('query results ', this.props.dashboardQuery)
     return (
       <div>
         <h1 style={{"textAlign":"center"}}>Your Events</h1>
@@ -67,8 +68,8 @@ class Dashboard extends React.Component {
 // `
 
 const DASHBOARD_QUERY = gql `
-  query dashboardQuery {
-    user (id: 1) {
+  query dashboardQuery ($id: Int){
+    user (id: $id) {
         hostedEvents {
           id
           name
@@ -103,7 +104,7 @@ const DASHBOARD_QUERY = gql `
 
 const DashboardWithData = graphql(DASHBOARD_QUERY, {
   skip: (props) => (props.currentUser === undefined),
-  options: (props) => ({variables: {id: (props.currentUser === undefined) ? 2 : props.currentUser.id}}),
+  options: (props) => ({variables: {id: (props.currentUser === undefined) ? 22 : props.currentUser.id}}),
   name: 'dashboardQuery'
 })(Dashboard)
 export default DashboardWithData;
