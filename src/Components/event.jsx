@@ -3,7 +3,9 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 
 const Event = ({event, handleEventClick}) => (
-  <Card onClick={() => {handleEventClick(event)}}>
+  <Card onClick={() => {
+    console.log('event', event)
+    handleEventClick(event)}}>
    <CardMedia
      overlay={<CardTitle title={event.name} subtitle={event.description} />}
    >
