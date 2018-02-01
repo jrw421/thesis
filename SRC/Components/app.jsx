@@ -23,13 +23,7 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/user')
           .then(data => {
-<<<<<<< HEAD
-            this.setState({
-              currentUser: data.data.user
-            }, () => {console.log('hiiiiiiii', this.state.currentUser)})
-=======
             console.log('id', data.username.id)
->>>>>>> feature
           })
           .catch(error => {
             console.log(error)
