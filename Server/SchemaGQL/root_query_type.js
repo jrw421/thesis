@@ -41,6 +41,13 @@ const RootQueryType = new GraphQLObjectType({
       resolve(parentValue, args) {
         return db.event.findAll()
       }
+    }, 
+    event: {
+      type: EventType,
+      args: { id: { type: GraphQLInt } },
+      resolve: (parentValue, args) => {
+        return db.event.getEvent(args.id)
+      }
     }
   })
 })

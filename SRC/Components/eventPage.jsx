@@ -1,8 +1,10 @@
 import React from 'react'
+import Items from './item.jsx'
 import { withRouter } from 'react-router'
 
 class EventPage extends React.Component {
   render() {
+    console.log('Event page props', this.props);
     const event = this.props.location.state.event
     console.log('event', event)
     return (
@@ -16,9 +18,12 @@ class EventPage extends React.Component {
           src={event.image}
           alt=""
         />
+        <h1>Your Items</h1>
+        <Items currentEvent={event.id}/>
       </div>
     )
   }
 }
+
 
 export default withRouter(EventPage)
