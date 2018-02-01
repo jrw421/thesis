@@ -77,6 +77,8 @@ const UserType = new GraphQLObjectType({
     etag: { type: GraphQLString },
     member_status: { type: GraphQLInt },
     reply: {type: GraphQLInt},
+    accessToken: {type: GraphQLString},
+    refreshToken: {type: GraphQLString},
     hostedEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args){

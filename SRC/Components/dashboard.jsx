@@ -60,11 +60,11 @@ class Dashboard extends React.Component {
 //         id
 //         name
 //     }
-//   } 
+//   }
 // `
 
 const DASHBOARD_QUERY = gql `
-  query dashboardQuery {
+  query dashboardQuery($id: Int) {
     user (id: 3) {
         hostedEvents {
           id

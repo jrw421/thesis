@@ -16,7 +16,8 @@ userController = {
 						google_id: body.google_id,
 						etag: body.etag,
 						email: body.email,
-						accessToken: body.accessToken
+						accessToken: body.accessToken,
+						refreshToken: body.refreshToken
 					})
 					return newUser.save()
 						.then(user => user.attributes)
@@ -27,6 +28,9 @@ userController = {
 	getUser: async function(id) {
 		let result =  await knex.select('*').from('user').where('id', id)
 		return result[0]
+	},
+	getToken: function() {
+		return knex.select('accessToken').from('user').where('id', id)
 	},
 	findAll : function(){
     return knex.select('*').from('user')
