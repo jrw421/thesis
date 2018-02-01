@@ -3,8 +3,11 @@ const schema = require('./SchemaGQL/schema');
 const expressGraphQL = require('express-graphql');
 const bodyParser = require('body-parser');
 const path = require('path');
-const graphql = require('graphql')
-const axios = require('axios')
+const graphql = require('graphql');
+const knex = require('./dbConfig.js').knex
+// const ajax = require('ajax');
+const axios = require('axios');
+// const $ = require('jquery')
 
 // auth dependencies
 const passportSetup = require('./passportConfig/passport-setup')
@@ -24,6 +27,7 @@ app.use(cookieSession({
   keys: ['asdfjkls']
 }))
 
+/////////
 // initialize passport
 app.use(passport.initialize())
 app.use(passport.session())
@@ -40,7 +44,37 @@ app.get('/', (req, res) => {
 app.use('/', express.static(path.join(__dirname, '../PublicProtected')))
 app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../Public')))
 
+//contacts///
+
+app.get('/contacts:id', function(req, res) {
+  console.log('id ', req.params.id)
+
+  knex.select('accessToken').from('user').where('id', 1)
+    .then((res) => {
+      console.log('res ', res)
+    })
+
+  axios.get('https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' + accessToken)
+  .then((response) => console.log('resonse ', response.data.feed.entry))
+  .catch((err) => console.log('err in get ', err))
+});
+//
+//   function fetch(accessToken) {
+//     ajax({
+//       url: 'https://www.google.com/m8/feeds/contacts/default/full?alt=json',
+//       dataType: 'jsonp',
+//       data: accessToken
+//     }).done(function(data) {
+//       console.log("data ", JSON.stringify(data));
+//       res.send(data);
+//     });
+//   }
+//
+//   // fetch(config.accessToken);
+// })
+
 app.get('/user', function(req, res) {
+  // console.log('what is req ', req.user)
   if (req.user === undefined) {
       // The user is not logged in
       res.json({});

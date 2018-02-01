@@ -1,6 +1,7 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20');
 const db = require('../ControllersDB/mainController.js')
+const axios = require('axios')
 
 passport.serializeUser((user, done) => {
   // takes user id and makes it a cookie
@@ -22,6 +23,8 @@ passport.use(
     clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
     clientSecret: '4qDzcSsqkWieHEABXAf1XMpH'
   }, (accessToken, refreshToken, profile, done) => {
+    // console.log('accessToken is ', accessToken)
+
     const body = {
       google_id: profile.id,
       name: profile.displayName,
@@ -30,7 +33,13 @@ passport.use(
       accessToken: accessToken,
       refreshToken: refreshToken
     }
-    
+
+    // console.log('body is ', body)
+
+    // axios.get('https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' + accessToken)
+    // .then((response) => console.log('resonse ', response.data.feed.entry))
+    // .catch((err) => console.log('err in get ', err))
+
     db.user.findOrCreateUser(body)
            .then(user => {
              done(null, user)
