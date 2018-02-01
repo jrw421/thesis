@@ -9,8 +9,8 @@ eventController = {
 			host_id: body.host,
   		description: body.description,
       date: body.date,
-      location: body.location 
-      //image: body.image
+      location: body.location,
+      // img: body.img
   	})
 		 var result = await newEvent.save()
 		 return result.attributes

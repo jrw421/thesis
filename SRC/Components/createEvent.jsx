@@ -110,17 +110,18 @@ class createEvent extends React.Component {
 //   }
 // `
 
-const CREATE_EVENT_MUTATION = gql`
-  mutation {
-    addEvent(name: $name, location: $location, date: $date, time: $time, description: $description, hostId: $hostId) {
-    id
-    eventTitle
-    location
-    date
-    time
-    description
-    hostId
-  }
-`
+// const CREATE_EVENT_MUTATION = gql`
+//   mutation {
+//     addEvent(name: $name, location: $location, date: $date, time: $time, description: $description, hostId: $hostId) {
+//     id
+//     eventTitle
+//     location
+//     date
+//     time
+//     description
+//     hostId
+//   }
+// `
 
-export default graphql(CREATE_EVENT_MUTATION, { name: 'addEvent' })(createEvent)
+export default createEvent
+// export default graphql(CREATE_EVENT_MUTATION, { name: 'addEvent' })(createEvent)
