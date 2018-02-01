@@ -5,7 +5,8 @@ import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import Dropzone from 'react-dropzone';
-import request from 'superagent'; 
+import request from 'superagent';
+import { withRouter } from 'react-router';
 
 const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxhj4dt9i/upload';
@@ -41,6 +42,7 @@ class createEvent extends React.Component {
     //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
     //this.onSubmit = this.onSubmit(this)
+    this.submitForm = this.submitForm.bind(this)
   }
 
   onImageDrop(files) {
@@ -80,8 +82,14 @@ class createEvent extends React.Component {
         description: this.state.description,
         location: this.state.location
       }
-    }).then(item => console.log(item))
-    .then((data) => console.log('receive data', data))
+    })
+    .then(event => {
+      this.props.history.push({
+        pathname: '/eventPage',
+        state: { event: event.data }
+      })
+    })
+    .catch((data) => console.log('receive data', data))
   }
   
   onClick() {
@@ -189,4 +197,7 @@ mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $locatio
   }
 }`
 
-export default graphql(mutation)(createEvent)
+
+let createEventWithData = graphql(mutation)(createEvent)
+
+export default withRouter(createEventWithData)
