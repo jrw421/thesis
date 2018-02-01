@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { withRouter } from 'react-router'
 
 import EventList from './eventList.jsx'
 
@@ -12,7 +13,6 @@ class Dashboard extends React.Component {
   }
 
   handleEventClick = (event) => {
-    console.log('calling', this.props)
     this.props.history.push({
       pathname: '/eventPage',
       state: { event }
@@ -20,7 +20,6 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    console.log(this.props.dashboardQuery.user)
     if (this.props.dashboardQuery && this.props.dashboardQuery.error) {
       console.log(this.props.dashboardQuery.error)
     }
@@ -107,4 +106,5 @@ const DashboardWithData = graphql(DASHBOARD_QUERY, {
   options: (props) => ({variables: {id: (props.currentUser === undefined) ? 22 : props.currentUser.id}}),
   name: 'dashboardQuery'
 })(Dashboard)
-export default DashboardWithData;
+
+export default withRouter(DashboardWithData);

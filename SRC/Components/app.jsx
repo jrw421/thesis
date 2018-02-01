@@ -5,7 +5,7 @@ import DashboardWithData from './dashboard.jsx'
 import EventPage from './eventPage.jsx'
 import CreateEvent from './createEvent.jsx'
 // import MuiThemeProvider from 'material-ui/styles'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, browserHistory } from 'react-router-dom'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -80,7 +80,7 @@ class App extends React.Component {
           <Header />
           <div>
             <Switch>
-              <Route exact path="/dashboard" render={() => <DashboardWithData currentUser={this.state.currentUser} />}/>
+              <Route exact path="/dashboard" render={() => <DashboardWithData history={browserHistory} currentUser={this.state.currentUser} />}/>
               <Route path="/eventPage" render={() => <EventPage currentUser={this.state.currentUser} />}/>
               <Route path="/createEvent" render={() => <CreateEvent currentUser={this.state.currentUser} />}/>
             </Switch>
