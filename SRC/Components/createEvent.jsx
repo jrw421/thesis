@@ -38,9 +38,9 @@ class createEvent extends React.Component {
       hostId: 1,
       uploadedFileCloudinaryUrl: ''
     }
-    this.onChange = this.onChange.bind(this)
+    //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
-    this.onSubmit = this.onSubmit(this)
+    //this.onSubmit = this.onSubmit(this)
   }
 
   onImageDrop(files) {
@@ -73,15 +73,15 @@ class createEvent extends React.Component {
     const {  eventTitle, location, date, time, description } = this.state
     console.log('state is ', this.state)
     console.log('this is props ', this.props)
-    this.props.addEvent({
+    this.props.mutate({
       variables: {
-        name: this.state.currentItem,
+        name: this.state.name,
         host_id: this.props.currentUser.id,
         description: this.state.description,
         location: this.state.location
       }
     }).then(item => console.log(item))
-    // .then((data) => console.log('receive data', data))
+    .then((data) => console.log('receive data', data))
   }
   
   onClick() {
@@ -106,8 +106,8 @@ class createEvent extends React.Component {
         <h1 style={{"height": "100%", "width": "100%"}}>CREATE YOUR EVENT</h1>
         <br></br>
 
-
-        <form onSubmit={this.onSubmit}>
+        <div>
+        {/* <form onSubmit={this.onSubmit}> */}
         <TextField value={this.state.eventTitle} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ eventTitle: e.target.value })}/>
         <br></br>
         <br></br>
@@ -167,10 +167,11 @@ class createEvent extends React.Component {
           label="Submit" 
           value="Submit" 
           type="submit" 
+          onClick={() => {this.submitForm()}}
           secondary={true} />
 
 
-          </form>
+          </div>
       </div>
     )
   }

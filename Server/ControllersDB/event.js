@@ -6,7 +6,7 @@ eventController = {
 	addEvent : async (body) => {
 		const newEvent = new Event({
 			name: body.name,
-			host_id: body.host,
+			host_id: body.host_id,
   		description: body.description,
       date: body.date,
       location: body.location,

@@ -21,7 +21,7 @@ class EventList extends React.Component {
 
     changeEventBack = () => {
         let events = this.props.events;
-        this.setSTate({
+        this.setState({
             currentEvent: (this.state.currentEvent - 1) % events.length
         })
     }
