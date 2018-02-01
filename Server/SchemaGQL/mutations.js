@@ -26,8 +26,7 @@ const mutations = new GraphQLObjectType({
       host_id: { type: new GraphQLNonNull(GraphQLID) },
       description: { type: new GraphQLNonNull(GraphQLString) },
       date: { type: GraphQLString } , 
-      location: { type: new GraphQLNonNull(GraphQLString)},
-      image: { type: GraphQLString}
+      location: { type: new GraphQLNonNull(GraphQLString)}
     },
     resolve(parentValue, args) {
       return db.event.addEvent({
@@ -73,7 +72,7 @@ const mutations = new GraphQLObjectType({
       img: { type: new GraphQLNonNull(GraphQLString)},
       google_id: { type: new GraphQLNonNull(GraphQLString)},
       etag: { type: new GraphQLNonNull(GraphQLString)},
-      email: { type: GraphQLString},
+      email: { type: GraphQLString}
     },
     resolve(parentValues, args) {
       return db.user.findOrCreateUser(args)

@@ -51,7 +51,6 @@ class createEvent extends React.Component {
     }
   }
 
-
   render() {
     return (
       <div style={{"textAlign":"center", "marginTop": "20px"}}>
@@ -98,6 +97,19 @@ class createEvent extends React.Component {
 
 }
 
+// const CREATE_EVENT_MUTATION = gql`
+//   mutation EventMutation($description: String!, $url: String!) {
+//     event(eventTitle: $eventTitle, location: $location, date: $date, time: $time, description: $description) {
+//       id
+//       eventTitle
+//       location
+//       date
+//       time
+//       description
+//     }
+//   }
+// `
+
 const CREATE_EVENT_MUTATION = gql`
   mutation {
     addEvent(name: $name, location: $location, date: $date, time: $time, description: $description, hostId: $hostId) {
@@ -109,7 +121,6 @@ const CREATE_EVENT_MUTATION = gql`
     description
     hostId
   }
-}
 `
 
 export default graphql(CREATE_EVENT_MUTATION, { name: 'addEvent' })(createEvent)

@@ -34,7 +34,7 @@ knex.schema.hasTable('event').then(function(exists){
             table.increments('id').primary();
             table.integer('host_id')
             // table.foreign('host_id').references('id').inTable('user');
-            table.string('img', 150);
+            //table.string('img', 150);
             table.string('google_id', 150);
             table.string('etag', 300);
             table.string('description', 500);
