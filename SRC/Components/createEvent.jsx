@@ -9,7 +9,7 @@ class createEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventTitle: '',
+      name: '',
       location: '',
       date: '',
       time: undefined,
@@ -17,29 +17,33 @@ class createEvent extends React.Component {
       currentItem: '',
       items: [],
       guests: [],
-      hostId: 1
+      host_id: 1
     }
-
+    this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
+    this.onSubmit = this.onSubmit(this)
   }
 
-  submitForm = () => {
-    const {  eventTitle, location, date, time, description } = this.state
-    console.log('state is ', this.state)
-    console.log('this is props ', this.props)
-    this.props.addEvent({
+  onSubmit(e) {
+    e.preventDefault()
+    // const {  eventTitle, location, date, time, description } = this.state
+ 
+    this.props.mutate({
       variables: {
-        eventTitle,
-        location,
-        date,
-        time,
-        description,
-        hostId
+        name: this.state.currentItem,
+        host_id: this.props.currentUser.id,
+        description: this.state.description,
+        location: this.state.location
       }
-    })
+    }).then(item => console.log(item))
+    // .then((data) => console.log('receive data', data))
+  }
+  
+  onClick() {
+    submitEvent(e)
   }
 
-  handleItems = (e) => {
+  handleItems (e) {
     if (e.key === 'Enter') {
       this.setState({
         items: [...this.state.items, this.state.currentItem]
@@ -56,7 +60,9 @@ class createEvent extends React.Component {
       <div style={{"textAlign":"center", "marginTop": "20px"}}>
         <h1 style={{"height": "100%", "width": "100%"}}>CREATE YOUR EVENT</h1>
         <br></br>
-        <form>
+
+
+        <form onSubmit={this.onSubmit}>
         <TextField value={this.state.eventTitle} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ eventTitle: e.target.value })}/>
         <br></br>
         <br></br>
@@ -82,7 +88,6 @@ class createEvent extends React.Component {
           onChange={e => this.setState({ currentItem: e.target.value })}
           onKeyPress={this.handleItems}
         />
-        </form>
         <ul>
           {this.state.items.map(item => {
             return <li>{item}</li>
@@ -90,38 +95,29 @@ class createEvent extends React.Component {
         </ul>
         <br></br>
         <br></br>
-        <FlatButton label="Submit" secondary={true} onClick={() => this.submitForm()}/>
+        <FlatButton 
+          label="Submit" 
+          value="Submit" 
+          type="submit" 
+          secondary={true} />
+
+
+          </form>
       </div>
     )
   }
 
 }
 
-// const CREATE_EVENT_MUTATION = gql`
-//   mutation EventMutation($description: String!, $url: String!) {
-//     event(eventTitle: $eventTitle, location: $location, date: $date, time: $time, description: $description) {
-//       id
-//       eventTitle
-//       location
-//       date
-//       time
-//       description
-//     }
-//   }
-// `
 
-// const CREATE_EVENT_MUTATION = gql`
-//   mutation {
-//     addEvent(name: $name, location: $location, date: $date, time: $time, description: $description, hostId: $hostId) {
-//     id
-//     eventTitle
-//     location
-//     date
-//     time
-//     description
-//     hostId
-//   }
-// `
+const mutation = gql`
+mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!){
+  addEvent(name: $name, host_id: $host_id, description: $description, location: $location) {
+    name
+    host_id
+    description
+    location
+  }
+}`
 
-export default createEvent
-// export default graphql(CREATE_EVENT_MUTATION, { name: 'addEvent' })(createEvent)
+export default graphql(mutation)(createEvent)
