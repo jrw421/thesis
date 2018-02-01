@@ -21,4 +21,4 @@ const Event = ({event, handleEventClick}) => (
  </Card>
 )
 
-export default Event;
+export default Event

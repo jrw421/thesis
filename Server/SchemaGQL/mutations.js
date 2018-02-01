@@ -31,7 +31,6 @@ const mutations = new GraphQLObjectType({
     resolve(parentValue, args) {
       return db.event.addEvent({
         host_id: args.host_id,
-        //host id isnt adding for some reason
         name: args.name,
         description: args.description,
         date: args.date,

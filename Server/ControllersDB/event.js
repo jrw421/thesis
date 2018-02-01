@@ -16,9 +16,11 @@ eventController = {
 		 return result.attributes
 	},
 	getHostedEvents : function(user_id){
-		let current = new Date()
-		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
-		return knex('event').where('host_id', user_id).andWhere('date', '>=', dateNum)
+		return knex('event').where('host_id', user_id)
+		//commented out for MVP functionality
+		// let current = new Date()
+		// let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
+		// return knex('event').where('host_id', user_id).andWhere('date', '>=', dateNum)
 	},
 	getPastEvents: function(user_id){
 		let current = new Date()

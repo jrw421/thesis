@@ -35,7 +35,7 @@ class EventList extends React.Component {
                 }
                 <div className="pics" style={{"textAlign": "center"}}>
                     {(item !== undefined) &&
-                        <div onClick={() => this.props.handleEventClick()}>
+                        <div onClick={() => this.props.handleEventClick(item)}>
                         <br></br>
                         {item.name}
                         <br></br>
