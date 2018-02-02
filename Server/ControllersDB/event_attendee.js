@@ -50,6 +50,7 @@ eventAttendeeController = {
 					.then(item => item[0])
 					.catch(error => error)
 			})
+			.catch(error => error)
 	},
 	denyPresence: function(userId, event_id) {
 		let rsvp

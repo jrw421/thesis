@@ -23,7 +23,6 @@ passport.use(
     clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
     clientSecret: '4qDzcSsqkWieHEABXAf1XMpH'
   }, (accessToken, refreshToken, profile, done) => {
-    console.log('refresh is ', refreshToken)
 
     const body = {
       google_id: profile.id,
@@ -44,5 +43,6 @@ passport.use(
            .then(user => {
              done(null, user)
            })
+           .catch(error => error)
   })
 )

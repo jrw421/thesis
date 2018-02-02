@@ -4,7 +4,6 @@ import { withRouter } from 'react-router'
 class EventPage extends React.Component {
   render() {
     const event = this.props.location.state.event
-    console.log('event', event)
     return (
       <div style={{"textAlign": "center"}} className="eventPage">
         <h1 className="eventPage">{event.name}</h1>

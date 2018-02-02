@@ -73,8 +73,6 @@ class createEvent extends React.Component {
 
   submitForm = () => {
     const {  eventTitle, location, date, time, description } = this.state
-    console.log('state is ', this.state)
-    console.log('this is props ', this.props)
     this.props.mutate({
       variables: {
         name: this.state.name,
@@ -89,7 +87,7 @@ class createEvent extends React.Component {
         state: { event: event.data }
       })
     })
-    .catch((data) => console.log('receive data', data))
+    .catch((error) => error)
   }
   
   onClick() {

@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
     if (this.props.dashboardQuery.loading) {
       return <div>Loading</div>
     }
-    console.log('query results ', this.props.dashboardQuery)
+    // console.log('query results ', this.props.dashboardQuery)
     return (
       <div>
         <h1 style={{"textAlign":"center"}}>Your Events</h1>

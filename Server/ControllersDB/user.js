@@ -21,14 +21,13 @@ userController = {
 					})
 					return newUser.save()
 						.then(user => user.attributes)
+						.catch(error => error)
 				}
 			})
-
+			.catch(error => error)
 	},
 	getUser: async function(id) {
-		console.log('getting user')
 		let result =  await knex.select('*').from('user').where('id', id)
-		console.log(result)
 		return result[0]
 	},
 	getToken: function() {

@@ -24,12 +24,14 @@ itemController = {
 				.then(() => {
 					return knex.select('*').from('item').where('id', id)
 				})
+				.catch(error => error)
 
 			} else if (JSON.parse(itemData[0].user_id) === null) {
 				 return knex.select('*').from('item').where('id', id).update('user_id', userId)
 				.then(() => {
 					return knex.select('*').from('item').where('id', id)
 				})
+				.catch(error => error)
 			}
 		})
 		.catch((error => error))
