@@ -31,9 +31,9 @@ class App extends React.Component {
           currentUser: data.data.user
         })
 
-        axios.get('/test', {"access": data.data.user.accessToken})
-          .then(data => {console.log('did we get it back', data)})
-          .catch(err => {console.log('err', err)})
+        // axios.get('/test', {"access": data.data.user.accessToken})
+        //   .then(data => {console.log('did we get it back', data)})
+        //   .catch(err => {console.log('err', err)})
       })
       .catch(error => {
         console.log(error)
