@@ -9,7 +9,8 @@ class EventPage extends React.Component {
       return null
     } else {
       const event = this.props.location.state.event
-      console.log('event', event)
+      console.log('event',this.props.location.state.event)
+      console.log('curent Gues ', this.props.location.state.currentGuest)
       return (
         <div style={{"textAlign": "center"}} className="eventPage">
           <h1 className="eventPage">{event.name}</h1>
@@ -19,11 +20,12 @@ class EventPage extends React.Component {
           <div>
             <h3>Who's Coming</h3>
             <ul>
-  
+
             </ul>
           </div>
           <div>
             <h3>Item Registery</h3>
+            <ItemList currentUser={this.props.currentUser || this.props.location.state.currentGuest} event={this.props.location.state.event}></ItemList>
             <ul></ul>
           </div>
           <img
