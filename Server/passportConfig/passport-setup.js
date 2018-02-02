@@ -5,15 +5,17 @@ const axios = require('axios')
 
 passport.serializeUser((user, done) => {
   // takes user id and makes it a cookie
+console.log('serialize')
   done(null, user.id)
 })
 
 passport.deserializeUser((id, done) => {
   // retrieve id from cookie
   // and use it to access user in database
+  console.log('are we here????')
     db.user.getUser(id).then((user) => {
       done(null, user)
-    })
+    }).catch(x => console.log(x))
 })
 
 passport.use(
@@ -23,15 +25,14 @@ passport.use(
     clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
     clientSecret: '4qDzcSsqkWieHEABXAf1XMpH'
   }, (accessToken, refreshToken, profile, done) => {
-    console.log('refresh is ', refreshToken)
-
     const body = {
       google_id: profile.id,
       name: profile.displayName,
       img: profile.photos[0].value,
       etag:profile._json.etag,
       accessToken: accessToken,
-      refreshToken: refreshToken
+      refreshToken: refreshToken, 
+      email: profile.emails[0].value
     }
 
     // console.log('body is ', body)

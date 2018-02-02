@@ -79,6 +79,8 @@ const UserType = new GraphQLObjectType({
     reply: {type: GraphQLInt},
     accessToken: {type: GraphQLString},
     refreshToken: {type: GraphQLString},
+    hash: {type: GraphQLString}, 
+    guest_event_id: {type: GraphQLInt},
     hostedEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args){
@@ -99,6 +101,12 @@ const UserType = new GraphQLObjectType({
       resolve(parentValue, args){
         return db.event.getCurrentEvents(parentValue.id)
         // .then( x => console.log('p', x))
+      }
+    }, 
+    guestEvent: {
+      type: EventType, 
+      resolve(parentValue, args){
+        return db.event.getEvent(parentValue.guest_event_id)
       }
     }
   })

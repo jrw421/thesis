@@ -13,6 +13,8 @@ exports.up = function(knex, Promise) {
       table.string('cookie', 300);
       table.string('acccessToken', 300);
       table.string('refreshToken', 300);
+      table.string('hash', 200); 
+      table.integer('guest_event_id');
   }),
 
   // { name: data.displayName, image: data.image.url, id: data.id, etag: data.etag }
