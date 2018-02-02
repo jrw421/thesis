@@ -47,7 +47,6 @@ app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../Pub
 //contacts///
 
 app.get('/contacts:id', function(req, res) {
-  console.log('id ', req.params.id)
 
   knex.select('accessToken').from('user').where('id', 1)
     .then((res) => {
@@ -74,12 +73,10 @@ app.get('/contacts:id', function(req, res) {
 // })
 
 app.get('/user', function(req, res) {
-console.log('tell me whyyyyyyyyyy aint nothing but a heartbreak', req.user)
   if (req.user === undefined) {
       // The user is not logged in
       res.json({});
   } else {
-    console.log('j', req.user)
       res.json({
           user: req.user
       });

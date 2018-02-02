@@ -3,15 +3,12 @@ const User = require('../ModelsDB/user.js')
 
 userController = {
 	findOrCreateUser : function(body){
-		console.log('BODYYYYDOSIJDJSLJDSJDLKJ', body)
 		return knex.select('*').from('user').where('google_id', body.google_id)
 			.then((profileCheck) => {
 				if (profileCheck.length > 0) {
-					console.log('FUCK YOU', body.google_id)
 					var updates = {email: body.email, accessToken: body.accessToken, refreshToken: body.refreshToken}
 					return this.editFields(profileCheck[0].id, updates).then(() => this.getUser(null, body.google_id)).catch(x => console.log(err))
 				} else {
-					console.log('fuck u', body.google_id)
 						const newUser = new User({
 						name: body.name,
 						img: body.img,
@@ -30,17 +27,13 @@ userController = {
 	},
 	getUser: async function(id, google_id, hash) {
 	   if (google_id !== null && google_id !== undefined){
-		  console.log('are these equal', google_id === '104716379930543675137', typeof google_id)
 			let result =  await knex.select('*').from('user').where('google_id', google_id)
 		  return result[0]
 		} else if(hash !== null && hash !== undefined){
-			console.log('looking for hash')
 			let result =  await knex.select('*').from('user').where('hash', hash)
 		  return result[0]
 		} else {
-			console.log('looking for id')
 			let result =  await knex.select('*').from('user').where('id', id)
-			console.log(result[0])
 		  return result[0]
 		}
 	},
@@ -58,7 +51,6 @@ userController = {
 		return knex('user').where('id', id).update(field, newValue)
 	}, 
 	editFields: function(id, obj){
-				console.log('fuckkkkkkk uuuuuuuuuuuuuu', obj )
 		return knex('user').where('id', id).update(obj)
 	}
 }

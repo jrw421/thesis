@@ -37,12 +37,11 @@ let acc = {
 	accessToken: 'ya29.GltVBclcSHK--wsUhoOrVbcWddkaD0pac85hZAgjfn2e3cw9Wqz4liREkFFlBT9bRQx1mVC5A1L5tK51qLFgcYp7ijg3PdLtZqcY_T61xnudJxHjeC6YmDC2m6rh'
 }
 
-let rec = ['cmourani12@yahoo.com']
+let rec = ['jess.wolvington@gmail.com']
 
 const sendMessage = function(recipients, account, event_id){
 	recipients.forEach(async email => {
 		var id = await generateID(event_id)
-		console.log('generated', id)
 		let mailOptions = {
       from: `${account.name} <${account.email}>`, 
       to: email, 
@@ -64,4 +63,4 @@ const sendMessage = function(recipients, account, event_id){
 	})
 }
 
-sendMessage(rec, acc, 1)
+sendMessage(rec, acc, 2)

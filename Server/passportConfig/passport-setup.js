@@ -5,14 +5,12 @@ const axios = require('axios')
 
 passport.serializeUser((user, done) => {
   // takes user id and makes it a cookie
-console.log('serialize')
   done(null, user.id)
 })
 
 passport.deserializeUser((id, done) => {
   // retrieve id from cookie
   // and use it to access user in database
-  console.log('are we here????')
     db.user.getUser(id).then((user) => {
       done(null, user)
     }).catch(x => console.log(x))
