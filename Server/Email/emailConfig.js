@@ -34,7 +34,7 @@ const transporter = nodemailer.createTransport({
 let acc = {
 	name: 'Christine Mourani', 
 	email: 'christinemourani@gmail.com', 
-	accessToken: 'ya29.GlxUBYEF_JR2OKxFlLS7a-vFZBevBqdZH_qK_tqPDZAUJZHsU6tjDYhkhfzjMgmqwUasK_xdGt3Cxa_QrXT-niUVsOUSjGJ24LuAIncKItdDeiUYiEdY11poJz7RXg'
+	accessToken: 'ya29.GltVBclcSHK--wsUhoOrVbcWddkaD0pac85hZAgjfn2e3cw9Wqz4liREkFFlBT9bRQx1mVC5A1L5tK51qLFgcYp7ijg3PdLtZqcY_T61xnudJxHjeC6YmDC2m6rh'
 }
 
 let rec = ['cmourani12@yahoo.com']

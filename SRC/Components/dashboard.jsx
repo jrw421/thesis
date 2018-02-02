@@ -27,13 +27,13 @@ class Dashboard extends React.Component {
     if (this.props.eventQuery) {
           console.log('query results ', this.props.eventQuery)
       if (this.props.eventQuery.error) {
-         return <div>Error</div>
+         return <div>Error1</div>
       }
       if (this.props.eventQuery.loading){
         return <div>Loading</div>
       }
 
-      let event = this.props.eventQuery.event 
+      let event = this.props.eventQuery.user.guestEvent
       this.props.history.push({
         pathname: '/eventPage',
         state: { event }
@@ -44,7 +44,7 @@ class Dashboard extends React.Component {
     if (this.props.dashboardQuery){
       console.log('query results ', this.props.dashboardQuery)
        if (this.props.dashboardQuery.error) {
-        return <div>Error</div>
+        return <div>Error2</div>
        }
        if (this.props.dashboardQuery.loading) {
         return <div>Loading</div>
@@ -143,7 +143,7 @@ const DashboardWithData = compose(
 }),
   graphql(DASHBOARD_QUERY, {
   skip: (props) => (props.currentUser === undefined),
-  options: (props) => ({variables: {id: (props.currentUser === undefined) ? 22 : props.currentUser.id}}),
+  options: (props) => ({variables: {id: (props.currentUser === undefined || props.currentUser === null) ? 22 : props.currentUser.id}}),
   name: 'dashboardQuery'
 }))(Dashboard)
 
