@@ -2,49 +2,40 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class Items extends React.Component {
+
+class Item extends React.Component {
   constructor(props) {
-    super(props)  
-    // this.handleItemClick = this.handleItemClick.bind(this)
+    super(props)
+    this.state = {}  
+    this.handleItemClick = this.handleItemClick.bind(this)
   }
-  // handleItemClick = (item) => {
-  //   console.log('item clicked', item);
-  // }
-
+  handleItemClick = (e) => {
+    console.log('item clicked', e.target.textContent);
+    // mutation to toggle that item that was clicked.
+    // render onclick a div that says <name> claimed item!
+  }
+ 
   render() {
-    // if (this.props.itemsQuery && this.props.itemsQuery.error) {
-    //   console.log(this.props.itemsQuery.error)
-    // }
-
-    // if (this.props.itemsQuery.error) {
-    //   return <div>Error</div>
-    // }
-
-    // if (this.props.itemsQuery.loading) {
-    //   return <div>Loading</div>
-    // }
     console.log('Item props', this.props);
     return (
-      <div>test</div>
+      <li onClick={(e) => this.handleItemClick(e)}>{this.props.name}</li>
     )
   }
+  
 }
 
-const ITEMS_QUERY = gql `
-  query itemsQuery ($id: Int){
-      event(id: $id) {
-        name
-        items {
-          id
-          name
-        }
-    }
-  }
-`
+// class Item extends React.Component {
+//   constructor(props) {
+//     super(props)  
+//   }
+  
 
-const ItemsWithData = graphql(ITEMS_QUERY, {
-  options: (props) => ({variables: {id: props.currentEvent}}),
-  name: 'itemsQuery'
-})(Items)
+//   render() {
+//     return (
+//       <li onClick={this.props.handleClick()}>
+//     )
+//   }
+// }
 
-export default ItemsWithData
+
+export default Item

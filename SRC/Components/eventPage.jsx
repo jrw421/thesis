@@ -1,5 +1,5 @@
 import React from 'react'
-import Items from './item.jsx'
+import ItemList from './itemList.jsx'
 import { withRouter } from 'react-router'
 
 class EventPage extends React.Component {
@@ -19,7 +19,7 @@ class EventPage extends React.Component {
           alt=""
         />
         <h1>Your Items</h1>
-        <Items currentEvent={event.id}/>
+        <ItemList currentEvent={event.id}/>
       </div>
     )
   }
