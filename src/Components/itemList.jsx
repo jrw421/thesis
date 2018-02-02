@@ -21,7 +21,7 @@ class ItemList extends React.Component {
     if (this.props.itemsQuery.loading) {
       return null;
     }
-    console.log('Item props', this.props.event.id);
+    console.log('Item props', this.props);
     console.log('USER ISSSS IN ITEM ', this.props.currentUser)
     // console.log('HERE ', this.props.itemsQuery.event.items)
     let items = this.props.itemsQuery.event.items;
@@ -44,6 +44,7 @@ const ITEMS_QUERY = gql `
         items {
           id
           name
+          user_id
         }
     }
   }

@@ -7,7 +7,7 @@ class Item extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      clicked: false
+      clicked: false, guestId: ''
     }
     this.handleItemClick = this.handleItemClick.bind(this)
   }
@@ -29,11 +29,19 @@ class Item extends React.Component {
 
   render() {
     console.log('Item props', this.props);
+    console.log('anything HEREE E ' ,this.props.guestQuery)
+    setTimeout(() => {
+      this.setState({
+        guestId: this.props.guestQuery.user.id
+      }, () => console.log('this is guest id state set timeout', this.state.guestId))
+
+    }, 3000)
+
     const isClicked = this.state.clicked
     return (
       <div style={{"textAlign": "center"}}>
       {isClicked ? (
-        <a onClick={(e) => this.handleItemClick(e)}>{this.props.name} was claimed by {this.props.currentUser.name}</a>
+        <a onClick={(e) => this.handleItemClick(e)}>{this.props.name} was claimed by {this.props.currentUser.name || this.state.guestId}</a>
       ) : (
 
         <a onClick={(e) => this.handleItemClick(e)}>{this.props.name}</a>
@@ -44,18 +52,23 @@ class Item extends React.Component {
 
 }
 
-// class Item extends React.Component {
-//   constructor(props) {
-//     super(props)
-//   }
+const GUEST_QUERY = gql `
+  query guestQuery ($id: String){
+      user(hash: $id) {
+        id
+        # items {
+        #   id
+        #   name
+        #   user_id
+        # }
+    }
+  }
+`
 
+const ItemGuest = graphql(GUEST_QUERY, {
+  skip: (props) => (typeof props.currentUser !== 'string'),
+  options: (props) => ({variables: {id: props.currentUser}}),
+  name: 'guestQuery'
+})(Item)
 
-//   render() {
-//     return (
-//       <li onClick={this.props.handleClick()}>
-//     )
-//   }
-// }
-
-
-export default Item
+export default ItemGuest

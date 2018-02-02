@@ -13,24 +13,27 @@ const tabStyle = {
 
 class Header extends Component {
   render() {
+    console.log('href', window.location.href.substring(21))
+    const href = window.location.href.substring(21)
+
     return (
       <div>
         <AppBar title="Host.ly">
           <Tabs onChange={this.changeTab}>
-            <Tab 
-            value={0} 
+            <Tab
+            value={0}
             label="Dashboard"
-            containerElement={<Link to="/dashboard/0" />}
+            containerElement={<Link to={href} />}
             style={tabStyle}
             />
-            <Tab 
+            <Tab
             value={1}
             label="Create Event"
             containerElement={<Link to="/createEvent" />}
             style={tabStyle}
             />
             <Tab
-              value={2} 
+              value={2}
               label="Logout"
               containerElement={<a href="/auth/logout"/>}
               style={tabStyle}
