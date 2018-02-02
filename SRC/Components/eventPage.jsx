@@ -4,6 +4,8 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class EventPage extends React.Component {
     constructor(props) {
@@ -17,7 +19,7 @@ class EventPage extends React.Component {
     clickAttending() {
       console.log('you is going to the partay')
       this.setState({
-        guests: [...this.state.guests, this.props.currentGuest.name || "YOUR NAME HERE"]
+        guests: [...this.state.guests, this.props.currentGuest.name || "Guest"]
       })
     }
 
@@ -28,11 +30,12 @@ class EventPage extends React.Component {
 
    render() {
     if (this.props.location.state.event === undefined) {
-      // console.log('testing', this.props)
       return null
     } else {
       // console.log('PROPS IN EVENT PAGE ', this.props.currentUser.name)
+      console.log('wooo ', this.props)
       console.log('GUESTS ', this.state.guests)
+
       const event = this.props.location.state.event
       // console.log('event',this.props.location.state.event)
       // console.log('curent Gues ', this.props.location.state.currentGuest)
@@ -40,13 +43,13 @@ class EventPage extends React.Component {
         <div>
         {this.props.location.state.currentGuest ? (
         <div>
-            <div>
-            <button style={{"textAlign": "center", "align":"center"}}
-              onClick={() => this.clickAttending(this.props.currentGuest.name)}
-              >I'll be there</button>
-            <button style={{"textAlign": "center", "align":"center"}}
+            <div style={{"textAlign": "center", "align":"center"}}>
+            <FlatButton style={{"textAlign": "center", "align":"center"}}
+              onClick={() => this.clickAttending(this.props.currentGuest.name)} //this.props.user.name
+              label="I'll be there"/>
+            <FlatButton style={{"textAlign": "center", "align":"center"}}
               onClick={this.clickNotAttending}
-              >Hell nah, I aint coming</button>
+              label="Hell nah, I aint coming"/>
           </div>
 
 
@@ -55,25 +58,26 @@ class EventPage extends React.Component {
               <div className="eventPage">{event.location}</div>
               <div className="eventPage">{event.date}</div>
               <div className="eventPage" >{event.description}</div>
-              <div>
-                <h3>Who's Coming</h3>
+              <div style={{"textAlign": "center", "align":"center"}}>
+                <h2>Who's Coming</h2>
                 <ul>
                     {this.state.guests.map((name) => {
                       return (
-                        <div>
+                        <div style={{"textAlign": "center", "align":"center"}}>
                         <a>{name}</a>
                       </div>
                       )
                     })}
                 </ul>
               </div>
-              <div>
-                <h3>Item Registery</h3>
-                <ItemList currentUser={this.props.currentUser || this.props.location.state.currentGuest} event={this.props.location.state.event}></ItemList>
+              <div style={{"textAlign": "center", "align":"center"}}>
+                <h2>Item Registery</h2>
+                <h3>Click on an item to claim it</h3>
+                <ItemList style={{"textAlign": "center", "align":"center"}} currentUser={this.props.currentUser || this.props.location.state.currentGuest} event={this.props.location.state.event}></ItemList>
                 <ul></ul>
               </div>
               <img
-                style={{"height":"400px", "width": "200px"}}
+                style={{"height":"400px", "width": "400px"}}
                 src={event.img}
                 alt=""
               />
@@ -90,19 +94,20 @@ class EventPage extends React.Component {
           <div className="eventPage">{event.date}</div>
           <div className="eventPage" >{event.description}</div>
           <div>
-            <h3>Who's Coming</h3>
+            <h2>Who's Coming</h2>
             <ul>
               {this.state.guests.map((name) => {
                 return (
                   <div>
-                  <a>{name}</a>
+                  <h3>{name}</h3>
                 </div>
                 )
               })}
             </ul>
           </div>
           <div>
-            <h3>Item Registery</h3>
+            <h2>Item Registery</h2>
+            <h3>Click on an item to claim it</h3>
             <ItemList currentUser={this.props.currentUser || this.props.location.state.currentGuest} event={this.props.location.state.event}></ItemList>
             <ul></ul>
           </div>

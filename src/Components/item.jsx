@@ -28,8 +28,8 @@ class Item extends React.Component {
   }
 
   render() {
-    console.log('Item props', this.props);
-    console.log('anything HEREE E ' ,this.props.guestQuery)
+    // console.log('Item props', this.props);
+    // console.log('anything HEREE E ' ,this.props.guestQuery)
     setTimeout(() => {
       this.setState({
         guestId: this.props.guestQuery.user.id
@@ -39,7 +39,7 @@ class Item extends React.Component {
 
     const isClicked = this.state.clicked
     return (
-      <div style={{"textAlign": "center"}}>
+      <div style={{"textAlign": "center", "align":"center"}}>
       {isClicked ? (
         <a onClick={(e) => this.handleItemClick(e)}>{this.props.name} was claimed by {this.props.currentUser.name || "guest"}</a>
       ) : (
