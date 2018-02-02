@@ -40,6 +40,8 @@ class createEvent extends React.Component {
       description: '',
       currentItem: '',
       items: [],
+      guestName: '',
+      guestEmail: '',
       guests: [],
       hostId: 1,
       uploadedFileCloudinaryUrl: ''
@@ -91,20 +93,35 @@ class createEvent extends React.Component {
         location: this.state.location,
         img: this.state.uploadedFileCloudinaryUrl
       }
-    }).then(event => {
-      console.log('trying to run add items', this.props)
-      console.log('event', event)
+    })
+    .then((event) =>{
+      this.props.addRecipients({
+        variables: {
+          nameEmail: this.state.guests,
+          event_id: event.data.addEvent.id, 
+          user_id: this.props.currentUser.id
+        }
+      })
+    })
+    .then(event => {
       this.props.addItems({
         variables: {
           itemNames: this.state.items,
           eventId: event.data.addEvent.id
         }
-      }).then(items => {
-        console.log('add items has run')
-        this.props.history.push({
-          pathname: '/eventPage/0',
-          state: { event: event.data.addEvent }
-        })
+      }).then(() => {
+        this.props.addRecipients({
+          variables: {
+            nameEmail: this.state.guests,
+            event_id: event.data.addEvent.id, 
+            id: this.props.currentUser.id
+          }
+        }).then(() => {
+          this.props.history.push({
+              pathname: '/eventPage/0',
+              state: { event: event.data.addEvent }
+            })
+          })
       })
     })
     .catch((error) => error)
@@ -163,7 +180,14 @@ class createEvent extends React.Component {
         <TextField value={this.state.location} type="text" placeholder="Where's your party at?" onChange={e => this.setState({ location: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.guests} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guests: e.target.value })}/>
+        <TextField value={this.state.guestName} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guestName: e.target.value })}/>
+        <TextField value={this.state.guestEmail} type="text" placeholder="What is their email?"  onChange={e => this.setState({ guestEmail: e.target.value })} />
+        <FlatButton 
+          label="Add Guest" 
+          value="Add Guest" 
+          type="submit" 
+          onClick={() => {this.addGuest()}}
+          secondary={true} />
         <br></br>
         <br></br>
         <TextField value={this.state.date} type="date" placeholder="What day?" onChange={e => this.setState({ date: e.target.value })}/>
@@ -207,9 +231,8 @@ class createEvent extends React.Component {
 
 }
 
-
 const addEvent = gql`
-mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!, $img: String!){
+mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String!){
   addEvent(name: $name, host_id: $host_id, description: $description, location: $location, img: $img) {
     name
     host_id
@@ -230,9 +253,17 @@ const addItems = gql`
   }
 `
 
+const addRecipients = gql `
+  mutation addRecipients($nameEmail: [String]!,  $event_id: Int, $id: Int){
+  addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id){
+    name
+  }
+}
+`
 const createEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
-  graphql(addItems, { name: 'addItems'})
+  graphql(addItems, { name: 'addItems'}), 
+  graphql(addRecipients, {name: 'addRecipients'})
 )(createEvent)
 
 export default withRouter(createEventWithMutations)
