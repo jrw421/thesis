@@ -5,13 +5,13 @@ import Item from './item.jsx'
 
 class ItemList extends React.Component {
   constructor(props) {
-    super(props)  
+    super(props)
     this.handleItemClick = this.handleItemClick.bind(this)
   }
   handleItemClick = (e) => {
     console.log('item clicked', e.target.textContent);
     //Pass in query to toggle that item that was clicked.
-    
+
   }
 
   render() {
@@ -21,12 +21,15 @@ class ItemList extends React.Component {
     if (this.props.itemsQuery.loading) {
       return null;
     }
-    console.log('Item props', this.props);
+    console.log('Item props', this.props.event.id);
+    console.log('USER ISSSS IN ITEM ', this.props.currentUser)
+    // console.log('HERE ', this.props.itemsQuery.event.items)
     let items = this.props.itemsQuery.event.items;
+    // let id = this.props.event.id;
     return(
       <ul>
     {items.map( (item, i)  => {
-        return <Item name={item.name} key={item.id} handleItemClick={this.handleItemClick} />
+        return <Item name={item.name} key={item.id} handleItemClick={this.handleItemClick} currentUser={this.props.currentUser} />
         // return null
       })}
       </ul>
@@ -47,7 +50,7 @@ const ITEMS_QUERY = gql `
 `
 
 const ItemsWithData = graphql(ITEMS_QUERY, {
-  options: (props) => ({variables: {id: props.currentEvent}}),
+  options: (props) => ({variables: {id: props.event.id}}),
   name: 'itemsQuery'
 })(ItemList)
 
