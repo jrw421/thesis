@@ -21,7 +21,7 @@ class EventList extends React.Component {
 
     changeEventBack = () => {
         let events = this.props.events;
-        this.setSTate({
+        this.setState({
             currentEvent: (this.state.currentEvent - 1) % events.length
         })
     }
@@ -30,7 +30,7 @@ class EventList extends React.Component {
         const item = this.props.events[this.state.currentEvent];
         return (
             <div>
-                {(this.props.events.length === 0) && 
+                {(this.props.events.length === 0) &&
                     <h3 style={{"textAlign": "center"}}>No events here brah!</h3>
                 }
                 <div className="pics" style={{"textAlign": "center"}}>
@@ -59,4 +59,3 @@ class EventList extends React.Component {
 
 
 export default EventList
-
