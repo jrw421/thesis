@@ -16,14 +16,14 @@ class Dashboard extends React.Component {
 
   handleEventClick = (event) => {
     this.props.history.push({
-      pathname: '/eventPage',
+      pathname: '/eventPage/0',
       state: { event }
     })
   }
 
 
   render() {
-    console.log('<3', this.props)
+    // console.log('<3', this.props)
     if (this.props.eventQuery) {
           console.log('query results ', this.props.eventQuery)
       if (this.props.eventQuery.error) {
@@ -34,10 +34,15 @@ class Dashboard extends React.Component {
       }
 
       let event = this.props.eventQuery.user.guestEvent
+      let currentGuest = this.props.currentGuest.params.id
+      let currentUser = undefined
+
+
       this.props.history.push({
-        pathname: '/eventPage',
-        state: { event }
+        pathname: '/eventPage/' + currentGuest,
+        state: { event, currentGuest, currentUser}
       })
+            return null
 
     }
 
@@ -88,6 +93,7 @@ const DASHBOARD_QUERY2 = gql `
   query eventQuery($id: String){
     user (hash: $id){
       guestEvent{
+        id
          name
          description
          img
@@ -135,15 +141,15 @@ const DASHBOARD_QUERY = gql `
 
 const DashboardWithData = compose(
   graphql(DASHBOARD_QUERY2, {
-  skip: (props) => (props.currentGuest.params.id === '0'), 
+  skip: (props) => (props.currentGuest.params.id === '0'),
   options: (props) => {
     return ({variables: {id: props.currentGuest.params.id}})
   },
   name: 'eventQuery'
 }),
   graphql(DASHBOARD_QUERY, {
-  skip: (props) => (props.currentUser === undefined),
-  options: (props) => ({variables: {id: (props.currentUser === undefined || props.currentUser === null) ? 22 : props.currentUser.id}}),
+  skip: (props) => (props.currentUser === undefined || props.currentUser === null),
+  options: (props) => ({variables: {id: props.currentUser.id}}),
   name: 'dashboardQuery'
 }))(Dashboard)
 
