@@ -12,6 +12,24 @@ itemController = {
 			.then(item => item.attributes)
 			.catch(error => error)
 	}, 
+	addMultiple : function(body){
+		console.log('body in addMultiple', body)
+		for (let i = 0; i < body.name.length; i++) {
+			const newItem = new Item({
+				name: body.name[i],
+				event_id: body.eventId
+			})
+
+			if (i === body.name.length - 1) {
+				return newItem.save().then(() => {
+					console.log('body.eventId', body.eventId)
+					return knex.select('*').from('item').where('event_id', body.eventId)
+				})
+			} else {
+				newItem.save()
+			}
+		}
+	},
 	getItem: function(id) {
 		return knex.select('*').from('item').where('id', id)
 	},
@@ -52,6 +70,5 @@ itemController = {
 		return knex('item').where('id', id).update(field, newValue)
 	}
 }
-
 
 module.exports = itemController

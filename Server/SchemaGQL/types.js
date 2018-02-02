@@ -66,6 +66,19 @@ const ItemType = new GraphQLObjectType({
  })
 })
 
+const ItemsType = new GraphQLObjectType({
+  name: 'Items',
+  fields: () => ({
+    event_id: { type: GraphQLInt },
+    items: { type: GraphQLList(ItemType)}
+  }),
+  resolve(parentValue, args) {
+    return db.item.getItemsByEventId(parentValue.event_id)
+    .then(item => item)
+  },
+  
+})
+
 const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
@@ -115,4 +128,4 @@ const UserType = new GraphQLObjectType({
 
 
 
-module.exports = {EventType, UserType, ItemType}
+module.exports = {EventType, UserType, ItemType, ItemsType}

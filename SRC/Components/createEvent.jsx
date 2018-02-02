@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
@@ -83,7 +83,7 @@ class createEvent extends React.Component {
 
   submitForm = () => {
     const {  eventTitle, location, date, time, description } = this.state
-    this.props.mutate({
+    this.props.addEvent({
       variables: {
         name: this.state.name,
         host_id: this.props.currentUser.id,
@@ -91,11 +91,20 @@ class createEvent extends React.Component {
         location: this.state.location,
         img: this.state.uploadedFileCloudinaryUrl
       }
-    })
-    .then(event => {
-      this.props.history.push({
-        pathname: '/eventPage',
-        state: { event: event.data }
+    }).then(event => {
+      console.log('trying to run add items', this.props)
+      console.log('event', event)
+      this.props.addItems({
+        variables: {
+          itemNames: this.state.items,
+          eventId: event.data.addEvent.id
+        }
+      }).then(items => {
+        console.log('add items has run')
+        this.props.history.push({
+          pathname: '/eventPage/0',
+          state: { event: event.data.addEvent }
+        })
       })
     })
     .catch((error) => error)
@@ -125,7 +134,7 @@ class createEvent extends React.Component {
 
         <div>
         {/* <form onSubmit={this.onSubmit}> */}
-        <TextField value={this.state.name} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ event: e.target.value })}/>
+        <TextField value={this.state.name} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ name: e.target.value })}/>
         <br></br>
         <br></br>
         <div style={dropzoneStyle}>
@@ -199,7 +208,7 @@ class createEvent extends React.Component {
 }
 
 
-const mutation = gql`
+const addEvent = gql`
 mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!, $img: String!){
   addEvent(name: $name, host_id: $host_id, description: $description, location: $location, img: $img) {
     name
@@ -207,10 +216,23 @@ mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $locatio
     description
     location
     img
+    id
   }
 }`
 
+const addItems = gql`
+  mutation addItems($itemNames: [String]!, $eventId: Int!){
+    addItems(itemNames: $itemNames, eventId: $eventId){
+      items {
+        id
+      }
+    }
+  }
+`
 
-let createEventWithData = graphql(mutation)(createEvent)
+const createEventWithMutations = compose(
+  graphql(addEvent, { name: 'addEvent' }),
+  graphql(addItems, { name: 'addItems'})
+)(createEvent)
 
-export default withRouter(createEventWithData)
+export default withRouter(createEventWithMutations)
