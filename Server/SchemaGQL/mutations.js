@@ -139,7 +139,10 @@ const mutations = new GraphQLObjectType({
         name: args.itemNames,
         eventId: args.eventId
       }).then(() => {
-      return db.item.getItemsByEventId(args.eventId)
+      return db.item.getItemsByEventId(args.eventId).then( x => {
+        console.log('x',x, x[0].event_id)
+        return x[0].event_id
+      })
       })
     }
     // items: {
@@ -147,7 +150,7 @@ const mutations = new GraphQLObjectType({
     //   resolve(parentValue, args){
     //     return db.item.getItemsByEventId(args.eventId)
     //   }
-    }
+    },
 
   addRecipients: {
     type: new GraphQLList(UserType), 
@@ -163,21 +166,14 @@ const mutations = new GraphQLObjectType({
           let arr = n.split('*')
           return [arr[0], arr[1]]
         })
-        console.log('user and guests', user, guests)
 
         return sendMessage(guests, user, args.event_id)
       }).catch(x => console.log(x))
       
     }
-
   }
-}
+  }
 })
-
-
-
-
-
 
 
 module.exports = mutations;

@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios'
 
 
+
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { withRouter } from 'react-router';
@@ -27,8 +28,6 @@ const imageStyle = {
   margin: 'auto'
 }
 
-
-
 class createEvent extends React.Component {
   constructor(props) {
     super(props);
@@ -47,12 +46,11 @@ class createEvent extends React.Component {
       uploadedFileCloudinaryUrl: ''
     }
 
-
-
     //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
     //this.onSubmit = this.onSubmit(this)
     this.submitForm = this.submitForm.bind(this)
+    this.addGuests = this.addGuests.bind(this)
   }
 
   onImageDrop(files) {
@@ -83,6 +81,12 @@ class createEvent extends React.Component {
 
   }
 
+  addGuest(){
+    this.setState({
+      guests: this.state.guests.concat([this.state.guestName + '*' + this.state.guestEmail])
+    })
+  }
+
   submitForm = () => {
     const {  eventTitle, location, date, time, description } = this.state
     this.props.addEvent({
@@ -93,17 +97,7 @@ class createEvent extends React.Component {
         location: this.state.location,
         img: this.state.uploadedFileCloudinaryUrl
       }
-    })
-    .then((event) =>{
-      this.props.addRecipients({
-        variables: {
-          nameEmail: this.state.guests,
-          event_id: event.data.addEvent.id, 
-          user_id: this.props.currentUser.id
-        }
-      })
-    })
-    .then(event => {
+    }).then(event => {
       this.props.addItems({
         variables: {
           itemNames: this.state.items,
@@ -122,10 +116,11 @@ class createEvent extends React.Component {
               state: { event: event.data.addEvent }
             })
           })
+         })
       })
-    })
     .catch((error) => error)
   }
+  
 
   onClick() {
     submitEvent(e)
@@ -265,5 +260,7 @@ const createEventWithMutations = compose(
   graphql(addItems, { name: 'addItems'}), 
   graphql(addRecipients, {name: 'addRecipients'})
 )(createEvent)
+
+
 
 export default withRouter(createEventWithMutations)

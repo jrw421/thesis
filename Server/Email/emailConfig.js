@@ -61,7 +61,7 @@ const sendMessage = function(recipients, account, event_id){
 	      if (error) {
 	        return console.log('send mail error', error);
 	      }
-	      console.log('Message sent. Response Info:  ', info);
+	      return knex.select('*').from('event').where('id', event_id).then(x => x[0])
 	  });
 	})
 }
