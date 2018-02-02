@@ -7,7 +7,6 @@ userController = {
 		return knex.select('*').from('user').where('google_id', body.google_id)
 			.then((profileCheck) => {
 				if (profileCheck.length > 0) {
-					console.log('FUCK YOU', body.google_id)
 					var updates = {email: body.email, accessToken: body.accessToken, refreshToken: body.refreshToken}
 					return this.editFields(profileCheck[0].id, updates).then(() => this.getUser(null, body.google_id)).catch(x => console.log(err))
 				} else {
@@ -56,7 +55,7 @@ userController = {
 	editField: function(id, field, newValue){
 
 		return knex('user').where('id', id).update(field, newValue)
-	}, 
+	},
 	editFields: function(id, obj){
 				console.log('fuckkkkkkk uuuuuuuuuuuuuu', obj )
 		return knex('user').where('id', id).update(obj)

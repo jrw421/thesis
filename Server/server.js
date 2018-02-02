@@ -27,6 +27,8 @@ app.use(cookieSession({
   keys: ['asdfjkls']
 }))
 
+app.use(bodyParser.json({extended: true}))
+
 /////////
 // initialize passport
 app.use(passport.initialize())
@@ -46,18 +48,38 @@ app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../Pub
 
 //contacts///
 
-app.get('/contacts:id', function(req, res) {
-  console.log('id ', req.params.id)
+// app.get('/contacts/:id', function(req, res) {
+//   console.log('id ', req.params.id)
+//
+//   knex.select('accessToken').from('user').where('id', 24)
+//     .then((res) => {
+//       console.log('what is res ', res[0].accessToken)
+//
+//       axios.get('https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' + res[0].accessToken)
+//       .then((response) => console.log('response is ', response.data.feed.entry))//console.log('response ', response.data.feed.entry))
+//       .catch((err) => console.log('err in get'))
+//     })
+// });
 
-  knex.select('accessToken').from('user').where('id', 1)
-    .then((res) => {
-      console.log('res ', res)
-    })
-
-  axios.get('https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' + accessToken)
-  .then((response) => console.log('resonse ', response.data.feed.entry))
-  .catch((err) => console.log('err in get ', err))
-});
+// app.get('/test', function(req, res) {
+//   axios.get('https://localhost:4000/oauth/token', {
+//     headers: {'content-type': 'application/json'},
+//     body: {
+//       grant_type: 'refresh_token',
+//       client_id: '571244561845-vl8oue7ljre4h8s1tq375bbki1ni92ih.apps.googleusercontent.com',
+//       refresh_token: req.user.refreshToken,
+//       client_secret: '9YU-utvsFSsdb2mgR_wHCC3z',
+//     },
+//     json: true
+//   })
+//     .then(data => console.log(data))
+//     .catch(err => console.log(err))
+// })
+//
+// $.getJSON('https://www.google.com/m8/feeds/contacts/default/full/?access_token=' +
+//       res[0].accessToken + "&alt=json&callback=?", function(result){
+//          console.log(JSON.stringify(result));
+//     });
 //
 //   function fetch(accessToken) {
 //     ajax({
