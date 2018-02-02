@@ -49,7 +49,7 @@ userController = {
 	editField: function(id, field, newValue){
 
 		return knex('user').where('id', id).update(field, newValue)
-	}, 
+	},
 	editFields: function(id, obj){
 		return knex('user').where('id', id).update(obj)
 	}

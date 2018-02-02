@@ -27,6 +27,8 @@ app.use(cookieSession({
   keys: ['asdfjkls']
 }))
 
+app.use(bodyParser.json({extended: true}))
+
 /////////
 // initialize passport
 app.use(passport.initialize())
