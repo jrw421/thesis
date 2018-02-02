@@ -25,7 +25,6 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/user')
           .then(data => {
-            
             this.setState({
               currentUser: data.data.user || null
             })
@@ -72,7 +71,6 @@ class App extends React.Component {
   //   }
   // }
   render() {
-    console.log('sup')
     if (this.state.currentUser === undefined) {
       return <div>wait</div>
     } else {

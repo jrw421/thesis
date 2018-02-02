@@ -23,9 +23,7 @@ class Dashboard extends React.Component {
 
 
   render() {
-    console.log('<3', this.props)
     if (this.props.eventQuery) {
-          console.log('query results ', this.props.eventQuery)
       if (this.props.eventQuery.error) {
          return <div>Error1</div>
       }
@@ -42,7 +40,6 @@ class Dashboard extends React.Component {
     }
 
     if (this.props.dashboardQuery){
-      console.log('query results ', this.props.dashboardQuery)
        if (this.props.dashboardQuery.error) {
         return <div>Error2</div>
        }
