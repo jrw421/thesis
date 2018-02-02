@@ -18,62 +18,35 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentUser: undefined
+      currentUser: undefined,
+      contacts: []
     }
   }
 
   componentWillMount() {
     axios.get('/user')
-          .then(data => {
-            this.setState({
-              currentUser: data.data.user
-            })
-          })
-          .catch(error => {
-            console.log(error)
-          })
+      .then(data => {
+        console.log('data EMERGERD ', data.data)
+        this.setState({
+          currentUser: data.data.user
+        })
 
-    // axios.get('/contacts')
-    //     .then(data => {
-    //       console.log('contact data ?' , data)
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    // checkAuth()
-    // handleAuthResult()
+        // axios.get('/test', {"access": data.data.user.accessToken})
+        //   .then(data => {console.log('did we get it back', data)})
+        //   .catch(err => {console.log('err', err)})
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
   }
 
-  // $(document).on('click', '.js-google_contacts', function() {
-  //   gapi.client.setApiKey(apiKey);
-  //   window.setTimeout(checkAuth, 3);
-  // });
 
-  // function checkAuth() {
-  //   var clientId = '571244561845-vl8oue7ljre4h8s1tq375bbki1ni92ih.apps.googleusercontent.com';
-  //   var apiKey = 'AIzaSyDY6W23xMu7ct8KPcCnM-7HD_DiqgK0XI0';
-  //   var scopes = 'https://www.google.com/m8/feeds';
-  //
-  //   gapi.auth.authorize({
-  //     client_id: clientId,
-  //     scope: scopes,
-  //     immediate: false
-  //   }, handleAuthResult);
-  // }
-  //
-  // function handleAuthResult(authResult) {
-  //   if (authResult && !authResult.error) {
-  //     $.get('https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' +
-  //     authResult.access_token + '&max-results=700&v=3.0',
-  //     function(response) {
-  //       console.log(response)
-  //     });
-  //   }
-  // }
   render() {
-    if (this.state.currentUser === undefined ) {
+    if (this.state.currentUser === undefined) {
       return null
     } else {
+      console.log('contacts ', this.state.contacts)
       return (
         <MuiThemeProvider>
         <div>
