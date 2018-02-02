@@ -1,9 +1,11 @@
 const graphql = require('graphql')
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLInt, GraphQLList } = graphql;
 const UserType = require('./types').UserType
 const EventType = require('./types').EventType;
 const ItemType = require('./types').ItemType;
 const db = require('../ControllersDB/mainController.js');
+const {generateID, transporter, sendMessage} = require('../Email/emailConfig.js')
+const knex = require('../dbConfig.js').knex
 
 
 const mutations = new GraphQLObjectType({
@@ -122,6 +124,28 @@ const mutations = new GraphQLObjectType({
       .then(item => item)
       .catch(error => error)
     }
+  },
+  addRecipients: {
+    type: new GraphQLList(UserType), 
+    args: {
+      nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) }, 
+      id: { type: GraphQLInt },
+      event_id: { type: GraphQLInt }
+    },  
+    resolve(parentValues, args){
+      return knex.select('*').from('user').where('id', args.id).then(res => {
+        let user = res[0]
+        let guests = args.nameEmail.map(n => {
+          let arr = n.split('*')
+          return [arr[0], arr[1]]
+        })
+        console.log('user and guests', user, guests)
+
+        return sendMessage(guests, user, args.event_id)
+      }).catch(x => console.log(x))
+      
+    }
+
   }
 }
 })

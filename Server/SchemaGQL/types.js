@@ -81,6 +81,8 @@ const UserType = new GraphQLObjectType({
     refreshToken: {type: GraphQLString},
     hash: {type: GraphQLString}, 
     guest_event_id: {type: GraphQLInt},
+    nameEmail: {type: GraphQLString},
+    event_id: {type: GraphQLInt},
     hostedEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args){

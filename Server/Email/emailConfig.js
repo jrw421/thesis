@@ -3,13 +3,16 @@ const knex = require('../dbConfig.js').knex
 const User = require('../ModelsDB/user.js')
 const nodemailer = require('nodemailer');
 
-const generateID = function(eventId){
+
+
+const generateID = function(eventId, name){
 	let id = crypto.randomBytes(20).toString('hex')
 	return knex.select('*').from('user').where('id', id).then((data) => {
 		if(data.length){
 			generateID()
 		} else {
 			const newUser = new User({
+						name: name,
 						hash: id,
 						member_status: 0, 
 						guest_event_id: eventId
@@ -31,22 +34,22 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-let acc = {
-	name: 'Christine Mourani', 
-	email: 'christinemourani@gmail.com', 
-	accessToken: 'ya29.GltVBclcSHK--wsUhoOrVbcWddkaD0pac85hZAgjfn2e3cw9Wqz4liREkFFlBT9bRQx1mVC5A1L5tK51qLFgcYp7ijg3PdLtZqcY_T61xnudJxHjeC6YmDC2m6rh'
-}
+// let acc = {
+// 	name: 'Christine Mourani', 
+// 	email: 'christinemourani@gmail.com', 
+// 	accessToken: 'ya29.GlxVBaL0zFl_2VHN5k9HO5_ycVHVvo6-O7rWUsxTfXdvm4MTNr-x34uDTcG0799RW2ESpe5wTAOOIHdJAIsj75Xui2zRTJO8aXe8dOFm2cjlHAmZCUAuE1xrcI44Zw'
+// }
 
-let rec = ['jess.wolvington@gmail.com']
+// let rec = ['jessica.wolvington@gmail.com']
 
 const sendMessage = function(recipients, account, event_id){
-	recipients.forEach(async email => {
-		var id = await generateID(event_id)
+	recipients.forEach(async guest => {
+		var id = await generateID(event_id, guest[0])
 		let mailOptions = {
       from: `${account.name} <${account.email}>`, 
-      to: email, 
+      to: `${guest[0]} <${guest[1]}>`, 
       subject: `${account.name} just invited you to their event!`, 
-      html: `<span>Click <a href="http://localhost:4000/dashboard/${id}">here</a> to check out the event page!</span>`,
+      html: `<span>Hey ${guest[0]}, click <a href="http://localhost:4000/dashboard/${id}">here</a> to check out the event page!</span>`,
       auth: {
       	user: account.email, 
       	accessToken: account.accessToken,
@@ -63,4 +66,4 @@ const sendMessage = function(recipients, account, event_id){
 	})
 }
 
-sendMessage(rec, acc, 2)
+module.exports = {generateID, transporter, sendMessage}

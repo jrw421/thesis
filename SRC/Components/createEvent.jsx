@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
@@ -40,6 +40,7 @@ class createEvent extends React.Component {
       description: '',
       currentItem: '',
       items: [],
+      guestName: '',
       guests: [],
       hostId: 1,
       uploadedFileCloudinaryUrl: ''
@@ -83,7 +84,7 @@ class createEvent extends React.Component {
 
   submitForm = () => {
     const {  eventTitle, location, date, time, description } = this.state
-    this.props.mutate({
+    this.props.addEvent({
       variables: {
         name: this.state.name,
         host_id: this.props.currentUser.id,
@@ -91,6 +92,15 @@ class createEvent extends React.Component {
         location: this.state.location,
         img: this.state.uploadedFileCloudinaryUrl
       }
+    })
+    .then((event) =>{
+      this.props.addRecipients({
+        variables: {
+          nameEmail: this.state.guests,
+          event_id: event.data.addEvent.id, 
+          user_id: this.props.currentUser.id
+        }
+      })
     })
     .then(event => {
       this.props.history.push({
@@ -154,7 +164,8 @@ class createEvent extends React.Component {
         <TextField value={this.state.location} type="text" placeholder="Where's your party at?" onChange={e => this.setState({ location: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.guests} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guests: e.target.value })}/>
+        <TextField value={this.state.guests.names} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guestName: e.target.value })}/>
+        <TextField value={this.state.guests.emails} type="text" placeholder="What is their email?" onSubmit={e => this.setState({ guests: this.state.guests.concat([e.target.value + '*' + this.state.guestName])})}/>
         <br></br>
         <br></br>
         <TextField value={this.state.date} type="date" placeholder="What day?" onChange={e => this.setState({ date: e.target.value })}/>
@@ -199,7 +210,8 @@ class createEvent extends React.Component {
 }
 
 
-const mutation = gql`
+
+const addEvent = gql`
 mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!, $img: String!){
   addEvent(name: $name, host_id: $host_id, description: $description, location: $location, img: $img) {
     name
@@ -211,6 +223,16 @@ mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $locatio
 }`
 
 
-let createEventWithData = graphql(mutation)(createEvent)
+const addRecipients = gql ` AddRecipients($nameEmail: [String]!,  $event_id: Int, $id: Int){
+  addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id){
+    name
+  }
+}
+`
+
+
+let createEventWithData = compose(
+  graphql(addEvent, {name: 'addEvent'}),
+  graphql(addRecipients, {name: 'addEvent'}))(createEvent)
 
 export default withRouter(createEventWithData)
