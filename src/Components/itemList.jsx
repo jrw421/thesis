@@ -29,7 +29,7 @@ class ItemList extends React.Component {
     return(
       <ul>
     {items.map( (item, i)  => {
-        return <Item name={item.name} key={item.id} handleItemClick={this.handleItemClick} />
+        return <Item name={item.name} key={item.id} handleItemClick={this.handleItemClick} currentUser={this.props.currentUser} />
         // return null
       })}
       </ul>
