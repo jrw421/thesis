@@ -41,7 +41,7 @@ class Item extends React.Component {
     return (
       <div style={{"textAlign": "center"}}>
       {isClicked ? (
-        <a onClick={(e) => this.handleItemClick(e)}>{this.props.name} was claimed by {this.props.currentUser.name || this.state.guestId}</a>
+        <a onClick={(e) => this.handleItemClick(e)}>{this.props.name} was claimed by {this.props.currentUser.name || "guest"}</a>
       ) : (
 
         <a onClick={(e) => this.handleItemClick(e)}>{this.props.name}</a>
