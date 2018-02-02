@@ -10,9 +10,10 @@ eventController = {
   		description: body.description,
       date: body.date,
       location: body.location,
-      // img: body.img
+      img: body.img
   	})
 		 var result = await newEvent.save()
+		 console.log('this is the result', result)
 		 return result.attributes
 	},
 	getHostedEvents : function(user_id){

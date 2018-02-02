@@ -78,7 +78,8 @@ class createEvent extends React.Component {
         name: this.state.name,
         host_id: this.props.currentUser.id,
         description: this.state.description,
-        location: this.state.location
+        location: this.state.location,
+        img: this.state.uploadedFileCloudinaryUrl
       }
     })
     .then(event => {
@@ -114,7 +115,7 @@ class createEvent extends React.Component {
 
         <div>
         {/* <form onSubmit={this.onSubmit}> */}
-        <TextField value={this.state.eventTitle} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ eventTitle: e.target.value })}/>
+        <TextField value={this.state.name} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ event: e.target.value })}/>
         <br></br>
         <br></br>
         <div style={dropzoneStyle}>
@@ -186,12 +187,13 @@ class createEvent extends React.Component {
 
 
 const mutation = gql`
-mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!){
-  addEvent(name: $name, host_id: $host_id, description: $description, location: $location) {
+mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!, $img: String!){
+  addEvent(name: $name, host_id: $host_id, description: $description, location: $location, img: $img) {
     name
     host_id
     description
     location
+    img
   }
 }`
 
