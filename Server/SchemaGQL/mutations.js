@@ -1,8 +1,9 @@
 const graphql = require('graphql')
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLInt, GraphQLList } = graphql;
 const UserType = require('./types').UserType
 const EventType = require('./types').EventType;
 const ItemType = require('./types').ItemType;
+const ItemsType = require('./types').ItemsType;
 const db = require('../ControllersDB/mainController.js');
 
 
@@ -122,7 +123,29 @@ const mutations = new GraphQLObjectType({
       .then(item => item)
       .catch(error => error)
     }
-  }
+  },
+  addItems: {
+    type: new GraphQLList(ItemsType),
+    args: {
+      itemNames: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
+      eventId: { type: new GraphQLNonNull(GraphQLInt)  }
+    },
+    resolve(parentValues, args) {
+      console.log('args in mutations', args)
+      return db.item.addMultiple({
+        name: args.itemNames,
+        eventId: args.eventId
+      }).then(() => {
+      return db.item.getItemsByEventId(args.eventId)
+      })
+    }
+    // items: {
+    //   type: new GraphQLList(ItemType),
+    //   resolve(parentValue, args){
+    //     return db.item.getItemsByEventId(args.eventId)
+    //   }
+    }
+
 }
 })
 

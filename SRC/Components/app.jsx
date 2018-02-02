@@ -3,7 +3,7 @@ import Header from './header.jsx'
 //import Dashboard from './dashboard.jsx'
 import DashboardWithData from './dashboard.jsx'
 import EventPage from './eventPage.jsx'
-import CreateEventWithData from './createEvent.jsx'
+import CreateEventWithMutations from './createEvent.jsx'
 // import MuiThemeProvider from 'material-ui/styles'
 import { Switch, Route, browserHistory } from 'react-router-dom'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
