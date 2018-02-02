@@ -10,13 +10,14 @@ router.get('/logout', (req, res) => {
 
 // auth with google
 router.get('/google', passport.authenticate('google', {
-  scope: ['profile', 'https://www.google.com/m8/feeds/contacts']
+  scope: ['profile', 'email', 'https://mail.google.com/', 'https://www.google.com/m8/feeds/contacts']
 }))
 
 // callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+	console.log('helllloooo')
   // res.send('you reached the callback URI')
-  res.redirect('/dashboard')
+  res.redirect('/dashboard/0')
 })
 
 module.exports = router;

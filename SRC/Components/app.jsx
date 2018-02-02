@@ -25,8 +25,9 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/user')
           .then(data => {
+            
             this.setState({
-              currentUser: data.data.user
+              currentUser: data.data.user || null
             })
           })
           .catch(error => {
@@ -71,8 +72,9 @@ class App extends React.Component {
   //   }
   // }
   render() {
-    if (this.state.currentUser === undefined ) {
-      return null
+    console.log('sup')
+    if (this.state.currentUser === undefined) {
+      return <div>wait</div>
     } else {
       return (
         <MuiThemeProvider>
@@ -80,7 +82,7 @@ class App extends React.Component {
           <Header />
           <div>
             <Switch>
-              <Route exact path="/dashboard" render={() => <DashboardWithData history={browserHistory} currentUser={this.state.currentUser} />}/>
+              <Route path="/dashboard/:id" render={({match}) => <DashboardWithData history={browserHistory} currentUser={this.state.currentUser} currentGuest={match}/>}/> 
               <Route path="/eventPage" render={() => <EventPage currentUser={this.state.currentUser} />}/>
               <Route path="/createEvent" render={() => <CreateEventWithData currentUser={this.state.currentUser} />}/>
             </Switch>

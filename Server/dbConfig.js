@@ -23,6 +23,8 @@ knex.schema.hasTable('user').then(function(exists){
             table.integer('member_status');
             table.string('accessToken', 200);
             table.string('refreshToken', 200);
+            table.string('hash', 200);
+            table.integer('guest_event_id');
         }).then((res) => {console.log(res)}).catch((err) => {console.log(err)})
     }
 }).catch((err) => {

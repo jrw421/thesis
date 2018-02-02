@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
+import axios from 'axios'
+
 
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
@@ -42,6 +44,7 @@ class createEvent extends React.Component {
       hostId: 1,
       uploadedFileCloudinaryUrl: ''
     }
+
 
 
     //this.onChange = this.onChange.bind(this)
@@ -178,6 +181,7 @@ class createEvent extends React.Component {
         <br></br>
         <br></br>
 
+
         <FlatButton 
           label="Submit" 
           value="Submit" 
@@ -187,6 +191,7 @@ class createEvent extends React.Component {
 
 
           </div>
+
       </div>
     )
   }

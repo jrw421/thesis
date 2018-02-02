@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 
 // create private route
 app.use('/', express.static(path.join(__dirname, '../PublicProtected')))
-app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../Public')))
+app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../Public')))
 
 //contacts///
 
@@ -74,11 +74,12 @@ app.get('/contacts:id', function(req, res) {
 // })
 
 app.get('/user', function(req, res) {
-  // console.log('what is req ', req.user)
+console.log('tell me whyyyyyyyyyy aint nothing but a heartbreak', req.user)
   if (req.user === undefined) {
       // The user is not logged in
       res.json({});
   } else {
+    console.log('j', req.user)
       res.json({
           user: req.user
       });
@@ -86,22 +87,6 @@ app.get('/user', function(req, res) {
 });
 
 
-/////////////////////
-
-app.get('/emails', function(req, res){
-  console.log('inside emails route')
-  console.log('req', req, 'json', req._json, 'emails', req)
-  res.end()
-  // axios.get('https://www.google.com/m8/feeds/contacts/3van90@gmail.com/full')
-  //     .then(data => {
-  //       console.log('data', data)
-  //       res.end(data)
-  //     })
-  //     .catch(error => {
-  //       console.log('error', error)
-  //       res.end(error)
-  //     })
-})
 
 
 // graphql //
