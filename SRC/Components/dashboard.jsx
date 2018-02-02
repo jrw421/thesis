@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
         pathname: '/eventPage/' + currentGuest,
         state: { event, currentGuest, currentUser}
       })
-            return null
+        return null
 
     }
 
