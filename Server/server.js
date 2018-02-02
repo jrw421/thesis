@@ -105,6 +105,7 @@ app.use('/graphql', expressGraphQL({
 
 app.post('/', (req, res, next) => {
   graphql(schema, req.body).then((result) => {
+    console.log('inside post', req.body)
     res.send(result);
   });
 });
