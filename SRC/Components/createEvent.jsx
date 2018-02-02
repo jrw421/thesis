@@ -102,7 +102,7 @@ class createEvent extends React.Component {
       }).then(items => {
         console.log('add items has run')
         this.props.history.push({
-          pathname: '/eventPage',
+          pathname: '/eventPage/0',
           state: { event: event.data.addEvent }
         })
       })

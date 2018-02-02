@@ -13,8 +13,8 @@ const tabStyle = {
 
 class Header extends Component {
   render() {
-    console.log('href', window.location.href.substring(21))
-    const href = window.location.href.substring(21)
+    console.log('href', window.location.href.substring(31))
+    const href = "/dashboard" + window.location.href.substring(31)
 
     return (
       <div>
@@ -23,7 +23,7 @@ class Header extends Component {
             <Tab
             value={0}
             label="Dashboard"
-            containerElement={<Link to={href} />}
+            containerElement={<Link to={href}/>}
             style={tabStyle}
             />
             <Tab

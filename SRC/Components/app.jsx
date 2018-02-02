@@ -50,7 +50,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/dashboard/:id" render={({match}) => <DashboardWithData history={browserHistory} currentUser={this.state.currentUser} currentGuest={match}/>}/>
               <Route path="/eventPage/:id" render={({match}) => <EventPage currentUser={this.state.currentUser} currentGuest={match}/>}/>
-              <Route path="/createEvent" render={() => <CreateEventWithData currentUser={this.state.currentUser} />}/>
+              <Route path="/createEvent" render={() => <CreateEventWithMutations currentUser={this.state.currentUser} />}/>
             </Switch>
           </div>
         </div>
