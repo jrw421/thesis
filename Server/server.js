@@ -50,7 +50,7 @@ app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../Pub
 
 app.get('/contacts:id', function(req, res) {
 
-  knex.select('accessToken').from('user').where('id', 1)
+  knex.select('accessToken').from('user').where('id', 24)
     .then((res) => {
       console.log('res ', res)
     })
