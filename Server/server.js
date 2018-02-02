@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 
 // create private route
 app.use('/', express.static(path.join(__dirname, '../PublicProtected')))
-app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../Public')))
+app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../Public')))
 
 //contacts///
 
@@ -74,16 +74,20 @@ app.get('/contacts:id', function(req, res) {
 // })
 
 app.get('/user', function(req, res) {
-  // console.log('what is req ', req.user)
+console.log('tell me whyyyyyyyyyy aint nothing but a heartbreak', req.user)
   if (req.user === undefined) {
       // The user is not logged in
       res.json({});
   } else {
+    console.log('j', req.user)
       res.json({
           user: req.user
       });
   }
 });
+
+
+
 
 // graphql //
 ////////////

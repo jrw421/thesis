@@ -8,7 +8,8 @@ const db = require('../ControllersDB/mainController.js')
 const {
   GraphQLInt,
   GraphQLObjectType,
-  GraphQLList
+  GraphQLList, 
+  GraphQLString
 } = graphql;
 
 
@@ -29,10 +30,12 @@ const RootQueryType = new GraphQLObjectType({
       },
     user: {
       type: UserType,
-      args: { id: { type: GraphQLInt } },
+      args: { id: { type: GraphQLInt }, 
+              google_id: {type: GraphQLInt},
+              hash: {type: GraphQLString} },
       resolve: (parentValue, args) => {
         console.log('getting user with id', args)
-        return db.user.getUser(args.id)
+        return db.user.getUser(args.id, args.google_id, args.hash)
       }
     },
     events: {
