@@ -22,15 +22,16 @@ class ItemList extends React.Component {
       return null;
     }
     console.log('Item props', this.props.event.id);
-    // let items = this.props.itemsQuery.event.items;
+    console.log('USER ISSSS IN ITEM ', this.props.currentUser)
+    // console.log('HERE ', this.props.itemsQuery.event.items)
+    let items = this.props.itemsQuery.event.items;
     // let id = this.props.event.id;
-
     return(
       <ul>
-    {/* {items.map( (item, i)  => {
+    {items.map( (item, i)  => {
         return <Item name={item.name} key={item.id} handleItemClick={this.handleItemClick} />
         // return null
-      })} */}
+      })}
       </ul>
     )
   }

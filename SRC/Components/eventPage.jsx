@@ -24,7 +24,7 @@ class EventPage extends React.Component {
           </div>
           <div>
             <h3>Item Registery</h3>
-            <ItemList event={this.props.location.state.event}></ItemList>
+            <ItemList currentUser={this.props.currentUser} event={this.props.location.state.event}></ItemList>
             <ul></ul>
           </div>
           <img
