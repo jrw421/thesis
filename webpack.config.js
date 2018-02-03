@@ -19,19 +19,7 @@ const config = {
         path: __dirname,
         filename: '[name]/bundle.js'
     },
-    // plugins: [
-    //     new HTMLWebpackPlugin({
-    //         inject: false,
-    //         chunks: ['main_src'],
-    //         filename: 'SRC/bundle.js'
-    //     }),
-    //     new HTMLWebpackPlugin({
-    //         inject: false,
-    //         chunks: ['SRC'],
-    //         filename: 'Guest/bundle.js'
-    //     })
-    // ],
-    // lets webpack know what file extensions you plan on requiring
+
     module: {
         loaders: [
             // all files with a '.ts' or '.tsx' extensions 

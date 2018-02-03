@@ -5,6 +5,8 @@ const EventType = require('./types').EventType;
 const ItemType = require('./types').ItemType;
 const ItemsType = require('./types').ItemsType;
 const db = require('../ControllersDB/mainController.js');
+const {generateID, transporter, sendMessage} = require('../Email/emailConfig.js')
+const knex = require('../dbConfig.js').knex
 
 
 const mutations = new GraphQLObjectType({
@@ -24,7 +26,7 @@ const mutations = new GraphQLObjectType({
     type: EventType,
     args: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      host_id: { type: new GraphQLNonNull(GraphQLID) },
+      host_id: { type: new GraphQLNonNull(GraphQLInt) },
       description: { type: new GraphQLNonNull(GraphQLString) },
       date: { type: GraphQLString } , 
       location: { type: new GraphQLNonNull(GraphQLString)},
@@ -44,7 +46,7 @@ const mutations = new GraphQLObjectType({
   editEventFields: {
     type: EventType,
     args: {
-      id: { type: new GraphQLNonNull(GraphQLID)},
+      id: { type: new GraphQLNonNull(GraphQLInt)},
       name: { type: GraphQLString },
       description: {type: GraphQLString },
       date: { type: GraphQLString },
@@ -59,8 +61,8 @@ const mutations = new GraphQLObjectType({
     toggleClaimOfItem: {
       type: ItemType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLID)},
-        userId: { type: new GraphQLNonNull(GraphQLID)}
+        id: { type: new GraphQLNonNull(GraphQLInt)},
+        userId: { type: new GraphQLNonNull(GraphQLInt)}
       },
       resolve(parentValues, args) {
         return db.item.claimItem(args.id, args.userId)
@@ -111,8 +113,8 @@ const mutations = new GraphQLObjectType({
     type: ItemType,
     args: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      userId: { type: GraphQLID },
-      eventId: { type: new GraphQLNonNull(GraphQLID)}
+      userId: { type: GraphQLInt },
+      eventId: { type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValues, args) {
       return db.item.add({
@@ -124,6 +126,7 @@ const mutations = new GraphQLObjectType({
       .catch(error => error)
     }
   },
+
   addItems: {
     type: new GraphQLList(ItemsType),
     args: {
@@ -131,28 +134,47 @@ const mutations = new GraphQLObjectType({
       eventId: { type: new GraphQLNonNull(GraphQLInt)  }
     },
     resolve(parentValues, args) {
-      console.log('args in mutations', args)
-      return db.item.addMultiple({
+      
+     return db.item.addMultiple({
         name: args.itemNames,
         eventId: args.eventId
       }).then(() => {
-      return db.item.getItemsByEventId(args.eventId)
-      })
+        return db.item.getItemsByEventId(args.eventId)
+     }).catch(err => console.log(err))
+      console.log('hey syup')
+      let idd = args.eventId
+      return idd//list of items    
     }
+    
     // items: {
     //   type: new GraphQLList(ItemType),
     //   resolve(parentValue, args){
     //     return db.item.getItemsByEventId(args.eventId)
     //   }
+    },
+
+  addRecipients: {
+    type: new GraphQLList(UserType), 
+    args: {
+      nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) }, 
+      id: { type: GraphQLInt },
+      event_id: { type: GraphQLInt }
+    },  
+    resolve(parentValues, args){
+      return knex.select('*').from('user').where('id', args.id).then(res => {
+        let user = res[0]
+        let guests = args.nameEmail.map(n => {
+          let arr = n.split('*')
+          return [arr[0], arr[1]]
+        })
+
+        return sendMessage(guests, user, args.event_id)
+      }).catch(x => (x))
+      
     }
-
-}
+  }
+  }
 })
-
-
-
-
-
 
 
 module.exports = mutations;
@@ -163,4 +185,3 @@ module.exports = mutations;
 // editEvent
 // confirmPresence
 // denyPresence
-
