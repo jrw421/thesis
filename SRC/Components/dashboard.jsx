@@ -54,21 +54,24 @@ class Dashboard extends React.Component {
 
         return (
           <div>
-            <h1 style={{"textAlign":"center"}}>Your Events</h1>
+            <h1 style={{"textAlign":"center", "fontFamily": "Noto Sans"}}>Your Events</h1>
             <h3 style={{"textAlign": "center"}}>Click on an event to see page</h3>
             <h3 style={{"textAlign": "center"}}>Currently attending:</h3>
             <EventList
+              style={{"fontFamily": "Noto Sans"}}
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.currentEvents}
               handleEventClick={this.handleEventClick}
             />
-            <h3 style={{"textAlign": "center"}}>Currently hosting:</h3>
+            <h3 style={{"textAlign": "center", "fontFamily": "Noto Sans"}}>Currently hosting:</h3>
             <EventList
+              style={{"fontFamily": "Noto Sans"}}
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.hostedEvents}
               handleEventClick={this.handleEventClick}/>
-            <h3 style={{"textAlign": "center"}}>Past events:</h3>
+            <h3 style={{"textAlign": "center", "fontFamily": "Noto Sans"}}>Past events:</h3>
             <EventList
+              style={{"fontFamily": "Noto Sans"}}
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.pastEvents}
               handleEventClick={this.handleEventClick}/>
