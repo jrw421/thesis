@@ -1,3 +1,4 @@
 node_modules
 package-lock.json
 Public/bundle.js
+Guest/bundle.js
