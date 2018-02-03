@@ -11,10 +11,25 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import axios from 'axios'
 import { withApollo } from 'react-apollo';
+import * as Colors from 'material-ui/styles/colors';
 import $ from 'jquery'
 
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: Colors.lime900,
+    primary1Color: Colors.white,
+    primary2Color: Colors.indigo700,
+    accent1Color: Colors.redA200,
+    pickerHeaderColor: Colors.teal800,
+    alternateTextColor: Colors.redA200
+  },
+  appBar: {
+    height: 60,
+  },
+});
 
 
 class App extends React.Component {
@@ -61,7 +76,7 @@ class App extends React.Component {
     } else {
       console.log('contacts ', this.state.contacts)
       return (
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           <Header />
           <div>
