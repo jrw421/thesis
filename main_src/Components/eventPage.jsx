@@ -33,14 +33,14 @@ class EventPage extends React.Component {
       return null
     } else {
       // console.log('PROPS IN EVENT PAGE ', this.props.currentUser.name)
-      console.log('wooo ', this.props)
+      // console.log('wooo ', this.props.user.name)
       console.log('GUESTS ', this.state.guests)
 
       const event = this.props.location.state.event
       // console.log('event',this.props.location.state.event)
       // console.log('curent Gues ', this.props.location.state.currentGuest)
       return (
-        <div>
+        <div style={{"fontFamily": "Noto Sans"}}>
         {this.props.location.state.currentGuest ? (
         <div>
             <div style={{"textAlign": "center", "align":"center"}}>
@@ -112,7 +112,7 @@ class EventPage extends React.Component {
             <ul></ul>
           </div>
           <img
-            style={{"height":"400px", "width": "200px"}}
+            style={{"height":"400px", "width": "400px"}}
             src={event.img}
             alt=""
           />
