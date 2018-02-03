@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 
 // create private route
 app.use('/', express.static(path.join(__dirname, '../PublicProtected')))
-app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../Public')))
+app.use('/dashboard/:id', authCheck, express.static(path.join(__dirname, '../main_dist')))
 app.use('/text', express.static(path.join(__dirname, '../Guest')))
 
 //contacts///
