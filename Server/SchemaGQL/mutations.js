@@ -134,17 +134,18 @@ const mutations = new GraphQLObjectType({
       eventId: { type: new GraphQLNonNull(GraphQLInt)  }
     },
     resolve(parentValues, args) {
-      console.log('args in mutations', args)
-      return db.item.addMultiple({
+      
+     return db.item.addMultiple({
         name: args.itemNames,
         eventId: args.eventId
       }).then(() => {
-      return db.item.getItemsByEventId(args.eventId).then( x => {
-        console.log('x',x, x[0].event_id)
-        return x[0].event_id
-      })
-      })
+        return db.item.getItemsByEventId(args.eventId)
+     }).catch(err => console.log(err))
+      console.log('hey syup')
+      let idd = args.eventId
+      return idd//list of items    
     }
+    
     // items: {
     //   type: new GraphQLList(ItemType),
     //   resolve(parentValue, args){
@@ -184,4 +185,3 @@ module.exports = mutations;
 // editEvent
 // confirmPresence
 // denyPresence
-

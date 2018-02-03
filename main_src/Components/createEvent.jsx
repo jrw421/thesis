@@ -43,14 +43,15 @@ class createEvent extends React.Component {
       guestEmail: '',
       guests: [],
       hostId: 1,
-      uploadedFileCloudinaryUrl: ''
+      uploadedFileCloudinaryUrl: '', 
+      newEvent: {}
     }
 
     //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
     //this.onSubmit = this.onSubmit(this)
     this.submitForm = this.submitForm.bind(this)
-    this.addGuests = this.addGuests.bind(this)
+    this.addGuest = this.addGuest.bind(this)
   }
 
   onImageDrop(files) {
@@ -116,8 +117,8 @@ class createEvent extends React.Component {
               state: { event: event.data.addEvent }
             })
           })
-         })
       })
+    })
     .catch((error) => error)
   }
   
@@ -231,7 +232,7 @@ mutation addEvent($name: String!, $host_id: Int!, $description: String!, $locati
   addEvent(name: $name, host_id: $host_id, description: $description, location: $location, img: $img) {
     name
     host_id
-    description
+    description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     location
     img
     id
@@ -243,6 +244,9 @@ const addItems = gql`
     addItems(itemNames: $itemNames, eventId: $eventId){
       items {
         id
+        name 
+        user_id
+        event_id
       }
     }
   }
