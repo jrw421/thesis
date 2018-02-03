@@ -1,20 +1,36 @@
 const path = require('path')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 const SRC_DIR = path.join(__dirname, '/SRC');
+const GUEST_SRC_DIR = path.join(__dirname, '/GUESTSRC')
 const DIST_DIR = path.join(__dirname, '/Public');
 
 const config = {
     // app.ts represents the entry point into your webapp
     // webpack will recursively go through every 'require' statement in app.ts
-    entry: `${SRC_DIR}/index.jsx`,
+    entry: {
+        'main': './SRC/index.jsx',
+        'guest': `./GUESTSRC/index.jsx`
+    },
     // tells webpack in what folder to store the bundled
     // javascript files and what name to give to final
     // bundled Javascript file
-    watch: true,
     output: {
-        path: DIST_DIR,
-        filename: 'bundle.js'
+        path: __dirname,
+        filename: '[name]/bundle.js'
     },
+    plugins: [
+        new HTMLWebpackPlugin({
+            inject: false,
+            chunks: ['SRC'],
+            filename: 'SRC/bundle.js'
+        }),
+        new HTMLWebpackPlugin({
+            inject: false,
+            chunks: ['SRC'],
+            filename: 'Guest/bundle.js'
+        })
+    ],
     // lets webpack know what file extensions you plan on requiring
     module: {
         loaders: [
