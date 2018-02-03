@@ -251,7 +251,6 @@ const addItems = gql`
     }
   }
 `
-
 const addRecipients = gql `
   mutation addRecipients($nameEmail: [String]!,  $event_id: Int, $id: Int){
   addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id){
@@ -264,7 +263,6 @@ const createEventWithMutations = compose(
   graphql(addItems, { name: 'addItems'}), 
   graphql(addRecipients, {name: 'addRecipients'})
 )(createEvent)
-
 
 
 export default withRouter(createEventWithMutations)
