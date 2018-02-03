@@ -26,7 +26,7 @@ const mutations = new GraphQLObjectType({
     type: EventType,
     args: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      host_id: { type: new GraphQLNonNull(GraphQLID) },
+      host_id: { type: new GraphQLNonNull(GraphQLInt) },
       description: { type: new GraphQLNonNull(GraphQLString) },
       date: { type: GraphQLString } , 
       location: { type: new GraphQLNonNull(GraphQLString)},
@@ -46,7 +46,7 @@ const mutations = new GraphQLObjectType({
   editEventFields: {
     type: EventType,
     args: {
-      id: { type: new GraphQLNonNull(GraphQLID)},
+      id: { type: new GraphQLNonNull(GraphQLInt)},
       name: { type: GraphQLString },
       description: {type: GraphQLString },
       date: { type: GraphQLString },
@@ -61,8 +61,8 @@ const mutations = new GraphQLObjectType({
     toggleClaimOfItem: {
       type: ItemType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLID)},
-        userId: { type: new GraphQLNonNull(GraphQLID)}
+        id: { type: new GraphQLNonNull(GraphQLInt)},
+        userId: { type: new GraphQLNonNull(GraphQLInt)}
       },
       resolve(parentValues, args) {
         return db.item.claimItem(args.id, args.userId)
@@ -113,8 +113,8 @@ const mutations = new GraphQLObjectType({
     type: ItemType,
     args: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      userId: { type: GraphQLID },
-      eventId: { type: new GraphQLNonNull(GraphQLID)}
+      userId: { type: GraphQLInt },
+      eventId: { type: new GraphQLNonNull(GraphQLInt)}
     },
     resolve(parentValues, args) {
       return db.item.add({
@@ -134,17 +134,18 @@ const mutations = new GraphQLObjectType({
       eventId: { type: new GraphQLNonNull(GraphQLInt)  }
     },
     resolve(parentValues, args) {
-      console.log('args in mutations', args)
-      return db.item.addMultiple({
+      
+     return db.item.addMultiple({
         name: args.itemNames,
         eventId: args.eventId
       }).then(() => {
-      return db.item.getItemsByEventId(args.eventId).then( x => {
-        console.log('x',x, x[0].event_id)
-        return x[0].event_id
-      })
-      })
+        return db.item.getItemsByEventId(args.eventId)
+     }).catch(err => console.log(err))
+      console.log('hey syup')
+      let idd = args.eventId
+      return idd//list of items    
     }
+    
     // items: {
     //   type: new GraphQLList(ItemType),
     //   resolve(parentValue, args){
@@ -189,4 +190,3 @@ module.exports = mutations;
 // editEvent
 // confirmPresence
 // denyPresence
-

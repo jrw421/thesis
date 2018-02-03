@@ -41,9 +41,11 @@ class createEvent extends React.Component {
       currentItem: '',
       items: [],
       guestName: '',
+      guestEmail: '',
       guests: [],
       hostId: 1,
-      uploadedFileCloudinaryUrl: ''
+      uploadedFileCloudinaryUrl: '', 
+      newEvent: {}
     }
 
 
@@ -52,6 +54,7 @@ class createEvent extends React.Component {
     this.handleItems = this.handleItems.bind(this)
     //this.onSubmit = this.onSubmit(this)
     this.submitForm = this.submitForm.bind(this)
+    this.addGuest = this.addGuest.bind(this)
   }
 
   onImageDrop(files) {
@@ -82,6 +85,10 @@ class createEvent extends React.Component {
 
   }
 
+  addGuest(){
+    this.setState({ guests: this.state.guests.concat([this.state.guestName + '*' + this.state.guestEmail])})
+  }
+
   submitForm = () => {
     const {  eventTitle, location, date, time, description } = this.state
     this.props.addEvent({
@@ -94,29 +101,25 @@ class createEvent extends React.Component {
       }
     })
     .then(event => {
-      console.log('heres the event', event)
       this.props.addItems({
         variables: {
           itemNames: this.state.items,
           eventId: event.data.addEvent.id
         }
-      })
-    }).then((item) =>{
-      console.log('heres the item', item)
-      this.props.addRecipients({
-        variables: {
-          nameEmail: this.state.guests,
-          event_id: item.data.addItems.event_id, 
-          id: this.props.currentUser.id
-        }
-      })
-    })
-    
-    .then((event) => {
-      console.log('heres the event', event)
-      this.props.history.push({
-        pathname: '/eventPage/0',
-        state: { event: event.data.addEvent }
+      }).then(() => {
+        this.props.addRecipients({
+          variables: {
+            nameEmail: this.state.guests,
+            event_id: event.data.addEvent.id, 
+            id: this.props.currentUser.id
+          }
+        }).then(() => {
+            console.log('added recipients?')
+          this.props.history.push({
+              pathname: '/eventPage/0',
+              state: { event: event.data.addEvent }
+            })
+          })
       })
     })
     .catch((error) => error)
@@ -175,8 +178,14 @@ class createEvent extends React.Component {
         <TextField value={this.state.location} type="text" placeholder="Where's your party at?" onChange={e => this.setState({ location: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField value={this.state.guests.names} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guestName: e.target.value })}/>
-        <TextField value={this.state.guests.emails} type="text" placeholder="What is their email?" onSubmit={e => this.setState({ guests: this.state.guests.concat([e.target.value + '*' + this.state.guestName])})}/>
+        <TextField value={this.state.guestName} type="text" placeholder="Who do you not hate?" onChange={e => this.setState({ guestName: e.target.value })}/>
+        <TextField value={this.state.guestEmail} type="text" placeholder="What is their email?"  onChange={e => this.setState({ guestEmail: e.target.value })} />
+        <FlatButton 
+          label="Add Guest" 
+          value="Add Guest" 
+          type="submit" 
+          onClick={() => {this.addGuest()}}
+          secondary={true} />
         <br></br>
         <br></br>
         <TextField value={this.state.date} type="date" placeholder="What day?" onChange={e => this.setState({ date: e.target.value })}/>
@@ -222,11 +231,11 @@ class createEvent extends React.Component {
 
 
 const addEvent = gql`
-mutation AddEvent($name: String!, $host_id: ID!, $description: String!, $location: String!, $img: String!){
+mutation AddEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String!){
   addEvent(name: $name, host_id: $host_id, description: $description, location: $location, img: $img) {
     name
     host_id
-    description
+    description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     location
     img
     id
@@ -238,6 +247,9 @@ const addItems = gql`
     addItems(itemNames: $itemNames, eventId: $eventId){
       items {
         id
+        name 
+        user_id
+        event_id
       }
     }
   }
