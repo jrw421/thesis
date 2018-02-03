@@ -24,7 +24,7 @@ class EventPage2 extends React.Component {
   }
 
   clickNotAttending() {
-    console.log('sucks to suck')
+    console.log('bummer')
     window.location ='/'
   }
 
