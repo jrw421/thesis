@@ -109,7 +109,7 @@ class createEvent extends React.Component {
     })
     .catch((error) => error)
   }
-  
+
   onClick() {
     submitEvent(e)
   }
@@ -128,7 +128,7 @@ class createEvent extends React.Component {
 
   render() {
     return (
-      <div style={{"textAlign":"center", "marginTop": "20px"}}>
+      <div style={{"textAlign":"center", "marginTop": "20px", "fontFamily": "Noto Sans"}}>
         <h1 style={{"height": "100%", "width": "100%"}}>CREATE YOUR EVENT</h1>
         <br></br>
 
@@ -175,10 +175,10 @@ class createEvent extends React.Component {
         <TextField value={this.state.description} type="text" placeholder="Tell people what your party is all about!" onChange={e => this.setState({ description: e.target.value })}/>
         <br></br>
         <br></br>
-        <TextField 
-          value={this.state.currentItem} 
-          type="text" 
-          placeholder="Whatcha want people to bring?" 
+        <TextField
+          value={this.state.currentItem}
+          type="text"
+          placeholder="Whatcha want people to bring?"
           onChange={e => this.setState({ currentItem: e.target.value })}
           onKeyPress={this.handleItems}
         />
@@ -191,10 +191,10 @@ class createEvent extends React.Component {
         <br></br>
 
 
-        <FlatButton 
-          label="Submit" 
-          value="Submit" 
-          type="submit" 
+        <FlatButton
+          label="Submit"
+          value="Submit"
+          type="submit"
           onClick={() => {this.submitForm()}}
           secondary={true} />
 
