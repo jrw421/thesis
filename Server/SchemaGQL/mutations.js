@@ -127,6 +127,7 @@ const mutations = new GraphQLObjectType({
     }
   },
 
+
   addItems: {
     type: new GraphQLList(ItemsType),
     args: {
@@ -168,7 +169,6 @@ const mutations = new GraphQLObjectType({
           let arr = n.split('*')
           return [arr[0], arr[1]]
         })
-        console.log('user and guests', user, guests)
 
         return sendMessage(guests, user, args.event_id)
       }).catch(x => console.log(x))

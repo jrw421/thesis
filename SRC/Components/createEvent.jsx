@@ -100,6 +100,15 @@ class createEvent extends React.Component {
         img: this.state.uploadedFileCloudinaryUrl
       }
     })
+    .then((event) =>{
+      this.props.addRecipients({
+        variables: {
+          nameEmail: this.state.guests,
+          event_id: event.data.addEvent.id, 
+          user_id: this.props.currentUser.id
+        }
+      })
+    })
     .then(event => {
       this.props.addItems({
         variables: {
@@ -266,7 +275,6 @@ const createEventWithMutations = compose(
   graphql(addItems, { name: 'addItems'}), 
   graphql(addRecipients, {name: 'addRecipients'})
 )(createEvent)
-
 
 
 export default withRouter(createEventWithMutations)
