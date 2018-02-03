@@ -169,7 +169,7 @@ const mutations = new GraphQLObjectType({
         })
 
         return sendMessage(guests, user, args.event_id)
-      }).catch(x => console.log(x))
+      }).catch(x => (x))
       
     }
   }

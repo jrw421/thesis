@@ -59,7 +59,7 @@ const sendMessage = function(recipients, account, event_id){
 		
 		transporter.sendMail(mailOptions, (error, info) => {
 	      if (error) {
-	        return console.log('send mail error', error);
+	        return error;
 	      }
 	      return knex.select('*').from('event').where('id', event_id).then(x => x[0])
 	  });
