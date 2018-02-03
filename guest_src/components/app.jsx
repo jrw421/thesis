@@ -1,40 +1,29 @@
 import React from 'react';
+
+// Components
 import Header from './header.jsx';
-import DashboardWithData from './dashboard.jsx';
 import EventPage from './eventPage.jsx';
-import CreateEventWithMutations from './createEvent.jsx';
+
+// Router
 import { Switch, Route, browserHistory } from 'react-router-dom';
+
+// Styles
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import axios from 'axios'
+
+import axios from 'axios';
+
+// Apollo & GraphQL
 import { withApollo } from 'react-apollo';
-import * as Colors from 'material-ui/styles/colors';
-
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
-
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: Colors.lime900,
-    primary1Color: Colors.white,
-    primary2Color: Colors.indigo700,
-    accent1Color: Colors.redA200,
-    pickerHeaderColor: Colors.teal800,
-    alternateTextColor: Colors.redA200
-  },
-  appBar: {
-    height: 60,
-  },
-});
-
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: undefined,
-      contacts: []
+      currentUser: undefined
     };
   }
 
@@ -55,12 +44,11 @@ class App extends React.Component {
     if (this.state.currentUser === undefined) {
       return null;
     } else {
+      console.log('contacts ', this.state.contacts);
       return (
-        <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          <Header />
+        <MuiThemeProvider>
           <div>
-            <Header />
+            <Header2 />
             <div>
               <Switch>
                 <Route

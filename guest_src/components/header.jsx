@@ -11,12 +11,13 @@ const tabStyle = {
   textAlign: 'center'
 };
 
-class Header extends Component {
+class Header2 extends Component {
   render() {
     const href = '/dashboard' + window.location.href.substring(31);
+
     return (
       <div>
-        <AppBar title="Host.ly"  showMenuIconButton={false}>
+        <AppBar title="Host.ly">
           <Tabs onChange={this.changeTab}>
             <Tab
               value={0}
@@ -32,8 +33,8 @@ class Header extends Component {
             />
             <Tab
               value={2}
-              label="Logout"
-              containerElement={<a href="/auth/logout" />}
+              label="Join Us"
+              containerElement={<a href="/" />}
               style={tabStyle}
             />
           </Tabs>
@@ -43,4 +44,4 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+export default withRouter(Header2);

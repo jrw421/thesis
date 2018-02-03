@@ -2,10 +2,9 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
-import {orange500, blue500} from 'material-ui/styles/colors';
+import { orange500, blue500 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
-import axios from 'axios'
-
+import axios from 'axios';
 
 
 import Dropzone from 'react-dropzone';
@@ -13,14 +12,15 @@ import request from 'superagent';
 import { withRouter } from 'react-router';
 
 const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxhj4dt9i/upload';
+const CLOUDINARY_UPLOAD_URL =
+  'https://api.cloudinary.com/v1_1/dxhj4dt9i/upload';
 
 const dropzoneStyle = {
   height: '300px',
   width: '300px',
   margin: 'auto',
   textAlign: 'center'
-}
+};
 
 const imageStyle = {
   height: '300px',
@@ -47,9 +47,7 @@ class createEvent extends React.Component {
       newEvent: {}
     }
 
-    //this.onChange = this.onChange.bind(this)
     this.handleItems = this.handleItems.bind(this)
-    //this.onSubmit = this.onSubmit(this)
     this.submitForm = this.submitForm.bind(this)
     this.addGuest = this.addGuest.bind(this)
   }
@@ -63,9 +61,10 @@ class createEvent extends React.Component {
   }
 
   handleImageUpload(file) {
-    let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                        .field('file', file);
+    let upload = request
+      .post(CLOUDINARY_UPLOAD_URL)
+      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+      .field('file', file);
 
     upload.end((err, response) => {
       if (err) {
@@ -78,8 +77,6 @@ class createEvent extends React.Component {
         });
       }
     });
-
-
   }
 
   addGuest(){
@@ -101,8 +98,11 @@ class createEvent extends React.Component {
     }).then(event => {
       this.props.addItems({
         variables: {
-          itemNames: this.state.items,
-          eventId: event.data.addEvent.id
+          name: this.state.name,
+          host_id: this.props.currentUser.id,
+          description: this.state.description,
+          location: this.state.location,
+          img: this.state.uploadedFileCloudinaryUrl
         }
       }).then(() => {
         this.props.addRecipients({
@@ -124,52 +124,136 @@ class createEvent extends React.Component {
   
 
   onClick() {
-    submitEvent(e)
+    submitEvent(e);
   }
 
-  handleItems (e) {
+  handleItems(e) {
     if (e.key === 'Enter') {
-      this.setState({
-        items: [...this.state.items, this.state.currentItem]
-      }, () => {
-        this.setState({
-          currentItem: ''
-        })
-      })
+      this.setState(
+        {
+          items: [...this.state.items, this.state.currentItem]
+        },
+        () => {
+          this.setState({
+            currentItem: ''
+          });
+        }
+      );
     }
   }
 
   render() {
     return (
-      <div style={{"textAlign":"center", "marginTop": "20px", "fontFamily": "Noto Sans"}}>
-        <h1 style={{"height": "100%", "width": "100%"}}>CREATE YOUR EVENT</h1>
-        <br></br>
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: '20px',
+          fontFamily: 'Noto Sans'
+        }}
+      >
+        <h1 style={{ height: '100%', width: '100%' }}>CREATE YOUR EVENT</h1>
+        <br />
 
         <div>
-        {/* <form onSubmit={this.onSubmit}> */}
-        <TextField value={this.state.name} type="text" placeholder="Whatcha gonna call your party?" onChange={e => this.setState({ name: e.target.value })}/>
-        <br></br>
-        <br></br>
-        <div style={dropzoneStyle}>
-          <Dropzone
-            multiple={false}
-            accept="image/*"
-            onDrop={this.onImageDrop.bind(this)}
+          {/* <form onSubmit={this.onSubmit}> */}
+          <TextField
+            value={this.state.name}
+            type="text"
+            placeholder="Whatcha gonna call your party?"
+            onChange={e => this.setState({ name: e.target.value })}
+          />
+          <br />
+          <br />
+          <div style={dropzoneStyle}>
+            <Dropzone
+              multiple={false}
+              accept="image/*"
+              onDrop={this.onImageDrop.bind(this)}
             >
-            <p>Drop an image or click to select a file to upload.</p>
-          </Dropzone>
-        </div>
-        <br></br>
-        <br></br>
-        <div>
-
-          <div>
-            {this.state.uploadedFileCloudinaryUrl === '' ? null :
-            <div >
-              <p>{this.state.uploadedFile.name}</p>
-              <img src={this.state.uploadedFileCloudinaryUrl} style={imageStyle}/>
-            </div>}
+              <p>Drop an image or click to select a file to upload.</p>
+            </Dropzone>
           </div>
+          <br />
+          <br />
+          <div>
+            <div>
+              {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                <div>
+                  <p>{this.state.uploadedFile.name}</p>
+                  <img
+                    src={this.state.uploadedFileCloudinaryUrl}
+                    style={imageStyle}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          <br />
+          <br />
+          <TextField
+            value={this.state.location}
+            type="text"
+            placeholder="Where's your party at?"
+            onChange={e => this.setState({ location: e.target.value })}
+          />
+          <br />
+          <br />
+          <TextField
+            value={this.state.guests}
+            type="text"
+            placeholder="Who do you not hate?"
+            onChange={e => this.setState({ guests: e.target.value })}
+          />
+          <br />
+          <br />
+          <TextField
+            value={this.state.date}
+            type="date"
+            placeholder="What day?"
+            onChange={e => this.setState({ date: e.target.value })}
+          />
+          <br />
+          <br />
+          <TextField
+            value={this.state.time}
+            type="time"
+            placeholder="What time?"
+            onChange={e => this.setState({ time: e.target.value })}
+          />
+          <br />
+          <br />
+          <TextField
+            value={this.state.description}
+            type="text"
+            placeholder="Tell people what your party is all about!"
+            onChange={e => this.setState({ description: e.target.value })}
+          />
+          <br />
+          <br />
+          <TextField
+            value={this.state.currentItem}
+            type="text"
+            placeholder="Whatcha want people to bring?"
+            onChange={e => this.setState({ currentItem: e.target.value })}
+            onKeyPress={this.handleItems}
+          />
+          <ul>
+            {this.state.items.map(item => {
+              return <li>{item}</li>;
+            })}
+          </ul>
+          <br />
+          <br />
+
+          <FlatButton
+            label="Submit"
+            value="Submit"
+            type="submit"
+            onClick={() => {
+              this.submitForm();
+            }}
+            secondary={true}
+          />
         </div>
         <br></br>
         <br></br>
@@ -222,9 +306,8 @@ class createEvent extends React.Component {
           </div>
 
       </div>
-    )
+    );
   }
-
 }
 
 const addEvent = gql`
@@ -237,11 +320,11 @@ mutation addEvent($name: String!, $host_id: Int!, $description: String!, $locati
     img
     id
   }
-}`
+`;
 
 const addItems = gql`
-  mutation addItems($itemNames: [String]!, $eventId: Int!){
-    addItems(itemNames: $itemNames, eventId: $eventId){
+  mutation addItems($itemNames: [String]!, $event_id: Int!) {
+    addItems(itemNames: $itemNames, event_id: $event_id) {
       items {
         id
         name 
