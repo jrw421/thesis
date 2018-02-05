@@ -53,11 +53,6 @@ const GUEST_QUERY = gql`
   query guestQuery($id: String) {
     user(hash: $id) {
       id
-      # items {
-      #   id
-      #   name
-      #   user_id
-      # }
     }
   }
 `;

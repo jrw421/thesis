@@ -108,12 +108,6 @@ const mutations = new GraphQLObjectType({
           .then(user => user)
           .catch(error => error);
       }
-    },
-    resolve(parentValues, args) {
-      return db.event_attendee
-        .confirmPresence(args.user_id, args.event_id)
-        .then(user => user)
-        .catch(error => error);
     }
   },
   addItem: {

@@ -7,12 +7,12 @@ import { Switch, Route, browserHistory } from 'react-router-dom';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import axios from 'axios'
+import axios from 'axios';
 import { withApollo } from 'react-apollo';
 import * as Colors from 'material-ui/styles/colors';
 
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -24,10 +24,9 @@ const muiTheme = getMuiTheme({
     alternateTextColor: Colors.redA200
   },
   appBar: {
-    height: 60,
-  },
+    height: 60
+  }
 });
-
 
 class App extends React.Component {
   constructor(props) {
@@ -57,9 +56,9 @@ class App extends React.Component {
     } else {
       return (
         <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          <Header />
           <div>
+            {/* <Header /> */}
+            {/* <div> */}
             <Header />
             <div>
               <Switch>
