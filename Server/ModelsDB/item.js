@@ -5,11 +5,11 @@ const Event = require('./event.js');
 const Item = bookshelf.Model.extend({
   tableName: 'item',
   event: function() {
-    return this.belongsTo(Event)
-  }, 
+    return this.belongsTo(Event);
+  },
   user: function() {
-    return this.belongsTo(User)
+    return this.belongsTo(User);
   }
 });
 
-module.exports = Item
+module.exports = Item;

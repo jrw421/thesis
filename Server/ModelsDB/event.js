@@ -7,9 +7,9 @@ const Event = bookshelf.Model.extend({
   items: function() {
     return this.hasMany(Item);
   },
-  users: function(){
-  	return this.belongsToMany(User)
+  users: function() {
+    return this.belongsToMany(User);
   }
 });
 
-module.exports = Event
+module.exports = Event;

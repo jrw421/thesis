@@ -3,15 +3,9 @@ const UserType = require('./types').UserType;
 const EventType = require('./types').EventType;
 const _ = require('lodash');
 const schema = require('./schema');
-const db = require('../ControllersDB/mainController.js')
+const db = require('../ControllersDB/mainController.js');
 
-const {
-  GraphQLInt,
-  GraphQLObjectType,
-  GraphQLList, 
-  GraphQLString
-} = graphql;
-
+const { GraphQLInt, GraphQLObjectType, GraphQLList, GraphQLString } = graphql;
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -21,56 +15,39 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLList(UserType),
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
-        return db.user.findAll()
+        return db.user.findAll();
       }
-        //this is where ^ controller functions would be input
+      //this is where ^ controller functions would be input
 
       //args is an object that gets called for whatever we input into our query
       // the resolve function looks for the exact data we're looking for
-      },
+    },
     user: {
       type: UserType,
-      args: { id: { type: GraphQLInt }, 
-              google_id: {type: GraphQLInt},
-              hash: {type: GraphQLString} },
+      args: {
+        id: { type: GraphQLInt },
+        google_id: { type: GraphQLInt },
+        hash: { type: GraphQLString }
+      },
       resolve: (parentValue, args) => {
-        console.log('getting user with id', args)
-        return db.user.getUser(args.id, args.google_id, args.hash)
+        return db.user.getUser(args.id, args.google_id, args.hash);
       }
     },
     events: {
       type: new GraphQLList(EventType),
       args: { id: { type: GraphQLInt } },
       resolve(parentValue, args) {
-        return db.event.findAll()
+        return db.event.findAll();
       }
-    }, 
+    },
     event: {
       type: EventType,
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
-        return db.event.getEvent(args.id)
+        return db.event.getEvent(args.id);
       }
     }
   })
-})
+});
 
-module.exports = RootQueryType
-
-// SAMPLE GRAPHQL QUERIES FROM ROOT
-// GET ALL USERS
-// {
-// 	allUsers {
-// 		email
-// 		id
-// 		member_status
-// 	}
-// }
-// GET SINGLE USER
-// {
-// 	user(id: 1) {
-// 		email
-// 		id
-// 		member_status
-// 	}
-// }
+module.exports = RootQueryType;
