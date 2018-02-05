@@ -35,12 +35,13 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+
     axios
       .get('/user')
-      .then((data) => {
+      .then(data => {
         this.setState({
-          currentUser: data.data.user || null,
+          currentUser: data.data.user,
         });
       })
       .catch((error) => {
@@ -49,7 +50,7 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.currentUser === undefined) {
+    if (this.state.currentUser === undefined ) {
       return null;
     }
     return (
@@ -61,7 +62,7 @@ class App extends React.Component {
           <div>
             <Switch>
               <Route
-                path="/dashboard/:id"
+                path="/dashboard"
                 render={({ match }) => (
                   <DashboardWithData
                     history={browserHistory}
@@ -71,7 +72,7 @@ class App extends React.Component {
                 )}
               />
               <Route
-                path="/eventPage/:id"
+                path="/eventPage"
                 render={({ match }) => (
                   <EventPageWithData
                     currentUser={this.state.currentUser}

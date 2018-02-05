@@ -15,7 +15,7 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLList(UserType),
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
-        return db.user.findAll();
+        return db.user.findAll().catch(err => console.log(28, err));
       }
       //this is where ^ controller functions would be input
 
@@ -37,7 +37,7 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLList(EventType),
       args: { id: { type: GraphQLInt } },
       resolve(parentValue, args) {
-        return db.event.findAll();
+        return db.event.findAll().catch(err => console.log(29, err));
       }
     },
     event: {
