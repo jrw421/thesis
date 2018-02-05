@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'react-router'
+import FlatButton from 'material-ui/FlatButton';
 
 import EventList from './eventList.jsx'
 
@@ -12,6 +13,7 @@ class Dashboard extends React.Component {
       eventId: null
     }
     this.handleEventClick = this.handleEventClick.bind(this)
+    // this.linkToCreateEvent = this.linkToCreateEvent.bind(this)
   }
 
   handleEventClick = (event) => {
@@ -19,6 +21,12 @@ class Dashboard extends React.Component {
       pathname: '/eventPage/0',
       state: { event }
     })
+  }
+
+  linkToCreateEvent = () => {
+    const href = "/createEvent" + window.location.href.substring(31)
+    console.log('what is HREF ', href)
+    window.location = '/createEvent'
   }
 
 
@@ -64,9 +72,18 @@ class Dashboard extends React.Component {
               handleEventClick={this.handleEventClick}
             />
             <h3 style={{"textAlign": "center", "fontFamily": "Noto Sans"}}>Currently hosting:</h3>
+            {(this.props.dashboardQuery.user.hostedEvents.length === 0 ) &&
+              <div>
+                <h3 style={{"textAlign": "center"}}>No events yet!</h3>
+                <div style={{"textAlign": "center"}}>
+                  <FlatButton label="Create an event!" onClick={this.linkToCreateEvent.bind(this)}/>
+                </div>
+              </div>
+            }
             <EventList
               style={{"fontFamily": "Noto Sans"}}
               // img={this.props.dashboardQuery.user.img}
+              // linkToCreateEvent={this.linkToCreateEvent}
               events={this.props.dashboardQuery.user.hostedEvents}
               handleEventClick={this.handleEventClick}/>
             <h3 style={{"textAlign": "center", "fontFamily": "Noto Sans"}}>Past events:</h3>
@@ -89,19 +106,7 @@ class Dashboard extends React.Component {
 //     }
 //   }
 // // `
-const DASHBOARD_QUERY2 = gql `
-  query eventQuery($id: String){
-    user (hash: $id){
-      guestEvent{
-        id
-         name
-         description
-         img
-      }
-    }
-  }
 
-`
 
 const DASHBOARD_QUERY = gql `
   query dashboardQuery ($id: Int){
@@ -137,16 +142,7 @@ const DASHBOARD_QUERY = gql `
 // // export default graphql(DASHBOARD_QUERY, {
 // //   options: (props) => ({variables: {id: props.currentUser.id}}), name: 'dashboardQuery' }) (Dashboard)
 //
-//
-//
 const DashboardWithData = compose(
-  graphql(DASHBOARD_QUERY2, {
-  skip: (props) => (props.currentGuest.params.id === '0'),
-  options: (props) => {
-    return ({variables: {id: props.currentGuest.params.id}})
-  },
-  name: 'eventQuery'
-}),
   graphql(DASHBOARD_QUERY, {
   skip: (props) => (props.currentUser === undefined || props.currentUser === null),
   options: (props) => ({variables: {id: props.currentUser.id}}),

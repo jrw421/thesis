@@ -24,7 +24,7 @@ class App2 extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios.get('/user')
           .then(data => {
             this.setState({

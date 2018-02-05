@@ -32,11 +32,6 @@ class EventList extends React.Component {
         })
     }
 
-    linkToCreateEvent = () => {
-      const href = "/createEvent" + window.location.href.substring(31)
-      window.location = href
-    }
-
     render() {
         const item = this.props.events[this.state.currentEvent];
         console.log('HERE IS ITEM ', item)
@@ -45,10 +40,10 @@ class EventList extends React.Component {
             return (
               <Card>
 
-                    {(this.props.events.length === 0) &&
+                    {(this.props.events.length === 0 ) &&
                       <div>
                         <h3 style={{"textAlign": "center"}}>No events yet!</h3>
-                          <FlatButton label="Create an event!" onClick={this.linkToCreateEvent.bind(this)}/>
+                          {/* <FlatButton label="Create an event!" onClick={this.linkToCreateEvent.bind(this)}/> */}
                       </div>
                     }
 
@@ -73,7 +68,7 @@ class EventList extends React.Component {
                           </CardActions>
                         }
                     </div>
-                    
+
 
                 </Card>
         )
