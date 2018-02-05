@@ -36,6 +36,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
+=======
+    axios.get('/user')
+          .then(data => {
+            this.setState({
+              currentUser: data.data.user || null
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          })
+>>>>>>> button for currently hosting if no events
 
     axios
       .get('/user')
