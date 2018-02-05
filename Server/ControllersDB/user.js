@@ -16,7 +16,7 @@ userController = {
           };
           return this.editFields(profileCheck[0].id, updates)
             .then(() => this.getUser(null, body.google_id))
-            .catch(error => console.log(error));
+            .catch(error => console.log(3, error));
         } else {
           const newUser = new User({
             name: body.name,
@@ -28,30 +28,49 @@ userController = {
           return newUser
             .save()
             .then(user => user.attributes)
-            .catch(error => error);
+            .catch(error => console.log(1, error));
         }
       })
-      .catch(error => error);
+      .catch(error => console.log(2, error));
   },
   getUser: async function(id, google_id, hash) {
+    console.log(6, 'hi', id, 'googleid', google_id)
+    let result
     if (google_id !== null && google_id !== undefined) {
-      let result = await knex
+      try{
+      result = await knex
         .select('*')
         .from('user')
-        .where('google_id', google_id);
+        .where('google_id', google_id)
+      } catch(error) {
+        console.log(4, error);
+      }
       return result[0];
     } else if (hash !== null && hash !== undefined) {
-      let result = await knex
+      try{
+      result = await knex
         .select('*')
         .from('user')
-        .where('hash', hash);
+        .where('hash', hash)
+      } catch(error){
+        console.log(5, error);
+      }
       return result[0];
     } else {
-      let result = await knex
+      try{
+        console.log(6, 'id', id, 'typeof id', typeof id)
+      result = await knex
         .select('*')
         .from('user')
-        .where('id', id);
+        .where('id', id)
+      } catch(error){
+        console.log(6, 'await catach', error);
+      }
+      console.log(6,  'result1', result)
+      if (result){
+        console.log(6, 'result2', result)
       return result[0];
+    }
     }
   },
   getToken: function() {

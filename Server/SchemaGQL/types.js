@@ -37,7 +37,7 @@ const EventType = new GraphQLObjectType({
     items: {
       type: new GraphQLList(ItemType),
       resolve(parentValue, args) {
-        return db.item.getItemsByEventId(parentValue.id);
+        return db.item.getItemsByEventId(parentValue.id).catch(err => console.log(30, err));
       }
     }
   })
@@ -72,7 +72,7 @@ const ItemsType = new GraphQLObjectType({
     items: { type: GraphQLList(ItemType) }
   }),
   resolve(parentValue, args) {
-    return db.item.getItemsByEventId(parentValue.event_id).then(item => item);
+    return db.item.getItemsByEventId(parentValue.event_id).then(item => item).catch(err => console.log(31, err));
   }
 });
 
@@ -92,19 +92,19 @@ const UserType = new GraphQLObjectType({
     hostedEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
-        return db.event.getHostedEvents(parentValue.id);
+        return db.event.getHostedEvents(parentValue.id).catch(err => console.log(32, err));
       }
     },
     pastEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
-        return db.event.getPastEvents(parentValue.id);
+        return db.event.getPastEvents(parentValue.id).catch(err => console.log(33, err));
       }
     },
     currentEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
-        return db.event.getCurrentEvents(parentValue.id);
+        return db.event.getCurrentEvents(parentValue.id).catch(err => console.log(34, err));
       }
     },
     guestEvent: {

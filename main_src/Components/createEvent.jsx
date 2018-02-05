@@ -99,17 +99,16 @@ class createEvent extends React.Component {
         }
       })
       .then(event => {
+        console.log(1, event)
         this.props
           .addItems({
             variables: {
-              name: this.state.name,
-              host_id: this.props.currentUser.id,
-              description: this.state.description,
-              location: this.state.location,
-              img: this.state.uploadedFileCloudinaryUrl
+              itemNames: this.state.items, 
+              event_id: event.data.addEvent.id
             }
           })
           .then(() => {
+             console.log(2, event)
             this.props
               .addRecipients({
                 variables: {
@@ -119,6 +118,7 @@ class createEvent extends React.Component {
                 }
               })
               .then(() => {
+                 console.log(3, event)
                 this.props.history.push({
                   pathname: '/eventPage/0',
                   state: { event: event.data.addEvent }
@@ -189,78 +189,12 @@ class createEvent extends React.Component {
                   <img
                     src={this.state.uploadedFileCloudinaryUrl}
                     style={imageStyle}
+                    alt={'no image'}
                   />
                 </div>
               )}
             </div>
           </div>
-          <br />
-          <br />
-          <TextField
-            value={this.state.location}
-            type="text"
-            placeholder="Where's your party at?"
-            onChange={e => this.setState({ location: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.guests}
-            type="text"
-            placeholder="Who do you not hate?"
-            onChange={e => this.setState({ guests: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.date}
-            type="date"
-            placeholder="What day?"
-            onChange={e => this.setState({ date: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.time}
-            type="time"
-            placeholder="What time?"
-            onChange={e => this.setState({ time: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.description}
-            type="text"
-            placeholder="Tell people what your party is all about!"
-            onChange={e => this.setState({ description: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.currentItem}
-            type="text"
-            placeholder="Whatcha want people to bring?"
-            onChange={e => this.setState({ currentItem: e.target.value })}
-            onKeyPress={this.handleItems}
-          />
-          <ul>
-            {this.state.items.map(item => {
-              return <li>{item}</li>;
-            })}
-          </ul>
-          <br />
-          <br />
-
-          <FlatButton
-            label="Submit"
-            value="Submit"
-            type="submit"
-            onClick={() => {
-              this.submitForm();
-            }}
-            secondary={true}
-          />
-        </div>
         <br />
         <br />
         <TextField
@@ -343,20 +277,13 @@ class createEvent extends React.Component {
           secondary={true}
         />
       </div>
-
-      // </div>
+</div>
     );
   }
 }
 
 const addEvent = gql`
-  mutation addEvent(
-    $name: String!
-    $host_id: Int!
-    $description: String!
-    $location: String!
-    $img: String!
-  ) {
+  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String!) {
     addEvent(
       name: $name
       host_id: $host_id
@@ -386,6 +313,7 @@ const addItems = gql`
     }
   }
 `;
+
 const addRecipients = gql`
   mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int) {
     addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id) {
