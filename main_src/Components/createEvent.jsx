@@ -105,7 +105,7 @@ class CreateEvent extends React.Component {
         this.props
           .addItems({
             variables: {
-              itemNames: this.state.items, 
+              itemNames: this.state.items,
               event_id: event.data.addEvent.id
             }
           })

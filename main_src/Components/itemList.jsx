@@ -60,8 +60,13 @@ const ITEMS_QUERY = gql`
       }
     }
   }
+<<<<<<< HEAD
 `;
 
+=======
+`
+//
+>>>>>>> rebase
 const ItemsWithData = graphql(ITEMS_QUERY, {
   options: props => ({ variables: { id: props.event.id } }),
   name: 'itemsQuery'

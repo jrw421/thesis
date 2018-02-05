@@ -102,7 +102,7 @@ const DASHBOARD_QUERY = gql`
 `;
 
 
-const DashboardWithData = 
+const DashboardWithData =
 
   graphql(DASHBOARD_QUERY, {
     skip: props =>
