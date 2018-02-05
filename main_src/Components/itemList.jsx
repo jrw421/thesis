@@ -49,7 +49,7 @@ const ITEMS_QUERY = gql `
     }
   }
 `
-
+//
 const ItemsWithData = graphql(ITEMS_QUERY, {
   options: (props) => ({variables: {id: props.event.id}}),
   name: 'itemsQuery'

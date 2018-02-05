@@ -88,7 +88,7 @@ class Dashboard extends React.Component {
 //         name
 //     }
 //   }
-// `
+// // `
 const DASHBOARD_QUERY2 = gql `
   query eventQuery($id: String){
     user (hash: $id){
@@ -133,12 +133,12 @@ const DASHBOARD_QUERY = gql `
     }
   }
 `
-
-// export default graphql(DASHBOARD_QUERY, {
-//   options: (props) => ({variables: {id: props.currentUser.id}}), name: 'dashboardQuery' }) (Dashboard)
-
-
-
+//
+// // export default graphql(DASHBOARD_QUERY, {
+// //   options: (props) => ({variables: {id: props.currentUser.id}}), name: 'dashboardQuery' }) (Dashboard)
+//
+//
+//
 const DashboardWithData = compose(
   graphql(DASHBOARD_QUERY2, {
   skip: (props) => (props.currentGuest.params.id === '0'),

@@ -229,7 +229,7 @@ const addItems = gql`
     }
   }
 `
-
+//
 const createEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems'})
