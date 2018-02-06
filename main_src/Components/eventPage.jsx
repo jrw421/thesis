@@ -146,10 +146,10 @@ const NAME_QUERY = gql`
   }
 `;
 
-const nameGuest = graphql(NAME_QUERY, {
+const EventPageWithData = graphql(NAME_QUERY, {
   skip: props => typeof props.currentUser !== 'string',
   options: props => ({ variables: { id: props.currentUser } }),
   name: 'nameGuest'
 })(EventPage);
 
-export default withRouter(nameGuest);
+export default withRouter(EventPageWithData);
