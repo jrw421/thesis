@@ -1,8 +1,8 @@
 import React from 'react'
-import ItemList from './itemList.jsx'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
+import ItemList from './itemList.jsx'
 import gql from 'graphql-tag'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -33,6 +33,9 @@ class EventPage2 extends React.Component {
   }
 
   render() {
+    console.log("HERE ", this.props.match.params.id)
+    console.log("hey there ", this.props)
+    const id = this.props.currentUser.params.id
     return(
     <div>
         <div style={{"textAlign": "center", "align":"center"}}>
@@ -68,7 +71,10 @@ class EventPage2 extends React.Component {
           <div style={{"textAlign": "center", "align":"center"}}>
             <h2>Item Registery</h2>
             <h3>Click on an item to claim it</h3>
-            <ItemList style={{"textAlign": "center", "align":"center"}} currentUser={this.props.currentUser || this.props.location.state.currentGuest} event={this.props.location.state.event}></ItemList>
+            <ItemList style={{"textAlign": "center", "align":"center"}}
+              currentUser={this.props.match.params.id}
+              // event={this.props.location.state.event}
+              ></ItemList>
             <ul></ul>
           </div>
           <img
@@ -82,6 +88,8 @@ class EventPage2 extends React.Component {
 }
 
 
+
+
 const NAME_QUERY = gql `
   query nameQuery ($id: String){
     user(hash: $id) {
@@ -92,7 +100,7 @@ const NAME_QUERY = gql `
 
 const nameGuest = graphql(NAME_QUERY, {
   skip: (props) => (typeof props.currentUser !== 'string'),
-  options: (props) => ({variables: {id: props.currentUser}}),
+  options: (props) => ({variables: {id: this.props.match.params.id}}),
   name: 'nameGuest'
 })(EventPage2);
 

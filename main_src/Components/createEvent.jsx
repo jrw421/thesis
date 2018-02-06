@@ -89,7 +89,7 @@ class createEvent extends React.Component {
         host_id: this.props.currentUser.id,
         description: this.state.description,
         location: this.state.location,
-        img: this.state.uploadedFileCloudinaryUrl
+        img: this.state.uploadedFileCloudinaryUrl || 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/SpongeBob_SquarePants_characters_cast.png/300px-SpongeBob_SquarePants_characters_cast.png'
       }
     }).then(event => {
       console.log('trying to run add items', this.props)
