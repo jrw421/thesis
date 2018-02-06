@@ -61,7 +61,7 @@ class EventPage extends React.Component {
               <div style={{ textAlign: 'center', align: 'center' }}>
                 <FlatButton
                   style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickAttending} 
+                  onClick={this.clickAttending}
                   label="I'll be there"
                 />
                 <FlatButton

@@ -39,8 +39,8 @@ class Dashboard extends React.Component {
 =======
   linkToCreateEvent = () => {
     const href = "/createEvent" + window.location.href.substring(31)
-    console.log('what is HREF ', href)
-    window.location = '/createEvent'
+    console.log('here ', href)
+    window.location = href
   }
 
 >>>>>>> button for currently hosting if no events

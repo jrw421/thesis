@@ -19,3 +19,18 @@ const DashboardWithData = compose(
     },
     name: 'eventQuery'
   })
+
+
+  const GUEST_QUERY = gql `
+    query guestQuery ($id: String){
+      user(hash: $id) {
+        id
+      }
+    }
+  `
+
+  const ItemGuest = graphql(GUEST_QUERY, {
+    skip: (props) => (typeof props.currentUser !== 'string'),
+    options: (props) => ({variables: {id: props.currentUser}}),
+    name: 'guestQuery'
+  })(Item)
