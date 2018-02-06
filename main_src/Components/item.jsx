@@ -2,14 +2,22 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class Item extends React.Component {
+class ItemWithData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clicked: false,
-      guestId: ''
+      clicked: false
     };
     this.handleItemClick = this.handleItemClick.bind(this);
+  }
+
+
+  componentWillMount(){
+    if (this.props.claimedBy && this.props.claimedBy.id === this.props.currentUser.id){
+      this.setState({
+        clicked: true
+      })
+    }
   }
 
   handleItemClick = e => {
@@ -22,45 +30,54 @@ class Item extends React.Component {
         clicked: false
       });
     }
+    console.log('id', this.props.id)
+    this.props.toggleClaimOfItem({
+      variables: {
+        id: this.props.id,
+        user_id: this.props.currentUser.id
+      }
+    })
     // mutation to toggle that item that was clicked.
     // render onclick a div that says <name> claimed item!
   };
 
   render() {
-    setTimeout(() => {
-      this.setState({
-        guestId: this.props.guestQuery.user.id
-      });
-    }, 3000);
-
     const isClicked = this.state.clicked;
-    return (
-      <div style={{ textAlign: 'center', align: 'center' }}>
-        {isClicked ? (
+
+    if (this.props.claimedBy !== null && this.props.claimedBy.id !== this.props.currentUser.id){
+      return(     
+        <div style={{ textAlign: 'center', align: 'center' }}>
+         <a>{this.props.name} was claimed by {this.props.claimedBy.name}</a>
+        </div>
+      )
+    } else {
+      return(
+        <div style={{ textAlign: 'center', align: 'center' }}>
+        {isClicked ?
           <a onClick={e => this.handleItemClick(e)}>
-            {this.props.name} was claimed by{' '}
-            {this.props.currentUser.name || 'guest'}
+          {this.props.name} was claimed by{' '}
+          {this.props.currentUser.name}
           </a>
-        ) : (
+         : 
           <a onClick={e => this.handleItemClick(e)}>{this.props.name}</a>
-        )}
-      </div>
-    );
+        }
+        </div>
+      )
+    }
   }
 }
 
-const GUEST_QUERY = gql`
-  query guestQuery($id: String) {
-    user(hash: $id) {
+
+const toggleClaimOfItem = gql`
+  mutation toggleClaimOfItem($id: Int!, $user_id: Int!) {
+    toggleClaimOfItem(id: $id, user_id: $user_id) {
       id
     }
   }
 `;
 
-const ItemGuest = graphql(GUEST_QUERY, {
-  skip: props => typeof props.currentUser !== 'string',
-  options: props => ({ variables: { id: props.currentUser } }),
-  name: 'guestQuery'
-})(Item);
+const Item = 
+  graphql(toggleClaimOfItem, { name: 'toggleClaimOfItem' })(ItemWithData);
 
-export default ItemGuest;
+
+export default Item;

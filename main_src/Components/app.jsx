@@ -35,12 +35,17 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+
     axios
       .get('/user')
-      .then((data) => {
+      .then(data => {
         this.setState({
-          currentUser: data.data.user || null,
+<<<<<<< HEAD
+          currentUser: data.data.user,
+=======
+          currentUser: data.data.user 
+>>>>>>> b131018ecbef6724270a7836e8bb5b95bb26206b
         });
       })
       .catch((error) => {
@@ -49,19 +54,18 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.currentUser === undefined) {
+
+    if (this.state.currentUser === undefined ) {
       return null;
     }
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          {/* <Header /> */}
-          {/* <div> */}
-          <Header />
           <div>
+          <Header />
             <Switch>
               <Route
-                path="/dashboard/:id"
+                path="/dashboard"
                 render={({ match }) => (
                   <DashboardWithData
                     history={browserHistory}
@@ -71,7 +75,7 @@ class App extends React.Component {
                 )}
               />
               <Route
-                path="/eventPage/:id"
+                path="/eventPage"
                 render={({ match }) => (
                   <EventPageWithData
                     currentUser={this.state.currentUser}

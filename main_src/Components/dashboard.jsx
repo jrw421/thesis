@@ -14,31 +14,14 @@ class Dashboard extends React.Component {
 
   handleEventClick(event) {
     this.props.history.push({
-      pathname: '/eventPage/0',
+      pathname: '/eventPage',
       state: { event },
+
     });
   }
 
   render() {
-    if (this.props.eventQuery) {
-      if (this.props.eventQuery.error) {
-        console.log(this.props.eventQuery.error);
-        return null;
-      }
-      if (this.props.eventQuery.loading) {
-        return null;
-      }
 
-      const event = this.props.eventQuery.user.guestEvent;
-      const currentGuest = this.props.currentGuest.params.id;
-      const currentUser = undefined;
-
-      this.props.history.push({
-        pathname: `/eventPage/${currentGuest}`,
-        state: { event, currentGuest, currentUser },
-      });
-      return null;
-    }
 
     if (this.props.dashboardQuery) {
       if (this.props.dashboardQuery.error) {
@@ -82,10 +65,10 @@ class Dashboard extends React.Component {
         </div>
       );
     }
-
     return (null);
   }
 }
+
 
 const DASHBOARD_QUERY = gql`
   query dashboardQuery($id: Int) {
@@ -118,10 +101,12 @@ const DASHBOARD_QUERY = gql`
   }
 `;
 
-const DashboardWithData =
+
+const DashboardWithData = 
+
   graphql(DASHBOARD_QUERY, {
     skip: props =>
-      props.currentUser === undefined || props.currentUser === null,
+      props.currentUser === undefined ,
     options: props => ({ variables: { id: props.currentUser.id } }),
     name: 'dashboardQuery',
   })(Dashboard);
@@ -132,5 +117,6 @@ Dashboard.propTypes = {
   currentGuest: PropTypes.shape({}).isRequired,
   dashboardQuery: PropTypes.shape({}).isRequired,
 };
+
 
 export default withRouter(DashboardWithData);

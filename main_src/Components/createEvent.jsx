@@ -87,47 +87,44 @@ class CreateEvent extends React.Component {
     });
   }
 
-  submitForm() {
-    const {
-      name,
-      location,
-      // date,
-      // time,
-      description,
-      uploadedFileCloudinaryUrl,
-    } = this.state;
-    const { currentUser } = this.props;
-    this.props.addEvent({
-      variables: {
-        name,
-        host_id: currentUser.id,
-        description,
-        location,
-        img: uploadedFileCloudinaryUrl,
-      },
-    })
-      .then((event) => {
-        this.props.addItems({
-          variables: {
-            name,
-            host_id: currentUser.id,
-            description,
-            location,
-            img: uploadedFileCloudinaryUrl,
-          },
-        })
+
+  submitForm = () => {
+    const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
+    this.props
+      .addEvent({
+        variables: {
+          name,
+          host_id: this.props.currentUser.id,
+          description,
+          location,
+          img: uploadedFileCloudinaryUrl
+        }
+      })
+      .then(event => {
+
+        this.props
+          .addItems({
+            variables: {
+              itemNames: this.state.items, 
+              event_id: event.data.addEvent.id
+            }
+          })
           .then(() => {
-            this.props.addRecipients({
-              variables: {
-                nameEmail: this.state.guests,
-                event_id: event.data.addEvent.id,
-                id: currentUser.id,
-              },
-            })
+
+            this.props
+              .addRecipients({
+                variables: {
+                  nameEmail: this.state.guests,
+                  event_id: event.data.addEvent.id,
+                  id: this.props.currentUser.id
+                }
+              })
               .then(() => {
                 this.props.history.push({
-                  pathname: '/eventPage/0',
+                  pathname: '/eventPage',
                   state: { event: event.data.addEvent },
+
+
                 });
               });
           });
@@ -198,77 +195,78 @@ class CreateEvent extends React.Component {
               )}
             </div>
           </div>
-          <br />
-          <br />
-          <TextField
-            value={this.state.location}
-            type="text"
-            placeholder="Where's your party at?"
-            onChange={e => this.setState({ location: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.guestName}
-            type="text"
-            placeholder="Who do you not hate?"
-            onChange={e => this.setState({ guestName: e.target.value })}
-          />
-          <TextField
-            value={this.state.guestEmail}
-            type="text"
-            placeholder="What is their email?"
-            onChange={e => this.setState({ guestEmail: e.target.value })}
-          />
-          <FlatButton
-            label="Add Guest"
-            value="Add Guest"
-            type="submit"
-            onClick={() => {
-              this.addGuest();
-            }}
-            secondary="true"
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.date}
-            type="date"
-            placeholder="What day?"
-            onChange={e => this.setState({ date: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.time}
-            type="time"
-            placeholder="What time?"
-            onChange={e => this.setState({ time: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.description}
-            type="text"
-            placeholder="Tell people what your party is all about!"
-            onChange={e => this.setState({ description: e.target.value })}
-          />
-          <br />
-          <br />
-          <TextField
-            value={this.state.currentItem}
-            type="text"
-            placeholder="Whatcha want people to bring?"
-            onChange={e => this.setState({ currentItem: e.target.value })}
-            onKeyPress={this.handleItems}
-          />
-          <ul>
-            {this.state.items.map(item => <li>{item}</li>)}
-          </ul>
-          <br />
-          <br />
-
-          <FlatButton
+        <br />
+        <br />
+        <TextField
+          value={this.state.location}
+          type="text"
+          placeholder="Where's your party at?"
+          onChange={e => this.setState({ location: e.target.value })}
+        />
+        <br />
+        <br />
+        <TextField
+          value={this.state.guestName}
+          type="text"
+          placeholder="Who do you not hate?"
+          onChange={e => this.setState({ guestName: e.target.value })}
+        />
+        <TextField
+          value={this.state.guestEmail}
+          type="text"
+          placeholder="What is their email?"
+          onChange={e => this.setState({ guestEmail: e.target.value })}
+        />
+        <FlatButton
+          label="Add Guest"
+          value="Add Guest"
+          type="submit"
+          onClick={() => {
+            this.addGuest();
+          }}
+          secondary={true}
+        />
+        <br />
+        <br />
+        <TextField
+          value={this.state.date}
+          type="date"
+          placeholder="What day?"
+          onChange={e => this.setState({ date: e.target.value })}
+        />
+        <br />
+        <br />
+        <TextField
+          value={this.state.time}
+          type="time"
+          placeholder="What time?"
+          onChange={e => this.setState({ time: e.target.value })}
+        />
+        <br />
+        <br />
+        <TextField
+          value={this.state.description}
+          type="text"
+          placeholder="Tell people what your party is all about!"
+          onChange={e => this.setState({ description: e.target.value })}
+        />
+        <br />
+        <br />
+        <TextField
+          value={this.state.currentItem}
+          type="text"
+          placeholder="Whatcha want people to bring?"
+          onChange={e => this.setState({ currentItem: e.target.value })}
+          onKeyPress={this.handleItems}
+        />
+        <ul>
+          {this.state.items.map(item => {
+            return <li>{item}</li>;
+          })}
+        </ul>
+        <br />
+        <br />
+         <FlatButton
             label="Submit"
             value="Submit"
             type="submit"
@@ -277,21 +275,15 @@ class CreateEvent extends React.Component {
             }}
             secondary="true"
           />
-        </div>
-
       </div>
+  </div>
+
     );
   }
 }
 
 const addEvent = gql`
-  mutation addEvent(
-    $name: String!
-    $host_id: Int!
-    $description: String!
-    $location: String!
-    $img: String!
-  ) {
+  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String!) {
     addEvent(
       name: $name
       host_id: $host_id
@@ -321,6 +313,7 @@ const addItems = gql`
     }
   }
 `;
+
 const addRecipients = gql`
   mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int) {
     addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id) {
@@ -332,7 +325,7 @@ const addRecipients = gql`
 const CreateEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems' }),
-  graphql(addRecipients, { name: 'addRecipients' }),
+  graphql(addRecipients, { name: 'addRecipients' })
 )(CreateEvent);
 
 CreateEvent.propTypes = {

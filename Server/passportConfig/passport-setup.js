@@ -11,12 +11,14 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   // retrieve id from cookie
   // and use it to access user in database
+  console.log('deserialize', id)
   db.user
     .getUser(id)
     .then(user => {
+      console.log('deserializeuser', user)
       done(null, user);
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(40, error));
 });
 
 passport.use(
@@ -41,7 +43,7 @@ passport.use(
         .then(user => {
           done(null, user);
         })
-        .catch(error => console.log(error));
+        .catch(error => console.log(50, error));
     }
   )
 );
