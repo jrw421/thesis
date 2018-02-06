@@ -6,59 +6,59 @@ import Item from './item.jsx'
 class ItemList extends React.Component {
   constructor(props) {
     super(props)
-    this.handleItemClick = this.handleItemClick.bind(this)
   }
-  handleItemClick = (e) => {
-    console.log('item clicked', e.target.textContent);
-    //Pass in query to toggle that item that was clicked.
 
-  }
+  // handleItemClick = (e) => {
+  //   console.log('item clicked', e);
+  //   // this.props.toggleClaimOfItem({
+  //   //   variables: {
+  //   //     // id:
+  //   //     userId: this.props.currentUser
+  //   //   }
+  //   // })
+  //   //Pass in query to toggle that item that was clicked.
+  // }
 
   componentDidMount() {
-
+    console.log('props ', this.props.event.user.guestEvent.items[0].id)
   }
 
   render() {
-    // if (this.props.itemsQuery && this.props.itemsQuery.error) {
-    //   console.log(this.props.itemsQuery.error)
-    // }
-    // if (this.props.itemsQuery.loading) {
-    //   return null;
-    // }
-    setTimeout(function() {
-      console.log("LOOK AT THIS!!!")
-    }, 3000)
-    setTimeout(function() {
-      console.log("A BIRD! A PLANE!")
-    }, 3000)
-    // console.log('Item props', this.props.event.guestEvent);
-    // console.log('USER ISSSS IN ITEM ', this.props.currentUser.params.id)
-    // console.log('HERE ', this.props.itemsQuery.event.items)
-    // let items = this.props.itemsQuery.event.items;
-    // let id = this.props.event.id;
+    if (this.props.event && this.props.event.error) {
+      console.log(this.props.event.error)
+    }
+    if (this.props.event.loading) {
+      return null;
+    }
+    console.log('user id ', this.props.event.user.id)
+    console.log('user id ', this.props.event.user.guestEvent.items)
+    // console.log('this is ITEMS LIST ', this.props.event.user.guestEvent.items)
+    // console.log("NAME?  ", this.props.event.user.name)
+    //
+    let items = this.props.event.user.guestEvent.items;
+    console.log('itemsss ', items)
     return(
       <ul>
-    {/* {items.map( (item, i)  => {
-        return <Item style={{"textAlign": "center", "align":"center"}} name={item.name} key={item.id} handleItemClick={this.handleItemClick} currentUser={this.props.currentUser} />
-        // return null
-      })} */}
+    {items.map((item)  => {
+        return <Item style={{"textAlign": "center", "align":"center"}} userId={item.user_id} description={item.name} id={item.id} currentId={this.props.event.user.id} currentUser={this.props.event.user.name}/>
+      })}
       </ul>
     )
   }
 }
 
-const ITEMS_QUERY = gql `
-  query itemsQuery ($id: Int){
-      event(id: $id) {
-        name
-        items {
-          id
-          name
-          user_id
-        }
-    }
-  }
-`
+// const ITEMS_QUERY = gql `
+//   query itemsQuery ($id: Int){
+//       event(id: $id) {
+//         name
+//         items {
+//           id
+//           name
+//           user_id
+//         }
+//     }
+//   }
+// `
 
 // const ItemsWithData = graphql(ITEMS_QUERY, {
 //   options: (props) => ({variables: {id: props.event.id}}),

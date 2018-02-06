@@ -12,26 +12,42 @@ class EventPage2 extends React.Component {
     super(props)
 
     this.state = {
-      guests: ["Tim", "Todd"],
-      info: ''
+      guests: []
     }
   }
 
-  componentDidMount() {
+  // componentWillMount() {
+  //   this.setState({
+  //     guests: this.props.guestQuery.user
+  //   })
+  //   // console.log('HERRO ', this.props.guestQuery.user)
+  // }
+
+  postLoad() {
     this.setState({
-      info: this.props.guestQuery.user
+      guests: this.props.guestQuery.user.guestEvent.users
     })
   }
-
   clickAttending() {
-    console.log('you is going to the partay')
     this.setState({
-      guests: [...this.state.guests, this.props.currentGuest.name || "Guest"]
+      guests: [...this.state.guests, this.props.guestQuery.user.name]
+    })
+
+    this.props.confirmPresence({
+      variables: {
+        userId: this.props.guestQuery.user.id,
+        eventId: this.props.guestQuery.user.guestEvent.id
+      }
     })
   }
 
   clickNotAttending() {
-    console.log('bummer')
+    this.props.denyPresence({
+      variables: {
+        userId: this.props.guestQuery.user.id,
+        eventId: this.props.guestQuery.user.guestEvent.id
+      }
+    })
     window.location ='/'
   }
 
@@ -40,18 +56,26 @@ class EventPage2 extends React.Component {
   }
 
   render() {
-    console.log('STATE ', this.state.info)
     //   console.log("HEEEREEEEE ", this.props.currentUser.params.id)
     // console.log("HERE ", this.props.match.params.id)
-    console.log('PROPS ALL ', this.props.guestQuery.user)
-    console.log("hey there WHAT ARE YOU ",  this.props.currentUser.params.id)
-    console.log("what are we getting here ", this.props.match.params.id)
+    if (this.props.guestQuery.loading || this.props.guestQuery.error) {
+      return null
+    }
+    console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
+    let users = this.props.guestQuery.user.guestEvent.users
+    console.log('yUersss ', users)
+    // console.log('ERHG STATE ', this.state.guests)
+    // console.log('HEREE ', this.props.guestQuery.user.guestEvent.id)
+    // console.log('stateeee ', this.props.guestQuery)
+    // console.log('PROPS ALL ', this.props.guestQuery.user.name)
+    // console.log("hey there WHAT ARE YOU ",  this.props.currentUser.params.id)
+    // console.log("what are we getting here ", this.props.match.params.id)
     // const id = this.props.currentUser.params.id
     return(
     <div>
         <div style={{"textAlign": "center", "align":"center"}}>
         <FlatButton style={{"textAlign": "center", "align":"center"}}
-          onClick={() => this.clickAttending(this.props.currentGuest.name)} //this.props.user.name
+          onClick={() => this.clickAttending(this.props.guestQuery.user.name)} //this.props.user.name
           label="I'll be there"/>
         <FlatButton style={{"textAlign": "center", "align":"center"}}
           onClick={this.clickNotAttending}
@@ -61,19 +85,18 @@ class EventPage2 extends React.Component {
             label="HOME"/>
       </div>
 
-
         <div style={{"textAlign": "center"}} className="eventPage">
-          <h1 className="eventPage">{event.name}</h1>
-          <div className="eventPage">{event.location}</div>
-          <div className="eventPage">{event.date}</div>
-          <div className="eventPage" >{event.description}</div>
+          <h1 className="eventPage">{this.props.guestQuery.user.guestEvent.name}</h1>
+          <div className="eventPage">{this.props.guestQuery.user.guestEvent.location}</div>
+          <div className="eventPage">{this.props.guestQuery.user.guestEvent.date}</div>
+          <div className="eventPage" >{this.props.guestQuery.user.guestEvent.description}</div>
           <div style={{"textAlign": "center", "align":"center"}}>
             <h2>Who's Coming</h2>
             <ul>
-                {this.state.guests.map((name) => {
+                {users.map((name) => {
                   return (
                     <div style={{"textAlign": "center", "align":"center"}}>
-                    <a>{name}</a>
+                    <a>{name.name}</a>
                   </div>
                   )
                 })}
@@ -84,13 +107,13 @@ class EventPage2 extends React.Component {
             <h3>Click on an item to claim it</h3>
             <ItemList style={{"textAlign": "center", "align":"center"}}
               currentUser={this.props.match.params.id}
-              event={this.props.guestQuery.user}
+              event={this.props.guestQuery}
               ></ItemList>
             <ul></ul>
           </div>
           <img
             style={{"height":"400px", "width": "400px"}}
-            src={event.img}
+            src={this.props.guestQuery.user.guestEvent.img}
             alt=""
           />
         </div>
@@ -101,8 +124,19 @@ class EventPage2 extends React.Component {
 const GUEST_QUERY = gql `
   query guestQuery ($id: String){
     user(hash: $id) {
+      id
+      name
       guestEvent{
+        items {
+          name
+          user_id
+          id
+        }
+        users {
+         name
          id
+       }
+          id
           name
           description
           img
@@ -111,11 +145,31 @@ const GUEST_QUERY = gql `
   }
 `
 
-const GuestInfo = graphql(GUEST_QUERY, {
-  // skip: (props) => (typeof props.currentUser !== 'string'),
-  options: (props) => ({variables: {id: props.currentUser.params.id}}),
-  name: 'guestQuery'
-})(EventPage2)
+const confirmPresence = gql`
+  mutation confirmPresence($userId: Int!, $eventId: Int!){
+    confirmPresence(userId: $userId, eventId: $eventId){
+      userId
+      eventId
+    }
+  }
+`
+const denyPresence = gql`
+  mutation denyPresence($userId: Int!, $eventId: Int!){
+    denyPresence(userId: $userId, eventId: $eventId){
+      userId
+      eventId
+    }
+  }
+`
+
+
+const GuestInfo = compose (
+  graphql(confirmPresence, { name: 'confirmPresence' }),
+  graphql(denyPresence, { name: 'denyPresence'}),
+  graphql(GUEST_QUERY, {
+    options: (props) => ({variables: {id: props.currentUser.params.id}}),
+    name: 'guestQuery'
+}))(EventPage2)
 
 
 export default withRouter(GuestInfo)
