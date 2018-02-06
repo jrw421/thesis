@@ -13,15 +13,17 @@ class ItemList extends React.Component {
     //Pass in query to toggle that item that was clicked.
   };
 
+
   render() {
     if (this.props.itemsQuery && this.props.itemsQuery.error) {
-      console.log(this.props.itemsQuery.error);
+      return <div>{this.props.itemsQuery.error}</div>;
     }
     if (this.props.itemsQuery.loading) {
       return null;
     }
 
     let items = this.props.itemsQuery.event.items;
+    console.log('items list items', items)
     // let id = this.props.event.id;
     return (
       <ul>
@@ -31,6 +33,8 @@ class ItemList extends React.Component {
               style={{ textAlign: 'center', align: 'center' }}
               name={item.name}
               key={item.id}
+              id={item.id}
+              claimedBy={item.user}
               handleItemClick={this.handleItemClick}
               currentUser={this.props.currentUser}
             />
@@ -49,7 +53,10 @@ const ITEMS_QUERY = gql`
       items {
         id
         name
-        user_id
+        user{
+          id
+          name
+        }
       }
     }
   }

@@ -120,6 +120,7 @@ class CreateEvent extends React.Component {
                 this.props.history.push({
                   pathname: '/eventPage',
                   state: { event: event.data.addEvent },
+
                 });
               });
           });
@@ -330,6 +331,7 @@ CreateEvent.propTypes = {
   // history: ReactRouterPropTypes.history.isRequired,
   currentUser: PropTypes.shape({}).isRequired,
 };
+
 
 
 export default withRouter(CreateEventWithMutations);

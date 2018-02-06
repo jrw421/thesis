@@ -104,7 +104,7 @@ const DashboardWithData =
 
   graphql(DASHBOARD_QUERY, {
     skip: props =>
-      props.currentUser === undefined || props.currentUser === null,
+      props.currentUser === undefined ,
     options: props => ({ variables: { id: props.currentUser.id } }),
     name: 'dashboardQuery',
   })(Dashboard);

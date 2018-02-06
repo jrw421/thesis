@@ -25,8 +25,9 @@ eventAttendeeController = {
   },
   getEvents: async function(user_id) {
     //did this to avoid nested/async queries in graphql
+    let arr
     try{
-    let arr = await knex
+    arr = await knex
       .select('*')
       .from('event_attendee')
       .where('user_id', user_id)

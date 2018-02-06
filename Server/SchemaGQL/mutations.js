@@ -108,8 +108,7 @@ const mutations = new GraphQLObjectType({
           .then(user => user)
           .catch(error => console.log(24, error));
       }
-    }
-  },
+    },
   addItem: {
     type: ItemType,
     args: {
@@ -176,6 +175,7 @@ const mutations = new GraphQLObjectType({
         .catch(x => console.log(27, x));
     }
   }
+}
 });
 
 module.exports = mutations;
