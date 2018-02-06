@@ -60,7 +60,7 @@ const mutations = new GraphQLObjectType({
       type: ItemType,
       args: {
         id: { type: new GraphQLNonNull(GraphQLID)},
-        userId: { type: new GraphQLNonNull(GraphQLID)}
+        user_id: { type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parentValues, args) {
         return db.item.claimItem(args.id, args.user_id)
@@ -86,11 +86,11 @@ const mutations = new GraphQLObjectType({
   confirmPresence: {
     type: UserType,
     args: {
-      userId: { type: new GraphQLNonNull(GraphQLInt)},
-      eventId: { type: new GraphQLNonNull(GraphQLInt) }
+      id: { type: new GraphQLNonNull(GraphQLInt)},
+      guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValues, args) {
-      return db.event_attendee.confirmPresence(args.user_id, args.event_id)
+      return db.event_attendee.confirmPresence(args.id, args.guest_event_id)
         .then(user => user)
         .catch(error => error)
     }
@@ -98,11 +98,11 @@ const mutations = new GraphQLObjectType({
   denyPresence: {
     type: UserType,
     args: {
-      userId: { type: new GraphQLNonNull(GraphQLInt)},
-      eventId: { type: new GraphQLNonNull(GraphQLInt) }
+      id: { type: new GraphQLNonNull(GraphQLInt)},
+      guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValues, args) {
-      return db.event_attendee.denyPresence(args.userId, args.eventId)
+      return db.event_attendee.denyPresence(args.id, args.guest_event_id)
         .then(user => user)
         .catch(error => error)
     }
@@ -111,14 +111,14 @@ const mutations = new GraphQLObjectType({
     type: ItemType,
     args: {
       name: { type: new GraphQLNonNull(GraphQLString) },
-      userId: { type: GraphQLID },
-      eventId: { type: new GraphQLNonNull(GraphQLID)}
+      user_id: { type: GraphQLID },
+      event_id: { type: new GraphQLNonNull(GraphQLID)}
     },
     resolve(parentValues, args) {
       return db.item.add({
         name: args.name,
-        user_id: args.userId,
-        event_id: args.eventId
+        user_id: args.user_id,
+        event_id: args.event_id
       })
       .then(item => item)
       .catch(error => error)
@@ -134,9 +134,9 @@ const mutations = new GraphQLObjectType({
       console.log('args in mutations', args)
       return db.item.addMultiple({
         name: args.itemNames,
-        eventId: args.eventId
+        event_id: args.event_id
       }).then(() => {
-      return db.item.getItemsByEventId(args.eventId)
+      return db.item.getItemsByEventId(args.event_id)
       })
     }
     // items: {

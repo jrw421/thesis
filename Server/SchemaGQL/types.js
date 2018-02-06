@@ -76,7 +76,7 @@ const ItemsType = new GraphQLObjectType({
     return db.item.getItemsByEventId(parentValue.event_id)
     .then(item => item)
   },
-  
+
 })
 
 const UserType = new GraphQLObjectType({
@@ -92,7 +92,7 @@ const UserType = new GraphQLObjectType({
     reply: {type: GraphQLInt},
     accessToken: {type: GraphQLString},
     refreshToken: {type: GraphQLString},
-    hash: {type: GraphQLString}, 
+    hash: {type: GraphQLString},
     guest_event_id: {type: GraphQLInt},
     hostedEvents: {
       type: new GraphQLList(EventType),
@@ -115,9 +115,9 @@ const UserType = new GraphQLObjectType({
         return db.event.getCurrentEvents(parentValue.id)
         // .then( x => console.log('p', x))
       }
-    }, 
+    },
     guestEvent: {
-      type: EventType, 
+      type: EventType,
       resolve(parentValue, args){
         return db.event.getEvent(parentValue.guest_event_id)
       }

@@ -18,7 +18,7 @@ class Header2 extends Component {
 
     return (
       <div>
-        <AppBar title="Host.ly">
+        <AppBar title="Host.ly" showMenuIconButton={false}>
           <Tabs onChange={this.changeTab}>
             <Tab
             value={0}

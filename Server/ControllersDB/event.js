@@ -33,7 +33,6 @@ eventController = {
 		return knex('event').where('date', '>=', dateNum)
 	},
 	getEvent: async function(id){
-		console.log('HELLLOOOOO in event')
 		let result = await knex.select('*').from('event').where('id', id)
 		return result[0]
 	},
