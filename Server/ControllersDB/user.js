@@ -33,6 +33,42 @@ userController = {
       })
       .catch(error => error);
   },
+  getUserById: function(id) {
+    knex
+      .select('*')
+      .from('user')
+      .where('id', id)
+      .then(result => {
+        return result[0];
+      })
+      .catch(error => {
+        console.log('error: ', error);
+      });
+  },
+  getUserByGoogleId: function(google_id) {
+    knex
+      .select('*')
+      .from('user')
+      .where('google_id', google_id)
+      .then(result => {
+        return result[0];
+      })
+      .catch(error => {
+        console.log('error: ', error);
+      });
+  },
+  getUserByHash: function(hash) {
+    knex
+      .select('*')
+      .from('user')
+      .where('hash', hash)
+      .then(result => {
+        return result[0];
+      })
+      .catch(error => {
+        console.log('error: ', error);
+      });
+  },
   getUser: async function(id, google_id, hash) {
     if (google_id !== null && google_id !== undefined) {
       let result = await knex
@@ -81,3 +117,5 @@ userController = {
 };
 
 module.exports = userController;
+
+userController.getUserByHash('6e23cd20ee2564eb5a79f814d42707b169109274');

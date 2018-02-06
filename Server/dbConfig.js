@@ -94,6 +94,27 @@ knex.schema.hasTable('item').then(function(exists) {
   }
 });
 
+knex.schema.hasTable('itemComments').then(function(exists) {
+  if (!exists) {
+    knex.schema
+      .createTable('itemComments', function(table) {
+        table.increments('id').primary();
+        table.string('content', 255);
+        table.integer('user_id');
+        table.integer('event_id');
+        table.integer('item_id');
+        table.integer('likes');
+        table.timestamp('created_at').defaultTo(knex.fn.now());
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+});
+
 const bookshelf = require('bookshelf')(knex);
 
 module.exports = {
