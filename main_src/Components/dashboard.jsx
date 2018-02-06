@@ -16,10 +16,12 @@ class Dashboard extends React.Component {
     this.props.history.push({
       pathname: '/eventPage',
       state: { event },
+
     });
   }
 
   render() {
+
 
     if (this.props.dashboardQuery) {
       if (this.props.dashboardQuery.error) {
@@ -63,7 +65,6 @@ class Dashboard extends React.Component {
         </div>
       );
     }
-
     return (null);
   }
 }
@@ -100,6 +101,7 @@ const DASHBOARD_QUERY = gql`
   }
 `;
 
+
 const DashboardWithData = 
 
   graphql(DASHBOARD_QUERY, {
@@ -115,5 +117,6 @@ Dashboard.propTypes = {
   currentGuest: PropTypes.shape({}).isRequired,
   dashboardQuery: PropTypes.shape({}).isRequired,
 };
+
 
 export default withRouter(DashboardWithData);

@@ -41,7 +41,11 @@ class App extends React.Component {
       .get('/user')
       .then(data => {
         this.setState({
+<<<<<<< HEAD
           currentUser: data.data.user,
+=======
+          currentUser: data.data.user 
+>>>>>>> b131018ecbef6724270a7836e8bb5b95bb26206b
         });
       })
       .catch((error) => {

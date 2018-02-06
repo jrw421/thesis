@@ -145,6 +145,7 @@ class EventPage extends React.Component {
   }
 }
 
+
 const NAME_QUERY = gql`
   query nameQuery($id: String) {
     user(hash: $id) {

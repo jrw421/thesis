@@ -87,6 +87,7 @@ class CreateEvent extends React.Component {
     });
   }
 
+
   submitForm = () => {
     const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
     this.props
@@ -100,6 +101,7 @@ class CreateEvent extends React.Component {
         }
       })
       .then(event => {
+
         this.props
           .addItems({
             variables: {
@@ -108,6 +110,7 @@ class CreateEvent extends React.Component {
             }
           })
           .then(() => {
+
             this.props
               .addRecipients({
                 variables: {
@@ -120,6 +123,7 @@ class CreateEvent extends React.Component {
                 this.props.history.push({
                   pathname: '/eventPage',
                   state: { event: event.data.addEvent },
+
 
                 });
               });

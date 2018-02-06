@@ -48,7 +48,6 @@ app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../main_di
 app.use('/eventPage/:id', express.static(path.join(__dirname, '../guest_dist')));
 
 
-
 //contacts///
 
 app.get('/contacts:id', function(req, res) {
