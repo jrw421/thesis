@@ -126,11 +126,11 @@ const DashboardWithData =
     name: 'dashboardQuery',
   })(Dashboard);
 
-// Dashboard.propTypes = {
-  // history: PropTypes.shape.isRequired,
-  // eventQuery: PropTypes.shape.isRequired,
-  // currentGuest: PropTypes.shape.isRequired,
-  // dashboardQuery: PropTypes.shape.isRequired,
-// };
+Dashboard.propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  eventQuery: PropTypes.shape({}).isRequired,
+  currentGuest: PropTypes.shape({}).isRequired,
+  dashboardQuery: PropTypes.shape({}).isRequired,
+};
 
 export default withRouter(DashboardWithData);

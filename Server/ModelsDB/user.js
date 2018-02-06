@@ -4,12 +4,12 @@ const Item = require('./item.js');
 
 const User = bookshelf.Model.extend({
   tableName: 'user',
-  events: function() {
+  events() {
     return this.belongsToMany(Event);
   },
-  items: function() {
+  items() {
     return this.hasMany(Item);
-  }
+  },
 });
 
 module.exports = User;
