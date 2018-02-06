@@ -333,5 +333,4 @@ CreateEvent.propTypes = {
 };
 
 
-
 export default withRouter(CreateEventWithMutations);
