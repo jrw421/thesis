@@ -16,24 +16,22 @@ class EventPage2 extends React.Component {
     }
   }
 
-  // componentWillMount() {
-  //   this.setState({
-  //     guests: this.props.guestQuery.user
-  //   })
-  //   // console.log('HERRO ', this.props.guestQuery.user)
-  // }
-
   postLoad() {
+    // if () {
+    //
+    // }
     this.setState({
       guests: this.props.guestQuery.user.guestEvent.users
     })
   }
-  clickAttending() {
+
+  clickAttending(name) {
+    alert("Great! Can't wait to see you there!")
     console.log('event id ', this.props.guestQuery.user.guestEvent.id)
     this.setState({
-      guests: [...this.state.guests, this.props.guestQuery.user.name]
+      guests: [...this.state.guests, name]
     })
-
+console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.user.guestEvent.id)
     this.props.confirmPresence({
       variables: {
         user_id: this.props.guestQuery.user.id,
@@ -43,11 +41,12 @@ class EventPage2 extends React.Component {
   }
 
   clickNotAttending() {
-    console.log('event id ', this.props.guestQuery.user.guestEvent.id)
+    alert('So sad! You suck!')
+    console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.user.guestEvent.id)
     this.props.denyPresence({
       variables: {
-        userId: this.props.guestQuery.user.id,
-        eventId: this.props.guestQuery.user.guestEvent.id
+        user_id: this.props.guestQuery.user.id,
+        event_id: this.props.guestQuery.user.guestEvent.id
       }
     })
     window.location ='/'
@@ -61,6 +60,7 @@ class EventPage2 extends React.Component {
     if (this.props.guestQuery.loading || this.props.guestQuery.error) {
       return null
     }
+    // console.log('event id ', this.props.guestQuery.user.guestEvent.id)
     console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
     let users = this.props.guestQuery.user.guestEvent.users
     console.log('yUersss ', users)
@@ -101,6 +101,7 @@ class EventPage2 extends React.Component {
             <h2>Item Registery</h2>
             <h3>Click on an item to claim it</h3>
             <ItemList style={{"textAlign": "center", "align":"center"}}
+              eventId={this.props.guestQuery.user.guestEvent.id}
               hash={this.props.currentUser.params.id}
               currentUser={this.props.match.params.id}
               event={this.props.guestQuery}
@@ -142,18 +143,18 @@ const GUEST_QUERY = gql `
 `
 
 const confirmPresence = gql`
-  mutation confirmPresence($user_id: [String]!, $event_id: Int!){
-    confirmPresence(userId: $userId, event_id: $event_id){
-      user_id
-      event_id
+  mutation confirmPresence($user_id: Int!, $event_id: Int!){
+    confirmPresence(id: $user_id, guest_event_id: $event_id){
+      id
+      guest_event_id
     }
   }
 `
 const denyPresence = gql`
   mutation denyPresence($user_id: Int!, $event_id: Int!){
-    denyPresence(user_id: $user_id, event_id: $event_id){
-      user_id
-      event_id
+    denyPresence(id: $user_id, guest_event_id: $event_id){
+      id
+      guest_event_id
     }
   }
 `

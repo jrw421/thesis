@@ -82,110 +82,82 @@ const mutations = new GraphQLObjectType({
           .then(response => response[0]).catch(err => console.log(22, err));
       }
     },
-    findOrCreateUser: {
-      type: UserType,
-      args: {
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        img: { type: new GraphQLNonNull(GraphQLString) },
-        google_id: { type: new GraphQLNonNull(GraphQLString) },
-        etag: { type: new GraphQLNonNull(GraphQLString) },
-        email: { type: GraphQLString }
-      },
-      resolve(parentValues, args) {
-        return db.user
-          .findOrCreateUser(args)
-          .then(response => response)
-          .catch(error => console.log(23, error));
-      }
+    resolve(parentValues, args) {
+      return db.user.findOrCreateUser(args)
+        .then(response => response)
+        .catch(error => error)
+    }
+  },
+  confirmPresence: {
+    type: UserType,
+    args: {
+      id: { type: new GraphQLNonNull(GraphQLInt)},
+      guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
     },
-    confirmPresence: {
-      type: UserType,
-      args: {
-        user_id: { type: new GraphQLNonNull(GraphQLInt) },
-        event_id: { type: new GraphQLNonNull(GraphQLInt) }
-      },
-      resolve(parentValues, args) {
-        return db.event_attendee
-          .confirmPresence(args.user_id, args.event_id)
-          .then(user => user)
-          .catch(error => console.log(24, error));
-      }
+    resolve(parentValues, args) {
+      return db.event_attendee.confirmPresence(args.id, args.guest_event_id)
+        .then(user => user)
+        .catch(error => error)
+    }
+  },
+  denyPresence: {
+    type: UserType,
+    args: {
+      id: { type: new GraphQLNonNull(GraphQLInt)},
+      guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
     },
-    addItems: {
-      type: new GraphQLList(ItemsType),
-      args: {
-        itemNames: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
-        event_id: { type: new GraphQLNonNull(GraphQLInt) }
-      },
-      resolve(parentValues, args) {
-        console.log('add items resolve args', args)
-        return db.item
-          .addMultiple({
-            name: args.itemNames,
-            event_id: args.event_id
-          })
-          .then(() => {
-            return db.item.getItemsByEventId(args.event_id);
-          })
-          .catch(err => {
-            console.log(26, err)
-            return null
-          });
-      }
+    resolve(parentValues, args) {
+      return db.event_attendee.denyPresence(args.id, args.guest_event_id)
+        .then(user => user)
+        .catch(error => error)
+    }
+  },
+  addItem: {
+    type: ItemType,
+    args: {
+      name: { type: new GraphQLNonNull(GraphQLString) },
+      user_id: { type: GraphQLID },
+      event_id: { type: new GraphQLNonNull(GraphQLID)}
     },
-    addItem: {
-      type: ItemType,
-      args: {
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        user_id: { type: GraphQLInt },
-        event_id: { type: new GraphQLNonNull(GraphQLInt) }
-      },
-      resolve(parentValues, args) {
-        return db.item
-          .add({
-            name: args.name,
-            user_id: args.user_id,
-            event_id: args.event_id
-          })
-          .then(item => item)
-          .catch(error => console.log('151', error));
-      }
+    resolve(parentValues, args) {
+      return db.item.add({
+        name: args.name,
+        user_id: args.user_id,
+        event_id: args.event_id
+      })
+      .then(item => item)
+      .catch(error => error)
+    }
+  },
+  addItems: {
+    type: new GraphQLList(ItemsType),
+    args: {
+      itemNames: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
+      eventId: { type: new GraphQLNonNull(GraphQLInt)  }
     },
-    addComment: {
-      type: ItemCommentType,
-      args: {
-        content: { type: GraphQLString },
-        user_id: { type: new GraphQLNonNull(GraphQLInt) },
-        item_id: { type: new GraphQLNonNull(GraphQLInt) },
-        event_id: { type: new GraphQLNonNull(GraphQLInt) }
-      },
-      resolve(parentValues, args) {
-        return db.itemComments.addItemComment({
-          content: args.content,
-          user_id: args.user_id,
-          item_id: args.item_id,
-          event_id: args.event_id
-        });
-      }
-    },
-    addRecipients: {
-      type: new GraphQLList(UserType),
-      args: {
-        nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
-        id: { type: GraphQLInt },
-        event_id: { type: GraphQLInt }
-      },
-      resolve(parentValues, args) {
-        return knex
-          .select('*')
-          .from('user')
-          .where('id', args.id)
-          .then(res => {
-            let user = res[0];
-            let guests = args.nameEmail.map(n => {
-              let arr = n.split('*');
-              return [arr[0], arr[1]];
-            });
+    resolve(parentValues, args) {
+      console.log('args in mutations', args)
+      return db.item.addMultiple({
+        name: args.itemNames,
+        event_id: args.event_id
+      }).then(() => {
+      return db.item.getItemsByEventId(args.event_id)
+      })
+    }
+    // items: {
+    //   type: new GraphQLList(ItemType),
+    //   resolve(parentValue, args){
+    //     return db.item.getItemsByEventId(args.eventId)
+    //   }
+    }
+
+}
+})
+
+
+
+
+
 
             return sendMessage(guests, user, args.event_id);
           })
