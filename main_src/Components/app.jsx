@@ -58,6 +58,7 @@ class App extends React.Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           <div>
+          <Header />
             <Switch>
               <Route
                 path="/dashboard"

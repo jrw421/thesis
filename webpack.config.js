@@ -8,11 +8,7 @@ const config = {
   // webpack will recursively go through every 'require' statement in app.ts
   entry: {
     main_dist: './main_src/index.jsx',
-<<<<<<< HEAD
     guest_dist: './guest_src/index.jsx',
-=======
-    guest_dist: './guest_src/index.jsx'
->>>>>>> fixed bugs
   },
   // tells webpack in what folder to store the bundled
   // javascript files and what name to give to final
