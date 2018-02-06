@@ -32,11 +32,12 @@ itemController = {
       }
     }
   },
-  getItem: function(id) {
-    return knex
+  getItem: async function(id) {
+    let result = await knex
       .select('*')
       .from('item')
       .where('id', id);
+    return result[0];
   },
   claimItem: function(id, user_id) {
     return knex

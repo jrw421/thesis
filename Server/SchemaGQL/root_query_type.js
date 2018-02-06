@@ -1,6 +1,8 @@
 const graphql = require('graphql');
 const UserType = require('./types').UserType;
 const EventType = require('./types').EventType;
+const ItemCommentType = require('./types').ItemCommentType;
+const ItemType = require('./types').ItemType;
 const _ = require('lodash');
 const schema = require('./schema');
 const db = require('../ControllersDB/mainController.js');
@@ -30,7 +32,8 @@ const RootQueryType = new GraphQLObjectType({
         hash: { type: GraphQLString }
       },
       resolve: (parentValue, args) => {
-        return db.user.getUser(args.id, args.google_id, args.hash);
+        // return db.user.getUser(args.id, args.google_id, args.hash);
+        return db.user.getUserById(args.id);
       }
     },
     events: {
@@ -45,6 +48,13 @@ const RootQueryType = new GraphQLObjectType({
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
         return db.event.getEvent(args.id);
+      }
+    },
+    item: {
+      type: ItemType,
+      args: { id: { type: GraphQLInt } },
+      resolve: (parentValue, args) => {
+        return db.item.getItem(args.id);
       }
     }
   })

@@ -30,6 +30,7 @@ class ItemList extends React.Component {
             <Item
               style={{ textAlign: 'center', align: 'center' }}
               name={item.name}
+              id={item.id}
               key={item.id}
               handleItemClick={this.handleItemClick}
               currentUser={this.props.currentUser}

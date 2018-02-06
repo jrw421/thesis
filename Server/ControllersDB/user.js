@@ -33,12 +33,27 @@ userController = {
       })
       .catch(error => error);
   },
+  createUserOnSignup: function(body) {
+    const newUser = new User({
+      name: body.name,
+      img: body.img,
+      google_id: body.google_id,
+      email: body.email,
+      accessToken: body.accessToken
+    });
+
+    return newUser
+      .save()
+      .then(user => user.attributes)
+      .catch(error => console.log(error));
+  },
   getUserById: function(id) {
-    knex
+    return knex
       .select('*')
       .from('user')
       .where('id', id)
       .then(result => {
+        console.log('result', result);
         return result[0];
       })
       .catch(error => {
@@ -46,7 +61,7 @@ userController = {
       });
   },
   getUserByGoogleId: function(google_id) {
-    knex
+    return knex
       .select('*')
       .from('user')
       .where('google_id', google_id)
@@ -58,7 +73,7 @@ userController = {
       });
   },
   getUserByHash: function(hash) {
-    knex
+    return knex
       .select('*')
       .from('user')
       .where('hash', hash)
@@ -107,7 +122,19 @@ userController = {
   editField: function(id, field, newValue) {
     return knex('user')
       .where('id', id)
-      .update(field, newValue);
+      .update(field, newValue)
+      .then(result => {
+        this.getUserById(id)
+          .then(result => {
+            return result;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
   editFields: function(id, obj) {
     return knex('user')
@@ -117,5 +144,3 @@ userController = {
 };
 
 module.exports = userController;
-
-userController.getUserByHash('6e23cd20ee2564eb5a79f814d42707b169109274');

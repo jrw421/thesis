@@ -1,5 +1,7 @@
 const bookshelf = require('../dbConfig.js').bookshelf;
 
-const ItemComments = bookshelf.Model.extend({
+const ItemComment = bookshelf.Model.extend({
   tableName: 'itemComments'
 });
+
+module.exports = ItemComment;

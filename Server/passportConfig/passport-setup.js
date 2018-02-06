@@ -11,12 +11,21 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   // retrieve id from cookie
   // and use it to access user in database
+  // db.user
+  //   .getUser(id)
+  //   .then(user => {
+  //     done(null, user);
+  //   })
+  //   .catch(error => console.log(error));
+  console.log('id', id);
   db.user
-    .getUser(id)
+    .getUserById(id)
     .then(user => {
       done(null, user);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      console.log(error);
+    });
 });
 
 passport.use(
@@ -37,9 +46,28 @@ passport.use(
       };
 
       db.user
-        .findOrCreateUser(body)
+        .getUserByGoogleId(body.google_id)
         .then(user => {
-          done(null, user);
+          if (user === undefined) {
+            db.user
+              .createUserOnSignup(body)
+              .then(user => {
+                done(null, user);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          } else {
+            db.user
+              .editField(user.id, 'accessToken', body.accessToken)
+              .then(user => {
+                done(null, user);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            done(null, user);
+          }
         })
         .catch(error => console.log(error));
     }

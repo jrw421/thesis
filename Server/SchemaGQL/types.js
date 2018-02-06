@@ -24,7 +24,7 @@ const EventType = new GraphQLObjectType({
     host: {
       type: UserType,
       resolve(parentValue, args) {
-        return db.user.getUser(parentValue.host_id);
+        return db.user.getUserById(parentValue.host_id);
       }
     },
     reply: { type: GraphQLInt },
@@ -50,16 +50,29 @@ const ItemType = new GraphQLObjectType({
     name: { type: GraphQLString },
     user_id: { type: GraphQLInt },
     event_id: { type: GraphQLInt },
+    comments: {
+      type: new GraphQLList(ItemCommentType),
+      resolve(parentValue, args) {
+        console.log('inside here');
+        return db.itemComments.getItemCommentsByItemId(parentValue.id);
+      }
+    }
+  })
+});
+
+const ItemCommentType = new GraphQLObjectType({
+  name: 'ItemComment',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    content: { type: GraphQLString },
+    likes: { type: GraphQLInt },
+    user_id: { type: GraphQLInt },
+    event_id: { type: GraphQLInt },
+    item_id: { type: GraphQLInt },
     user: {
       type: UserType,
       resolve(parentValue, args) {
-        return db.user.getUser(parentValue.user_id);
-      }
-    },
-    event: {
-      type: EventType,
-      resolve(parentValue, args) {
-        return db.event.getEvent(parentValue.event_id);
+        return db.user.getUserById(parentValue.user_id)
       }
     }
   })
@@ -72,7 +85,9 @@ const ItemsType = new GraphQLObjectType({
     items: { type: GraphQLList(ItemType) }
   }),
   resolve(parentValue, args) {
-    return db.item.getItemsByEventId(parentValue.event_id).then(item => item);
+    return db.itemComments
+      .getItemsByEventId(parentValue.event_id)
+      .then(item => item);
   }
 });
 
@@ -116,4 +131,4 @@ const UserType = new GraphQLObjectType({
   })
 });
 
-module.exports = { EventType, UserType, ItemType, ItemsType };
+module.exports = { EventType, UserType, ItemType, ItemsType, ItemCommentType };
