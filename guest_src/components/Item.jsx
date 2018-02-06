@@ -30,24 +30,29 @@ class Item extends React.Component {
          clicked: false
        });
      }
-     console.log('id', this.props.id)
+     console.log('user in click', this.props.currentUser)
      this.props.toggleClaimOfItem({
        variables: {
          id: this.props.id,
-         user_id: this.props.userIDD
+         user_id:  this.props.currentId
        }
      })
    };
 
   render() {
 
-    if (this.props.guestQuery.loading || this.props.guestQuery.error || this.props.itemsQuery.loading || this.props.itemsQuery.error) {
+    if (this.props.guestQuery.loading || this.props.guestQuery.error
+       // || this.props.itemsQuery.loading || this.props.itemsQuery.error
+     ) {
       return null
     }
+// console.log('Props in itemLost ', this.props)
+  // console.log('this should be the user id for the item ', this.props.itemsQuery.event[0].user_id)
+  console.log('this should be the user id for the user ', this.props.currentId)
 
-    console.log('what is the id here ', this.props.userIDD, this.props.id)
-    console.log('USER ID ', this.props.userId); //currentUser
-    console.log('props in item ', this.props.itemsQuery.event)
+    console.log('what is the id here ', this.props.currentId, this.props.id)
+    console.log('USER ID THIS THIS THIS', this.props.currentUser); //currentUser
+    // console.log('props in item ', this.props.itemsQuery.event)
 
     const isClicked = this.state.clicked
     let hash = this.props.hash
@@ -60,11 +65,11 @@ class Item extends React.Component {
     //     <a onClick={(e) => this.handleItemClick(e)} description={this.props.id}>{this.props.description}</a>
     //   )}
     // </div>
-
-    if (this.props.userId !== null && this.props.userId !== this.props.userIDD){
+//this.props.itemsQuery.event.items(one).user_id
+    if (this.props.itemUserId !== null && this.props.currentId !== this.props.userToItem.name){ //this.props.itemsQuery.event.items(one).user_id
       return(
         <div style={{ textAlign: 'center', align: 'center' }}>
-         <a>{this.props.description} was claimed by {this.props.currentUser}</a>
+         <a>{this.props.description} was claimed by {this.props.userToItem.name}</a>
         </div>
       )
     } else {
@@ -72,8 +77,7 @@ class Item extends React.Component {
         <div style={{ textAlign: 'center', align: 'center' }}>
         {isClicked ?
           <a onClick={e => this.handleItemClick(e)}>
-          {this.props.description} was claimed by{' '}
-          {this.props.currrentUser}
+          {this.props.description} was claimed by {this.props.currrentUser}
           </a>
          :
           <a onClick={e => this.handleItemClick(e)}>{this.props.description}</a>
@@ -92,24 +96,13 @@ const GUEST_QUERY = gql `
     }
   }
 `
-
-const ITEMS_QUERY = gql `
-  query itemsQuery ($id: Int){
-    event(id: $id) {
-      items{
-        id
-        name
-        user_id
-      }
-    }
-  }
-`
+//does this match your id
 
 const toggleClaim = gql`
   mutation toggleClaimOfItem($id: Int!, $user_id: Int!){
     toggleClaimOfItem(id: $id, user_id: $user_id){
       id
-      user_id
+      # user_id
     }
   }
 `
@@ -119,11 +112,7 @@ const guestClaim = compose(
   graphql(toggleClaim, { name: 'toggleClaimOfItem' }),
   graphql(GUEST_QUERY, {
     options: (props) => ({variables: {id: props.hash}}),
-    name: 'guestQuery'}),
-  graphql(ITEMS_QUERY, {
-    options: (props) => ({variables: {id: props.eventId}}),
-    name: 'itemsQuery'
-  })
+    name: 'guestQuery'})
 )(Item)
 
 export default guestClaim
