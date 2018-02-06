@@ -340,7 +340,7 @@ CreateEvent.propTypes = {
   addItems: PropTypes.func.isRequired,
   addRecipients: PropTypes.func.isRequired,
   // history: ReactRouterPropTypes.history.isRequired,
-  // currentUser: PropTypes.shape.isRequired,
+  currentUser: PropTypes.shape({}).isRequired,
 };
 
 

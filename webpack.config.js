@@ -20,6 +20,14 @@ const config = {
   module: {
     loaders: [
       {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.(js|jsx)$/,
         include: [SRC_DIR, GUEST_SRC_DIR],
         loader: 'babel-loader',
