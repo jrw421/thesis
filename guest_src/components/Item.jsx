@@ -7,40 +7,47 @@ class Item extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      clicked: false, guestId: ''
+      clicked: false
     }
     this.handleItemClick = this.handleItemClick.bind(this)
   }
 
   handleItemClick = (e) => {
     console.log('item clicked', e.target.textContent);
-    if (this.state.clicked === false) {
-      this.setState({
-        clicked: true
-      })
-    } else {
-      this.setState({
-        clicked: false
-      })
-    }
+    // if (this.state.clicked === false) {
+    //   this.setState({
+    //     clicked: true
+    //   })
+    // } else {
+    //   this.setState({
+    //     clicked: false
+    //   })
+    // }
     this.props.toggleClaimOfItem({
       variables: {
         id: this.props.id,
-        userId: this.props.currentUser
+        user_id: this.props.userIDD
       }
-    })
+    }, console.log('propsXXX ', this.props))
   }
 
   render() {
-    console.log('Item ALL', this.props);
-    console.log('Item props id', this.props.currentId);
+    if (this.props.guestQuery.loading || this.props.guestQuery.error) {
+      return null
+    }
+      console.log('what is the id here ', this.props.userIDD, this.props.id)
+    console.log('are you ahsh ', this.props.hash)
+    console.log('Item ALL', this.props.userIDD); //currentUser
+    console.log('Item props id', this.props.id);
     // console.log('anything HEREE E ' ,this.props.guestQuery)
-    console.log('id ???', this.props.id)
-    const isClicked = this.props.userId
-    // const isClicked = this.props.userId
+    console.log('user id', this.props.userId)
+    const isClaimed = this.props.userId //associated with item
+    let hash = this.props.hash
+    // console.log('is Claimed ', isClaimed)
+    // const isClaimed = this.props.userId
     // return (
     //   <div style={{"textAlign": "center", "align":"center"}}>
-    //   {isClicked ? (
+    //   {isClaimed ? (
     //     <a onClick={(e) => this.handleItemClick(e)} id={this.props.id}>{this.props.description} was claimed by {this.props.currentUser || "guest"}</a>
     //   ) : (
     //
@@ -51,11 +58,11 @@ class Item extends React.Component {
 
     return (
       <div style={{"textAlign": "center", "align":"center"}}>
-      {isClicked !== null ? (
-        <a onClick={(e) => this.handleItemClick(e)} id={this.props.id}>{this.props.description} was claimed by {this.props.currentUser || "guest"}</a>
+      {isClaimed !== null ? (
+        <a onClick={(e) => this.handleItemClick(e)} id={this.props.id} user_id={this.props.user_id}>{this.props.description} was claimed by {this.props.userId || "guest"}</a>
       ) : (
 
-        <a onClick={(e) => this.handleItemClick(e)} user_id={this.props.user_id} description={this.props.id}>{this.props.description}</a>
+        <a onClick={(e) => this.handleItemClick(e)} userId={this.props.userId} description={this.props.id}>{this.props.description}</a>
       )}
     </div>
     )
@@ -72,11 +79,29 @@ const GUEST_QUERY = gql `
   }
 `
 
+// const ITEMS_QUERY = gql `
+//   query itemsQuery ($id: Int){
+//       event(id: $id) {
+//         name
+//         items {
+//           id
+//           name
+//           user_id
+//         }
+//     }
+//   }
+// `
+//
+// const ItemsWithData = graphql(ITEMS_QUERY, {
+//   options: (props) => ({variables: {id: props.event.id}}),
+//   name: 'itemsQuery'
+// })(ItemList)
+
 const toggleClaim = gql`
-  mutation toggleClaimOfItem($id: [String]!, $userId: Int!){
-    toggleClaimOfItem(id: $id, userId: $userId){
+  mutation toggleClaimOfItem($id: Int, $user_id: Int!){
+    toggleClaimOfItem(id: $id, user_id: $user_id){
       id
-      userId
+      user_id
     }
   }
 `
@@ -84,7 +109,7 @@ const toggleClaim = gql`
 const guestClaim = compose(
   graphql(toggleClaim, { name: 'toggleClaimOfItem' }),
   graphql(GUEST_QUERY, {
-    options: (props) => ({variables: {id: props.currentId}}),
+    options: (props) => ({variables: {id: props.hash}}),
     name: 'guestQuery'}
 ))(Item)
 

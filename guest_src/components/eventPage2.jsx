@@ -29,19 +29,21 @@ class EventPage2 extends React.Component {
     })
   }
   clickAttending() {
+    console.log('event id ', this.props.guestQuery.user.guestEvent.id)
     this.setState({
       guests: [...this.state.guests, this.props.guestQuery.user.name]
     })
 
     this.props.confirmPresence({
       variables: {
-        userId: this.props.guestQuery.user.id,
-        eventId: this.props.guestQuery.user.guestEvent.id
+        user_id: this.props.guestQuery.user.id,
+        event_id: this.props.guestQuery.user.guestEvent.id
       }
     })
   }
 
   clickNotAttending() {
+    console.log('event id ', this.props.guestQuery.user.guestEvent.id)
     this.props.denyPresence({
       variables: {
         userId: this.props.guestQuery.user.id,
@@ -56,29 +58,22 @@ class EventPage2 extends React.Component {
   }
 
   render() {
-    //   console.log("HEEEREEEEE ", this.props.currentUser.params.id)
-    // console.log("HERE ", this.props.match.params.id)
     if (this.props.guestQuery.loading || this.props.guestQuery.error) {
       return null
     }
     console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
     let users = this.props.guestQuery.user.guestEvent.users
     console.log('yUersss ', users)
-    // console.log('ERHG STATE ', this.state.guests)
-    // console.log('HEREE ', this.props.guestQuery.user.guestEvent.id)
-    // console.log('stateeee ', this.props.guestQuery)
-    // console.log('PROPS ALL ', this.props.guestQuery.user.name)
-    // console.log("hey there WHAT ARE YOU ",  this.props.currentUser.params.id)
-    // console.log("what are we getting here ", this.props.match.params.id)
-    // const id = this.props.currentUser.params.id
+
     return(
     <div>
+
         <div style={{"textAlign": "center", "align":"center"}}>
         <FlatButton style={{"textAlign": "center", "align":"center"}}
           onClick={() => this.clickAttending(this.props.guestQuery.user.name)} //this.props.user.name
           label="I'll be there"/>
         <FlatButton style={{"textAlign": "center", "align":"center"}}
-          onClick={this.clickNotAttending}
+          onClick={() => this.clickNotAttending()}
           label="Hell nah, I aint coming"/>
           <FlatButton style={{"textAlign": "center", "align":"center"}}
             onClick={this.returnHome}
@@ -106,6 +101,7 @@ class EventPage2 extends React.Component {
             <h2>Item Registery</h2>
             <h3>Click on an item to claim it</h3>
             <ItemList style={{"textAlign": "center", "align":"center"}}
+              hash={this.props.currentUser.params.id}
               currentUser={this.props.match.params.id}
               event={this.props.guestQuery}
               ></ItemList>
@@ -113,7 +109,7 @@ class EventPage2 extends React.Component {
           </div>
           <img
             style={{"height":"400px", "width": "400px"}}
-            src={this.props.guestQuery.user.guestEvent.img}
+            src={this.props.guestQuery.user.guestEvent.img || "https://static.businessinsider.com/image/519e85e6ecad04337f000019/image.jpg"}
             alt=""
           />
         </div>
@@ -146,18 +142,18 @@ const GUEST_QUERY = gql `
 `
 
 const confirmPresence = gql`
-  mutation confirmPresence($userId: Int!, $eventId: Int!){
-    confirmPresence(userId: $userId, eventId: $eventId){
-      userId
-      eventId
+  mutation confirmPresence($user_id: [String]!, $event_id: Int!){
+    confirmPresence(userId: $userId, event_id: $event_id){
+      user_id
+      event_id
     }
   }
 `
 const denyPresence = gql`
-  mutation denyPresence($userId: Int!, $eventId: Int!){
-    denyPresence(userId: $userId, eventId: $eventId){
-      userId
-      eventId
+  mutation denyPresence($user_id: Int!, $event_id: Int!){
+    denyPresence(user_id: $user_id, event_id: $event_id){
+      user_id
+      event_id
     }
   }
 `
