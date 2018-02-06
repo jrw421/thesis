@@ -27,7 +27,8 @@ const generateID = function(event_id, name, email) {
           let idx = oldUser.length ? oldUser[0].id : user.attributes.id
           let newEventAttendee = new Event_Attendee({
             user_id: idx,
-            event_id: event_id
+            event_id: event_id, 
+            reply: 2
           });
 
           newEventAttendee.save().then(x => console.log('newPair', x)).catch(x => console.log('errorPair', x))

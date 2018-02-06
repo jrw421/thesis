@@ -50,15 +50,13 @@ class App extends React.Component {
   }
 
   render() {
+
     if (this.state.currentUser === undefined ) {
       return null;
     }
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          {/* <Header /> */}
-          {/* <div> */}
-          <Header />
           <div>
             <Switch>
               <Route

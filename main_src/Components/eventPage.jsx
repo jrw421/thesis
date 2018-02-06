@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemList from './itemList.jsx';
 import { withRouter } from 'react-router';
+import { Switch, Route, browserHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -34,13 +35,27 @@ class EventPage extends React.Component {
   }
 
   render() {
+        const Refresh = ({ path = '/' }) => (
+    <Route
+        path={path}
+        component={({ history, location, match }) => {
+            history.replace({
+                ...location,
+                pathname:location.pathname.substring(match.path.length)
+            });
+            return null;
+        }}
+    />
+);
     if (this.props.location.state.event === undefined) {
       return null;
     } else {
       const event = this.props.location.state.event;
-      console.log('event in event page', event, 'currentUser', this.props.currentUser)
+
       return (
+
         <div style={{ fontFamily: 'Noto Sans' }}>
+                        <Refresh path="/refresh/" />
           {this.props.location.state.currentUser ? (
             <div>
               <div style={{ textAlign: 'center', align: 'center' }}>

@@ -53,7 +53,8 @@ const ItemType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parentValue, args) {
-        return db.user.getUser(parentValue.user_id);
+        console.log('gettin user event')
+        return db.user.getUser(parentValue.user_id)
       }
     },
     event: {

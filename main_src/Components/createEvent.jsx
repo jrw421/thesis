@@ -321,7 +321,7 @@ const addRecipients = gql`
 const CreateEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems' }),
-  graphql(addRecipients, { name: 'addRecipients' }),
+  graphql(addRecipients, { name: 'addRecipients' })
 )(CreateEvent);
 
 CreateEvent.propTypes = {

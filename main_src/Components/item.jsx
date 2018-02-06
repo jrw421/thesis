@@ -11,6 +11,15 @@ class ItemWithData extends React.Component {
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
+
+  componentWillMount(){
+    if (this.props.claimedBy && this.props.claimedBy.id === this.props.currentUser.id){
+      this.setState({
+        clicked: true
+      })
+    }
+  }
+
   handleItemClick = e => {
     if (this.state.clicked === false) {
       this.setState({
@@ -33,40 +42,30 @@ class ItemWithData extends React.Component {
   };
 
   render() {
-    console.log('item props', this.props)
     const isClicked = this.state.clicked;
-    return (
-      <div style={{ textAlign: 'center', align: 'center' }}>
-        {(this.props.claimedBy && this.props.claimedBy.id !== this.props.currentUser.id)  ? 
-          <a>{this.props.name} was claimed by {this.props.claimedBy.name}</a> :
-         isClicked ?
+
+    if (this.props.claimedBy !== null && this.props.claimedBy.id !== this.props.currentUser.id){
+      return(     
+        <div style={{ textAlign: 'center', align: 'center' }}>
+         <a>{this.props.name} was claimed by {this.props.claimedBy.name}</a>
+        </div>
+      )
+    } else {
+      return(
+        <div style={{ textAlign: 'center', align: 'center' }}>
+        {isClicked ?
           <a onClick={e => this.handleItemClick(e)}>
-            {this.props.name} was claimed by{' '}
-            {this.props.currentUser.name}
+          {this.props.name} was claimed by{' '}
+          {this.props.currentUser.name}
           </a>
          : 
           <a onClick={e => this.handleItemClick(e)}>{this.props.name}</a>
         }
-      </div>
-    );
-  }
-}
-
-const ITEMS_QUERY = gql`
-  query itemsQuery($id: Int) {
-    event(id: $id) {
-      name
-      items {
-        id
-        name
-        user{
-          id
-          name
-        }
-      }
+        </div>
+      )
     }
   }
-`;
+}
 
 
 const toggleClaimOfItem = gql`
