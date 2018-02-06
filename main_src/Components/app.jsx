@@ -36,18 +36,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
-=======
-    axios.get('/user')
-          .then(data => {
-            this.setState({
-              currentUser: data.data.user || null
-            })
-          })
-          .catch(error => {
-            console.log(error)
-          })
->>>>>>> mod
 
     axios
       .get('/user')
@@ -107,33 +95,5 @@ class App extends React.Component {
   }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> mod
-const NAME_QUERY = gql `
-  query nameQuery ($id: String){
-      user(hash: $id) {
-        name
-        # items {
-        #   id
-        #   name
-        #   user_id
-        # }
-    }
-  }
-`
-
-
-const nameGuest = graphql(NAME_QUERY, {
-  skip: (props) => (typeof props.currentUser !== 'string'),
-  options: (props) => ({variables: {id: props.currentUser}}),
-  name: 'nameGuest'
-})(App);
-<<<<<<< HEAD
->>>>>>> rebase
-=======
->>>>>>> mod
 
 export default withApollo(App);

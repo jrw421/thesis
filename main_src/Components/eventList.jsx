@@ -32,7 +32,6 @@ class EventList extends React.Component {
     this.setState({ currentEvent: this.state.currentEvent - 1 < 0 ? length - 1 : this.state.currentEvent - 1 });
   }
 
-<<<<<<< HEAD
   render() {
     if (this.props.events.length === 0) {
       return null;
@@ -51,36 +50,6 @@ class EventList extends React.Component {
       </div>
     );
     // const item = this.props.events[this.state.currentEvent];
-=======
-                    {(this.props.events.length === 0 ) &&
-                      <div>
-                        <h3 style={{"textAlign": "center"}}>No events yet!</h3>
-                          {/* <FlatButton label="Create an event!" onClick={this.linkToCreateEvent.bind(this)}/> */}
-                      </div>
-                    }
-
-                    <div className="pics" style={{"textAlign": "center"}}>
-                        {(item !== undefined) &&
-                            <div onClick={() => this.props.handleEventClick(item)}>
-                            <br></br>
-                            <br></br>
-                            <CardMedia
-                                overlay={<CardTitle title={item.name} subtitle={item.description} />}
-                              >
-                                <img style={{"height": "400px", "width": "200px"}}
-                                  src={item.img} alt="" />
-                              </CardMedia>
-                            <br></br>
-                            </div>
-                        }
-                        {(this.props.events.length > 0) &&
-                          <CardActions>
-                            <FlatButton label="previous" onClick={this.changeEventBack.bind(this)}/>
-                            <FlatButton label="next" onClick={this.changeEvent.bind(this)}/>
-                          </CardActions>
-                        }
-                    </div>
->>>>>>> mod
 
     // return (
     //   <Card>

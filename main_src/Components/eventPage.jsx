@@ -50,17 +50,8 @@ class EventPage extends React.Component {
     if (this.props.location.state.event === undefined) {
       return null;
     } else {
-<<<<<<< HEAD
       const event = this.props.location.state.event;
 
-=======
-      // console.log('PROPS IN EVENT PAGE ', this.props.currentUser.name)
-      console.log('wooo ', this.props.user.name)
-      console.log('GUESTS ', this.state.guests)
-      const event = this.props.location.state.event
-      // console.log('event',this.props.location.state.event)
-      // console.log('curent Gues ', this.props.location.state.currentGuest)
->>>>>>> mod
       return (
 
         <div style={{ fontFamily: 'Noto Sans' }}>
@@ -70,7 +61,7 @@ class EventPage extends React.Component {
               <div style={{ textAlign: 'center', align: 'center' }}>
                 <FlatButton
                   style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickAttending} 
+                  onClick={this.clickAttending}
                   label="I'll be there"
                 />
                 <FlatButton
@@ -79,7 +70,6 @@ class EventPage extends React.Component {
                   label="Hell nah, I aint coming"
                 />
               </div>
-
               <div style={{ textAlign: 'center' }} className="eventPage">
                 <h1 className="eventPage">{event.name}</h1>
                 <div className="eventPage">{event.location}</div>

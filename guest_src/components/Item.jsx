@@ -7,7 +7,8 @@ class Item extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      clicked: false
+      clicked: false,
+      name: this.props.currentUser
     }
     this.handleItemClick = this.handleItemClick.bind(this)
   }
@@ -34,9 +35,10 @@ class Item extends React.Component {
      this.props.toggleClaimOfItem({
        variables: {
          id: this.props.id,
-         user_id:  this.props.currentId
+         user_id: this.props.currentId
        }
      })
+     this.forceUpdate()
    };
 
   render() {
@@ -77,7 +79,7 @@ class Item extends React.Component {
         <div style={{ textAlign: 'center', align: 'center' }}>
         {isClicked ?
           <a onClick={e => this.handleItemClick(e)}>
-          {this.props.description} was claimed by {this.props.currrentUser}
+          {this.props.description} was claimed by {this.state.name}
           </a>
          :
           <a onClick={e => this.handleItemClick(e)}>{this.props.description}</a>
