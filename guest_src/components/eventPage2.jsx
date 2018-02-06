@@ -12,8 +12,15 @@ class EventPage2 extends React.Component {
     super(props)
 
     this.state = {
-      guests: ["Tim", "Todd"]
+      guests: ["Tim", "Todd"],
+      info: ''
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      info: this.props.guestQuery.user
+    })
   }
 
   clickAttending() {
@@ -33,9 +40,13 @@ class EventPage2 extends React.Component {
   }
 
   render() {
-    console.log("HERE ", this.props.match.params.id)
-    console.log("hey there ", this.props)
-    const id = this.props.currentUser.params.id
+    console.log('STATE ', this.state.info)
+    //   console.log("HEEEREEEEE ", this.props.currentUser.params.id)
+    // console.log("HERE ", this.props.match.params.id)
+    console.log('PROPS ALL ', this.props.guestQuery.user)
+    console.log("hey there WHAT ARE YOU ",  this.props.currentUser.params.id)
+    console.log("what are we getting here ", this.props.match.params.id)
+    // const id = this.props.currentUser.params.id
     return(
     <div>
         <div style={{"textAlign": "center", "align":"center"}}>
@@ -73,7 +84,7 @@ class EventPage2 extends React.Component {
             <h3>Click on an item to claim it</h3>
             <ItemList style={{"textAlign": "center", "align":"center"}}
               currentUser={this.props.match.params.id}
-              // event={this.props.location.state.event}
+              event={this.props.guestQuery.user}
               ></ItemList>
             <ul></ul>
           </div>
@@ -87,21 +98,24 @@ class EventPage2 extends React.Component {
   }
 }
 
-
-
-
-const NAME_QUERY = gql `
-  query nameQuery ($id: String){
+const GUEST_QUERY = gql `
+  query guestQuery ($id: String){
     user(hash: $id) {
-      name
+      guestEvent{
+         id
+          name
+          description
+          img
+       }
     }
   }
 `
 
-const nameGuest = graphql(NAME_QUERY, {
-  skip: (props) => (typeof props.currentUser !== 'string'),
-  options: (props) => ({variables: {id: this.props.match.params.id}}),
-  name: 'nameGuest'
-})(EventPage2);
+const GuestInfo = graphql(GUEST_QUERY, {
+  // skip: (props) => (typeof props.currentUser !== 'string'),
+  options: (props) => ({variables: {id: props.currentUser.params.id}}),
+  name: 'guestQuery'
+})(EventPage2)
 
-export default withRouter(nameGuest)
+
+export default withRouter(GuestInfo)

@@ -25,7 +25,7 @@ eventController = {
 	getPastEvents: function(user_id){
 		let current = new Date()
 		let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
-		return  knex('event').where('date', '<', dateNum)				 
+		return  knex('event').where('date', '<', dateNum)
 	},
 	getCurrentEvents: function(user_id){
 		let current = new Date()
@@ -33,15 +33,16 @@ eventController = {
 		return knex('event').where('date', '>=', dateNum)
 	},
 	getEvent: async function(id){
+		console.log('HELLLOOOOO in event')
 		let result = await knex.select('*').from('event').where('id', id)
 		return result[0]
 	},
 	findAll : function(){
 		return knex.select('*').from('event')
-	}, 
+	},
 	deleteEvent : function(id){
 		return knex('event').where('id', id).del()
-	}, 
+	},
 	editEventFields : function(id, fields){
 		const length = Object.keys(fields).length
 		let count = 0
