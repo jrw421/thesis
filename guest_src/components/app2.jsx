@@ -21,22 +21,12 @@ class App2 extends React.Component {
   }
 
   componentDidMount() {
-    // axios.get('/user')
-    //       .then(data => {
-    //         this.setState({
-    //           currentUser: data.data.user || null
-    //         })
-    //       })
-    //       .catch(error => {
-    //         console.log(error)
-    //       })
-    // let href = window.location.href.substring(31)
-    // this.setState({
-    //   currentUser: href
-    // )}
+    // console.log('PROOOPPPS ', this.props)
+    // console.log("HEEEREEEEE ", this.props.currentUser)
   }
 
   render() {
+      // console.log("HEEEREEEEE ", this.props.currentUser)
       return (
         <MuiThemeProvider>
         <div>
@@ -54,19 +44,19 @@ class App2 extends React.Component {
   }
 }
 
-const GUEST_QUERY = gql `
-  query guestQuery ($id: String){
-    user(hash: $id) {
-      id
-    }
-  }
-`
+// const GUEST_QUERY = gql `
+//   query guestQuery ($id: String){
+//     user(hash: $id) {
+//       id
+//     }
+//   }
+// `
+//
+// const GuestID = graphql(GUEST_QUERY, {
+//   skip: (props) => (typeof props.currentUser !== 'string'),
+//   options: (props) => ({variables: {id: props.currentUser}}), //change variables
+//   name: 'guestQuery'
+// })(App2)
 
-const GuestID = graphql(GUEST_QUERY, {
-  skip: (props) => (typeof props.currentUser !== 'string'),
-  options: (props) => ({variables: {id: props.currentUser}}), //change variables
-  name: 'guestQuery'
-})(App2)
 
-
-export default withApollo(GuestID)
+export default withApollo(App2)

@@ -14,6 +14,10 @@ class ItemList extends React.Component {
 
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     // if (this.props.itemsQuery && this.props.itemsQuery.error) {
     //   console.log(this.props.itemsQuery.error)
@@ -21,7 +25,13 @@ class ItemList extends React.Component {
     // if (this.props.itemsQuery.loading) {
     //   return null;
     // }
-    console.log('Item props', this.props);
+    setTimeout(function() {
+      console.log("LOOK AT THIS!!!")
+    }, 3000)
+    setTimeout(function() {
+      console.log("A BIRD! A PLANE!")
+    }, 3000)
+    // console.log('Item props', this.props.event.guestEvent);
     // console.log('USER ISSSS IN ITEM ', this.props.currentUser.params.id)
     // console.log('HERE ', this.props.itemsQuery.event.items)
     // let items = this.props.itemsQuery.event.items;
