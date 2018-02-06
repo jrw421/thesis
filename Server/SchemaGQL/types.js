@@ -104,6 +104,7 @@ const UserType = new GraphQLObjectType({
     currentEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
+        console.log('breaking after getcurrentevents')
         return db.event.getCurrentEvents(parentValue.id).catch(err => console.log(34, err));
       }
     },

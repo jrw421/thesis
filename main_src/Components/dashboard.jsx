@@ -11,13 +11,13 @@ class Dashboard extends React.Component {
     this.state = {
       event_id: null
     };
-    console.log('constructor props', this.props)
+    console.log('constructor props', this.props, 'yo')
     this.handleEventClick = this.handleEventClick.bind(this);
   }
 
   handleEventClick = event => {
     this.props.history.push({
-      pathname: '/eventPage/0',
+      pathname: '/eventPage',
       state: { event }
     });
   };
@@ -105,7 +105,7 @@ const DASHBOARD_QUERY = gql`
 const DashboardWithData = 
   graphql(DASHBOARD_QUERY, {
     skip: props =>
-      props.currentUser === undefined || props.currentUser === null,
+      props.currentUser === undefined ,
     options: props => ({ variables: { id: props.currentUser.id } }),
     name: 'dashboardQuery'
   })

@@ -44,7 +44,7 @@ class App extends React.Component {
       .then(data => {
         console.log('here is axios call data', data.data)
         this.setState({
-          currentUser: data.data.user || null
+          currentUser: data.data.user 
         });
       })
       .catch(error => {
@@ -65,7 +65,7 @@ class App extends React.Component {
             <div>
               <Switch>
                 <Route
-                  path="/dashboard/:id"
+                  path="/dashboard"
                   render={() => (
                     <DashboardWithData
                       history={browserHistory}
@@ -74,11 +74,10 @@ class App extends React.Component {
                   )}
                 />
                 <Route
-                  path="/eventPage/:id"
-                  render={({ match }) => (
+                  path="/eventPage"
+                  render={() => (
                     <EventPage
                       currentUser={this.state.currentUser}
-                      currentGuest={match}
                     />
                   )}
                 />

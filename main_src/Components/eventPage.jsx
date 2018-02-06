@@ -25,7 +25,7 @@ class EventPage extends React.Component {
 
   clickAttending() {
     this.setState({
-      guests: [...this.state.guests, this.props.currentGuest.name || 'Guest']
+      guests: [...this.state.guests, this.props.currentUser.name]
     });
   }
 
@@ -38,17 +38,15 @@ class EventPage extends React.Component {
       return null;
     } else {
       const event = this.props.location.state.event;
-
+      console.log('event in event page', event, 'currentUser', this.props.currentUser)
       return (
         <div style={{ fontFamily: 'Noto Sans' }}>
-          {this.props.location.state.currentGuest ? (
+          {this.props.location.state.currentUser ? (
             <div>
               <div style={{ textAlign: 'center', align: 'center' }}>
                 <FlatButton
                   style={{ textAlign: 'center', align: 'center' }}
-                  onClick={() =>
-                    this.clickAttending(this.props.currentGuest.name)
-                  } //this.props.user.name
+                  onClick={this.clickAttending} 
                   label="I'll be there"
                 />
                 <FlatButton
@@ -80,10 +78,7 @@ class EventPage extends React.Component {
                   <h3>Click on an item to claim it</h3>
                   <ItemList
                     style={{ textAlign: 'center', align: 'center' }}
-                    currentUser={
-                      this.props.currentUser ||
-                      this.props.location.state.currentGuest
-                    }
+                    currentUser={this.props.currentUser}
                     event={this.props.location.state.event}
                   />
                   <ul />
@@ -104,7 +99,7 @@ class EventPage extends React.Component {
               <div>
                 <h2>Who's Coming</h2>
                 <ul>
-                  {this.state.guests.map(name => {
+                  {this.state.guests.map((name, id) => {
                     return (
                       <div>
                         <h3>{name}</h3>
@@ -117,10 +112,7 @@ class EventPage extends React.Component {
                 <h2>Item Registery</h2>
                 <h3>Click on an item to claim it</h3>
                 <ItemList
-                  currentUser={
-                    this.props.currentUser ||
-                    this.props.location.state.currentGuest
-                  }
+                  currentUser={this.props.currentUser}
                   event={this.props.location.state.event}
                 />
                 <ul />
@@ -138,18 +130,5 @@ class EventPage extends React.Component {
   }
 }
 
-const NAME_QUERY = gql`
-  query nameQuery($id: String) {
-    user(hash: $id) {
-      name
-    }
-  }
-`;
 
-const nameGuest = graphql(NAME_QUERY, {
-  skip: props => typeof props.currentUser !== 'string',
-  options: props => ({ variables: { id: props.currentUser } }),
-  name: 'nameGuest'
-})(EventPage);
-
-export default withRouter(nameGuest);
+export default withRouter(EventPage);

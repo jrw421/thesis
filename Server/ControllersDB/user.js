@@ -12,7 +12,6 @@ userController = {
           const updates = {
             email: body.email,
             accessToken: body.accessToken,
-            refreshToken: body.refreshToken
           };
           return this.editFields(profileCheck[0].id, updates)
             .then(() => this.getUser(null, body.google_id))
@@ -23,7 +22,8 @@ userController = {
             img: body.img,
             google_id: body.google_id,
             email: body.email,
-            accessToken: body.accessToken
+            accessToken: body.accessToken, 
+            member_status: 1
           });
           return newUser
             .save()
@@ -68,8 +68,10 @@ userController = {
       }
       console.log(6,  'result1', result)
       if (result){
-        console.log(6, 'result2', result)
+        console.log(6, 'result2', result[0])
       return result[0];
+    } else {
+      return null
     }
     }
   },

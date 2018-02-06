@@ -11,8 +11,9 @@ eventController = {
       location: body.location,
       img: body.img
     });
+    let result
     try{
-    var result = await newEvent.save()
+    result = await newEvent.save()
     }catch(error){
     console.log(7, error)
     };
@@ -42,15 +43,20 @@ eventController = {
     return knex('event').where('date', '>=', dateNum);
   },
   getEvent: async function(id) {
+    let result
     try{
-    let result = await knex
+    result = await knex
       .select('*')
       .from('event')
       .where('id', id)
     } catch(error){
-      console.log(8, error)
+      console.log(8, id, error)
     }
-    return result[0];
+    if(result){
+     return result[0];
+    } else {
+     return 
+    }
   },
   findAll: function() {
     return knex.select('*').from('event');

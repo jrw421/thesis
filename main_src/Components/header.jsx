@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
@@ -13,7 +14,6 @@ const tabStyle = {
 
 class Header extends Component {
   render() {
-    const href = '/dashboard' + window.location.href.substring(31);
     return (
       <div>
         <AppBar title="Host.ly"  showMenuIconButton={false}>
@@ -21,7 +21,7 @@ class Header extends Component {
             <Tab
               value={0}
               label="Dashboard"
-              containerElement={<Link to={href} />}
+              containerElement={<Link to="/dashboard" />}
               style={tabStyle}
             />
             <Tab

@@ -27,7 +27,7 @@ const imageStyle = {
   margin: 'auto'
 };
 
-class createEvent extends React.Component {
+class CreateEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -99,7 +99,7 @@ class createEvent extends React.Component {
         }
       })
       .then(event => {
-        console.log(1, event)
+        console.log(1, event, this.state.items, event.data.addEvent.id)
         this.props
           .addItems({
             variables: {
@@ -120,7 +120,7 @@ class createEvent extends React.Component {
               .then(() => {
                  console.log(3, event)
                 this.props.history.push({
-                  pathname: '/eventPage/0',
+                  pathname: '/eventPage',
                   state: { event: event.data.addEvent }
                 });
               });
@@ -326,6 +326,6 @@ const createEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems' }),
   graphql(addRecipients, { name: 'addRecipients' })
-)(createEvent);
+)(CreateEvent);
 
 export default withRouter(createEventWithMutations);
