@@ -1,25 +1,23 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
-import EventList from './eventList.jsx';
+import EventList from './eventList';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      event_id: null
-    };
     this.handleEventClick = this.handleEventClick.bind(this);
   }
 
-  handleEventClick = event => {
+  handleEventClick(event) {
     this.props.history.push({
       pathname: '/eventPage/0',
-      state: { event }
+      state: { event },
     });
-  };
+  }
 
   render() {
     if (this.props.eventQuery) {
@@ -31,13 +29,13 @@ class Dashboard extends React.Component {
         return null;
       }
 
-      let event = this.props.eventQuery.user.guestEvent;
-      let currentGuest = this.props.currentGuest.params.id;
-      let currentUser = undefined;
+      const event = this.props.eventQuery.user.guestEvent;
+      const currentGuest = this.props.currentGuest.params.id;
+      const currentUser = undefined;
 
       this.props.history.push({
-        pathname: '/eventPage/' + currentGuest,
-        state: { event, currentGuest, currentUser }
+        pathname: `/eventPage/${currentGuest}`,
+        state: { event, currentGuest, currentUser },
       });
       return null;
     }
@@ -84,21 +82,10 @@ class Dashboard extends React.Component {
         </div>
       );
     }
+
+    return (null);
   }
 }
-
-const DASHBOARD_QUERY2 = gql`
-  query eventQuery($id: String) {
-    user(hash: $id) {
-      guestEvent {
-        id
-        name
-        description
-        img
-      }
-    }
-  }
-`;
 
 const DASHBOARD_QUERY = gql`
   query dashboardQuery($id: Int) {
@@ -131,20 +118,19 @@ const DASHBOARD_QUERY = gql`
   }
 `;
 
-const DashboardWithData = compose(
-  graphql(DASHBOARD_QUERY2, {
-    skip: props => props.currentGuest.params.id === '0',
-    options: props => {
-      return { variables: { id: props.currentGuest.params.id } };
-    },
-    name: 'eventQuery'
-  }),
+const DashboardWithData =
   graphql(DASHBOARD_QUERY, {
     skip: props =>
       props.currentUser === undefined || props.currentUser === null,
     options: props => ({ variables: { id: props.currentUser.id } }),
-    name: 'dashboardQuery'
-  })
-)(Dashboard);
+    name: 'dashboardQuery',
+  })(Dashboard);
+
+// Dashboard.propTypes = {
+  // history: PropTypes.shape.isRequired,
+  // eventQuery: PropTypes.shape.isRequired,
+  // currentGuest: PropTypes.shape.isRequired,
+  // dashboardQuery: PropTypes.shape.isRequired,
+// };
 
 export default withRouter(DashboardWithData);

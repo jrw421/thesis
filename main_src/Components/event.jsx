@@ -1,13 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
-  CardActions,
-  CardHeader,
   CardMedia,
   CardTitle,
-  CardText
+  CardText,
 } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 
 const Event = ({ event, handleEventClick }) => (
   <Card
@@ -22,11 +20,12 @@ const Event = ({ event, handleEventClick }) => (
     </CardMedia>
     <CardTitle title="" subtitle="" />
     <CardText>{/* {event.description} */}</CardText>
-    <CardActions>
-      <FlatButton label="previous" />
-      <FlatButton label="next" />
-    </CardActions>
   </Card>
 );
+
+Event.propTypes = {
+  // event: PropTypes.shape.isRequired,
+  handleEventClick: PropTypes.func.isRequired,
+};
 
 export default Event;

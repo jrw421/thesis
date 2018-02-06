@@ -2,13 +2,15 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
-import { orange500, blue500 } from 'material-ui/styles/colors';
+// import DateTimePicker from 'material-ui-datetimepicker'
+// import TimeInput from 'material-ui-time-picker'
 import FlatButton from 'material-ui/FlatButton';
-import axios from 'axios';
 
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
 const CLOUDINARY_UPLOAD_URL =
@@ -18,16 +20,16 @@ const dropzoneStyle = {
   height: '300px',
   width: '300px',
   margin: 'auto',
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 const imageStyle = {
   height: '300px',
   width: '300px',
-  margin: 'auto'
+  margin: 'auto',
 };
 
-class createEvent extends React.Component {
+class CreateEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,26 +43,25 @@ class createEvent extends React.Component {
       guestName: '',
       guestEmail: '',
       guests: [],
-      hostId: 1,
       uploadedFileCloudinaryUrl: '',
-      newEvent: {}
     };
 
     this.handleItems = this.handleItems.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.addGuest = this.addGuest.bind(this);
+    this.onImageDrop = this.onImageDrop.bind(this);
   }
 
   onImageDrop(files) {
     this.setState({
-      uploadedFile: files[0]
+      uploadedFileCloudinaryUrl: files[0],
     });
 
     this.handleImageUpload(files[0]);
   }
 
   handleImageUpload(file) {
-    let upload = request
+    const upload = request
       .post(CLOUDINARY_UPLOAD_URL)
       .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       .field('file', file);
@@ -72,7 +73,7 @@ class createEvent extends React.Component {
 
       if (response.body.secure_url !== '') {
         this.setState({
-          uploadedFileCloudinaryUrl: response.body.secure_url
+          uploadedFileCloudinaryUrl: response.body.secure_url,
         });
       }
     });
@@ -81,69 +82,71 @@ class createEvent extends React.Component {
   addGuest() {
     this.setState({
       guests: this.state.guests.concat([
-        this.state.guestName + '*' + this.state.guestEmail
-      ])
+        `${this.state.guestName}*${this.state.guestEmail}`,
+      ]),
     });
   }
 
-  submitForm = () => {
-    const { eventTitle, location, date, time, description } = this.state;
-    this.props
-      .addEvent({
-        variables: {
-          name: this.state.name,
-          host_id: this.props.currentUser.id,
-          description: this.state.description,
-          location: this.state.location,
-          img: this.state.uploadedFileCloudinaryUrl
-        }
-      })
-      .then(event => {
-        this.props
-          .addItems({
-            variables: {
-              name: this.state.name,
-              host_id: this.props.currentUser.id,
-              description: this.state.description,
-              location: this.state.location,
-              img: this.state.uploadedFileCloudinaryUrl
-            }
-          })
+  submitForm() {
+    const {
+      name,
+      location,
+      // date,
+      // time,
+      description,
+      uploadedFileCloudinaryUrl,
+    } = this.state;
+    const { currentUser } = this.props;
+    this.props.addEvent({
+      variables: {
+        name,
+        host_id: currentUser.id,
+        description,
+        location,
+        img: uploadedFileCloudinaryUrl,
+      },
+    })
+      .then((event) => {
+        this.props.addItems({
+          variables: {
+            name,
+            host_id: currentUser.id,
+            description,
+            location,
+            img: uploadedFileCloudinaryUrl,
+          },
+        })
           .then(() => {
-            this.props
-              .addRecipients({
-                variables: {
-                  nameEmail: this.state.guests,
-                  event_id: event.data.addEvent.id,
-                  id: this.props.currentUser.id
-                }
-              })
+            this.props.addRecipients({
+              variables: {
+                nameEmail: this.state.guests,
+                event_id: event.data.addEvent.id,
+                id: currentUser.id,
+              },
+            })
               .then(() => {
                 this.props.history.push({
                   pathname: '/eventPage/0',
-                  state: { event: event.data.addEvent }
+                  state: { event: event.data.addEvent },
                 });
               });
           });
       })
       .catch(error => error);
-  };
-
-  onClick() {
-    submitEvent(e);
   }
+
 
   handleItems(e) {
     if (e.key === 'Enter') {
       this.setState(
         {
-          items: [...this.state.items, this.state.currentItem]
+          items: [...this.state.items, this.state.currentItem],
         },
         () => {
           this.setState({
-            currentItem: ''
+            currentItem: '',
           });
-        }
+        },
       );
     }
   }
@@ -154,7 +157,7 @@ class createEvent extends React.Component {
         style={{
           textAlign: 'center',
           marginTop: '20px',
-          fontFamily: 'Noto Sans'
+          fontFamily: 'Noto Sans',
         }}
       >
         <h1 style={{ height: '100%', width: '100%' }}>CREATE YOUR EVENT</h1>
@@ -174,7 +177,7 @@ class createEvent extends React.Component {
             <Dropzone
               multiple={false}
               accept="image/*"
-              onDrop={this.onImageDrop.bind(this)}
+              onDrop={this.onImageDrop}
             >
               <p>Drop an image or click to select a file to upload.</p>
             </Dropzone>
@@ -183,12 +186,13 @@ class createEvent extends React.Component {
           <br />
           <div>
             <div>
-              {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+              {this.state.uploadedFileCloudinaryUrl === '' ? (<div />) : (
                 <div>
-                  <p>{this.state.uploadedFile.name}</p>
+                  <p>{this.state.uploadedFileCloudinaryUrl.name}</p>
                   <img
                     src={this.state.uploadedFileCloudinaryUrl}
                     style={imageStyle}
+                    alt="Uploaded img"
                   />
                 </div>
               )}
@@ -205,10 +209,25 @@ class createEvent extends React.Component {
           <br />
           <br />
           <TextField
-            value={this.state.guests}
+            value={this.state.guestName}
             type="text"
             placeholder="Who do you not hate?"
-            onChange={e => this.setState({ guests: e.target.value })}
+            onChange={e => this.setState({ guestName: e.target.value })}
+          />
+          <TextField
+            value={this.state.guestEmail}
+            type="text"
+            placeholder="What is their email?"
+            onChange={e => this.setState({ guestEmail: e.target.value })}
+          />
+          <FlatButton
+            label="Add Guest"
+            value="Add Guest"
+            type="submit"
+            onClick={() => {
+              this.addGuest();
+            }}
+            secondary="true"
           />
           <br />
           <br />
@@ -244,9 +263,7 @@ class createEvent extends React.Component {
             onKeyPress={this.handleItems}
           />
           <ul>
-            {this.state.items.map(item => {
-              return <li>{item}</li>;
-            })}
+            {this.state.items.map(item => <li>{item}</li>)}
           </ul>
           <br />
           <br />
@@ -258,93 +275,11 @@ class createEvent extends React.Component {
             onClick={() => {
               this.submitForm();
             }}
-            secondary={true}
+            secondary="true"
           />
         </div>
-        <br />
-        <br />
-        <TextField
-          value={this.state.location}
-          type="text"
-          placeholder="Where's your party at?"
-          onChange={e => this.setState({ location: e.target.value })}
-        />
-        <br />
-        <br />
-        <TextField
-          value={this.state.guestName}
-          type="text"
-          placeholder="Who do you not hate?"
-          onChange={e => this.setState({ guestName: e.target.value })}
-        />
-        <TextField
-          value={this.state.guestEmail}
-          type="text"
-          placeholder="What is their email?"
-          onChange={e => this.setState({ guestEmail: e.target.value })}
-        />
-        <FlatButton
-          label="Add Guest"
-          value="Add Guest"
-          type="submit"
-          onClick={() => {
-            this.addGuest();
-          }}
-          secondary={true}
-        />
-        <br />
-        <br />
-        <TextField
-          value={this.state.date}
-          type="date"
-          placeholder="What day?"
-          onChange={e => this.setState({ date: e.target.value })}
-        />
-        <br />
-        <br />
-        <TextField
-          value={this.state.time}
-          type="time"
-          placeholder="What time?"
-          onChange={e => this.setState({ time: e.target.value })}
-        />
-        <br />
-        <br />
-        <TextField
-          value={this.state.description}
-          type="text"
-          placeholder="Tell people what your party is all about!"
-          onChange={e => this.setState({ description: e.target.value })}
-        />
-        <br />
-        <br />
-        <TextField
-          value={this.state.currentItem}
-          type="text"
-          placeholder="Whatcha want people to bring?"
-          onChange={e => this.setState({ currentItem: e.target.value })}
-          onKeyPress={this.handleItems}
-        />
-        <ul>
-          {this.state.items.map(item => {
-            return <li>{item}</li>;
-          })}
-        </ul>
-        <br />
-        <br />
 
-        <FlatButton
-          label="Submit"
-          value="Submit"
-          type="submit"
-          onClick={() => {
-            this.submitForm();
-          }}
-          secondary={true}
-        />
       </div>
-
-      // </div>
     );
   }
 }
@@ -394,10 +329,19 @@ const addRecipients = gql`
   }
 `;
 
-const createEventWithMutations = compose(
+const CreateEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems' }),
-  graphql(addRecipients, { name: 'addRecipients' })
-)(createEvent);
+  graphql(addRecipients, { name: 'addRecipients' }),
+)(CreateEvent);
 
-export default withRouter(createEventWithMutations);
+CreateEvent.propTypes = {
+  addEvent: PropTypes.func.isRequired,
+  addItems: PropTypes.func.isRequired,
+  addRecipients: PropTypes.func.isRequired,
+  // history: ReactRouterPropTypes.history.isRequired,
+  // currentUser: PropTypes.shape.isRequired,
+};
+
+
+export default withRouter(CreateEventWithMutations);
