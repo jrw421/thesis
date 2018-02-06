@@ -1,31 +1,15 @@
 import React from 'react';
-<<<<<<< HEAD
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-=======
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
-import { withRouter } from 'react-router'
-import FlatButton from 'material-ui/FlatButton';
->>>>>>> button for currently hosting if no events
 
 import EventList from './eventList';
 
 class Dashboard extends React.Component {
   constructor(props) {
-<<<<<<< HEAD
     super(props);
     this.handleEventClick = this.handleEventClick.bind(this);
-=======
-    super(props)
-    this.state = {
-      eventId: null
-    }
-    this.handleEventClick = this.handleEventClick.bind(this)
-    // this.linkToCreateEvent = this.linkToCreateEvent.bind(this)
->>>>>>> button for currently hosting if no events
   }
 
   handleEventClick(event) {
@@ -33,17 +17,8 @@ class Dashboard extends React.Component {
       pathname: '/eventPage',
       state: { event },
 
-<<<<<<< HEAD
     });
   }
-=======
-  linkToCreateEvent = () => {
-    const href = "/createEvent" + window.location.href.substring(31)
-    console.log('here ', href)
-    window.location = href
-  }
-
->>>>>>> button for currently hosting if no events
 
   render() {
 

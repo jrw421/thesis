@@ -70,7 +70,6 @@ class EventPage extends React.Component {
                   label="Hell nah, I aint coming"
                 />
               </div>
-
               <div style={{ textAlign: 'center' }} className="eventPage">
                 <h1 className="eventPage">{event.name}</h1>
                 <div className="eventPage">{event.location}</div>
