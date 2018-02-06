@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import Item from './item.jsx';
+import ItemWithData from './item.jsx';
 
 class ItemList extends React.Component {
   constructor(props) {
@@ -15,13 +15,15 @@ class ItemList extends React.Component {
 
 
   render() {
-    if (this.props.itemsQuery && this.props.itemsQuery.error) {
-      return <div>{this.props.itemsQuery.error}</div>;
-    }
-    if (this.props.itemsQuery.loading) {
-      return null;
+    if (this.props.itemsQuery.error) {
+      this.props.itemsQuery.refetch()
+      return <div>Error!</div>
     }
 
+    if (this.props.itemsQuery.loading) {
+      return <div>loading...</div>;
+    }
+    console.log(this.props.itemsQuery)
     let items = this.props.itemsQuery.event.items;
     console.log('items list items', items)
     // let id = this.props.event.id;
@@ -32,11 +34,12 @@ class ItemList extends React.Component {
             <Item
               style={{ textAlign: 'center', align: 'center' }}
               name={item.name}
-              key={item.id}
               id={item.id}
+              key={item.id}
               claimedBy={item.user}
               handleItemClick={this.handleItemClick}
               currentUser={this.props.currentUser}
+              eventId={this.props.event.id}
             />
           );
           // return null
@@ -62,9 +65,9 @@ const ITEMS_QUERY = gql`
   }
 `;
 
-const ItemsWithData = graphql(ITEMS_QUERY, {
+const ItemListWithData = graphql(ITEMS_QUERY, {
   options: props => ({ variables: { id: props.event.id } }),
   name: 'itemsQuery'
 })(ItemList);
 
-export default ItemsWithData;
+export default ItemListWithData;

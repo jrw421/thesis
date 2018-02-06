@@ -2,7 +2,9 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class ItemWithData extends React.Component {
+import GqlItemComments from './itemComments.jsx'
+
+class Item extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,10 +63,15 @@ class ItemWithData extends React.Component {
          : 
           <a onClick={e => this.handleItemClick(e)}>{this.props.name}</a>
         }
-        </div>
-      )
-    }
+        <GqlItemComments 
+          itemId={this.props.id} 
+          userId={this.props.currentUser.id} 
+          eventId={this.props.eventId}  
+        />
+      </div>
+    );
   }
+}
 }
 
 
@@ -76,8 +83,8 @@ const toggleClaimOfItem = gql`
   }
 `;
 
-const Item = 
-  graphql(toggleClaimOfItem, { name: 'toggleClaimOfItem' })(ItemWithData);
+const ItemWithData = 
+  graphql(toggleClaimOfItem, { name: 'toggleClaimOfItem' })(Item);
 
 
-export default Item;
+export default ItemWithData;

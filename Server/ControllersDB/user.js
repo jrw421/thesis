@@ -33,6 +33,57 @@ userController = {
       })
       .catch(error => console.log(2, error));
   },
+  createUserOnSignup: function(body) {
+    const newUser = new User({
+      name: body.name,
+      img: body.img,
+      google_id: body.google_id,
+      email: body.email,
+      accessToken: body.accessToken
+    });
+
+    return newUser
+      .save()
+      .then(user => user.attributes)
+      .catch(error => console.log(error));
+  },
+  getUserById: function(id) {
+    return knex
+      .select('*')
+      .from('user')
+      .where('id', id)
+      .then(result => {
+        console.log('result', result);
+        return result[0];
+      })
+      .catch(error => {
+        console.log('error: ', error);
+      });
+  },
+  getUserByGoogleId: function(google_id) {
+    return knex
+      .select('*')
+      .from('user')
+      .where('google_id', google_id)
+      .then(result => {
+        return result[0];
+      })
+      .catch(error => {
+        console.log('error: ', error);
+      });
+  },
+  getUserByHash: function(hash) {
+    return knex
+      .select('*')
+      .from('user')
+      .where('hash', hash)
+      .then(result => {
+        return result[0];
+      })
+      .catch(error => {
+        console.log('error: ', error);
+      });
+  },
   getUser: async function(id, google_id, hash) {
     console.log(6, 'hi', id, 'googleid', google_id)
     let result
@@ -92,7 +143,19 @@ userController = {
   editField: function(id, field, newValue) {
     return knex('user')
       .where('id', id)
-      .update(field, newValue);
+      .update(field, newValue)
+      .then(result => {
+        this.getUserById(id)
+          .then(result => {
+            return result;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
   editFields: function(id, obj) {
     return knex('user')
