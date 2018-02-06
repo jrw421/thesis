@@ -115,6 +115,24 @@ knex.schema.hasTable('itemComments').then(function(exists) {
   }
 });
 
+knex.schema.hasTable('votes').then(function(exists) {
+  if (!exists) {
+    knex.schema
+      .createTable('votes', function(table) {
+        table.increments('id').primary();
+        table.integer('item_id');
+        table.integer('user_id');
+        table.integer('vote');
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+})
+
 const bookshelf = require('bookshelf')(knex);
 
 module.exports = {

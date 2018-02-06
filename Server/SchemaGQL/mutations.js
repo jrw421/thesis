@@ -12,6 +12,7 @@ const EventType = require('./types').EventType;
 const ItemType = require('./types').ItemType;
 const ItemsType = require('./types').ItemsType;
 const ItemCommentType = require('./types').ItemCommentType;
+const VoteType = require('./types').VoteType;
 const db = require('../ControllersDB/mainController.js');
 const {
   generateID,
@@ -187,6 +188,26 @@ const mutations = new GraphQLObjectType({
             return sendMessage(guests, user, args.event_id);
           })
           .catch(x => x);
+      }
+    },
+    upVoteItem: {
+      type: VoteType,
+      args: {
+        user_id: { type: GraphQLInt },
+        item_id: { type: GraphQLInt }
+      },
+      resolve(parentValue, args) {
+        return db.vote.upVote(args.item_id, args.user_id)
+      }
+    },
+    downVoteItem: {
+      type: VoteType,
+      args: {
+        user_id: { type: GraphQLInt },
+        item_id: { type: GraphQLInt }
+      },
+      resolve(parentValue, args) {
+        return db.vote.downVote(args.item_id, args.user_id)
       }
     }
   }

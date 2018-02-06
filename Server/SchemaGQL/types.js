@@ -53,12 +53,33 @@ const ItemType = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(ItemCommentType),
       resolve(parentValue, args) {
-        console.log('inside here');
         return db.itemComments.getItemCommentsByItemId(parentValue.id);
+      }
+    },
+    upVotes: {
+      type: new GraphQLList(VoteType),
+      resolve(parentValue, args) {
+        return db.vote.getUpVotesForItem(parentValue.id)
+      }
+    },
+    downVotes: {
+      type: new GraphQLList(VoteType),
+      resolve(parentValue, args) {
+        return db.vote.getDownVotesForItem(parentValue.id)
       }
     }
   })
 });
+
+const VoteType = new GraphQLObjectType({
+  name: 'Vote',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    item_id: { type: GraphQLInt },
+    user_id: { type: GraphQLInt },
+    vote: { type: GraphQLInt }
+  })
+})
 
 const ItemCommentType = new GraphQLObjectType({
   name: 'ItemComment',
@@ -131,4 +152,4 @@ const UserType = new GraphQLObjectType({
   })
 });
 
-module.exports = { EventType, UserType, ItemType, ItemsType, ItemCommentType };
+module.exports = { EventType, UserType, ItemType, ItemsType, ItemCommentType, VoteType };
