@@ -324,7 +324,6 @@ const addRecipients = gql`
 const CreateEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems' }),
-<<<<<<< HEAD
   graphql(addRecipients, { name: 'addRecipients' }),
 )(CreateEvent);
 
@@ -336,9 +335,5 @@ CreateEvent.propTypes = {
   // currentUser: PropTypes.shape.isRequired,
 };
 
-=======
-  graphql(addRecipients, { name: 'addRecipients' })
-)(CreateEvent);
->>>>>>> feature
 
 export default withRouter(CreateEventWithMutations);
