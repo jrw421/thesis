@@ -12,14 +12,11 @@ class EventPage2 extends React.Component {
     super(props)
 
     this.state = {
-      guests: []
+      guests: ["bob"]
     }
   }
 
   postLoad() {
-    // if () {
-    //
-    // }
     this.setState({
       guests: this.props.guestQuery.user.guestEvent.users
     })
@@ -63,7 +60,7 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
     // console.log('event id ', this.props.guestQuery.user.guestEvent.id)
     console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
     let users = this.props.guestQuery.user.guestEvent.users
-    console.log('yUersss ', users)
+    console.log('yUersss ', this.props)
 
     return(
     <div>
@@ -88,9 +85,9 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
           <div style={{"textAlign": "center", "align":"center"}}>
             <h2>Who's Coming</h2>
             <ul>
-                {users.map((name) => {
+                {users.map((name, i) => {
                   return (
-                    <div style={{"textAlign": "center", "align":"center"}}>
+                    <div key={i} style={{"textAlign": "center", "align":"center"}}>
                     <a>{name.name}</a>
                   </div>
                   )
