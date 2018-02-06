@@ -34,12 +34,13 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+
     axios
       .get('/user')
-      .then((data) => {
+      .then(data => {
         this.setState({
-          currentUser: data.data.user || null,
+          currentUser: data.data.user 
         });
       })
       .catch((error) => {
@@ -48,7 +49,7 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.currentUser === undefined) {
+    if (this.state.currentUser === undefined ) {
       return null;
     }
     return (
@@ -58,35 +59,38 @@ class App extends React.Component {
           {/* <div> */}
           <Header />
           <div>
-            <Switch>
-              <Route
-                path="/dashboard/:id"
-                render={({ match }) => (
-                  <DashboardWithData
-                    history={browserHistory}
-                    currentUser={this.state.currentUser}
-                    currentGuest={match}
-                  />
-                )}
-              />
-              <Route
-                path="/eventPage/:id"
-                render={({ match }) => (
-                  <EventPageWithData
-                    currentUser={this.state.currentUser}
-                    currentGuest={match}
-                  />
-                )}
-              />
-              <Route
-                path="/createEvent"
-                render={() => (
-                  <CreateEventWithMutations
-                    currentUser={this.state.currentUser}
-                  />
-                )}
-              />
-            </Switch>
+            {/* <Header /> */}
+            {/* <div> */}
+            <Header />
+            <div>
+              <Switch>
+                <Route
+                  path="/dashboard"
+                  render={() => (
+                    <DashboardWithData
+                      history={browserHistory}
+                      currentUser={this.state.currentUser}
+                    />
+                  )}
+                />
+                <Route
+                  path="/eventPage"
+                  render={() => (
+                    <EventPage
+                      currentUser={this.state.currentUser}
+                    />
+                  )}
+                />
+                <Route
+                  path="/createEvent"
+                  render={() => (
+                    <CreateEventWithMutations
+                      currentUser={this.state.currentUser}
+                    />
+                  )}
+                />
+              </Switch>
+            </div>
           </div>
         </div>
       </MuiThemeProvider>

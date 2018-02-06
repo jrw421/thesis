@@ -11,10 +11,16 @@ eventController = {
       location: body.location,
       img: body.img
     });
-    var result = await newEvent.save();
+    let result
+    try{
+    result = await newEvent.save()
+    }catch(error){
+    console.log(7, error)
+    };
     return result.attributes;
   },
   getHostedEvents: function(user_id) {
+    console.log('bindings', user_id)
     return knex('event').where('host_id', user_id);
     //commented out for MVP functionality
     // let current = new Date()
@@ -29,6 +35,7 @@ eventController = {
     return knex('event').where('date', '<', dateNum);
   },
   getCurrentEvents: function(user_id) {
+    console.log('get current events id', user_id)
     let current = new Date();
     let dateNum = Number(
       '' + current.getFullYear() + current.getMonth() + current.getDate()
@@ -36,11 +43,20 @@ eventController = {
     return knex('event').where('date', '>=', dateNum);
   },
   getEvent: async function(id) {
-    let result = await knex
+    let result
+    try{
+    result = await knex
       .select('*')
       .from('event')
-      .where('id', id);
-    return result[0];
+      .where('id', id)
+    } catch(error){
+      console.log(8, id, error)
+    }
+    if(result){
+     return result[0];
+    } else {
+     return 
+    }
   },
   findAll: function() {
     return knex.select('*').from('event');

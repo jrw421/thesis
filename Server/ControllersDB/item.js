@@ -11,7 +11,7 @@ itemController = {
     return newItem
       .save()
       .then(item => item.attributes)
-      .catch(error => error);
+      .catch(error => console.log(19, error));
   },
   addMultiple: function(body) {
     for (let i = 0; i < body.name.length; i++) {
@@ -26,7 +26,7 @@ itemController = {
             .select('*')
             .from('item')
             .where('event_id', body.event_id);
-        });
+        }).catch(error => console.log(19, error));
       } else {
         newItem.save();
       }
@@ -56,7 +56,7 @@ itemController = {
                 .from('item')
                 .where('id', id);
             })
-            .catch(error => error);
+            .catch(error => console.log(18, error));
         }
 
         if (JSON.parse(itemData[0].user_id) === null) {
@@ -71,10 +71,10 @@ itemController = {
                 .from('item')
                 .where('id', id);
             })
-            .catch(error => error);
+            .catch(error => console.log(17, error));
         }
       })
-      .catch(error => error);
+      .catch(error => console.log(16, error));
   },
   getItemsByUserId: function(user_id) {
     return knex

@@ -3,7 +3,7 @@ const User = require('./user.js');
 const Event = require('./event.js');
 
 const Event_Attendee = bookshelf.Model.extend({
-  tableName: 'item',
+  tableName: 'event_attendee',
   user: function() {
     return this.belongsToOne(User);
   },
