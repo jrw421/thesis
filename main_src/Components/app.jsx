@@ -49,15 +49,13 @@ class App extends React.Component {
   }
 
   render() {
+
     if (this.state.currentUser === undefined ) {
       return null;
     }
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          {/* <Header /> */}
-          {/* <div> */}
-          <Header />
           <div>
             {/* <Header /> */}
             {/* <div> */}
@@ -65,7 +63,7 @@ class App extends React.Component {
             <div>
               <Switch>
                 <Route
-                  path="/dashboard"
+                  path="/dashboard/0"
                   render={() => (
                     <DashboardWithData
                       history={browserHistory}
@@ -76,7 +74,7 @@ class App extends React.Component {
                 <Route
                   path="/eventPage"
                   render={() => (
-                    <EventPage
+                    <EventPageWithData
                       currentUser={this.state.currentUser}
                     />
                   )}
@@ -89,6 +87,7 @@ class App extends React.Component {
                     />
                   )}
                 />
+
               </Switch>
             </div>
           </div>
