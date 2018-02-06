@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import gqlItemComments from './itemComments.jsx'
+import GqlItemComments from './itemComments.jsx'
 
 class Item extends React.Component {
   constructor(props) {
@@ -29,11 +29,11 @@ class Item extends React.Component {
   };
 
   render() {
-    setTimeout(() => {
-      this.setState({
-        guestId: this.props.guestQuery.user.id
-      });
-    }, 3000);
+    // setTimeout(() => {
+    //   this.setState({
+    //     guestId: this.props.guestQuery.user.id
+    //   });
+    // }, 3000);
 
     const isClicked = this.state.clicked;
     return (
@@ -46,6 +46,11 @@ class Item extends React.Component {
         ) : (
           <a onClick={e => this.handleItemClick(e)}>{this.props.name}</a>
         )}
+        <GqlItemComments 
+          itemId={this.props.id} 
+          userId={this.props.currentUser.id} 
+          eventId={this.props.eventId}  
+        />
       </div>
     );
   }

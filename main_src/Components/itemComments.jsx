@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 import ItemComment from './itemComment.jsx'
 
-class ItemComments extends Component {
+class ItemComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +12,7 @@ class ItemComments extends Component {
     }
 
     this.onInputChange = this.onInputChange.bind(this)
-    this.onInputChange = this.onInputChange.bind(this)
+    this.onButtonClick = this.onButtonClick.bind(this)
   }
 
   onInputChange(e) {
@@ -20,13 +20,17 @@ class ItemComments extends Component {
   }
 
   onButtonClick() {
+    console.log('variables', this.state.comment, this.props.userId, this.props.itemId, this.props.eventId)
     this.props.addComment({
       variables: {
         content: this.state.comment,
-        user_id: this.props.user_id,
-        item_id: this.props.item_id,
-        event_id: this.props.event_id
+        user_id: this.props.userId,
+        item_id: this.props.itemId,
+        event_id: this.props.eventId
       }
+    }).then(result => {
+      console.log('result', result)
+      this.props.itemComments.refetch()
     })
   }
 
@@ -37,6 +41,7 @@ class ItemComments extends Component {
 
     if (this.props.itemComments.error) {
       this.props.itemComments.refetch()
+      console.log(this.props.itemComments.error)
       return <div>Error!</div>
     }
 
@@ -53,7 +58,7 @@ class ItemComments extends Component {
           onChange={this.onInputChange}
         />
         <button
-          onClick={this.onInputChange}
+          onClick={this.onButtonClick}
         >Comment</button>
       </div>
     );
@@ -61,7 +66,7 @@ class ItemComments extends Component {
 }
 
 const getItemComments = gql`
-  itemCommentQuery($id: Int) {
+  query itemComments($id: Int) {
     item(id: $id) {
       comments {
         id
@@ -96,14 +101,14 @@ const addComment = gql`
   }
 `;
 
-const gqlItemComments = compose(
+const GqlItemComments = compose(
   graphql(getItemComments, {
     options: props => {
-      return { variables: { id: props.id } };
+      return { variables: { id: props.itemId } };
     },
     name: 'itemComments'
   }),
   graphql(addComment, {name: 'addComment'})
 )(ItemComments);
 
-export default gqlItemComments;
+export default GqlItemComments;

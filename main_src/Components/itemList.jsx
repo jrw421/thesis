@@ -14,13 +14,15 @@ class ItemList extends React.Component {
   };
 
   render() {
-    if (this.props.itemsQuery && this.props.itemsQuery.error) {
-      console.log(this.props.itemsQuery.error);
-    }
-    if (this.props.itemsQuery.loading) {
-      return null;
+    if (this.props.itemsQuery.error) {
+      this.props.itemsQuery.refetch()
+      return <div>Error!</div>
     }
 
+    if (this.props.itemsQuery.loading) {
+      return <div>loading...</div>;
+    }
+    console.log(this.props.itemsQuery)
     let items = this.props.itemsQuery.event.items;
     // let id = this.props.event.id;
     return (
@@ -34,6 +36,7 @@ class ItemList extends React.Component {
               key={item.id}
               handleItemClick={this.handleItemClick}
               currentUser={this.props.currentUser}
+              eventId={this.props.event.id}
             />
           );
           // return null
