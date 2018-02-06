@@ -30,8 +30,9 @@ class ItemList extends React.Component {
     if (this.props.event.loading) {
       return null;
     }
+    console.log('hash ', this.props.hash)
     console.log('user id ', this.props.event.user.id)
-    console.log('user id ', this.props.event.user.guestEvent.items)
+    console.log('u', this.props.event.user.guestEvent.items)
     // console.log('this is ITEMS LIST ', this.props.event.user.guestEvent.items)
     // console.log("NAME?  ", this.props.event.user.name)
     //
@@ -40,7 +41,8 @@ class ItemList extends React.Component {
     return(
       <ul>
     {items.map((item)  => {
-        return <Item style={{"textAlign": "center", "align":"center"}} userId={item.user_id} description={item.name} id={item.id} currentId={this.props.event.user.id} currentUser={this.props.event.user.name}/>
+        return <Item style={{"textAlign": "center", "align":"center"}} hash={this.props.hash} userIDD={this.props.event.user.id} userId={item.user_id} description={item.name} id={item.id} currentId={this.props.event.user.id}
+          currentUser={this.props.event.user.name}/>
       })}
       </ul>
     )

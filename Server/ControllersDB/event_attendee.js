@@ -5,11 +5,11 @@ eventAttendeeController = {
 	add : function(body){
 		const newEventAttendee = new Event_Attendee({
       user_id: body.user,
-      event_id: body.event, 
+      event_id: body.event,
       reply: null
   	})
   	return newEventAttendee.save()
-	}, 
+	},
 	getPair: function(id) {
 		return knex.select('*').from('event_attendee').where('id', id)
 	},
@@ -31,33 +31,33 @@ eventAttendeeController = {
 	},
 	findAll : function() {
 		return knex.select('*').from('event_attendee')
-	}, 	
+	},
 	deleteById: function(id){
 		return knex('event_attendee').where('id', id).del()
-	}, 
+	},
 	deleteByEventOrUser: function(field, user_or_event_id){
 		return knex('event_attendee').where(field, user_or_event_id).del()
 	},
 	deleteByEventAndUser: function(user_id, event_id){
 		return knex('event_attendee').where({'event_id': event_id, 'user_id' : user_id}).del()
 	},
-	confirmPresence: function(userId, event_id){
+	confirmPresence: function(user_id, event_id){
 		let rsvp
-		return knex.select('*').from('event_attendee').where({'user_id': userId, 'event_id': event_id})
+		return knex.select('*').from('event_attendee').where({'user_id': user_id, 'event_id': event_id})
 		.update('reply', 1)
 			.then(user => {
-				return knex.select('*').from('user').where({'id': userId})
+				return knex.select('*').from('user').where({'id': user_id})
 					.then(item => item[0])
 					.catch(error => error)
 			})
 			.catch(error => error)
 	},
-	denyPresence: function(userId, event_id) {
+	denyPresence: function(user_id, event_id) {
 		let rsvp
-		return knex.select('*').from('event_attendee').where({'user_id': userId, 'event_id': event_id})
+		return knex.select('*').from('event_attendee').where({'user_id': user_id, 'event_id': event_id})
 		.update('reply', 0)
 			.then(user => {
-				return knex.select('*').from('user').where({'id': userId})
+				return knex.select('*').from('user').where({'id': user_id})
 					.then(item => item[0])
 					.catch(error => error)
 			})

@@ -9,7 +9,7 @@ const db = require('../ControllersDB/mainController.js');
 
 const mutations = new GraphQLObjectType({
   name: 'Mutation',
-  fields: { 
+  fields: {
 
   deleteUser: {
     type: UserType,
@@ -26,7 +26,7 @@ const mutations = new GraphQLObjectType({
       name: { type: new GraphQLNonNull(GraphQLString) },
       host_id: { type: new GraphQLNonNull(GraphQLID) },
       description: { type: new GraphQLNonNull(GraphQLString) },
-      date: { type: GraphQLString } , 
+      date: { type: GraphQLString } ,
       location: { type: new GraphQLNonNull(GraphQLString)},
       img: { type: new GraphQLNonNull(GraphQLString)}
     },
@@ -63,7 +63,7 @@ const mutations = new GraphQLObjectType({
         userId: { type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parentValues, args) {
-        return db.item.claimItem(args.id, args.userId)
+        return db.item.claimItem(args.id, args.user_id)
           .then(response => response[0])
       }
   },
@@ -90,7 +90,7 @@ const mutations = new GraphQLObjectType({
       eventId: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValues, args) {
-      return db.event_attendee.confirmPresence(args.userId, args.eventId)
+      return db.event_attendee.confirmPresence(args.user_id, args.event_id)
         .then(user => user)
         .catch(error => error)
     }
@@ -102,7 +102,7 @@ const mutations = new GraphQLObjectType({
       eventId: { type: new GraphQLNonNull(GraphQLInt) }
     },
     resolve(parentValues, args) {
-      return db.event_attendee.confirmPresence(args.userId, args.eventId)
+      return db.event_attendee.denyPresence(args.userId, args.eventId)
         .then(user => user)
         .catch(error => error)
     }
@@ -116,9 +116,9 @@ const mutations = new GraphQLObjectType({
     },
     resolve(parentValues, args) {
       return db.item.add({
-        name: args.name, 
+        name: args.name,
         user_id: args.userId,
-        event_id: args.eventId 
+        event_id: args.eventId
       })
       .then(item => item)
       .catch(error => error)
@@ -163,4 +163,3 @@ module.exports = mutations;
 // editEvent
 // confirmPresence
 // denyPresence
-
