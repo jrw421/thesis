@@ -89,9 +89,25 @@ class CreateEvent extends React.Component {
 
 
   submitForm = () => {
+<<<<<<< HEAD
     const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
     this.props
       .addEvent({
+=======
+    const {  eventTitle, location, date, time, description } = this.state
+    this.props.addEvent({
+      variables: {
+        name: this.state.name,
+        host_id: this.props.currentUser.id,
+        description: this.state.description,
+        location: this.state.location,
+        img: this.state.uploadedFileCloudinaryUrl || 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/SpongeBob_SquarePants_characters_cast.png/300px-SpongeBob_SquarePants_characters_cast.png'
+      }
+    }).then(event => {
+      console.log('trying to run add items', this.props)
+      console.log('event', event)
+      this.props.addItems({
+>>>>>>> mod
         variables: {
           name,
           host_id: this.props.currentUser.id,
@@ -312,6 +328,7 @@ const addItems = gql`
       }
     }
   }
+<<<<<<< HEAD
 `;
 
 const addRecipients = gql`
@@ -323,6 +340,11 @@ const addRecipients = gql`
 `;
 
 const CreateEventWithMutations = compose(
+=======
+`
+//
+const createEventWithMutations = compose(
+>>>>>>> mod
   graphql(addEvent, { name: 'addEvent' }),
   graphql(addItems, { name: 'addItems' }),
   graphql(addRecipients, { name: 'addRecipients' })

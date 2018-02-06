@@ -50,8 +50,17 @@ class EventPage extends React.Component {
     if (this.props.location.state.event === undefined) {
       return null;
     } else {
+<<<<<<< HEAD
       const event = this.props.location.state.event;
 
+=======
+      // console.log('PROPS IN EVENT PAGE ', this.props.currentUser.name)
+      console.log('wooo ', this.props.user.name)
+      console.log('GUESTS ', this.state.guests)
+      const event = this.props.location.state.event
+      // console.log('event',this.props.location.state.event)
+      // console.log('curent Gues ', this.props.location.state.currentGuest)
+>>>>>>> mod
       return (
 
         <div style={{ fontFamily: 'Noto Sans' }}>
