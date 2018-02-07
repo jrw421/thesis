@@ -4,16 +4,16 @@ const db = require('../ControllersDB/mainController.js');
 const axios = require('axios');
 
 passport.serializeUser((user, done) => {
-  // takes user id and makes it a cookie\
+  // takes user id and makes it a cookie
   done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
   // retrieve id from cookie
   // and use it to access user in database
-  console.log('before deserialize', user)
-      done(null, user);
-
+  console.log('deserialize', user)
+    done(null, user);
+  
 });
 
 passport.use(
