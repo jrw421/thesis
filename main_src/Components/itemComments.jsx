@@ -44,23 +44,27 @@ class ItemComments extends React.Component {
       return <div>Error!</div>
     }
 
-    return (
-      <div>
-        <ul>
-          {this.props.itemComments.item.comments.map(itemComment => {
-            return <ItemComment itemComment={itemComment} />
-          })}
-        </ul>
-        <input 
-          type="text" 
-          value={this.state.comment}
-          onChange={this.onInputChange}
-        />
-        <button
-          onClick={this.onButtonClick}
-        >Comment</button>
-      </div>
-    );
+    if (this.props.itemComments.item) {
+      return (
+        <div>
+          <ul>
+            {this.props.itemComments.item.comments.map(itemComment => {
+              return <ItemComment itemComment={itemComment} />
+            })}
+          </ul>
+          <input 
+            type="text" 
+            value={this.state.comment}
+            onChange={this.onInputChange}
+          />
+          <button
+            onClick={this.onButtonClick}
+          >Comment</button>
+        </div>
+      );
+    }
+
+    return null
   }
 }
 
@@ -102,12 +106,12 @@ const addComment = gql`
 
 const GqlItemComments = compose(
   graphql(getItemComments, {
-    options: props => {
+    options: (props) => {
       return { variables: { id: props.itemId } };
     },
     name: 'itemComments'
   }),
-  graphql(addComment, {name: 'addComment'})
+  graphql(addComment, { name: 'addComment' }),
 )(ItemComments);
 
 export default GqlItemComments;
