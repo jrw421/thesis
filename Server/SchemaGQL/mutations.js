@@ -30,7 +30,7 @@ const mutations = new GraphQLObjectType({
         id: { type: GraphQLInt }
       },
       resolve(parentValue, args) {
-        return db.user.deleteUser(args.id).then(item => item).catch(err => console.log(20, err));
+        return db.user.deleteUser(args.id).then(item => item).catch(err => [20, err]);
       }
     },
     addEvent: {
@@ -67,7 +67,7 @@ const mutations = new GraphQLObjectType({
       resolve(parentValues, args) {
         return db.event
           .editEventFields(args.id, args)
-          .then(editedEvent => editedEvent[0]).catch(err => console.log(21, err));
+          .then(editedEvent => editedEvent[0]).catch(err => [21, err]);
       }
     },
     toggleClaimOfItem: {
@@ -79,7 +79,7 @@ const mutations = new GraphQLObjectType({
       resolve(parentValues, args) {
         return db.item
           .claimItem(args.id, args.user_id)
-          .then(response => response[0]).catch(err => console.log(22, err));
+          .then(response => response[0]).catch(err => [22, err]);
       }
     },
     findOrCreateUser: {
@@ -95,7 +95,7 @@ const mutations = new GraphQLObjectType({
         return db.user
           .findOrCreateUser(args)
           .then(response => response)
-          .catch(error => console.log(23, error));
+          .catch(error => [23, error]);
       }
     },
 
@@ -120,7 +120,7 @@ const mutations = new GraphQLObjectType({
       resolve(parentValues, args) {
         return db.event_attendee.denyPresence(args.id, args.guest_event_id)
           .then(user => user)
-          .catch(error => error)
+          .catch(error => [24, error]);
       }
     },
     addItems: {
@@ -140,7 +140,7 @@ const mutations = new GraphQLObjectType({
             return db.item.getItemsByEventId(args.event_id);
           })
           .catch(err => {
-            console.log(26, err)
+            [26, err]
             return null
           });
       }
@@ -160,7 +160,7 @@ const mutations = new GraphQLObjectType({
             event_id: args.event_id
           })
           .then(item => item)
-          .catch(error => console.log('151', error));
+          .catch(error => ['151', error]);
       }
     },
     addComment: {
@@ -201,7 +201,7 @@ const mutations = new GraphQLObjectType({
 
             return sendMessage(guests, user, args.event_id);
           })
-          .catch(x => x);
+          .catch(x => ['addrecipients', x]);
       }
     },
     upVoteItem: {

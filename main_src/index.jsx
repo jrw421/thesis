@@ -23,3 +23,5 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root')
 );
+
+// mysql -u thesis -h thesis.ciqkxj8b112q.us-east-2.rds.amazonaws.com -P 3307 -p
