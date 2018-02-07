@@ -66,6 +66,7 @@ const ITEMS_QUERY = gql`
   }
 `;
 
+
 const ItemListWithData = graphql(ITEMS_QUERY, {
   options: props => ({ variables: { id: props.event.id } }),
   name: 'itemsQuery'

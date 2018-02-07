@@ -36,6 +36,18 @@ const RootQueryType = new GraphQLObjectType({
         return db.user.getUserById(args.id);
       }
     },
+    guestUser: {
+      type: UserType,
+      args: {
+        // id: { type: GraphQLInt },
+        // google_id: { type: GraphQLInt },
+        hash: { type: GraphQLString }
+      },
+      resolve: (parentValue, args) => {
+        // return db.user.getUser(args.id, args.google_id, args.hash);
+        return db.user.getUserByHash(args.hash);
+      }
+    },
     events: {
       type: new GraphQLList(EventType),
       args: { id: { type: GraphQLInt } },

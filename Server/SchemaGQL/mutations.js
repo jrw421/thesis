@@ -98,17 +98,29 @@ const mutations = new GraphQLObjectType({
           .catch(error => console.log(23, error));
       }
     },
+
     confirmPresence: {
       type: UserType,
       args: {
-        user_id: { type: new GraphQLNonNull(GraphQLInt) },
-        event_id: { type: new GraphQLNonNull(GraphQLInt) }
+        id: { type: new GraphQLNonNull(GraphQLInt)},
+        guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve(parentValues, args) {
-        return db.event_attendee
-          .confirmPresence(args.user_id, args.event_id)
+        return db.event_attendee.confirmPresence(args.id, args.guest_event_id)
           .then(user => user)
-          .catch(error => console.log(24, error));
+          .catch(error => error)
+      }
+    },
+    denyPresence: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLInt)},
+        guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      resolve(parentValues, args) {
+        return db.event_attendee.denyPresence(args.id, args.guest_event_id)
+          .then(user => user)
+          .catch(error => error)
       }
     },
     addItems: {

@@ -55,7 +55,7 @@ eventController = {
     if(result){
      return result[0];
     } else {
-     return 
+     return
     }
   },
   findAll: function() {

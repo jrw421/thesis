@@ -20,7 +20,7 @@ class Header extends Component {
             <Tab
               value={0}
               label="Dashboard"
-              containerElement={<Link to="/dashboard/0" />}
+              containerElement={<Link to="/dashboard" />}
               style={tabStyle}
             />
             <Tab
