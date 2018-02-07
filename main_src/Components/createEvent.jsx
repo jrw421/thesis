@@ -110,7 +110,9 @@ class CreateEvent extends React.Component {
           host_id: this.props.currentUser.id,
           description,
           location,
-          img: uploadedFileCloudinaryUrl
+          img: uploadedFileCloudinaryUrl,
+          time,
+          date
         }
       })
       .then(event => {
