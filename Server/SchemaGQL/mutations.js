@@ -50,6 +50,7 @@ const mutations = new GraphQLObjectType({
           name: args.name,
           description: args.description,
           date: args.date,
+          time: args.time,
           location: args.location,
           img: args.img,
         });
@@ -61,7 +62,8 @@ const mutations = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLInt) },
         name: { type: GraphQLString },
         description: { type: GraphQLString },
-        date: { type: GraphQLString },
+        date: { type: GraphQLInt },
+        time: { type: GraphQLString },
         location: { type: GraphQLString },
         img: { type: GraphQLString }
       },
