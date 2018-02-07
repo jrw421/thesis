@@ -1,6 +1,11 @@
 import React from 'react';
+<<<<<<< HEAD
 import ItemList from './itemList.jsx';
 import EditEvent from './editEvent.jsx';
+=======
+// import ItemList from './itemList.jsx';
+import Map from './map.jsx';
+>>>>>>> rendering map, converting location to latLong
 import { withRouter } from 'react-router';
 import { Switch, Route, browserHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -16,31 +21,12 @@ class EventPage extends React.Component {
     super(props);
 
     this.state = {
-      guests: ['Bob', 'Joe'],
-      latLng: []
+      guests: ['Bob', 'Joe']
     };
   }
 
-  // clickAttending() {
-  //   this.setState({
-  //     guests: [...this.state.guests, this.props.currentUser.name]
-  //   });
-  // }
-  //
-  // clickNotAttending() {
-  //   window.location = '/';
-  // }
-
-  // addressToLatLong(){ //this should be in componentDidMount
-  //   geocodeByAddress(this.props.location.state.event.location)
-  //     .then(results => getLatLng(results[0]))
-  //     .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
-  //     // .then(() => console.log('here is state ? ', this.state.latLng))
-  //     .catch(error => console.error('Error', error))
-  // }
 
   render() {
-    console.log('here ', this.state.latLng)
     return (
 
     <EditEvent
@@ -48,8 +34,6 @@ class EventPage extends React.Component {
       guests={this.state.guests}
       currentUser={this.props.currentUser}
       guests={this.state.guests}
-      props={this.props}
-      latLng={this.state.latLng}
       />
     )
 
