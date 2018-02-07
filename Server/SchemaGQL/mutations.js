@@ -144,25 +144,25 @@ const mutations = new GraphQLObjectType({
             [26, err]
             return null
           });
-      }
+      },
     },
     addItem: {
       type: ItemType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
         user_id: { type: GraphQLInt },
-        event_id: { type: new GraphQLNonNull(GraphQLInt) }
+        event_id: { type: new GraphQLNonNull(GraphQLInt) },
       },
       resolve(parentValues, args) {
         return db.item
           .add({
             name: args.name,
             user_id: args.user_id,
-            event_id: args.event_id
+            event_id: args.event_id,
           })
           .then(item => item)
           .catch(error => ['151', error]);
-      }
+      },
     },
     addComment: {
       type: ItemCommentType,
@@ -177,55 +177,55 @@ const mutations = new GraphQLObjectType({
           content: args.content,
           user_id: args.user_id,
           item_id: args.item_id,
-          event_id: args.event_id
+          event_id: args.event_id,
         });
-      }
+      },
     },
     addRecipients: {
       type: new GraphQLList(UserType),
       args: {
         nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
         id: { type: GraphQLInt },
-        event_id: { type: GraphQLInt }
+        event_id: { type: GraphQLInt },
       },
       resolve(parentValues, args) {
         return knex
           .select('*')
           .from('user')
           .where('id', args.id)
-          .then(res => {
-            let user = res[0];
-            let guests = args.nameEmail.map(n => {
-              let arr = n.split('*');
+          .then((res) => {
+            const user = res[0];
+            const guests = args.nameEmail.map((n) => {
+              const arr = n.split('*');
               return [arr[0], arr[1]];
             });
 
             return sendMessage(guests, user, args.event_id);
           })
           .catch(x => ['addrecipients', x]);
-      }
+      },
     },
     upVoteItem: {
       type: VoteType,
       args: {
         user_id: { type: GraphQLInt },
-        item_id: { type: GraphQLInt }
+        item_id: { type: GraphQLInt },
       },
       resolve(parentValue, args) {
-        return db.vote.upVote(args.item_id, args.user_id)
-      }
+        return db.vote.upVote(args.item_id, args.user_id);
+      },
     },
     downVoteItem: {
       type: VoteType,
       args: {
         user_id: { type: GraphQLInt },
-        item_id: { type: GraphQLInt }
+        item_id: { type: GraphQLInt },
       },
       resolve(parentValue, args) {
-        return db.vote.downVote(args.item_id, args.user_id)
-      }
-    }
-  }
+        return db.vote.downVote(args.item_id, args.user_id);
+      },
+    },
+  },
 });
 
 module.exports = mutations;
