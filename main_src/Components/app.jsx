@@ -32,6 +32,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: undefined,
+      userLocation: []
     };
   }
 
@@ -54,6 +55,7 @@ class App extends React.Component {
     if (this.state.currentUser === undefined ) {
       return null;
     }
+    console.log('here is your statttteeee in app ', this.state)
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
@@ -73,6 +75,7 @@ class App extends React.Component {
                 path="/eventPage"
                 render={() => (
                   <EventPageWithData
+                    location={this.state.userLocation}
                     currentUser={this.state.currentUser}
                   />
                 )}

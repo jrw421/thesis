@@ -63,6 +63,7 @@
     "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.7",
+    "react-geolocated": "^2.3.0",
     "react-google-maps": "^9.4.5",
     "react-places-autocomplete": "^6.1.0",
     "react-router": "^4.2.0",

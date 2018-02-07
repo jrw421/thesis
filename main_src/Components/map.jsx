@@ -15,7 +15,31 @@ class Map extends React.Component {
      }
   }
 
+//   plotCurrentLocation(map) {
+//    if (navigator.geolocation) {
+//       navigator.geolocation.getCurrentPosition(function(position) {
+//          var currLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+//
+//          // plot the currLocation on Google Maps, or handle accordingly:
+//
+//          // new google.maps.Marker({ title: 'Current Location',
+//          //                          map: map,
+//          //                          position: currLocation });
+//          //
+//          // map.setCenter(currLocation);
+//       });
+//    }
+// }
+
   loadMap() {
+    if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(function(position) {
+          var currLocation = [position.coords.latitude, position.coords.longitude];
+          console.log('CURRENT Location ', currLocation)
+       });
+    }
+
+
     if (this.props.props && this.props.props.google) {
 
       const {google} = this.props.props;

@@ -22,16 +22,6 @@ class EventPage extends React.Component {
     };
   }
 
-  // clickAttending() {
-  //   this.setState({
-  //     guests: [...this.state.guests, this.props.currentUser.name]
-  //   });
-  // }
-  //
-  // clickNotAttending() {
-  //   window.location = '/';
-  // }
-
   addressToLatLong(){ //this should be in componentDidMount
     geocodeByAddress(this.props.location.state.event.location)
       .then(results => getLatLng(results[0]))
@@ -46,8 +36,10 @@ class EventPage extends React.Component {
     }
 
     const { event } = this.props.location.state;
-    console.log(this.props)
+    console.log("USER LOCATION? ", this.props.userLocation)
+
     return (
+
       <div style={{ fontFamily: 'Noto Sans' }}>
         <div style={{ textAlign: 'center', align: 'center' }}>
           <FlatButton
@@ -76,8 +68,12 @@ class EventPage extends React.Component {
               ))}
             </ul>
           </div>
+
           <button onClick={() => this.addressToLatLong()}>Click me if ya want map info</button>
+          <button onClick={() => console.log('clicked')}>Click me if ya want directions</button>
+
           <Map props={this.props} latLng={this.state.latLng}/>
+
           <div>
             <h2>Item Registery</h2>
             <h3>Click on an item to claim it</h3>
