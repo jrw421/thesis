@@ -23,6 +23,7 @@ class ItemList extends React.Component {
     if (this.props.itemsQuery.loading) {
       return <div>loading...</div>;
     }
+
     console.log(this.props.itemsQuery)
     let items = this.props.itemsQuery.event.items;
     console.log('items list items', items)
@@ -31,7 +32,7 @@ class ItemList extends React.Component {
       <ul>
         {items.map((item, i) => {
           return (
-            <Item
+            <ItemWithData
               style={{ textAlign: 'center', align: 'center' }}
               name={item.name}
               id={item.id}
