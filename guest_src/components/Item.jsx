@@ -58,16 +58,7 @@ class Item extends React.Component {
 
     const isClicked = this.state.clicked
     let hash = this.props.hash
-    // return (
-    //   <div style={{"textAlign": "center", "align":"center"}}>
-    //   {isClicked !== null ? (
-    //     <a onClick={(e) => this.handleItemClick(e)} id={this.props.id} user_id={this.props.user_id}>{this.props.description} was claimed by {this.props.currrentUser || "guest"}</a>
-    //   ) : (
-    //
-    //     <a onClick={(e) => this.handleItemClick(e)} description={this.props.id}>{this.props.description}</a>
-    //   )}
-    // </div>
-//this.props.itemsQuery.event.items(one).user_id
+
     if (this.props.itemUserId !== null && this.props.currentId !== this.props.userToItem.name){ //this.props.itemsQuery.event.items(one).user_id
       return(
         <div style={{ textAlign: 'center', align: 'center' }}>

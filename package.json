@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/PCVEbaker/thesis#readme",
   "dependencies": {
+    "Validate": "^1.0.1",
     "ajax": "0.0.4",
     "apollo-client-preset": "^1.0.6",
     "axios": "^0.17.1",
@@ -36,9 +37,11 @@
     "express-graphql": "^0.6.11",
     "express-logger": "0.0.3",
     "express-session": "^1.15.6",
+    "from": "^0.1.7",
     "get-json": "^1.0.0",
     "graphql": "^0.12.3",
     "graphql-tag": "^2.6.1",
+    "import": "0.0.6",
     "jquery": "^3.3.1",
     "knex": "^0.14.2",
     "material-ui": "^0.20.0",
@@ -61,6 +64,8 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-prop-types": "0.0.3",
+    "react-validate-form": "^1.0.6",
+    "react-validation": "^3.0.7",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
     "superagent": "^3.8.2"
