@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import GqlItemComments from './itemComments.jsx'
+import GqlVote from './vote.jsx'
+
 
 class Item extends React.Component {
   constructor(props) {
@@ -32,7 +34,6 @@ class Item extends React.Component {
         clicked: false
       });
     }
-    console.log('id', this.props.id)
     this.props.toggleClaimOfItem({
       variables: {
         id: this.props.id,
@@ -45,8 +46,8 @@ class Item extends React.Component {
 
   render() {
     const isClicked = this.state.clicked;
-
-    if (this.props.claimedBy !== null && this.props.claimedBy.id !== this.props.currentUser.id){
+    console.log('current user in item', this.props.currentUser)
+    if (this.props.claimedBy !== null && this.props.claimedBy !== undefined && this.props.claimedBy.id !== this.props.currentUser.id){
       return(     
         <div style={{ textAlign: 'center', align: 'center' }}>
          <a>{this.props.name} was claimed by {this.props.claimedBy.name}</a>
@@ -54,6 +55,10 @@ class Item extends React.Component {
           itemId={this.props.id} 
           userId={this.props.currentUser.id} 
           eventId={this.props.eventId}  
+        />
+        <GqlVote 
+          item_id={this.props.id}
+          user_id={this.props.currentUser.id}
         />
         </div>
       )
@@ -72,6 +77,10 @@ class Item extends React.Component {
           itemId={this.props.id} 
           userId={this.props.currentUser.id} 
           eventId={this.props.eventId}  
+        />
+        <GqlVote 
+          item_id={this.props.id}
+          user_id={this.props.currentUser.id}
         />
       </div>
     );
