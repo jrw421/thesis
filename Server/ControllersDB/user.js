@@ -1,13 +1,13 @@
 const knex = require('../dbConfig.js').knex;
 const User = require('../ModelsDB/user.js');
 
-userController = {
-  findOrCreateUser: function(body) {
+const userController = {
+  findOrCreateUser: (body) => {
     return knex
       .select('*')
       .from('user')
       .where('google_id', body.google_id)
-      .then(profileCheck => {
+      .then((profileCheck) => {
         if (profileCheck.length > 0) {
           const updates = {
             email: body.email,
@@ -16,30 +16,30 @@ userController = {
           return this.editFields(profileCheck[0].id, updates)
             .then(() => this.getUser(null, body.google_id))
             .catch(error => [3, error]);
-        } else {
-          const newUser = new User({
-            name: body.name,
-            img: body.img,
-            google_id: body.google_id,
-            email: body.email,
-            accessToken: body.accessToken, 
-            member_status: 1
-          });
-          return newUser
-            .save()
-            .then(user => user.attributes)
-            .catch(error => [1, error]);
         }
+
+        const newUser = new User({
+          name: body.name,
+          img: body.img,
+          google_id: body.google_id,
+          email: body.email,
+          accessToken: body.accessToken,
+          member_status: 1,
+        });
+        return newUser
+          .save()
+          .then(user => user.attributes)
+          .catch(error => [1, error]);
       })
       .catch(error => [2, error]);
   },
-  createUserOnSignup: function(body) {
+  createUserOnSignup: (body) => {
     const newUser = new User({
       name: body.name,
       img: body.img,
       google_id: body.google_id,
       email: body.email,
-      accessToken: body.accessToken
+      accessToken: body.accessToken,
     });
 
     return newUser
@@ -47,44 +47,40 @@ userController = {
       .then(user => user.attributes)
       .catch(error => ['100', error]);
   },
-  getUserById: function(id) {
-    console.log('before get user by id runs, id:', id)
+  getUserById: (id) => {
     return knex
       .select('*')
       .from('user')
       .where('id', id)
-      .then(result => {
-        console.log('result', result);
+      .then((result) => {
         return result[0];
       })
       .catch(error => ['error: getuserbyid', error]);
   },
-  getUserByGoogleId: function(google_id) {
+  getUserByGoogleId: (google_id) => {
     return knex
       .select('*')
       .from('user')
       .where('google_id', google_id)
-      .then(result => {
+      .then((result) => {
         return result[0];
       })
-      .catch(error => {
-        return['error get userbygooglid: ', error];
+      .catch((error) => {
+        return ['error get userbygooglid: ', error];
       });
   },
-  getUserByHash: function(hash) {
+  getUserByHash: (hash) => {
     return knex
       .select('*')
       .from('user')
       .where('hash', hash)
-      .then(result => {
+      .then((result) => {
         return result[0];
       })
       .catch(error => ['error getuserbyhash: ', error]);
-      ;
   },
-  getUser: async function(id, google_id, hash) {
-    console.log(6, 'hi', id, 'googleid', google_id)
-    let result
+  getUser: async (id, google_id, hash) => {
+    let result;
     if (google_id !== null && google_id !== undefined) {
       try{
       result = await knex
@@ -96,18 +92,17 @@ userController = {
       }
       return result[0];
     } else if (hash !== null && hash !== undefined) {
-      try{
-      result = await knex
-        .select('*')
-        .from('user')
-        .where('hash', hash)
-      } catch(error){
+      try {
+        result = await knex
+          .select('*')
+          .from('user')
+          .where('hash', hash);
+      } catch (error) {
         return [5, error];
       }
       return result[0];
     } else {
       try{
-        console.log(6, 'id', id, 'typeof id', typeof id)
       result = await knex
         .select('*')
         .from('user')
@@ -124,30 +119,30 @@ userController = {
     }
     }
   },
-  getToken: function() {
+  getToken: (id) => {
     return knex
       .select('accessToken')
       .from('user')
       .where('id', id);
   },
-  findAll: function() {
+  findAll: () => {
     return knex.select('*').from('user');
   },
-  deleteUser: function(id) {
+  deleteUser: (id) => {
     return knex('user')
       .where('id', id)
       .del();
   },
-  editField: function(id, field, newValue) {
+  editField: (id, field, newValue) => {
     return knex('user')
       .where('id', id)
       .update(field, newValue)
-      .then(result => {
+      .then((result) => {
         this.getUserById(id)
-          .then(result => {
+          .then((result) => {
             return result;
           })
-          .catch(error => {
+          .catch((error) => {
             return['edit field error', error];
           });
       })
@@ -155,7 +150,7 @@ userController = {
         return ['editfield error2', error];
       });
   },
-  editFields: function(id, obj) {
+  editFields: (id, obj) => {
     return knex('user')
       .where('id', id)
       .update(obj);

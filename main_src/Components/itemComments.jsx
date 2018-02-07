@@ -20,7 +20,6 @@ class ItemComments extends React.Component {
   }
 
   onButtonClick() {
-    console.log('variables', this.state.comment, this.props.userId, this.props.itemId, this.props.eventId)
     this.props.addComment({
       variables: {
         content: this.state.comment,
