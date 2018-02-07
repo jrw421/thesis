@@ -129,7 +129,7 @@ class CreateEvent extends React.Component {
               });
           });
       })
-      .catch(error => error);
+      .catch(error => ['submitevent', error]);
   }
 
 

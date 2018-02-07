@@ -13,9 +13,8 @@ itemCommentsController = {
     })
       .save()
       .then(ItemComment => ItemComment)
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => ['items comments controller', err]);
+    
   },
   incrementLike: function(id) {
     knex('itemComments')
@@ -33,25 +32,19 @@ itemCommentsController = {
       .andWhere('item_id', '=', item_id)
       .orderBy('created_at')
       .then(results => results)
-      .catch(err => {
-        console.log(error);
-      });
+      .catch(err => ['getitemcomment', error]);
   },
   getItemCommentById: function(id) {
     return knex('itemComments')
       .where('id', '=', id)
       .then(results => results)
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => ['getitemcommentforid', error])
   },
   getItemCommentsByItemId: function(id) {
     return knex('itemComments')
       .where('item_id', '=', id)
       .then(results => results)
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => ['getitemCommentsbyItemid', error])
   }
 };
 

@@ -15,7 +15,7 @@ userController = {
           };
           return this.editFields(profileCheck[0].id, updates)
             .then(() => this.getUser(null, body.google_id))
-            .catch(error => console.log(3, error));
+            .catch(error => [3, error]);
         } else {
           const newUser = new User({
             name: body.name,
@@ -28,10 +28,10 @@ userController = {
           return newUser
             .save()
             .then(user => user.attributes)
-            .catch(error => console.log(1, error));
+            .catch(error => [1, error]);
         }
       })
-      .catch(error => console.log(2, error));
+      .catch(error => [2, error]);
   },
   createUserOnSignup: function(body) {
     const newUser = new User({
@@ -45,9 +45,10 @@ userController = {
     return newUser
       .save()
       .then(user => user.attributes)
-      .catch(error => console.log(error));
+      .catch(error => ['100', error]);
   },
   getUserById: function(id) {
+    console.log('before get user by id runs, id:', id)
     return knex
       .select('*')
       .from('user')
@@ -56,9 +57,7 @@ userController = {
         console.log('result', result);
         return result[0];
       })
-      .catch(error => {
-        console.log('error: ', error);
-      });
+      .catch(error => ['error: getuserbyid', error]);
   },
   getUserByGoogleId: function(google_id) {
     return knex
@@ -69,7 +68,7 @@ userController = {
         return result[0];
       })
       .catch(error => {
-        console.log('error: ', error);
+        return['error get userbygooglid: ', error];
       });
   },
   getUserByHash: function(hash) {
@@ -80,9 +79,8 @@ userController = {
       .then(result => {
         return result[0];
       })
-      .catch(error => {
-        console.log('error: ', error);
-      });
+      .catch(error => ['error getuserbyhash: ', error]);
+      ;
   },
   getUser: async function(id, google_id, hash) {
     console.log(6, 'hi', id, 'googleid', google_id)
@@ -94,7 +92,7 @@ userController = {
         .from('user')
         .where('google_id', google_id)
       } catch(error) {
-        console.log(4, error);
+        return[4, error];
       }
       return result[0];
     } else if (hash !== null && hash !== undefined) {
@@ -104,7 +102,7 @@ userController = {
         .from('user')
         .where('hash', hash)
       } catch(error){
-        console.log(5, error);
+        return [5, error];
       }
       return result[0];
     } else {
@@ -115,7 +113,7 @@ userController = {
         .from('user')
         .where('id', id)
       } catch(error){
-        console.log(6, 'await catach', error);
+        return[6, 'await catach', error];
       }
       console.log(6,  'result1', result)
       if (result){
@@ -150,11 +148,11 @@ userController = {
             return result;
           })
           .catch(error => {
-            console.log(error);
+            return['edit field error', error];
           });
       })
       .catch(error => {
-        console.log(error);
+        return ['editfield error2', error];
       });
   },
   editFields: function(id, obj) {
@@ -165,3 +163,4 @@ userController = {
 };
 
 module.exports = userController;
+

@@ -15,7 +15,7 @@ eventController = {
     try{
     result = await newEvent.save()
     }catch(error){
-    console.log(7, error)
+    return [7, error]
     };
     return result.attributes;
   },
@@ -50,7 +50,7 @@ eventController = {
       .from('event')
       .where('id', id)
     } catch(error){
-      console.log(8, id, error)
+      return [8, id, error]
     }
     if(result){
      return result[0];
@@ -84,3 +84,8 @@ eventController = {
 };
 
 module.exports = eventController;
+
+
+eventController.getHostedEvents(22).then(x=> console.log('working hosted', x))
+eventController.getPastEvents(22).then(x=> console.log('working past', x))
+eventController.getCurrentEvents(22).then(x=> console.log('working current', x))

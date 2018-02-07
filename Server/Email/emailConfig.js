@@ -31,7 +31,7 @@ const generateID = function(event_id, name, email) {
             reply: 2
           });
 
-          newEventAttendee.save().then(x => console.log('newPair', x)).catch(x => console.log('errorPair', x))
+          newEventAttendee.save().then(x => console.log('newPair', x)).catch(x => ['errorPair', x])
       
         });
         console.log('before return email id', id)
