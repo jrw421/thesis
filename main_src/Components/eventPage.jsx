@@ -1,7 +1,11 @@
 import React from 'react';
+import ItemList from './itemList.jsx';
+import Map from './map.jsx';
 import { withRouter } from 'react-router';
-import { Route } from 'react-router-dom';
-import { graphql } from 'react-apollo';
+import { Switch, Route, browserHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
+import {GoogleApiWrapper} from 'google-maps-react'
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -13,6 +17,7 @@ class EventPage extends React.Component {
 
     this.state = {
       guests: ['Bob', 'Joe'],
+      latLng: []
     };
   }
 
@@ -24,6 +29,14 @@ class EventPage extends React.Component {
 
   clickNotAttending() {
     window.location = '/';
+  }
+
+  addressToLatLong(){ //this should be in componentDidMount
+    geocodeByAddress(this.props.location.state.event.location)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
+      // .then(() => console.log('here is state ? ', this.state.latLng))
+      .catch(error => console.error('Error', error))
   }
 
   render() {
@@ -62,6 +75,7 @@ class EventPage extends React.Component {
               ))}
             </ul>
           </div>
+          <Map props={this.props} latLng={this.state.latLng}/>
           <div>
             <h2>Item Registery</h2>
             <h3>Click on an item to claim it</h3>
@@ -86,10 +100,17 @@ const NAME_QUERY = gql`
   }
 `;
 
-const EventPageWithData = graphql(NAME_QUERY, {
-  skip: props => typeof props.currentUser !== 'string',
-  options: props => ({ variables: { id: props.currentUser } }),
-  name: 'nameGuest',
-})(EventPage);
+const EventPageWithData = compose(
+  GoogleApiWrapper({
+    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg'
+    // ,
+    // libraries: ['visualization']
+  }),
+  graphql(NAME_QUERY, {
+    skip: props => typeof props.currentUser !== 'string',
+    options: props => ({ variables: { id: props.currentUser } }),
+    name: 'nameGuest'
+  })
+)(EventPage);
 
 export default withRouter(EventPageWithData);
