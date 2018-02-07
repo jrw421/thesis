@@ -16,22 +16,22 @@ class ItemList extends React.Component {
     if (this.props.event.loading || this.props.itemsQuery.loading) {
       return null;
     }
-
-    let items = this.props.event.user.guestEvent.items;
+    console.log('prooppppsss in itemlist ', this.props.event.guestUser.guestEvent)
+    let items = this.props.event.guestUser.guestEvent.items;
     let itemUsers = this.props.itemsQuery.event.items
     console.log('Props in itemLost ', this.props.itemsQuery.event.items[0].user)
     return(
       <ul>
       {itemUsers.map((item)  => {
           return <Item style={{"textAlign": "center", "align":"center"}} hash={this.props.hash}
-            // userIDD={this.props.event.user.id}
+            // userIDD={this.props.event.guestUser.id}
             itemUserId={item.user_id} //item.user.id
             // userToItem={item.user.id} //check if user
             userToItem={item.user}
             description={item.name} id={item.id} key={item.id}
-            currentId={this.props.event.user.id}
+            currentId={this.props.event.guestUser.id}
             eventId={this.props.eventId}
-            currentUser={this.props.event.user.name}/>
+            currentUser={this.props.event.guestUser.name}/>
         })}
         </ul>
     )

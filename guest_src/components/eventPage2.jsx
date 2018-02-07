@@ -18,32 +18,33 @@ class EventPage2 extends React.Component {
 
   postLoad() {
     this.setState({
-      guests: this.props.guestQuery.user.guestEvent.users
+      guests: this.props.guestQuery.guestUser.guestEvent.users
     })
   }
 
   clickAttending(name) {
     alert("Great! Can't wait to see you there!")
-    console.log('event id ', this.props.guestQuery.user.guestEvent.id)
+    console.log('event id ', this.props.guestQuery.guestUser.id, this.props.guestQuery.guestUser.guestEvent.id)
+
     this.setState({
       guests: [...this.state.guests, name]
     })
-console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.user.guestEvent.id)
+   // console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.user.guestEvent.id)
     this.props.confirmPresence({
       variables: {
-        user_id: this.props.guestQuery.user.id,
-        event_id: this.props.guestQuery.user.guestEvent.id
+        user_id: this.props.guestQuery.guestUser.id,
+        event_id: this.props.guestQuery.guestUser.guestEvent.id
       }
     })
   }
 
   clickNotAttending() {
     alert('So sad! You suck!')
-    console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.user.guestEvent.id)
+    console.log('event id ', this.props.guestQuery.guestUser.id, this.props.guestQuery.guestUser.guestEvent.id)
     this.props.denyPresence({
       variables: {
-        user_id: this.props.guestQuery.user.id,
-        event_id: this.props.guestQuery.user.guestEvent.id
+        user_id: this.props.guestQuery.guestUser.id,
+        event_id: this.props.guestQuery.guestUser.guestEvent.id
       }
     })
     window.location ='/'
@@ -58,16 +59,16 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
       return null
     }
     // console.log('event id ', this.props.guestQuery.user.guestEvent.id)
-    console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
-    let users = this.props.guestQuery.user.guestEvent.users
-    console.log('yUersss ', this.props)
+    // console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
+    console.log('props in eventPage ', this.props)
+    let users = this.props.guestQuery.guestUser.guestEvent.users
 
     return(
     <div>
 
         <div style={{"textAlign": "center", "align":"center"}}>
         <FlatButton style={{"textAlign": "center", "align":"center"}}
-          onClick={() => this.clickAttending(this.props.guestQuery.user.name)} //this.props.user.name
+          onClick={() => this.clickAttending(this.props.guestQuery.guestUser.name)} //this.props.guestUser.name
           label="I'll be there"/>
         <FlatButton style={{"textAlign": "center", "align":"center"}}
           onClick={() => this.clickNotAttending()}
@@ -78,10 +79,10 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
       </div>
 
         <div style={{"textAlign": "center"}} className="eventPage">
-          <h1 className="eventPage">{this.props.guestQuery.user.guestEvent.name}</h1>
-          <div className="eventPage">{this.props.guestQuery.user.guestEvent.location}</div>
-          <div className="eventPage">{this.props.guestQuery.user.guestEvent.date}</div>
-          <div className="eventPage" >{this.props.guestQuery.user.guestEvent.description}</div>
+          <h1 className="eventPage">{this.props.guestQuery.guestUser.guestEvent.name}</h1>
+          <div className="eventPage">{this.props.guestQuery.guestUser.guestEvent.location}</div>
+          <div className="eventPage">{this.props.guestQuery.guestUser.guestEvent.date}</div>
+          <div className="eventPage" >{this.props.guestQuery.guestUser.guestEvent.description}</div>
           <div style={{"textAlign": "center", "align":"center"}}>
             <h2>Who's Coming</h2>
             <ul>
@@ -98,7 +99,7 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
             <h2>Item Registery</h2>
             <h3>Click on an item to claim it</h3>
             <ItemList style={{"textAlign": "center", "align":"center"}}
-              eventId={this.props.guestQuery.user.guestEvent.id}
+              eventId={this.props.guestQuery.guestUser.guestEvent.id}
               hash={this.props.currentUser.params.id}
               currentUser={this.props.match.params.id}
               event={this.props.guestQuery}
@@ -107,7 +108,7 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
           </div>
           <img
             style={{"height":"400px", "width": "400px"}}
-            src={this.props.guestQuery.user.guestEvent.img || "https://static.businessinsider.com/image/519e85e6ecad04337f000019/image.jpg"}
+            src={this.props.guestQuery.guestUser.guestEvent.img || "https://static.businessinsider.com/image/519e85e6ecad04337f000019/image.jpg"}
             alt=""
           />
         </div>
@@ -117,7 +118,7 @@ console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.us
 
 const GUEST_QUERY = gql `
   query guestQuery ($id: String){
-    user(hash: $id) {
+    guestUser(hash: $id) {
       id
       name
       guestEvent{
