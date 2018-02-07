@@ -8,6 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import {GoogleApiWrapper} from 'google-maps-react'
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 import ItemList from './itemList.jsx';
 
@@ -21,15 +22,15 @@ class EventPage extends React.Component {
     };
   }
 
-  clickAttending() {
-    this.setState({
-      guests: [...this.state.guests, this.props.currentUser.name],
-    });
-  }
-
-  clickNotAttending() {
-    window.location = '/';
-  }
+  // clickAttending() {
+  //   this.setState({
+  //     guests: [...this.state.guests, this.props.currentUser.name]
+  //   });
+  // }
+  //
+  // clickNotAttending() {
+  //   window.location = '/';
+  // }
 
   addressToLatLong(){ //this should be in componentDidMount
     geocodeByAddress(this.props.location.state.event.location)

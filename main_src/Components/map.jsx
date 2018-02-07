@@ -22,11 +22,7 @@ class Map extends React.Component {
       const maps = google.maps;
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
-<<<<<<< HEAD
       let myLatLng = this.props.latLng || {lat: 44.475, lng: 44.475}; //{lat: 44.475, lng: 44.475}
-=======
-      let myLatLng = {lat: 44.475, lng: 44.475};
->>>>>>> zoom working
       const mapConfig = Object.assign({}, {
         center: {lat: 0, lng: 180},
         zoom: 5,
