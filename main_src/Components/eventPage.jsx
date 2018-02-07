@@ -72,6 +72,8 @@ class EventPage extends React.Component {
               </div>
               <div style={{ textAlign: 'center' }} className="eventPage">
                 <h1 className="eventPage">{event.name}</h1>
+                <div className="eventPage">{event.date}</div>
+                <div className="eventPage time">{event.time}</div>
                 <div className="eventPage">{event.location}</div>
                 <div className="eventPage">{event.date}</div>
                 <div className="eventPage">{event.description}</div>
@@ -109,6 +111,7 @@ class EventPage extends React.Component {
               <h1 className="eventPage">{event.name}</h1>
               <div className="eventPage">{event.location}</div>
               <div className="eventPage">{event.date}</div>
+              <div className="eventPage time">{event.time}</div>
               <div className="eventPage">{event.description}</div>
               <div>
                 <h2>Who's Coming</h2>
