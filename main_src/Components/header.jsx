@@ -12,10 +12,16 @@ const tabStyle = {
 };
 
 class Header extends Component {
+  titleClick() {
+    window.location.href = ('http://localhost:4000/dashboard')
+  }
   render() {
     return (
       <div>
-        <AppBar title="Host.ly"  showMenuIconButton={false}>
+        <AppBar title="Host.ly"
+          showMenuIconButton={false}
+           onTitleClick={ () =>  this.titleClick()}
+          >
           <Tabs onChange={this.changeTab}>
             <Tab
               value={0}
