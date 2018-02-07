@@ -37,9 +37,10 @@ const mutations = new GraphQLObjectType({
         name: { type: new GraphQLNonNull(GraphQLString) },
         host_id: { type: new GraphQLNonNull(GraphQLInt) },
         description: { type: new GraphQLNonNull(GraphQLString) },
-        date: { type: GraphQLString },
-        location: { type: new GraphQLNonNull(GraphQLString) },
-        img: { type: new GraphQLNonNull(GraphQLString) }
+        date: { type: GraphQLInt },
+        time: { type: GraphQLString },
+        location: { type: GraphQLString },
+        img: { type: GraphQLString },
       },
       resolve(parentValue, args) {
         return db.event.addEvent({
@@ -48,7 +49,7 @@ const mutations = new GraphQLObjectType({
           description: args.description,
           date: args.date,
           location: args.location,
-          img: args.img
+          img: args.img,
         });
       }
     },

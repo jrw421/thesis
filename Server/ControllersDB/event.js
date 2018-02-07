@@ -7,6 +7,7 @@ eventController = {
       name: body.name,
       host_id: body.host_id,
       description: body.description,
+      time: body.time,
       date: body.date,
       location: body.location,
       img: body.img

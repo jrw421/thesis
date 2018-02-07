@@ -4,7 +4,11 @@ import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
 // import DateTimePicker from 'material-ui-datetimepicker'
 // import TimeInput from 'material-ui-time-picker'
+import DateTimePicker from 'material-ui-datetimepicker';
+import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog'
+import TimePickerDialog from 'material-ui/TimePicker/TimePickerDialog';
 import FlatButton from 'material-ui/FlatButton';
+import TimeFormatters from '../Scripts/timeFormatters'
 
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
@@ -228,20 +232,28 @@ class CreateEvent extends React.Component {
         />
         <br />
         <br />
-        <TextField
-          value={this.state.date}
-          type="date"
-          placeholder="What day?"
-          onChange={e => this.setState({ date: e.target.value })}
+        <DateTimePicker
+          DatePicker={DatePickerDialog}
+          TimePicker={TimePickerDialog}
+          // value={this.state.date}
+          // type="date"
+          placeholder="Pick a day and time"
+          onChange={(time) => {
+            let year = time.getFullYear()
+            let month = time.getMonth()
+            let day = time.getDay()
+            let date = year + '' + month + day
+
+            let hour = time.getHours()
+            let minutes = time.getMinutes()
+            let clockTime = hour + ':' + minutes
+
+            this.setState({ date: date })
+            this.setState({ time: clockTime  })
+          }
+        }
         />
-        <br />
-        <br />
-        <TextField
-          value={this.state.time}
-          type="time"
-          placeholder="What time?"
-          onChange={e => this.setState({ time: e.target.value })}
-        />
+
         <br />
         <br />
         <TextField
@@ -283,13 +295,15 @@ class CreateEvent extends React.Component {
 }
 
 const addEvent = gql`
-  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String!) {
+  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String, $time: String, $date: Int) {
     addEvent(
       name: $name
       host_id: $host_id
       description: $description
       location: $location
-      img: $img
+      img: $img,
+      time: $time,
+      date: $date
     ) {
       name
       host_id
@@ -297,6 +311,8 @@ const addEvent = gql`
       location
       img
       id
+      time
+      date
     }
   }
 `;
