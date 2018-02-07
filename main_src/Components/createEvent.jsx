@@ -90,6 +90,9 @@ class CreateEvent extends React.Component {
 
   submitForm = () => {
     const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
+    if (name === null || location === null || date === null || time === null || description === null || uploadedFileCloudinaryUrl === null) {
+      alert('All fields must be entered!')
+    }
     this.props
       .addEvent({
         variables: {
@@ -122,9 +125,7 @@ class CreateEvent extends React.Component {
               .then(() => {
                 this.props.history.push({
                   pathname: '/eventPage',
-                  state: { event: event.data.addEvent },
-
-
+                  state: { event: event.data.addEvent }
                 });
               });
           });
@@ -197,6 +198,7 @@ class CreateEvent extends React.Component {
           </div>
         <br />
         <br />
+
         <TextField
           value={this.state.location}
           type="text"
