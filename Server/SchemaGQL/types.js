@@ -140,20 +140,20 @@ const UserType = new GraphQLObjectType({
     hostedEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
-        return db.event.getHostedEvents(parentValue.id).catch(err => console.log(32, err));
+        return db.event.getHostedEvents(parentValue.id).catch(err => [32, err]);
       }
     },
     pastEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
-        return db.event.getPastEvents(parentValue.id).catch(err => console.log(33, err));
+        return db.event.getPastEvents(parentValue.id).catch(err => [33, err]);
       }
     },
     currentEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
         console.log('breaking after getcurrentevents')
-        return db.event.getCurrentEvents(parentValue.id).catch(err => console.log(34, err));
+        return db.event.getCurrentEvents(parentValue.id).catch(err => [34, err]);
       }
     },
     guestEvent: {

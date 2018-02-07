@@ -33,7 +33,7 @@ eventAttendeeController = {
       .where('user_id', user_id)
       .innerJoin('event', 'event_attendee.event_id', 'event.id')
     }catch(error){
-      console.log(11, error)
+      return [11, error]
     };
     arr.forEach(obj => (obj['user_id'] = user_id));
     return arr;
@@ -69,9 +69,9 @@ eventAttendeeController = {
           .from('user')
           .where({ id: user_id })
           .then(item => item[0])
-          .catch(error => console.log(13, error));
+          .catch(error => [13, error]);
       })
-      .catch(error => console.log(12, error));
+      .catch(error => [12, error]);
   },
   denyPresence: function(user_id, event_id) {
     let rsvp;
@@ -86,9 +86,9 @@ eventAttendeeController = {
           .from('user')
           .where({ id: user_id })
           .then(item => item[0])
-          .catch(error => console.log(14, error));
+          .catch(error => [14, error]);
       })
-      .catch(error => console.log(15, error));
+      .catch(error => [15, error]);
   }
 };
 

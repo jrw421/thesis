@@ -4,20 +4,16 @@ const db = require('../ControllersDB/mainController.js');
 const axios = require('axios');
 
 passport.serializeUser((user, done) => {
-  // takes user id and makes it a cookie
-  done(null, user.id);
+  // takes user id and makes it a cookie\
+  done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser((user, done) => {
   // retrieve id from cookie
   // and use it to access user in database
-  db.user
-    .getUserById(id)
-    .then(user => {
-      console.log('deserializeuser', user)
+  console.log('before deserialize', user)
       done(null, user);
-    })
-    .catch(error => console.log(40, error));
+
 });
 
 passport.use(
@@ -46,22 +42,19 @@ passport.use(
               .then(user => {
                 done(null, user);
               })
-              .catch(error => {
-                console.log(error);
-              });
+              .catch(error => ['passport.use', error]
+              );
           } else {
             db.user
               .editField(user.id, 'accessToken', body.accessToken)
               .then(user => {
                 done(null, user);
               })
-              .catch(error => {
-                console.log(error);
-              });
+              .catch(error => ['passport.use2', error]);
             done(null, user);
           }
         })
-        .catch(error => console.log(50, error));
+        .catch(error => ['passportuse', 50, error]);
     }
   )
 );

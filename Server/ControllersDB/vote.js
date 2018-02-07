@@ -16,10 +16,10 @@ VoteController = {
           })
             .save()
             .then(vote => vote)
-            .catch(error => {console.log(error)})
+            .catch(error => ['upvote', error])
         }
       })
-      .catch(error => {console.log(error)})
+      .catch(error => ['upvote2', error])
   },
   downVote: function(item_id, user_id) {
     // check if user has already voted on item
@@ -35,24 +35,24 @@ VoteController = {
           })
             .save()
             .then(vote => vote)
-            .catch(error => {console.log(error)})
+            .catch(error => ['downvote', error])
         }
       })
-      .catch(error => {console.log(error)})
+      .catch(error => ['downvote2', error])
   },
   getUpVotesForItem: function(item_id) {
     return knex('votes')
             .where('item_id', '=', item_id)
             .andWhere('vote', '=', 1)
             .then(results => results)
-            .catch(error => {console.log(error)})
+            .catch(error => ['getupvotesforitem', error])
   },
   getDownVotesForItem: function(item_id) {
     return knex('votes')
             .where('item_id', '=', item_id)
             .andWhere('vote', '=', -1)
             .then(results => results)
-            .catch(error => {console.log(error)})
+            .catch(error => ['getdownvoteforitem', error])
   },
   hasUserVotedForItem: function(user_id, item_id) {
     return knex('votes')
@@ -61,7 +61,7 @@ VoteController = {
       .then(results => {
         return results.length === 0 ? false : true
       })
-      .catch(error => {console.log(error)})
+      .catch(error => ['hasuservotedforitem', error])
   }
 }
 

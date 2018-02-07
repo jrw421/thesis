@@ -41,11 +41,11 @@ class App extends React.Component {
       .get('/user')
       .then(data => {
         this.setState({
-          currentUser: data.data.user
+          currentUser: data.data.user,
         });
       })
       .catch((error) => {
-        console.log(error);
+        return ['componentwillmount', error];
       });
   }
 

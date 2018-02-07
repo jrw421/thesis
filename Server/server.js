@@ -65,7 +65,7 @@ app.get('/contacts:id', function(req, res) {
         accessToken
     )
     .then(response => console.log('resonse ', response.data.feed.entry))
-    .catch(err => console.log('err in get ', err));
+    .catch(err => ['err in get ', err]);
 });
 
 app.get('/user', function(req, res) {
