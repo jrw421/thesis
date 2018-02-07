@@ -89,10 +89,19 @@ class CreateEvent extends React.Component {
 
 
   submitForm = () => {
-    const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
-    if (name === null || location === null || date === null || time === null || description === null || uploadedFileCloudinaryUrl === null) {
+
+    if (this.state.name === ''
+      || this.state.location === ''
+      || this.state.date === ''
+      || this.state.time === undefined
+      || this.state.description === ''
+      || this.state.uploadedFileCloudinaryUrl === '') {
+
       alert('All fields must be entered!')
     }
+
+    const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
+    console.log('here is state ', this.state)
     this.props
       .addEvent({
         variables: {
