@@ -50,6 +50,11 @@ class Item extends React.Component {
       return(     
         <div style={{ textAlign: 'center', align: 'center' }}>
          <a>{this.props.name} was claimed by {this.props.claimedBy.name}</a>
+         <GqlItemComments 
+          itemId={this.props.id} 
+          userId={this.props.currentUser.id} 
+          eventId={this.props.eventId}  
+        />
         </div>
       )
     } else {
