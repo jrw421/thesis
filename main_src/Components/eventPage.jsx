@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemList from './itemList.jsx';
+// import ItemList from './itemList.jsx';
 import Map from './map.jsx';
 import { withRouter } from 'react-router';
 import { Switch, Route, browserHistory } from 'react-router-dom';
@@ -76,6 +76,7 @@ class EventPage extends React.Component {
               ))}
             </ul>
           </div>
+          <button onClick={() => this.addressToLatLong()}>Click me if ya want map info</button>
           <Map props={this.props} latLng={this.state.latLng}/>
           <div>
             <h2>Item Registery</h2>
