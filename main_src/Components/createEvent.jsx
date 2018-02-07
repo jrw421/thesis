@@ -98,8 +98,7 @@ class CreateEvent extends React.Component {
       || this.state.uploadedFileCloudinaryUrl === '') {
 
       alert('All fields must be entered!')
-    }
-
+    } else {
     const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
     console.log('here is state ', this.state)
     this.props
@@ -140,6 +139,7 @@ class CreateEvent extends React.Component {
           });
       })
       .catch(error => error);
+    }
   }
 
 
