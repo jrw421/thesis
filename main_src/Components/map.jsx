@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+
 
 class Map extends React.Component {
   constructor(props) {
@@ -8,16 +10,29 @@ class Map extends React.Component {
 
     this.state = {
       currLocation: {},
-      directions: []
+      directions: [],
+      latLng: [],
+      isModalOpen: false
     }
   }
 
+  // componentDidMount() {
+  //   if (this.props.props.google) {
+  //    this.loadMap();
+  //    this.plotCurrentLocation()
+  //   }
+  // }
+
+
   componentDidUpdate(prevProps, prevState) {
     console.log("props in map 1 ", prevProps, prevState)
-     if (this.props.props.google) {
+     // if (this.props.props.google) {
+       // this.addressToLatLong();
        this.loadMap();
-       this.plotCurrentLocation()
-     }
+       this.plotCurrentLocation();
+       this.showDirections();
+
+     // }
   }
 
   plotCurrentLocation(map) {
@@ -57,15 +72,7 @@ class Map extends React.Component {
         gestureHandling: "cooperative"
       })
         this.map = new maps.Map(node, mapConfig);
-
-        let directionsService = new google.maps.DirectionsService();
-        let directionsDisplay = new google.maps.DirectionsRenderer({
-            map: this.map
-        });
-
-        directionsDisplay.setMap(this.map);
-        directionsDisplay.setPanel(document.getElementById('rightPanel'));
-
+        
         let markerA = new google.maps.Marker({
             position: this.props.latLng,
             title: "point A",
@@ -78,25 +85,34 @@ class Map extends React.Component {
             label: "B",
             map: this.map
         });
-
-        this.calculateAndDisplayRoute(directionsService, directionsDisplay, this.props.latLng, this.state.currLocation);
-
       }
     }
 
-  calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
-    directionsService.route({
-      origin: pointA,
-      destination: pointB,
-      travelMode: google.maps.TravelMode.DRIVING
-    }, function(response, status) {
-      if (status === 'OK') {
-        directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    });
-  }
+    showDirections() {
+      let directionsService = new google.maps.DirectionsService();
+      let directionsDisplay = new google.maps.DirectionsRenderer({
+          map: this.map
+      });
+      directionsDisplay.setMap(this.map);
+      directionsDisplay.setPanel(document.getElementById('rightPanel'));
+
+      this.calculateAndDisplayRoute(directionsService, directionsDisplay, this.props.latLng, this.state.currLocation);
+
+    }
+
+    calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+      directionsService.route({
+        origin: pointA,
+        destination: pointB,
+        travelMode: google.maps.TravelMode.DRIVING
+      }, function(response, status) {
+        if (status === 'OK') {
+          directionsDisplay.setDirections(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+    }
 
     render() {
       const style = {
@@ -107,13 +123,17 @@ class Map extends React.Component {
         left: '25%'
       }
       console.log( 'google ', this.state.currLocation)
-      console.log( 'latLng ', this.props.latLng)
+      console.log( 'use This ', this.props.useThis)
+      if (!this.props.props.google) {
+        return <div>loading...</div>
+      }
       return (
         <div>
+         <button>Click me if ya want directions</button>
         <div id="rightPanel">
         </div>
         <div ref="map" style={style}>
-          loading map...
+          {/* loading map... */}
         </div>
       </div>
       )

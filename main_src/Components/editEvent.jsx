@@ -57,10 +57,10 @@ class EditEvent extends React.Component {
           </ul>
         </div>
         <div>
-          <button onClick={() => this.addressToLatLong()}>Click me if ya want map info</button>
-          <button onClick={() => console.log('clicked')}>Click me if ya want directions</button>
+           <button onClick={() => this.addressToLatLong()}>Click me if ya want map info</button>
+           {/* <button onClick={() => console.log('clicked')}>Click me if ya want directions</button> */}
 
-          <Map props={this.props} latLng={this.state.latLng}/>
+          <Map useThis={this.props.location.state.event.location} props={this.props} latLng={this.state.latLng}/>
         </div>
         <div>
           <h2>Item Registery</h2>
