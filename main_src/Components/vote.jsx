@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
+
 import gql from 'graphql-tag';
 
 class Vote extends Component {
@@ -16,7 +17,13 @@ class Vote extends Component {
         user_id: this.props.user_id,
         item_id: this.props.item_id,
       },
-    });
+    })
+      .then(() => {
+        this.props.votes.refetch();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   handleDownVote() {
@@ -25,14 +32,31 @@ class Vote extends Component {
         user_id: this.props.user_id,
         item_id: this.props.item_id,
       },
-    });
+    })
+      .then(() => {
+        this.props.votes.refetch();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
+    if (this.props.votes.loading) {
+      return <div>loading...</div>;
+    }
+
+    if (this.props.votes.error) {
+      console.log('error in votes', this.props.votes.error);
+      return <div>Error!</div>;
+    }
+
     return (
       <div>
         <button onClick={this.handleUpVote}>UpVote</button>
+        <p>Total Upvotes: {this.props.votes.item.upVotes.length}</p>
         <button onClick={this.handleDownVote}>DownVote</button>
+        <p>Total Downvotes: {this.props.votes.item.downVotes.length}</p>
       </div>
     );
   }
@@ -54,9 +78,28 @@ const downVote = gql`
   }
 `;
 
+const getVotes = gql`
+  query item($id: Int!) {
+    item (id: $id) {
+      upVotes {
+        user_id
+      }
+      downVotes {
+        user_id
+      }
+    }
+  }
+`
+
 const GqlVote = compose(
   graphql(upVote, { name: 'upVote' }),
   graphql(downVote, { name: 'downVote' }),
+  graphql(getVotes, { 
+    options: (props) => {
+      return { variables: { id: props.item_id } };
+    },
+    name: 'votes',
+  }),
 )(Vote);
 
 export default GqlVote;
