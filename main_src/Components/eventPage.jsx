@@ -26,12 +26,12 @@ class EventPage extends React.Component {
   componentDidMount() {
     this.getUserlocation()
   }
-  
+
   addressToLatLong(){ //this should be in componentDidMount
     geocodeByAddress(this.props.location.state.event.location)
       .then(results => getLatLng(results[0]))
       .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
-      .then(() => this.getUserlocation())
+      // .then(() => this.getUserlocation())
       // .then((res) => this.setState({currLocation: res}))
       .catch(error => console.error('Error', error))
   }

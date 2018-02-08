@@ -57,15 +57,17 @@ class Map extends React.Component {
         const marker = new google.maps.Marker({
           position: myLatLng,
           map: this.map,
-          title: "your event!",
-           mapTypeId: google.maps.MapTypeId.ROADMAP
+          title: "your event!"
+          // ,
+          //  mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
         const marker2 = new google.maps.Marker({
-          position: myLatLng,
+          position: this.props.currLocation,
           map: this.map,
-          title: "your location!",
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          title: "your location!"
+          // ,
+          // mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         // var infowindow = new google.maps.InfoWindow({
         //   content: `<h3>${quake.properties.title}</h3>
