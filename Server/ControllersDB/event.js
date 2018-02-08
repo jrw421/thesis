@@ -24,16 +24,22 @@ eventController = {
     let result
     try{
       result = await newEvent.save()
-    }catch(error){
+    } catch(error) {
       console.log([7, error])
       return error
     };
       return result.attributes;
   },
   getHostedEvents: function(user_id) {
-    console.log('get host events, id:', user_id)
     let current = createDateNum()
-    return knex.select('*').from('event').where('host_id', '=', user_id).andWhere('date', '>', current).orWhere('date', '=', current);
+    return knex
+    .select('*')
+    .from('event')
+    .where('host_id', '=', user_id)
+    .andWhere('date', '>', current)
+    .orWhere('date', '=', current)
+    .then(x => x)
+    .catch(err => err)
     //commented out for MVP functionality
     // let current = new Date()
     // let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
@@ -58,14 +64,21 @@ eventController = {
           .catch(err => {
             return err
           })
-        }).catch(err => {
-            return err
-        })
+      }).catch(err => {
+          return err
+      })
   },
   getCurrentEvents: function(user_id) {
     console.log('get curr events, id:', user_id)
     let current = createDateNum()
-    return knex.select('*').from('event').where('date', '>', current).orWhere('date', '=', current).innerJoin('event_attendee', 'event_attendee.user_id', user_id);
+    return knex
+    .select('*')
+    .from('event')
+    .where('date', '>', current)
+    .orWhere('date', '=', current)
+    .innerJoin('event_attendee', 'event_attendee.user_id', user_id)
+    .then(x => x)
+    .catch(err => err)
   },
   getEvent: async function(id) {
     let result
@@ -109,8 +122,3 @@ eventController = {
 };
 
 module.exports = eventController;
-
-
-eventController.getHostedEvents(22).then(x=> console.log('working hosted', x))
-eventController.getPastEvents(22).then(x=> console.log('working past', x))
-eventController.getCurrentEvents(22).then(x=> console.log('working current', x))
