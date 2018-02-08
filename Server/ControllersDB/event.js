@@ -40,17 +40,27 @@ eventController = {
     // return knex('event').where('host_id', user_id).
   },
   getPastEvents: function(user_id) {
-    console.log('get past events, id:', user_id)
     let current = createDateNum()
-    return knex.select('*').from('event').where('date', '<', current).innerJoin('event_attendee', 'event_attendee.user_id', user_id).then(results => {
-      return knex.select('*').from('event').where('host_id', '=', user_id).andWhere('date', '<', current).then(x => {
-        console.log('past',results.concat(x) )
-        return results.concat(x)
-      })
-    }).catch(err => {
-      console.log('error in past events', err)
-      return err
-    })
+    return knex
+      .select('*')
+      .from('event')
+      .where('date', '<', current)
+      .innerJoin('event_attendee', 'event_attendee.user_id', user_id)
+      .then(results => {
+        return knex
+          .select('*')
+          .from('event')
+          .where('host_id', '=', user_id)
+          .andWhere('date', '<', current)
+          .then(x => {
+            return results.concat(x)
+          })
+          .catch(err => {
+            return err
+          })
+        }).catch(err => {
+            return err
+        })
   },
   getCurrentEvents: function(user_id) {
     console.log('get curr events, id:', user_id)

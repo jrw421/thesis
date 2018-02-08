@@ -136,7 +136,7 @@ const denyPresence = gql`
 
 const EditEventWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
-  graphql(denyPresence, { name: 'denyPresence' })
+  graphql(denyPresence, { name: 'denyPresence' }),
   GoogleApiWrapper({
     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg'
   })

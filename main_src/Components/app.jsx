@@ -32,6 +32,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: undefined,
+      refresh: true
     };
 
     this.refreshDash = this.refreshDash.bind(this)

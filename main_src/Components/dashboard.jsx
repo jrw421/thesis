@@ -26,10 +26,12 @@ class Dashboard extends React.Component {
     }
 
     if (this.props.dashboardQuery) {
+
       if (this.props.dashboardQuery.error && !this.props.dashboardQuery.user) {
         return <div>Error2</div>;
       }
-      if (this.props.dashboardQuery.loading) {
+
+      if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.users) {
         return <div>Loading</div>;
       }
 
