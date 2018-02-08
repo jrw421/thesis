@@ -19,7 +19,7 @@ class EventPage extends React.Component {
 
     this.refresh = this.refresh.bind(this)
   }
- 
+
  refresh(){
     this.props.guestsQuery.refetch()
   }
@@ -36,7 +36,7 @@ class EventPage extends React.Component {
         return null;
       } else {
         return (
-            <EditEvent 
+            <EditEvent
               event={this.props.location.state.event}
               currentUser={this.props.currentUser}
               guests={this.props.guestsQuery.event.users}
@@ -57,7 +57,7 @@ const GUESTS_QUERY = gql`
   query guestsQuery($id: Int) {
     event(id: $id) {
       users{
-        name 
+        name
         id
         memberReply
       }
@@ -68,7 +68,7 @@ const GUESTS_QUERY = gql`
 
 const EventPageWithData = graphql(GUESTS_QUERY, {
   options: props => ({ variables: { id: props.location.state.event.id } }),
-  name: 'guestsQuery', 
+  name: 'guestsQuery',
 })(EventPage);
 
 export default withRouter(EventPageWithData);
