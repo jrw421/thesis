@@ -109,8 +109,3 @@ eventController = {
 };
 
 module.exports = eventController;
-
-
-eventController.getHostedEvents(22).then(x=> console.log('working hosted', x))
-eventController.getPastEvents(22).then(x=> console.log('working past', x))
-eventController.getCurrentEvents(22).then(x=> console.log('working current', x))
