@@ -8,7 +8,7 @@ class Map extends React.Component {
 
     this.state = {
       currLocation: {},
-      directions: {}
+      directions: []
     }
   }
 
@@ -17,25 +17,23 @@ class Map extends React.Component {
      if (this.props.props.google) {
        this.loadMap();
        this.plotCurrentLocation()
-
-     const DirectionsService = new google.maps.DirectionsService();
-
-     DirectionsService.route({
-       // origin: new google.maps.LatLng(41.8507300, -87.6512600),
-       // destination: new google.maps.LatLng(41.8525800, -87.6514100),
-       origin: this.state.currLocation,
-       destination: this.props.latLng,
-       travelMode: google.maps.TravelMode.DRIVING,
-     }, (result, status) => {
-       if (status === google.maps.DirectionsStatus.OK) {
-         console.log('results in directions ', result);
-         // this.setState({
-         //   directions: result,
-         // });
-       } else {
-         console.error(`error fetching directions ${result}`);
-       }
-     });
+     //
+     // const DirectionsService = new google.maps.DirectionsService();
+     //
+     // DirectionsService.route({
+     //   // origin: new google.maps.LatLng(41.8507300, -87.6512600),
+     //   // destination: new google.maps.LatLng(41.8525800, -87.6514100),
+     //   origin: this.state.currLocation,
+     //   destination: this.props.latLng,
+     //   travelMode: google.maps.TravelMode.DRIVING,
+     // }, (result, status) => {
+     //   if (status === google.maps.DirectionsStatus.OK) {
+     //     console.log('results in directions ', result.routes);
+     //
+     //   } else {
+     //     console.error(`error fetching directions ${result}`);
+     //   }
+     // });
 
    }
 
@@ -79,54 +77,96 @@ class Map extends React.Component {
         gestureHandling: "cooperative"
       })
       this.map = new maps.Map(node, mapConfig);
-
-        const marker = new google.maps.Marker({
-          position: myLatLng,
-          map: this.map,
-          title: "your event!"
-          // ,
-          //  mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-
-        const marker2 = new google.maps.Marker({
-          position: this.state.currLocation,
-          map: this.map,
-          title: "your location!"
-          // ,
-          // mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
+      // var pointA = new google.maps.LatLng(51.7519, -1.2578),
+      // pointB = new google.maps.LatLng(50.8429, -0.1313),
+      //
+      //     myOptions = {
+      //         zoom: 7,
+      //         center: pointA
+      //     },
+        // const marker = new google.maps.Marker({
+        //   position: myLatLng,
+        //   map: this.map,
+        //   title: "your event!"
+        //   // ,
+        //   //  mapTypeId: google.maps.MapTypeId.ROADMAP
+        // });
+        //
+        // const marker2 = new google.maps.Marker({
+        //   position: this.state.currLocation,
+        //   map: this.map,
+        //   title: "your location!"
+        //   // ,
+        //   // mapTypeId: google.maps.MapTypeId.ROADMAP
+        // });
         // var infowindow = new google.maps.InfoWindow({
         //   content: `<h3>${quake.properties.title}</h3>
         //   <h4>${(new Date(quake.properties.time)).toDateString()}
         //   at depth of ${quake.geometry.coordinates[2]} km</h4>`
         // });
-        marker.addListener('click', function() {
-          infowindow.open(this.map, marker);
-        });
-    }
-    // var onChangeHandler = function() {
-      const directionsService = new google.maps.DirectionsService();
-      const directionsDisplay = new google.maps.DirectionsRenderer();
+        // marker.addListener('click', function() {
+        //   infowindow.open(this.map, marker);
+        // });
 
-      // this.calculateAndDisplayRoute(directionsService, directionsDisplay);
+        let directionsService = new google.maps.DirectionsService();
+        let directionsDisplay = new google.maps.DirectionsRenderer({
+            map: this.map
+        })
+        let markerA = new google.maps.Marker({
+            position: this.props.latLng,
+            title: "point A",
+            label: "A",
+            map: this.map
+        })
+       let markerB = new google.maps.Marker({
+            position: this.state.currLocation,
+            title: "point B",
+            label: "B",
+            map: this.map
+        });
+
+
+    //     const DirectionsService = new google.maps.DirectionsService();
+    //
+    //     DirectionsService.route({
+    //       // origin: new google.maps.LatLng(41.8507300, -87.6512600),
+    //       // destination: new google.maps.LatLng(41.8525800, -87.6514100),
+    //       origin: this.state.currLocation,
+    //       destination: this.props.latLng,
+    //       travelMode: google.maps.TravelMode.DRIVING,
+    //     }, (result, status) => {
+    //       if (status === google.maps.DirectionsStatus.OK) {
+    //         console.log('results in directions ', result.routes);
+    //
+    //       } else {
+    //         console.error(`error fetching directions ${result}`);
+    //       }
+    //     });
+    // }
+    // var onChangeHandler = function() {
+      // const directionsService = new google.maps.DirectionsService();
+      // const directionsDisplay = new google.maps.DirectionsRenderer();
+
+      this.calculateAndDisplayRoute(directionsService, directionsDisplay, this.props.latLng, this.state.currLocation);
     // };
     // this.getDirections()
 
   }
+}
 
-  // calculateAndDisplayRoute(directionsService, directionsDisplay) {
-  //   directionsService.route({
-  //     origin: this.state.currLocation,
-  //     destination: this.props.latLng,
-  //     travelMode: 'DRIVING'
-  //   }, function(response, status) {
-  //     if (status === 'OK') {
-  //       directionsDisplay.setDirections(response);
-  //     } else {
-  //       window.alert('Directions request failed due to ' + status);
-  //     }
-  //   });
-  // }
+  calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+    directionsService.route({
+      origin: pointA,
+      destination: pointB,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
 
   // function initMap() {
   //     var directionsService = new google.maps.DirectionsService;
