@@ -18,17 +18,30 @@ class EventPage extends React.Component {
 
     this.state = {
       guests: ['Bob', 'Joe'],
-      latLng: []
+      latLng: [],
+      currLocation: {}
     };
   }
 
+  componentDidMount() {
+    this.getUserlocation()
+  }
+  
   addressToLatLong(){ //this should be in componentDidMount
     geocodeByAddress(this.props.location.state.event.location)
       .then(results => getLatLng(results[0]))
       .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
-      // .then(() => console.log('here is state ? ', this.state.latLng))
+      .then(() => this.getUserlocation())
+      // .then((res) => this.setState({currLocation: res}))
       .catch(error => console.error('Error', error))
   }
+
+  getUserlocation() {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    }).then((res) => {console.log("ANYTHING THERE ", res.coords); this.setState({currLocation: res.coords})})
+  }
+
 
   render() {
     if (this.props.location.state.event === undefined) {
@@ -37,6 +50,7 @@ class EventPage extends React.Component {
 
     const { event } = this.props.location.state;
     console.log("USER LOCATION? ", this.props.userLocation)
+    console.log("CURRNET LOCATION statee? ", this.state.currLocation)
 
     return (
 

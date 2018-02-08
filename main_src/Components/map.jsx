@@ -32,13 +32,12 @@ class Map extends React.Component {
 // }
 
   loadMap() {
-    if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition(function(position) {
-          var currLocation = [position.coords.latitude, position.coords.longitude];
-          console.log('CURRENT Location ', currLocation)
-       });
-    }
-
+    // if (navigator.geolocation) {
+    //    navigator.geolocation.getCurrentPosition(function(position) {
+    //       currLocation = [position.coords.latitude, position.coords.longitude];
+    //       console.log('CURRENT Location ', currLocation)
+    //    });
+    // }
 
     if (this.props.props && this.props.props.google) {
 
@@ -58,7 +57,15 @@ class Map extends React.Component {
         const marker = new google.maps.Marker({
           position: myLatLng,
           map: this.map,
-          title: "your event!"
+          title: "your event!",
+           mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        const marker2 = new google.maps.Marker({
+          position: myLatLng,
+          map: this.map,
+          title: "your location!",
+          mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         // var infowindow = new google.maps.InfoWindow({
         //   content: `<h3>${quake.properties.title}</h3>
@@ -69,8 +76,43 @@ class Map extends React.Component {
           infowindow.open(this.map, marker);
         });
     }
+    // this.getDirections()
   }
 
+  // getDirections() {
+  //     if (navigator.geolocation) {
+  //        navigator.geolocation.getCurrentPosition(function(position) {
+  //           // currLocation = [position.coords.latitude, position.coords.longitude];
+  //         const currLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+  //           console.log('CURRENT Location ', typeof currLocation.lat)
+  //        });
+  //     }
+  //
+  //     var directionsService = new google.maps.DirectionsService();
+  //     var directionsRequest = {
+  //       origin: currLocation,
+  //       destination: myLatLng,
+  //       travelMode: google.maps.DirectionsTravelMode.DRIVING,
+  //       unitSystem: google.maps.UnitSystem.METRIC
+  //     };
+  //   //   directionsService.route(
+  //   //   directionsRequest,
+  //   //   function(response, status)
+  //   //   {
+  //   //     if (status == google.maps.DirectionsStatus.OK)
+  //   //     {
+  //   //       new google.maps.DirectionsRenderer({
+  //   //         map: mapObject,
+  //   //         directions: response
+  //   //       });
+  //   //     }
+  //   //     else {
+  //   //       console.log('nope')
+  //   //     }
+  //   //
+  //   //   }
+  //   // )
+  // }
 
     render() {
       const style = {
@@ -80,7 +122,7 @@ class Map extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-      console.log( 'google ', this.props.props.google)
+      console.log( 'google ', this.props.currLocation)
       console.log( 'latLng ', this.props.latLng)
       return (
         <div ref="map" style={style}>
