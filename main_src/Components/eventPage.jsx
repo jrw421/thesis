@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemList from './itemList.jsx';
+import EditEvent from './editEvent.jsx';
 import { withRouter } from 'react-router';
 import { Switch, Route, browserHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -47,105 +48,21 @@ class EventPage extends React.Component {
         }}
     />
 );
-    if (this.props.location.state.event === undefined) {
-      return null;
-    } else {
-      const event = this.props.location.state.event;
+   
+    return (
+    <EditEvent 
+      location={this.props.location}
+      guests={this.state.guests}
+      currentUser={this.props.currentUser}
+      guests={this.state.guests}
+      />
 
-      return (
 
-        <div style={{ fontFamily: 'Noto Sans' }}>
-                        <Refresh path="/refresh/" />
-          {this.props.location.state.currentUser ? (
-            <div>
-              <div style={{ textAlign: 'center', align: 'center' }}>
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickAttending}
-                  label="I'll be there"
-                />
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickNotAttending}
-                  label="Hell nah, I aint coming"
-                />
-              </div>
-              <div style={{ textAlign: 'center' }} className="eventPage">
-                <h1 className="eventPage">{event.name}</h1>
-                <div className="eventPage">{event.date}</div>
-                <div className="eventPage time">{event.time}</div>
-                <div className="eventPage">{event.location}</div>
-                <div className="eventPage">{event.date}</div>
-                <div className="eventPage">{event.description}</div>
-                <div style={{ textAlign: 'center', align: 'center' }}>
-                  <h2>Who's Coming</h2>
-                  <ul>
-                    {this.state.guests.map(name => {
-                      return (
-                        <div style={{ textAlign: 'center', align: 'center' }}>
-                          <a>{name}</a>
-                        </div>
-                      );
-                    })}
-                  </ul>
-                </div>
-                <div style={{ textAlign: 'center', align: 'center' }}>
-                  <h2>Item Registery</h2>
-                  <h3>Click on an item to claim it</h3>
-                  <ItemList
-                    style={{ textAlign: 'center', align: 'center' }}
-                    currentUser={this.props.currentUser}
-                    event={this.props.location.state.event}
-                  />
-                  <ul />
-                </div>
-                <img
-                  style={{ height: '400px', width: '400px' }}
-                  src={event.img}
-                  alt=""
-                />
-              </div>
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center' }} className="eventPage">
-              <h1 className="eventPage">{event.name}</h1>
-              <div className="eventPage">{event.location}</div>
-              <div className="eventPage">{event.date}</div>
-              <div className="eventPage time">{event.time}</div>
-              <div className="eventPage">{event.description}</div>
-              <div>
-                <h2>Who's Coming</h2>
-                <ul>
-                  {this.state.guests.map((name, id) => {
-                    return (
-                      <div>
-                        <h3>{name}</h3>
-                      </div>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div>
-                <h2>Item Registery</h2>
-                <h3>Click on an item to claim it</h3>
-                <ItemList
-                  currentUser={this.props.currentUser}
-                  event={this.props.location.state.event}
-                />
-                <ul />
-              </div>
-              <img
-                style={{ height: '400px', width: '400px' }}
-                src={event.img}
-                alt=""
-              />
-            </div>
-          )}
-        </div>
-      );
-    }
+    ) 
   }
 }
+  
+
 
 
 const NAME_QUERY = gql`
