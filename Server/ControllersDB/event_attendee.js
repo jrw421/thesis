@@ -89,7 +89,10 @@ eventAttendeeController = {
           .catch(error => [14, error]);
       })
       .catch(error => [15, error]);
-  }
+  }, 
+  checkReply: function(user_id, event_id){
+   return knex.select('reply').from('event_attendee').where({ 'user_id': user_id, 'event_id': event_id })
+ }
 };
 
 module.exports = eventAttendeeController;
