@@ -13,34 +13,16 @@
 
 .header {
   height: 90vh;
-  /* background-image: linear-gradient(
+  background-image: linear-gradient(
     to right bottom,
     rgba(52, 160, 249, 0.3),
-    rgba(104, 180, 243, 0.2)), */
-  /* url("https://images.pexels.com/photos/313715/pexels-photo-313715.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb"); */
+    rgba(104, 180, 243, 0.2)),
+  url("https://images.pexels.com/photos/313715/pexels-photo-313715.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb");
   background-size: cover;
   background-position: top;
   clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%)
 }
 
-#video {
-  height: 600px;
-  width: 1000px;
-  background-size: cover;
-  background-position: top;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%)
-}
-
-#hideVid {
-  margin-top: -30px;
-  position: absolute;
-  height: 50px;
-  width: 1000px;
-  background-color: RGB(206, 117, 139);
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%)
-}
 
 #body {
   background-color: #DCD0C0
