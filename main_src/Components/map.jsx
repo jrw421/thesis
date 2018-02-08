@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
 import Modal from 'react-modal';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import {GoogleApiWrapper} from 'google-maps-react'
+// import PlacesAutocomplete, { geocodeByAddress, getLatLng } from  'react-places-autocomplete'
 
 
 class Map extends React.Component {

@@ -3,7 +3,7 @@ import ItemList from './itemList';
 import RaisedButton from 'material-ui/RaisedButton';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import {GoogleApiWrapper} from 'google-maps-react'
+import {GoogleApiWrapper, google} from 'google-maps-react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import Map from './map.jsx';
 
@@ -14,6 +14,11 @@ class EditEvent extends React.Component {
     this.state = {
       latLng: []
     }
+    this.addressToLatLong = this.addressToLatLong.bind(this)
+  }
+
+  componentWillReceiveProps() {
+    this.addressToLatLong()
   }
 
   addressToLatLong(){ //this should be in componentDidMount
@@ -57,15 +62,13 @@ class EditEvent extends React.Component {
           </ul>
         </div>
         <div>
-          <button onClick={() => this.addressToLatLong()}>Click me if ya want map info</button>
-          {/* <button onClick={() => console.log('clicked')}>Click me if ya want directions</button> */}
-
           <Map useThis={this.props.location.state.event.location} props={this.props} latLng={this.state.latLng}/>
         </div>
         <div>
           <h2>Item Registery</h2>
           <h3>Click on an item to claim it</h3>
           <button onClick={() => window.location.href = 'https://www.amazon.com/'}>Buy an item on Amazon!</button>
+          <button onClick={() => window.location.href = 'https://drizly.com/'}>Buy some booze!</button>
           <ItemList
             currentUser={this.props.currentUser}
             event={this.props.location.state.event}
