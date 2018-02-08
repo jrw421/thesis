@@ -8,15 +8,15 @@ class ItemComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: ''
-    }
+      comment: '',
+    };
 
-    this.onInputChange = this.onInputChange.bind(this)
-    this.onButtonClick = this.onButtonClick.bind(this)
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
   }
 
   onInputChange(e) {
-    this.setState({ comment: e.target.value })
+    this.setState({ comment: e.target.value });
   }
 
   onButtonClick() {
@@ -28,7 +28,6 @@ class ItemComments extends React.Component {
         event_id: this.props.eventId
       }
     }).then(result => {
-      console.log('result', result)
       this.props.itemComments.refetch()
     })
   }
@@ -57,9 +56,7 @@ class ItemComments extends React.Component {
             value={this.state.comment}
             onChange={this.onInputChange}
           />
-          <button
-            onClick={this.onButtonClick}
-          >Comment</button>
+          <button onClick={this.onButtonClick}>Comment</button>
         </div>
       );
     }

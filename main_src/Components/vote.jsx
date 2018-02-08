@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
+
 import gql from 'graphql-tag';
 
 class Vote extends Component {
@@ -42,15 +43,14 @@ class Vote extends Component {
 
   render() {
     if (this.props.votes.loading) {
-      return <div>loading...</div>
+      return <div>loading...</div>;
     }
 
     if (this.props.votes.error) {
-      console.log('error in votes', this.props.votes.error)
-      return <div>Error!</div>
+      console.log('error in votes', this.props.votes.error);
+      return <div>Error!</div>;
     }
 
-    console.log(this.props)
     return (
       <div>
         <button onClick={this.handleUpVote}>UpVote</button>
