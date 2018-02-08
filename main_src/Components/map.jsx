@@ -7,7 +7,8 @@ class Map extends React.Component {
     super(props)
 
     this.state = {
-      currLocation: {}
+      currLocation: {},
+      directions: {}
     }
   }
 
@@ -16,7 +17,28 @@ class Map extends React.Component {
      if (this.props.props.google) {
        this.loadMap();
        this.plotCurrentLocation()
-     }
+
+     const DirectionsService = new google.maps.DirectionsService();
+
+     DirectionsService.route({
+       // origin: new google.maps.LatLng(41.8507300, -87.6512600),
+       // destination: new google.maps.LatLng(41.8525800, -87.6514100),
+       origin: this.state.currLocation,
+       destination: this.props.latLng,
+       travelMode: google.maps.TravelMode.DRIVING,
+     }, (result, status) => {
+       if (status === google.maps.DirectionsStatus.OK) {
+         console.log('results in directions ', result);
+         // this.setState({
+         //   directions: result,
+         // });
+       } else {
+         console.error(`error fetching directions ${result}`);
+       }
+     });
+
+   }
+
   }
 
   plotCurrentLocation(map) {
@@ -49,7 +71,7 @@ class Map extends React.Component {
       const maps = google.maps;
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
-      let myLatLng = this.props.latLng || {lat: 44.475, lng: 44.475}; //{lat: 44.475, lng: 44.475}
+      const myLatLng = this.props.latLng || {lat: 44.475, lng: 44.475}; //{lat: 44.475, lng: 44.475}
       const mapConfig = Object.assign({}, {
         // center: {lat: 0, lng: 180},
         zoom: 5,
@@ -82,8 +104,48 @@ class Map extends React.Component {
           infowindow.open(this.map, marker);
         });
     }
+    // var onChangeHandler = function() {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsDisplay = new google.maps.DirectionsRenderer();
+
+      // this.calculateAndDisplayRoute(directionsService, directionsDisplay);
+    // };
     // this.getDirections()
+
   }
+
+  // calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  //   directionsService.route({
+  //     origin: this.state.currLocation,
+  //     destination: this.props.latLng,
+  //     travelMode: 'DRIVING'
+  //   }, function(response, status) {
+  //     if (status === 'OK') {
+  //       directionsDisplay.setDirections(response);
+  //     } else {
+  //       window.alert('Directions request failed due to ' + status);
+  //     }
+  //   });
+  // }
+
+  // function initMap() {
+  //     var directionsService = new google.maps.DirectionsService;
+  //     var directionsDisplay = new google.maps.DirectionsRenderer;
+  //     var map = new google.maps.Map(document.getElementById('map'), {
+  //       zoom: 7,
+  //       center: {lat: 41.85, lng: -87.65}
+  //     });
+  //     directionsDisplay.setMap(map);
+  //
+  //     var onChangeHandler = function() {
+  //       calculateAndDisplayRoute(directionsService, directionsDisplay);
+  //     };
+  //     // document.getElementById('start').addEventListener('change', onChangeHandler);
+  //     // document.getElementById('end').addEventListener('change', onChangeHandler);
+  //   }
+
+
+
 
   // getDirections() {
   //     if (navigator.geolocation) {
