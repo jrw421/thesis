@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemList from './itemList';
 import RaisedButton from 'material-ui/RaisedButton';
+import Chat from './chat'
 
 class EditEvent extends React.Component {
   constructor(props) {
@@ -52,6 +53,10 @@ class EditEvent extends React.Component {
           style={{ height: '400px', width: '400px' }}
           src={event.img}
           alt=""
+        />
+        <Chat 
+          user={this.props.currentUser}
+          event={this.props.location.state.event}
         />
       </div>
 
