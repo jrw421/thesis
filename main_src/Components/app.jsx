@@ -32,7 +32,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: undefined,
+      refresh: true
     };
+
+    this.refreshDash = this.refreshDash.bind(this)
   }
 
   componentDidMount() {
@@ -49,6 +52,13 @@ class App extends React.Component {
       });
   }
 
+
+refreshDash(){
+  this.setState({
+    refresh: !this.state.refresh
+  })
+}
+
   render() {
 
     if (this.state.currentUser === undefined ) {
@@ -58,7 +68,7 @@ class App extends React.Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
           <div>
-          <Header />
+          <Header refresh={this.refreshDash}/>
             <Switch>
               <Route
                 path="/dashboard"

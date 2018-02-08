@@ -147,7 +147,7 @@ const UserType = new GraphQLObjectType({
     pastEvents: {
       type: new GraphQLList(EventType),
       resolve(parentValue, args) {
-        return db.event.getPastEvents(parentValue.id).catch(err => [33, err]);
+        return db.event.getPastEvents(parentValue.id);
       }
     },
     currentEvents: {

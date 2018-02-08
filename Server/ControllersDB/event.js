@@ -1,6 +1,15 @@
 const knex = require('../dbConfig.js').knex;
 const Event = require('../ModelsDB/event.js');
 
+const createDateNum = function(){
+  let current = new Date();
+  let year = current.getFullYear()
+  let month = ('' + (current.getMonth() + 1)).length === 1 ? '0' + (current.getMonth() + 1) : current.getMonth() + 1
+  let day = ('' + current.getDate()).length === 1 ? '0' + current.getDate() : current.getDate()
+
+  return Number('' + year + month + day)
+}
+
 eventController = {
   addEvent: async body => {
     const newEvent = new Event({
@@ -14,34 +23,49 @@ eventController = {
     });
     let result
     try{
-    result = await newEvent.save()
+      result = await newEvent.save()
     }catch(error){
-    return [7, error]
+      console.log([7, error])
+      return error
     };
-    return result.attributes;
+      return result.attributes;
   },
   getHostedEvents: function(user_id) {
-    console.log('bindings', user_id)
-    return knex('event').where('host_id', user_id);
+    console.log('get host events, id:', user_id)
+    let current = createDateNum()
+    return knex.select('*').from('event').where('host_id', '=', user_id).andWhere('date', '>', current).orWhere('date', '=', current);
     //commented out for MVP functionality
     // let current = new Date()
     // let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
-    // return knex('event').where('host_id', user_id).andWhere('date', '>=', dateNum)
+    // return knex('event').where('host_id', user_id).
   },
   getPastEvents: function(user_id) {
-    let current = new Date();
-    let dateNum = Number(
-      '' + current.getFullYear() + current.getMonth() + current.getDate()
-    );
-    return knex('event').where('date', '<', dateNum);
+    let current = createDateNum()
+    return knex
+      .select('*')
+      .from('event')
+      .where('date', '<', current)
+      .innerJoin('event_attendee', 'event_attendee.user_id', user_id)
+      .then(results => {
+        return knex
+          .select('*')
+          .from('event')
+          .where('host_id', '=', user_id)
+          .andWhere('date', '<', current)
+          .then(x => {
+            return results.concat(x)
+          })
+          .catch(err => {
+            return err
+          })
+        }).catch(err => {
+            return err
+        })
   },
   getCurrentEvents: function(user_id) {
-    console.log('get current events id', user_id)
-    let current = new Date();
-    let dateNum = Number(
-      '' + current.getFullYear() + current.getMonth() + current.getDate()
-    );
-    return knex('event').where('date', '>=', dateNum);
+    console.log('get curr events, id:', user_id)
+    let current = createDateNum()
+    return knex.select('*').from('event').where('date', '>', current).orWhere('date', '=', current).innerJoin('event_attendee', 'event_attendee.user_id', user_id);
   },
   getEvent: async function(id) {
     let result

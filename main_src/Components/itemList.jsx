@@ -13,10 +13,13 @@ class ItemList extends React.Component {
     //Pass in query to toggle that item that was clicked.
   };
 
+  refreshItemList() {
+    this.props.itemsQuery.refetch()
+  }
 
   render() {
     console.log('props inside itemlist', this.props)
-    if (this.props.itemsQuery.error) {
+    if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
       this.props.itemsQuery.refetch()
       return <div>Error!</div>
     }
@@ -40,6 +43,7 @@ class ItemList extends React.Component {
               handleItemClick={this.handleItemClick}
               currentUser={this.props.currentUser}
               eventId={this.props.event.id}
+              refresh={this.refreshItemList}
             />
           );
         })}

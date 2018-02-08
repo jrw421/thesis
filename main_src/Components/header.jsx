@@ -28,6 +28,7 @@ class Header extends Component {
               label="Dashboard"
               containerElement={<Link to="/dashboard" />}
               style={tabStyle}
+              onActive={this.props.refreshDash}
             />
             <Tab
               value={1}

@@ -17,47 +17,58 @@ class EventPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      guests: ['Bob', 'Joe']
-    };
+    this.refresh = this.refresh.bind(this)
+  }
+ 
+ refresh(){
+    this.props.guestsQuery.refetch()
   }
 
-
-  render() {
-    return (
-
-    <EditEvent
-      location={this.props.location}
-      guests={this.state.guests}
-      currentUser={this.props.currentUser}
-      guests={this.state.guests}
-      />
-    )
-
+   render() {
+    if (this.props.guestsQuery){
+      if (this.props.guestsQuery.loading){
+        return <div>Loading...</div>
+      }
+      if (this.props.guestsQuery.error && !this.props.guestsQuery.event){
+        return <div>Error</div>
+      }
+      if (this.props.location.state.event === undefined) {
+        return null;
+      } else {
+        return (
+            <EditEvent 
+              event={this.props.location.state.event}
+              currentUser={this.props.currentUser}
+              guests={this.props.guestsQuery.event.users}
+              refresh={this.refresh}
+            />
+         )
+      }
+    } else if (!this.props.guestsQuery){
+      return null
+    }
   }
 }
 
 
 
-const NAME_QUERY = gql`
-  query nameQuery($id: String) {
-    user(hash: $id) {
-      name
+
+const GUESTS_QUERY = gql`
+  query guestsQuery($id: Int) {
+    event(id: $id) {
+      users{
+        name 
+        id
+        memberReply
+      }
     }
   }
 `;
 
-const EventPageWithData = compose(
-  GoogleApiWrapper({
-    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg'
-    // ,
-    // libraries: ['visualization']
-  }),
-  graphql(NAME_QUERY, {
-    skip: props => typeof props.currentUser !== 'string',
-    options: props => ({ variables: { id: props.currentUser } }),
-    name: 'nameGuest'
-  })
-)(EventPage);
+
+const EventPageWithData = graphql(GUESTS_QUERY, {
+  options: props => ({ variables: { id: props.location.state.event.id } }),
+  name: 'guestsQuery', 
+})(EventPage);
 
 export default withRouter(EventPageWithData);
