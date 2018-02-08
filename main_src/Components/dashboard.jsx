@@ -21,10 +21,12 @@ class Dashboard extends React.Component {
   }
 
   render() {
-
+  if (this.props.refresh || !this.props.refresh){
+      this.props.dashboardQuery.refetch()
+    }
 
     if (this.props.dashboardQuery) {
-      if (this.props.dashboardQuery.error) {
+      if (this.props.dashboardQuery.error && !this.props.dashboardQuery.user) {
         return <div>Error2</div>;
       }
       if (this.props.dashboardQuery.loading) {
@@ -80,6 +82,7 @@ const DASHBOARD_QUERY = gql`
         description
         date
         img
+        host_id
       }
       currentEvents {
         id
@@ -88,6 +91,7 @@ const DASHBOARD_QUERY = gql`
         description
         date
         img
+        host_id
       }
       pastEvents {
         id
@@ -96,6 +100,7 @@ const DASHBOARD_QUERY = gql`
         description
         date
         img
+        host_id
       }
     }
   }

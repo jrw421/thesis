@@ -39,7 +39,7 @@ class Item extends React.Component {
         id: this.props.id,
         user_id: this.props.currentUser.id
       }
-    })
+    }).then(() => this.props.refresh())
     // mutation to toggle that item that was clicked.
     // render onclick a div that says <name> claimed item!
   };
