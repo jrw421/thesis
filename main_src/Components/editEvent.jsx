@@ -49,12 +49,8 @@ class EditEvent extends React.Component {
   }
 
   render() {
-    if (this.props.location.state.event === undefined) {
-      return null;
-    }
 
       var event = this.props.event;
-
 
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">

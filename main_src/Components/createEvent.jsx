@@ -252,15 +252,15 @@ class CreateEvent extends React.Component {
           placeholder="Pick a day and time"
           onChange={(time) => {
             let year = time.getFullYear()
-            let month = time.getMonth()
-            let day = time.getDay()
-            let date = year + '' + month + day
+            let month = ('' + (time.getMonth() + 1)).length === 1 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1;
+            let day = ('' + time.getDate()).length === 1 ? '0' + time.getDate() : time.getDate();
+            let date = '' + year + month + day
 
             let hour = time.getHours()
             let minutes = time.getMinutes()
             let clockTime = hour + ':' + minutes
 
-            this.setState({ date: date })
+            this.setState({ date: Number(date) })
             this.setState({ time: clockTime  })
           }
         }
