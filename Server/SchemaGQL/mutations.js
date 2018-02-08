@@ -127,7 +127,7 @@ const mutations = new GraphQLObjectType({
       }
     },
     addItems: {
-      type: new GraphQLList(ItemsType),
+      type: new GraphQLList(ItemType),
       args: {
         itemNames: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
         event_id: { type: new GraphQLNonNull(GraphQLInt) }
@@ -143,8 +143,7 @@ const mutations = new GraphQLObjectType({
             return db.item.getItemsByEventId(args.event_id);
           })
           .catch(err => {
-            [26, err]
-            return null
+            return err
           });
       },
     },

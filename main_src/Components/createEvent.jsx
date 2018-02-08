@@ -116,7 +116,7 @@ class CreateEvent extends React.Component {
         }
       })
       .then(event => {
-
+        console.log('event', event)
         this.props
           .addItems({
             variables: {
@@ -125,7 +125,6 @@ class CreateEvent extends React.Component {
             }
           })
           .then(() => {
-
             this.props
               .addRecipients({
                 variables: {
@@ -139,10 +138,12 @@ class CreateEvent extends React.Component {
                   pathname: '/eventPage',
                   state: { event: event.data.addEvent }
                 });
-              });
-          });
+              })
+              .catch(error => console.log(error))
+          })
+          .catch(error => console.log(error))
       })
-      .catch(error => error);
+      .catch(error => console.log(error));
     }
   }
 
@@ -331,12 +332,10 @@ const addEvent = gql`
 const addItems = gql`
   mutation addItems($itemNames: [String]!, $event_id: Int!) {
     addItems(itemNames: $itemNames, event_id: $event_id) {
-      items {
         id
         name
         user_id
         event_id
-      }
     }
   }
 `;
