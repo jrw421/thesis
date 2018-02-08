@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import {GoogleApiWrapper} from 'google-maps-react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import Map from './map.jsx';
+import Chat from './chat'
 
 class EditEvent extends React.Component {
   constructor(props) {
@@ -75,6 +76,10 @@ class EditEvent extends React.Component {
           style={{ height: '400px', width: '400px' }}
           src={event.img}
           alt=""
+        />
+        <Chat 
+          user={this.props.currentUser}
+          event={this.props.location.state.event}
         />
       </div>
 
