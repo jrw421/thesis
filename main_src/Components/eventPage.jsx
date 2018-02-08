@@ -1,11 +1,8 @@
 import React from 'react';
-<<<<<<< HEAD
 import ItemList from './itemList.jsx';
 import EditEvent from './editEvent.jsx';
-=======
 // import ItemList from './itemList.jsx';
 import Map from './map.jsx';
->>>>>>> rendering map, converting location to latLong
 import { withRouter } from 'react-router';
 import { Switch, Route, browserHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -39,7 +36,6 @@ class EventPage extends React.Component {
 
   }
 }
-
 
 
 const NAME_QUERY = gql`

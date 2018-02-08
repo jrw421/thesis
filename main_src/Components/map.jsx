@@ -5,39 +5,43 @@ import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
 class Map extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      currLocation: {}
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
     console.log("props in map 1 ", prevProps, prevState)
-    //prevProps.google !==
      if (this.props.props.google) {
        this.loadMap();
+       this.plotCurrentLocation()
      }
   }
 
-//   plotCurrentLocation(map) {
-//    if (navigator.geolocation) {
-//       navigator.geolocation.getCurrentPosition(function(position) {
-//          var currLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-//
-//          // plot the currLocation on Google Maps, or handle accordingly:
-//
-//          // new google.maps.Marker({ title: 'Current Location',
-//          //                          map: map,
-//          //                          position: currLocation });
-//          //
-//          // map.setCenter(currLocation);
-//       });
-//    }
-// }
+  plotCurrentLocation(map) {
+     var getPosition = function (options) {
+        return new Promise(function (resolve, reject) {
+          navigator.geolocation.getCurrentPosition(resolve, reject, options);
+        });
+      }
+
+      getPosition()
+        .then((position) => {
+          let lat = position.coords.latitude
+          let lng = position.coords.longitude
+          console.log("anything LongLat ", lat, lng); //`Latitude : ${crd.latitude}`
+
+          this.setState({
+             currLocation: {lat: lat, lng: lng}
+           })
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+  }
 
   loadMap() {
-    // if (navigator.geolocation) {
-    //    navigator.geolocation.getCurrentPosition(function(position) {
-    //       currLocation = [position.coords.latitude, position.coords.longitude];
-    //       console.log('CURRENT Location ', currLocation)
-    //    });
-    // }
 
     if (this.props.props && this.props.props.google) {
 
@@ -63,7 +67,7 @@ class Map extends React.Component {
         });
 
         const marker2 = new google.maps.Marker({
-          position: this.props.currLocation,
+          position: this.state.currLocation,
           map: this.map,
           title: "your location!"
           // ,
@@ -124,7 +128,7 @@ class Map extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-      console.log( 'google ', this.props.currLocation)
+      console.log( 'google ', this.state.currLocation)
       console.log( 'latLng ', this.props.latLng)
       return (
         <div ref="map" style={style}>
