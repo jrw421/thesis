@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
   handleEventClick(event) {
     this.props.history.push({
       pathname: '/eventPage',
-      state: { event },
+      state: { event }
 
     });
   }
