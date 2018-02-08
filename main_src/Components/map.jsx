@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
+import Modal from 'react-modal';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 
@@ -14,6 +15,8 @@ class Map extends React.Component {
       latLng: [],
       isModalOpen: false
     }
+    this.toggleModal = this.toggleModal.bind(this)
+    this.closeModal = this.closeModal.bind(this)
   }
 
   // componentDidMount() {
@@ -23,6 +26,18 @@ class Map extends React.Component {
   //   }
   // }
 
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    })
+  }
+
+  closeModal() {
+    this.setState({
+      isModalOpen: false
+    });
+  }
+
 
   componentDidUpdate(prevProps, prevState) {
     console.log("props in map 1 ", prevProps, prevState)
@@ -31,7 +46,6 @@ class Map extends React.Component {
        this.loadMap();
        this.plotCurrentLocation();
        this.showDirections();
-
      // }
   }
 
@@ -57,7 +71,6 @@ class Map extends React.Component {
   }
 
   loadMap() {
-
     if (this.props.props && this.props.props.google) {
 
       const {google} = this.props.props;
@@ -72,7 +85,7 @@ class Map extends React.Component {
         gestureHandling: "cooperative"
       })
         this.map = new maps.Map(node, mapConfig);
-        
+
         let markerA = new google.maps.Marker({
             position: this.props.latLng,
             title: "point A",
@@ -94,7 +107,7 @@ class Map extends React.Component {
           map: this.map
       });
       directionsDisplay.setMap(this.map);
-      directionsDisplay.setPanel(document.getElementById('rightPanel'));
+      directionsDisplay.setPanel(document.getElementById("panel"));
 
       this.calculateAndDisplayRoute(directionsService, directionsDisplay, this.props.latLng, this.state.currLocation);
 
@@ -129,7 +142,23 @@ class Map extends React.Component {
       }
       return (
         <div>
-         <button>Click me if ya want directions</button>
+         <button onClick={() => {this.toggleModal(); this.showDirections()}}>Click me if ya want directions</button>
+         {/* <div id="panel"></div> */}
+
+         <Modal
+           isOpen={this.state.isModalOpen}
+           // onAfterOpen={afterOpenFn}
+           // onRequestClose={requestCloseFn}
+           // closeTimeoutMS={n}
+           // style={customStyle}
+           // contentLabel="Modal"
+         >
+         {/* <span>{this.showDirections}</span> */}
+         <div id="panel">{`Directions to ${this.props.useThis}`}</div>
+         <button onClick={this.closeModal}>close</button>
+       </Modal>
+
+
         <div id="rightPanel">
         </div>
         <div ref="map" style={style}>
