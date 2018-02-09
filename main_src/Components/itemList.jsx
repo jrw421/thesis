@@ -36,7 +36,6 @@ class ItemList extends React.Component {
               id={item.id}
               key={item.id}
               claimedBy={item.user}
-              handleItemClick={this.handleItemClick}
               currentUser={this.props.currentUser}
               eventId={this.props.event.id}
               refresh={this.refreshItemList}
