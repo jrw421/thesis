@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app.jsx';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -16,11 +16,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <BrowserRouter>
+  <HashRouter>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById('root')
 );
 
