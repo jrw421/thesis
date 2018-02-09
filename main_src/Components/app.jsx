@@ -33,7 +33,7 @@ class App extends React.Component {
     this.state = {
       currentUser: undefined,
       refresh: true,
-      contact: [],
+      contacts: [],
       emails: [],
     };
 
@@ -50,13 +50,13 @@ class App extends React.Component {
             
             let contacts = result.data.entry.map(contact => {
               if (contact.gd$name && contact.gd$email) {
-                return contacts.gd$name.gd$fullName.$t
+                return contact.gd$name.gd$fullName.$t
               }
             }).filter(entry => entry)
 
             let emails = result.data.entry.map(email => {
-              if (contact.gd$name && contact.gd$email) {
-                return contacts.gd$email[0].address
+              if (email.gd$name && email.gd$email) {
+                return email.gd$email[0].address
               }
             }).filter(entry => entry)
 

@@ -53,9 +53,9 @@ app.use('/eventPage/:id', express.static(path.join(__dirname, '../guest_dist')))
 app.post('/contacts', function(req, res) {
   axios.get(`https://www.google.com/m8/feeds/contacts/default/thin?access_token=${req.body.accessToken}&alt=json&max-results=500&v=3.0`)
     .then(response => {
-      res.send(response.data.feed)
+      res.json(response.data.feed)
     })
-    .catch(error => res.send(error))
+    .catch(error => {error})
 })
 
 app.get('/user', function(req, res) {

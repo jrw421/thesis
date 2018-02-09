@@ -42,6 +42,7 @@ class CreateEvent extends React.Component {
       description: '',
       currentItem: '',
       items: [],
+      searchNames: '',
       guestName: '',
       guestEmail: '',
       guests: [],
@@ -53,6 +54,7 @@ class CreateEvent extends React.Component {
     this.addGuest = this.addGuest.bind(this);
     this.onImageDrop = this.onImageDrop.bind(this);
     this.handleContacts = this.handleContacts.bind(this);
+    this.handleUpdateSearch = this.handleUpdateSearch.bind(this);
   }
 
   onImageDrop(files) {
@@ -83,13 +85,19 @@ class CreateEvent extends React.Component {
   }
 
   addGuest() {
+    console.log('this', this)
     this.setState({
       guests: this.state.guests.concat([
         `${this.state.guestName}*${this.state.guestEmail}`,
       ]),
       guestName: '',
-      guestEmail: ''
+      guestEmail: '',
+      searchNames: ''
     });
+  }
+
+  handleUpdateSearch(e) {
+    this.setState({searchNames: e})
   }
 
   handleContacts(chosenRequest, index) {
@@ -231,18 +239,13 @@ class CreateEvent extends React.Component {
 
         <AutoComplete
           floatingLabelText="Invite Some Peeps"
+          searchText={this.state.searchNames}
           filter={AutoComplete.fuzzyFilter}
           dataSource={this.props.contacts}
           maxSearchResults={5}
           onNewRequest={this.handleContacts}
+          onUpdateInput={this.handleUpdateSearch}
         />
-
-        {/* <TextField
-          value={this.state.guestName}
-          type="text"
-          placeholder="Who do you not hate?"
-          onChange={e => this.setState({ guestName: e.target.value })}
-        /> */}
 
         <TextField
           value={this.state.guestEmail}
