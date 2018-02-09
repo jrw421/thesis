@@ -7,7 +7,6 @@ import { ITEMS_QUERY } from '../queries.js'
 class ItemList extends React.Component {
   constructor(props) {
     super(props);
-    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
   refreshItemList() {
