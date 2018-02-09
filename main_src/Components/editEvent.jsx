@@ -39,13 +39,13 @@ class EditEvent extends React.Component {
       }
     }).then(() => this.props.refresh())
   }
-  
+
   componentWillReceiveProps() {
     this.addressToLatLong()
   }
 
   addressToLatLong(){ //this should be in componentDidMount
-    geocodeByAddress(this.props.location.state.event.location)
+    geocodeByAddress(this.props.event.location)
       .then(results => getLatLng(results[0]))
       .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
       // .then(() => console.log('here is state ? ', this.state.latLng))
@@ -93,7 +93,7 @@ class EditEvent extends React.Component {
           </ul>
         </div>
         <div>
-          <Map useThis={this.props.location.state.event.location} props={this.props} latLng={this.state.latLng}/>
+          <Map useThis={this.props.event.location} props={this.props} latLng={this.state.latLng}/>
         </div>
         <div>
           <h2>Item Registery</h2>
@@ -137,8 +137,13 @@ const EditEventWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence' }),
   GoogleApiWrapper({
-    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg'
+    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
+    apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
   })
+  // ,
+  // GoogleApiWrapper({
+  //   apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
+  // })
 )(EditEvent);
 
 export default EditEventWithData
