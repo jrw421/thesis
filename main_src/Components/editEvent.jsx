@@ -40,7 +40,7 @@ class EditEvent extends React.Component {
       }
     }).then(() => this.props.refresh())
   }
-  
+
   componentWillReceiveProps() {
     this.addressToLatLong()
   }
@@ -128,8 +128,13 @@ const EditEventWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence' }),
   GoogleApiWrapper({
-    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg'
+    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
+    apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
   })
+  // ,
+  // GoogleApiWrapper({
+  //   apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
+  // })
 )(EditEvent);
 
 export default EditEventWithData
