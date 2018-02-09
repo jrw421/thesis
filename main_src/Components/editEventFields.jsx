@@ -1,6 +1,7 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import ItemList from './itemList';
+import { editEventFields } from '../mutations.js'
 
 class EditEventFields extends React.Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class EditEventFields extends React.Component {
 
 }
 
+const EditEventFieldsWithMutation = graphql(editEventFields, { name: 'editEvent' })
 
 
-export default EditEventFields;
+export default EditEventFieldsWithMutation;

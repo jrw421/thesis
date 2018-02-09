@@ -107,20 +107,15 @@ eventController = {
       .del();
   },
   editEventFields: function(id, fields) {
-    const length = Object.keys(fields).length;
-    let count = 0;
-    for (var key in fields) {
-      if (key !== 'id') {
-        count++;
-        knex('event')
-          .where('id', id)
-          .update(key, fields[key]);
-        if (count === length - 1) {
-          return knex('event').where('id', id);
-        }
-      }
-    }
+    return knex('event')
+      .where('id', id)
+        .update(fields)
+      .then(() => {
+        return knex('event').where('id', id)
+      })
+      .catch(() => err)
   }
 };
+
 
 module.exports = eventController;
