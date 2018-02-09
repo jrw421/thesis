@@ -89,9 +89,7 @@ class Item extends React.Component {
 }
 }
 
-
 const ItemWithData = 
   graphql(toggleClaimOfItem, { name: 'toggleClaimOfItem' })(Item);
-
 
 export default ItemWithData;

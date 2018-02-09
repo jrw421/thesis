@@ -11,8 +11,6 @@ import AutoComplete from 'material-ui/AutoComplete';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { addItems, addRecipients, addEvent } from '../mutations.js'
 
 const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
@@ -319,7 +317,7 @@ class CreateEvent extends React.Component {
             onClick={() => {
               this.submitForm();
             }}
-            secondary="true"
+            secondary={true}
           />
       </div>
   </div>
@@ -333,14 +331,5 @@ const CreateEventWithMutations = compose(
   graphql(addItems, { name: 'addItems' }),
   graphql(addRecipients, { name: 'addRecipients' })
 )(CreateEvent);
-
-CreateEvent.propTypes = {
-  addEvent: PropTypes.func.isRequired,
-  addItems: PropTypes.func.isRequired,
-  addRecipients: PropTypes.func.isRequired,
-  // history: ReactRouterPropTypes.history.isRequired,
-  currentUser: PropTypes.shape({}).isRequired,
-};
-
 
 export default withRouter(CreateEventWithMutations);

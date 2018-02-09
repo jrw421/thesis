@@ -1,12 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import Event from './event';
-
-// const mediaStyle = {
-//   height: '300px',
-//   width: '50px'
-// };
 
 class EventList extends React.Component {
   constructor(props) {
@@ -49,51 +43,7 @@ class EventList extends React.Component {
         />
       </div>
     );
-    // const item = this.props.events[this.state.currentEvent];
-
-    // return (
-    //   <Card>
-    //     {this.props.events.length === 0 && (
-    //       <h3 style={{ textAlign: 'center' }}>No events yet!</h3>
-    //     )}
-
-    //     <div className="pics" style={{ textAlign: 'center' }}>
-    //       {item !== undefined && (
-    //         <div onClick={() => this.props.handleEventClick(item)}>
-    //           <br />
-    //           <br />
-    //           <CardMedia
-    //             overlay={
-    //               <CardTitle title={item.name} subtitle={item.description} />
-    //             }
-    //           >
-    //             <img
-    //               style={{ height: '400px', width: '200px' }}
-    //               src={item.img}
-    //               alt=""
-    //             />
-    //           </CardMedia>
-    //           <br />
-    //         </div>
-    //       )}
-    //       {this.props.events.length > 0 && (
-    //         <CardActions>
-    //           <FlatButton
-    //             label="previous"
-    //             onClick={this.changeEventBack.bind(this)}
-    //           />
-    //           <FlatButton label="next" onClick={this.changeEvent.bind(this)} />
-    //         </CardActions>
-    //       )}
-    //     </div>
-    //   </Card>
-    // );
   }
 }
-
-EventList.propTypes = {
-  events: PropTypes.shape.isRequired,
-  handleEventClick: PropTypes.func.isRequired,
-};
 
 export default EventList;

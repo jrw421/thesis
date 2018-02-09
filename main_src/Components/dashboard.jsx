@@ -2,7 +2,6 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
 import Loader from 'react-loader-spinner'
 
 
@@ -23,7 +22,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-  if (this.props.refresh || !this.props.refresh){
+    if (this.props.refresh || !this.props.refresh){
       this.props.dashboardQuery.refetch()
     }
 
@@ -34,10 +33,6 @@ class Dashboard extends React.Component {
       }
 
       if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.user) {
-        //return (<Loader color="#26A65B" size="16px" margin="4px"/>)
-        // return <div>Loading!!!!!!!!!</div>
-        //return <div className={loading.laSquareLoader}></div>;
-        //return null
          return (<Loader 
           type="Puff"
           color="#00BFFF"
@@ -89,13 +84,5 @@ const DashboardWithData =
     options: props => ({ variables: { id: props.currentUser.id } }),
     name: 'dashboardQuery',
   })(Dashboard);
-
-Dashboard.propTypes = {
-  history: PropTypes.shape({}).isRequired,
-  eventQuery: PropTypes.shape({}).isRequired,
-  currentGuest: PropTypes.shape({}).isRequired,
-  dashboardQuery: PropTypes.shape({}).isRequired,
-};
-
 
 export default withRouter(DashboardWithData);

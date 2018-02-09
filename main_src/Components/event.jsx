@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Card,
   CardMedia,
@@ -22,10 +21,5 @@ const Event = ({ event, handleEventClick }) => (
     <CardText>{/* {event.description} */}</CardText>
   </Card>
 );
-
-Event.propTypes = {
-  // event: PropTypes.shape.isRequired,
-  handleEventClick: PropTypes.func.isRequired,
-};
 
 export default Event;
