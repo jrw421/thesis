@@ -50,23 +50,13 @@ app.use('/eventPage/:id', express.static(path.join(__dirname, '../guest_dist')))
 
 //contacts///
 
-app.get('/contacts:id', function(req, res) {
-  knex
-    .select('accessToken')
-    .from('user')
-    .where('id', 24)
-    .then(res => {
-      console.log('res ', res);
-    });
-
-  axios
-    .get(
-      'https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' +
-        accessToken
-    )
-    .then(response => console.log('resonse ', response.data.feed.entry))
-    .catch(err => ['err in get ', err]);
-});
+app.post('/contacts', function(req, res) {
+  axios.get(`https://www.google.com/m8/feeds/contacts/default/thin?access_token=${req.body.accessToken}&alt=json&max-results=500&v=3.0`)
+    .then(response => {
+      res.send(response.data.feed)
+    })
+    .catch(error => res.send(error))
+})
 
 app.get('/user', function(req, res) {
   if (req.user === undefined) {
