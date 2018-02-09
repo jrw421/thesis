@@ -10,7 +10,7 @@ import Map from './map.jsx';
 import Chat from './chat'
 import { confirmPresence, denyPresence } from '../mutations.js'
 
-class EditEvent extends React.Component {
+class EventFocus extends React.Component {
   constructor(props) {
     super(props)
 
@@ -21,6 +21,7 @@ class EditEvent extends React.Component {
 
     this.clickAttending = this.clickAttending.bind(this)
     this.clickNotAttending = this.clickNotAttending.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   clickAttending() {
@@ -55,16 +56,20 @@ class EditEvent extends React.Component {
       .catch(error => console.error('Error', error))
   }
 
+  handleClick() {
+    this.props.toggleEditState()
+  }
+
   render() {
 
       let event = this.props.event;
-      let showEditButton = this.props.currentUser.id === this.props.event.host_id
+      let checkIfHostOfEvent = this.props.currentUser.id === this.props.event.host_id
 
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">
-      { showEditButton && <RaisedButton label="Edit Event" primary={true} /> }
       <h1 className="eventPage">{event.name}</h1>
-       { this.props.currentUser.id !== event.host_id ?
+      { checkIfHostOfEvent && <RaisedButton label="Edit Event" primary={true} onClick={this.handleClick}/> }
+      { !checkIfHostOfEvent && (
           <div style={{ textAlign: 'center', align: 'center' }}>
                 <FlatButton
                   style={{ textAlign: 'center', align: 'center' }}
@@ -76,8 +81,10 @@ class EditEvent extends React.Component {
                   onClick={this.clickNotAttending}
                   label="Hell nah, I aint coming"
                 />
-          </div> : <div />
-        }
+          </div>
+
+      )
+      }
       <div className="eventPage">{event.location}</div>
       <div className="eventPage">{event.date}</div>
       <div className="eventPage time">{event.time}</div>
@@ -126,17 +133,13 @@ class EditEvent extends React.Component {
 }
 
 
-const EditEventWithData = compose(
+const EventFocusWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence' }),
   GoogleApiWrapper({
     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
   })
-  // ,
-  // GoogleApiWrapper({
-  //   apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
-  // })
-)(EditEvent);
+)(EventFocus);
 
-export default EditEventWithData
+export default EventFocusWithData
