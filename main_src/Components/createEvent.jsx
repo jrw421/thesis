@@ -2,12 +2,11 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextField from 'material-ui/TextField';
-// import DateTimePicker from 'material-ui-datetimepicker'
-// import TimeInput from 'material-ui-time-picker'
 import DateTimePicker from 'material-ui-datetimepicker';
 import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog'
 import TimePickerDialog from 'material-ui/TimePicker/TimePickerDialog';
 import FlatButton from 'material-ui/FlatButton';
+import AutoComplete from 'material-ui/AutoComplete';
 
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
@@ -44,6 +43,7 @@ class CreateEvent extends React.Component {
       description: '',
       currentItem: '',
       items: [],
+      searchNames: '',
       guestName: '',
       guestEmail: '',
       guests: [],
@@ -54,6 +54,8 @@ class CreateEvent extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.addGuest = this.addGuest.bind(this);
     this.onImageDrop = this.onImageDrop.bind(this);
+    this.handleContacts = this.handleContacts.bind(this);
+    this.handleUpdateSearch = this.handleUpdateSearch.bind(this);
   }
 
   onImageDrop(files) {
@@ -84,11 +86,26 @@ class CreateEvent extends React.Component {
   }
 
   addGuest() {
+    console.log('this', this)
     this.setState({
       guests: this.state.guests.concat([
         `${this.state.guestName}*${this.state.guestEmail}`,
       ]),
+      guestName: '',
+      guestEmail: '',
+      searchNames: ''
     });
+  }
+
+  handleUpdateSearch(e) {
+    this.setState({searchNames: e})
+  }
+
+  handleContacts(chosenRequest, index) {
+    this.setState({
+      guestName: chosenRequest,
+      guestEmail: this.props.emails[index]
+    })
   }
 
 
@@ -103,7 +120,6 @@ class CreateEvent extends React.Component {
       alert('All fields must be entered!')
     } else {
     const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
-    console.log('here is state ', this.state)
     this.props
       .addEvent({
         variables: {
@@ -117,7 +133,6 @@ class CreateEvent extends React.Component {
         }
       })
       .then(event => {
-        console.log('event', event)
         this.props
           .addItems({
             variables: {
@@ -222,18 +237,24 @@ class CreateEvent extends React.Component {
         />
         <br />
         <br />
-        <TextField
-          value={this.state.guestName}
-          type="text"
-          placeholder="Who do you not hate?"
-          onChange={e => this.setState({ guestName: e.target.value })}
+
+        <AutoComplete
+          floatingLabelText="Invite Some Peeps"
+          searchText={this.state.searchNames}
+          filter={AutoComplete.fuzzyFilter}
+          dataSource={this.props.contacts}
+          maxSearchResults={5}
+          onNewRequest={this.handleContacts}
+          onUpdateInput={this.handleUpdateSearch}
         />
+
         <TextField
           value={this.state.guestEmail}
           type="text"
           placeholder="What is their email?"
           onChange={e => this.setState({ guestEmail: e.target.value })}
         />
+
         <FlatButton
           label="Add Guest"
           value="Add Guest"
