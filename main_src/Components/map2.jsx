@@ -47,10 +47,10 @@ class Map2 extends React.Component {
           console.log('what is place ', place)
           // this.createMarker(results[i]);
 
-           var placeLoc = place.geometry.location;
+           const placeLoc = place.geometry.location;
 
-           var image = 'img/flag.png';
-           var marker = new google.maps.Marker({
+           const image = 'img/flag.png';
+           const marker = new google.maps.Marker({
                map: map,
                position: place.geometry.location,
                title: place.name,

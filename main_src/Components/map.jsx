@@ -51,7 +51,7 @@ class Map extends React.Component {
   }
 
   plotCurrentLocation(map) {
-     var getPosition = function (options) {
+     let getPosition = function (options) {
         return new Promise(function (resolve, reject) {
           navigator.geolocation.getCurrentPosition(resolve, reject, options);
         });
@@ -59,8 +59,8 @@ class Map extends React.Component {
 
     getPosition()
       .then((position) => {
-        let lat = position.coords.latitude
-        let lng = position.coords.longitude
+        const lat = position.coords.latitude
+        const lng = position.coords.longitude
         // console.log("anything LongLat ", lat, lng);
         this.setState({
            currLocation: {lat: lat, lng: lng}
@@ -94,7 +94,7 @@ class Map extends React.Component {
             label: "A",
             map: this.map
         });
-       let markerB = new google.maps.Marker({
+        let markerB = new google.maps.Marker({
             position: this.state.currLocation,
             title: "point B",
             label: "B",

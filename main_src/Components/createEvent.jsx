@@ -150,11 +150,13 @@ class CreateEvent extends React.Component {
                 }
               })
               .then(() => {
+                // if (this.state.items === [] || this.state.items) {
                 this.props.history.push({
                   pathname: '/eventPage',
                   state: { event: event.data.addEvent }
                 });
-              })
+              // }
+            })
               .catch(error => console.log(error))
           })
           .catch(error => console.log(error))
