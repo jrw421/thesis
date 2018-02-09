@@ -39,13 +39,23 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
     axios
       .get('/user')
       .then(data => {
-        this.setState({
-          currentUser: data.data.user,
-        });
+        axios
+          .post('/contacts', {'accessToken': data.data.user.accessToken})
+          .then((result) => {
+            result = result.data.entry.map(contact => {
+              if (contact.gd$name && contact.gd$email) {
+                return [contact.gd$name.gd$fullName.$t, contact.gd$email[0].address]
+              }
+            }).filter(entry => entry)
+            this.setState({
+              currentUser: data.data.user,
+              contacts: result
+            }, () => {console.log('state set')});
+          })
+          .catch(error => {console.log('this is an error', error)})  
       })
       .catch((error) => {
         return ['componentwillmount', error];
