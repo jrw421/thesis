@@ -31,34 +31,46 @@ class Dashboard extends React.Component {
         return <div>Error2</div>;
       }
 
-      if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.users) {
+      if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.user) {
         return <div>Loading</div>;
       }
 
-      return (
-        <div>
-          <h1 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
-            Your Events
-          </h1>
-          <h3 style={{ textAlign: 'center' }}>Click on an event to see page</h3>
-          <h3 style={{ textAlign: 'center' }}>Currently attending:</h3>
-          <EventList
-            style={{ fontFamily: 'Noto Sans' }}
-            // img={this.props.dashboardQuery.user.img}
-            events={this.props.dashboardQuery.user.currentEvents}
-            handleEventClick={this.handleEventClick}
-          />
-          <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
-            Currently hosting:
-          </h3>
-          <EventList
-            style={{ fontFamily: 'Noto Sans' }}
-            // img={this.props.dashboardQuery.user.img}
-            events={this.props.dashboardQuery.user.hostedEvents}
-            handleEventClick={this.handleEventClick}
-          />
-        </div>
-      );
+      if (this.props.dashboardQuery.user){
+        return (
+          <div>
+            <h1 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+              Your Events
+            </h1>
+            <h3 style={{ textAlign: 'center' }}>Click on an event to see page</h3>
+            <h3 style={{ textAlign: 'center' }}>Currently attending:</h3>
+            <EventList
+              style={{ fontFamily: 'Noto Sans' }}
+              // img={this.props.dashboardQuery.user.img}
+              events={this.props.dashboardQuery.user.currentEvents}
+              handleEventClick={this.handleEventClick}
+            />
+            <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+              Currently hosting:
+            </h3>
+            <EventList
+              style={{ fontFamily: 'Noto Sans' }}
+              // img={this.props.dashboardQuery.user.img}
+              events={this.props.dashboardQuery.user.hostedEvents}
+              handleEventClick={this.handleEventClick}
+            />
+             <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+              Past Event:
+            </h3>
+            <EventList
+              style={{ fontFamily: 'Noto Sans' }}
+              // img={this.props.dashboardQuery.user.img}
+              events={this.props.dashboardQuery.user.pastEvents}
+              handleEventClick={this.handleEventClick}
+            />
+          </div>
+        );
+      }
+      return null
     }
     return (null);
   }
@@ -78,6 +90,15 @@ const DASHBOARD_QUERY = gql`
         host_id
       }
       currentEvents {
+        id
+        name
+        location
+        description
+        date
+        img
+        host_id
+      }
+      pastEvents {
         id
         name
         location

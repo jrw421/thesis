@@ -26,15 +26,19 @@ class EventPage extends React.Component {
 
    render() {
     if (this.props.guestsQuery){
-      if (this.props.guestsQuery.loading){
+      if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
         return <div>Loading...</div>
       }
+      
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event){
         return <div>Error</div>
       }
+
       if (this.props.location.state.event === undefined) {
         return null;
-      } else {
+      } 
+
+      if (this.props.guestsQuery.event){
         return (
             <EditEvent
               event={this.props.location.state.event}
@@ -44,9 +48,12 @@ class EventPage extends React.Component {
             />
          )
       }
-    } else if (!this.props.guestsQuery){
+      
       return null
-    }
+    } 
+    
+    return null
+    
   }
 }
 

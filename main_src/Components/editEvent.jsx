@@ -45,7 +45,7 @@ class EditEvent extends React.Component {
   }
 
   addressToLatLong(){ //this should be in componentDidMount
-    geocodeByAddress(this.props.location.state.event.location)
+    geocodeByAddress(this.props.event.location)
       .then(results => getLatLng(results[0]))
       .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
       // .then(() => console.log('here is state ? ', this.state.latLng))
@@ -54,11 +54,12 @@ class EditEvent extends React.Component {
 
   render() {
 
-      var event = this.props.event;
+      let event = this.props.event;
+      let showEditButton = this.props.currentUser.id === this.props.event.host_id
 
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">
-      <RaisedButton label="Edit Event" primary={true} />
+      { showEditButton && <RaisedButton label="Edit Event" primary={true} /> }
       <h1 className="eventPage">{event.name}</h1>
        { this.props.currentUser.id !== event.host_id ?
           <div style={{ textAlign: 'center', align: 'center' }}>
