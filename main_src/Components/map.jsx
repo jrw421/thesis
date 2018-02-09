@@ -14,13 +14,18 @@ class Map extends React.Component {
       currLocation: {},
       directions: [],
       latLng: [],
-      isModalOpen: false
+      isModalOpen: false,
+      toggleMap: false
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
-    // this.addMarker = this.addMarker.bind(this)
-    // this.performSearch = this.performSearch.bind(this)
-    // this.callback = this.callback.bind(this)
+    this.toggleMapFunc = this.toggleMapFunc.bind(this)
+  }
+
+  toggleMapFunc() {
+    this.setState({
+      toggleMap: !this.state.toggleMap
+    })
   }
 
   toggleModal() {
@@ -38,12 +43,11 @@ class Map extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log("props in map 1 ", prevProps, prevState)
-     // if (this.props.props.google) {
-       // this.addressToLatLong();
+     if (this.props.props.google && !this.state.toggleMap) {
        this.loadMap();
        this.plotCurrentLocation();
        this.showDirections();
-     // }
+     }
   }
 
   plotCurrentLocation(map) {
@@ -68,7 +72,7 @@ class Map extends React.Component {
   }
 
   loadMap() {
-    if (this.props.props && this.props.props.google) {
+    if (this.props.props && this.props.props.google && !this.state.toggleMap) {
 
       const {google} = this.props.props;
       const maps = google.maps;
@@ -82,8 +86,6 @@ class Map extends React.Component {
         gestureHandling: "cooperative"
       })
         this.map = new maps.Map(node, mapConfig);
-
-        // infoWindow = new google.maps.InfoWindow();
         const service = new google.maps.places.PlacesService(this.map);
 
         let markerA = new google.maps.Marker({
@@ -98,79 +100,16 @@ class Map extends React.Component {
             label: "B",
             map: this.map
         });
-        // this.getStores()
       }
     };
-//
-//     getStores() {
-//       this.initialize()
-//     }
-//
-//     initialize() {
-//       var eventLoc = new google.maps.LatLng(this.props.latLng);
-//
-//       let map1 = new google.maps.Map(document.getElementById('map'), {
-//           center: eventLoc,
-//           zoom: 15
-//         });
-//
-//       var request = {
-//         location: eventLoc,
-//         radius: '500',
-//         type: ['supermarket', 'convenience_store', 'liquor_store']
-//       };
-//
-//       let service = new google.maps.places.PlacesService(map1);
-//       service.nearbySearch(request, this.getResults);
-//     }
-//
-//     getResults(results, status) {
-//       console.log('what is results ', results)
-//       // if (status == google.maps.places.PlacesServiceStatus.OK) {
-//         for (var i = 0; i < results.length; i++) {
-//           var place = results[i];
-//           console.log('what is place ', place)
-//           // this.createMarker(results[i]);
-//
-//            var placeLoc = place.geometry.location;
-//
-//            var image = 'img/flag.png';
-//            var marker = new google.maps.Marker({
-//                map: map,
-//                position: place.geometry.location,
-//                title: place.name,
-//                animation: google.maps.Animation.DROP,
-//                icon: image
-//            });
-//
-//            google.maps.event.addListener(marker, 'click', function() {
-//                infowindow.setContent(place.name);
-//                infowindow.open(map1,marker);
-//            });
-// ////////
-//         //   var placeLoc = place.geometry.location;
-//         //   // console.log('what is placeLoc ', placeLoc)
-//         //   var marker = new google.maps.Marker({
-//         //     map: map,
-//         //     icon: {
-//         //       url: 'http://maps.gstatic.com/mapfiles/circle.png',
-//         //       anchor: new google.maps.Point(10, 10),
-//         //       scaledSize: new google.maps.Size(10, 17)
-//         //     },
-//         //     position: place.geometry.location
-//         //   });
-//         //   console.log('what is marker ', marker)
-//         // }
-//       };
-// ///////
-//     }
+
 
     showDirections() {
       let directionsService = new google.maps.DirectionsService();
       let directionsDisplay = new google.maps.DirectionsRenderer({
           map: this.map
       });
-      // directionsDisplay.setMap(this.map);
+
       directionsDisplay.setPanel(document.getElementById("panel"));
 
       this.calculateAndDisplayRoute(directionsService, directionsDisplay, this.props.latLng, this.state.currLocation);
@@ -204,29 +143,56 @@ class Map extends React.Component {
       if (!this.props.props.google) {
         return <div>loading...</div>
       }
+      const isClicked = this.state.toggleMap
+
+
       return (
         <div>
+        <div>
          <button onClick={() => {this.toggleModal(); this.showDirections()}}>Click me if ya want directions</button>
-         {/* <div id="panel"></div> */}
+         <button onClick={this.toggleMapFunc}>Checkout nearby stores to pick up your items</button>
+       </div>
 
-         <Modal
-             isOpen={this.state.isModalOpen}>
-           <div id="panel">{`Directions to ${this.props.useThis}`}</div>
-           <button onClick={this.closeModal}>close</button>
-         </Modal>
+            {(!this.state.toggleMap) ? (
+           <div>
+           <div>
 
-         <div ref="map" style={style}>
-           {/* loading map... */}
+           <div ref="map" style={style}>
+           </div>
          </div>
 
-         <Map2 props={this.props} latLng={this.state.latLng}/>
-
-
-        <div id="rightPanel">
+        <div>
+          <Modal
+            isOpen={this.state.isModalOpen}>
+            <div id="panel">{`Directions to ${this.props.useThis}`}</div>
+            <button onClick={this.closeModal}>close</button>
+          </Modal>
         </div>
-      </div>
-      )
+
+       </div>
+
+    ) : (
+
+          <div>
+            <div ref="map" style={style}>
+            </div>
+          <div>
+            <Map2 props={this.props} latLng={this.state.latLng}/>
+          </div>
+
+         <div>
+           <Modal
+             isOpen={this.state.isModalOpen}>
+             <div id="panel">{`Directions to ${this.props.useThis}`}</div>
+             <button onClick={this.closeModal}>close</button>
+           </Modal>
+         </div>
+       </div>
+      )}
+    </div>
+    )
   }
+
 }
 
 export default Map;

@@ -56,6 +56,7 @@ class Map2 extends React.Component {
   //   }
 
     initialize() {
+      console.log('you are beinging itin itniatlnka;sflas ')
       var eventLoc = new google.maps.LatLng(this.props.props.latLng);
 
       let map = new google.maps.Map(document.getElementById('map'), {
