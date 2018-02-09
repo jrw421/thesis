@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import EventList from './eventList';
+import { DASHBOARD_QUERY } from '../queries.js'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -60,37 +61,12 @@ class Dashboard extends React.Component {
           </div>
         );
       }
-      return null
+      return <div />
     }
-    return (null);
+    return <div />
   }
 }
 
-
-const DASHBOARD_QUERY = gql`
-  query dashboardQuery($id: Int) {
-    user(id: $id) {
-      hostedEvents {
-        id
-        name
-        location
-        description
-        date
-        img
-        host_id
-      }
-      currentEvents {
-        id
-        name
-        location
-        description
-        date
-        img
-        host_id
-      }
-    }
-  }
-`;
 
 
 const DashboardWithData =

@@ -8,6 +8,7 @@ import {GoogleApiWrapper, google} from 'google-maps-react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import Map from './map.jsx';
 import Chat from './chat'
+import { confirmPresence, denyPresence } from '../mutations.js'
 
 class EditEvent extends React.Component {
   constructor(props) {
@@ -122,17 +123,6 @@ class EditEvent extends React.Component {
   }
 }
 
-const confirmPresence = gql`
-  mutation confirmPresence($user_id: Int, $event_id: Int){
-    confirmPresence(id: $user_id, guest_event_id: $event_id)
-  }
-`
-
-const denyPresence = gql`
-  mutation denyPresence($user_id: Int, $event_id: Int){
-    denyPresence(id: $user_id, guest_event_id: $event_id)
-  }
-`
 
 const EditEventWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),

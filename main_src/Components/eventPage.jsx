@@ -11,6 +11,7 @@ import {GoogleApiWrapper} from 'google-maps-react'
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import { GUESTS_QUERY } from '../queries.js'
 
 
 class EventPage extends React.Component {
@@ -56,21 +57,6 @@ class EventPage extends React.Component {
     
   }
 }
-
-
-
-
-const GUESTS_QUERY = gql`
-  query guestsQuery($id: Int) {
-    event(id: $id) {
-      users{
-        name
-        id
-        memberReply
-      }
-    }
-  }
-`;
 
 
 const EventPageWithData = graphql(GUESTS_QUERY, {

@@ -6,7 +6,8 @@ import ItemList from './itemList.jsx'
 import gql from 'graphql-tag'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-
+import { confirmPresence, denyPresence } from '../mutations.js'
+import { guestQuery } from '../queries.js'
 class EventPage2 extends React.Component {
   constructor(props) {
     super(props)
@@ -115,47 +116,6 @@ class EventPage2 extends React.Component {
       </div>)
   }
 }
-
-const GUEST_QUERY = gql `
-  query guestQuery ($id: String){
-    guestUser(hash: $id) {
-      id
-      name
-      guestEvent{
-        items {
-          name
-          user_id
-          id
-        }
-        users {
-         name
-         id
-       }
-          id
-          name
-          description
-          img
-       }
-    }
-  }
-`
-
-const confirmPresence = gql`
-  mutation confirmPresence($user_id: Int!, $event_id: Int!){
-    confirmPresence(id: $user_id, guest_event_id: $event_id){
-      id
-      guest_event_id
-    }
-  }
-`
-const denyPresence = gql`
-  mutation denyPresence($user_id: Int!, $event_id: Int!){
-    denyPresence(id: $user_id, guest_event_id: $event_id){
-      id
-      guest_event_id
-    }
-  }
-`
 
 
 const GuestInfo = compose (

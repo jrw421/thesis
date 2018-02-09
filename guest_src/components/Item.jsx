@@ -1,6 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { GUEST_QUERY2 } from '../queries.js'
+import { toggleClaim } from '../mutations.js'
 
 
 class Item extends React.Component {
@@ -81,29 +83,16 @@ class Item extends React.Component {
 }
 }
 
-const GUEST_QUERY = gql `
-  query guestQuery ($id: String){
-    user(hash: $id) {
-      id
-      name
-    }
-  }
-`
-//does this match your id
 
-const toggleClaim = gql`
-  mutation toggleClaimOfItem($id: Int!, $user_id: Int!){
-    toggleClaimOfItem(id: $id, user_id: $user_id){
-      id
-      # user_id
-    }
-  }
-`
+//does this match your id
+//^ for GUEST_QUERY2
+
 //for the item where the user_id is equal to the user_id
+//^ for toggleClaim
 
 const guestClaim = compose(
   graphql(toggleClaim, { name: 'toggleClaimOfItem' }),
-  graphql(GUEST_QUERY, {
+  graphql(GUEST_QUERY2, {
     options: (props) => ({variables: {id: props.hash}}),
     name: 'guestQuery'})
 )(Item)
