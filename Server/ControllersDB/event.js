@@ -60,8 +60,14 @@ eventController = {
                     .from('event')
                     .where('host_id', '=', user_id)
                     .andWhere('date', '<', current)
-                    .then(results => results.concat(x))
-                    .catch(err => err)
+                    .then(results => {
+                      console.log('past events', results.concat(x))
+                      return results.concat(x)
+                    })
+                    .catch(err => {
+                      console.log('past error', err)
+                      return err
+                    })
     
   },
   getCurrentEvents: function(user_id) {

@@ -94,7 +94,7 @@ class EditEvent extends React.Component {
           </ul>
         </div>
         <div>
-          <Map useThis={this.props.location.state.event.location} props={this.props} latLng={this.state.latLng}/>
+          <Map useThis={this.props.event.location} props={this.props} latLng={this.state.latLng}/>
         </div>
         <div>
           <h2>Item Registery</h2>
