@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import Loader from 'react-loader-spinner'
+
 
 import EventList from './eventList';
 import { DASHBOARD_QUERY } from '../queries.js'
@@ -32,7 +34,17 @@ class Dashboard extends React.Component {
       }
 
       if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.user) {
-        return <div>Loading</div>;
+        //return (<Loader color="#26A65B" size="16px" margin="4px"/>)
+        // return <div>Loading!!!!!!!!!</div>
+        //return <div className={loading.laSquareLoader}></div>;
+        //return null
+         return (<Loader 
+          type="Puff"
+          color="#00BFFF"
+          height="100"	
+          width="100"
+          />   
+        );
       }
 
       if (this.props.dashboardQuery.user){
