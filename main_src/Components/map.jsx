@@ -42,7 +42,6 @@ class Map extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log("props in map 1 ", prevProps, prevState)
      if (this.props.props.google && !this.state.toggleMap) {
        this.loadMap();
        this.plotCurrentLocation();
@@ -61,7 +60,6 @@ class Map extends React.Component {
       .then((position) => {
         let lat = position.coords.latitude
         let lng = position.coords.longitude
-        // console.log("anything LongLat ", lat, lng);
         this.setState({
            currLocation: {lat: lat, lng: lng}
          })
@@ -138,8 +136,7 @@ class Map extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-      console.log( 'google ', this.state.currLocation)
-      console.log( 'use This ', this.props.useThis)
+
       if (!this.props.props.google) {
         return <div>loading...</div>
       }

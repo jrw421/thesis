@@ -34,7 +34,7 @@ const generateID = function(event_id, name, email) {
           newEventAttendee.save().then(x => console.log('newPair', x)).catch(x => ['errorPair', x])
       
         });
-        console.log('before return email id', id)
+
         return id;
       }
     });
@@ -55,7 +55,7 @@ const transporter = nodemailer.createTransport({
 const sendMessage = function(recipients, account, event_id) {
   recipients.forEach(async guest => {
     var id = await generateID(event_id, guest[0], guest[1]);
-    console.log('after await email id', id)
+
     let mailOptions = {
       from: `${account.name} <${account.email}>`,
       to: `${guest[0]} <${guest[1]}>`,

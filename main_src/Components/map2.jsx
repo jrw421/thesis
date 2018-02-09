@@ -40,12 +40,9 @@ class Map2 extends React.Component {
     }
 
     getResults(results, status) {
-      console.log('what is results ', results)
       // if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
           var place = results[i];
-          console.log('what is place ', place)
-          // this.createMarker(results[i]);
 
            var placeLoc = place.geometry.location;
 
@@ -73,9 +70,7 @@ class Map2 extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-      console.log( 'google ', this.state.currLocation)
-      console.log('anything here? ' , this.props.props.props.google)
-      // console.log( 'use This ', this.props.useThis)
+
       if (!this.props.props.props.google) {
         return <div>loading...</div>
       }

@@ -47,7 +47,6 @@ class Item extends React.Component {
 
   render() {
     const isClicked = this.state.clicked;
-    console.log('current user in item', this.props.currentUser)
     if (this.props.claimedBy !== null && this.props.claimedBy !== undefined && this.props.claimedBy.id !== this.props.currentUser.id){
       return(     
         <div style={{ textAlign: 'center', align: 'center' }}>
