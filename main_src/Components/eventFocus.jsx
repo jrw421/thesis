@@ -21,6 +21,7 @@ class EventFocus extends React.Component {
 
     this.clickAttending = this.clickAttending.bind(this)
     this.clickNotAttending = this.clickNotAttending.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   clickAttending() {
@@ -53,6 +54,10 @@ class EventFocus extends React.Component {
       .catch(error => console.error('Error', error))
   }
 
+  handleClick() {
+    this.props.toggleEditState()
+  }
+
   render() {
 
       let event = this.props.event;
@@ -61,7 +66,7 @@ class EventFocus extends React.Component {
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">
       <h1 className="eventPage">{event.name}</h1>
-      { checkIfHostOfEvent && <RaisedButton label="Edit Event" primary={true} /> }
+      { checkIfHostOfEvent && <RaisedButton label="Edit Event" primary={true} onClick={this.handleClick}/> }
       { !checkIfHostOfEvent && (
           <div style={{ textAlign: 'center', align: 'center' }}>
                 <FlatButton

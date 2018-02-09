@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
-import EditEventFields from './editEventFields.jsx';
+import EditEventPage from './editEventPage.jsx';
 // import ItemList from './itemList.jsx';
 import Map from './map.jsx';
 import { withRouter } from 'react-router';
@@ -18,12 +18,19 @@ import { GUESTS_QUERY } from '../queries.js'
 class EventPage extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      currentlyEditing : false
+    }
     this.refresh = this.refresh.bind(this)
+    this.toggleEditState = this.toggleEditState.bind(this)
   }
 
  refresh(){
     this.props.guestsQuery.refetch()
+  }
+
+  toggleEditState() {
+    this.setState({currentlyEditing: !this.state.currentlyEditing })
   }
 
    render() {
@@ -43,20 +50,29 @@ class EventPage extends React.Component {
       if (this.props.guestsQuery.event){
 
 
-      //   <EventFocus
-      //   event={this.props.location.state.event}
-      //   currentUser={this.props.currentUser}
-      //   guests={this.props.guestsQuery.event.users}
-      //   refresh={this.refresh}
-      // />
-        return (
-            <EditEventFields
+      return this.state.currentlyEditing ?
+        (
+          <div>
+            <EditEventPage
             event={this.props.location.state.event}
             currentUser={this.props.currentUser}
             guests={this.props.guestsQuery.event.users}
             refresh={this.refresh}
-              />
-         )
+            editingState={this.editingState}
+            toggleEditState={this.toggleEditState}
+            />
+          </div>
+         ) : (
+          <div>
+            <EventFocus
+            event={this.props.location.state.event}
+            currentUser={this.props.currentUser}
+            guests={this.props.guestsQuery.event.users}
+            refresh={this.refresh}
+            toggleEditState={this.toggleEditState}
+            />
+          </div>
+         );
       }
       
       return null

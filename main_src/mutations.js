@@ -94,6 +94,19 @@ const downVote = gql`
     }
   }
 `;
+
+const editEventFields = gql`  mutation editEventFields($id: Int!, $name: String, $description: String, $date: Int, $time: String, $location: String, $img: String){
+  editEventFields(id: $id, name: $name, description: $description, date: $date, time: $time, location: $location, img: $img){
+  id
+  name
+  description
+  date
+  time
+  location
+  img
+  }
+}`
+
 module.exports = {
   addRecipients, 
   addItems, 
@@ -103,5 +116,6 @@ module.exports = {
   upVote, 
   downVote, 
   addComment, 
-  toggleClaimOfItem
+  toggleClaimOfItem,
+  editEventFields
 }
