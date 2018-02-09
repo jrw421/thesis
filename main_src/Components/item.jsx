@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 
 import GqlItemComments from './itemComments.jsx'
 import GqlVote from './vote.jsx'
+import { toggleClaimOfItem } from '../mutations.js'
 
 
 class Item extends React.Component {
@@ -88,14 +89,6 @@ class Item extends React.Component {
 }
 }
 
-
-const toggleClaimOfItem = gql`
-  mutation toggleClaimOfItem($id: Int!, $user_id: Int!) {
-    toggleClaimOfItem(id: $id, user_id: $user_id) {
-      id
-    }
-  }
-`;
 
 const ItemWithData = 
   graphql(toggleClaimOfItem, { name: 'toggleClaimOfItem' })(Item);

@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ItemWithData from './item.jsx';
+import { ITEMS_QUERY } from '../queries.js'
 
 class ItemList extends React.Component {
   constructor(props) {
@@ -51,23 +52,6 @@ class ItemList extends React.Component {
     );
   }
 }
-
-const ITEMS_QUERY = gql`
-  query itemsQuery($id: Int) {
-    event(id: $id) {
-      name
-      items {
-        id
-        name
-        user{
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-
 
 const ItemListWithData = graphql(ITEMS_QUERY, {
   options: props => ({ variables: { id: props.event.id } }),

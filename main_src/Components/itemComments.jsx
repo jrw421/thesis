@@ -3,6 +3,8 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import ItemComment from './itemComment.jsx'
+import { addComment } from '../mutations.js'
+import { COMMENTS_QUERY } from '../queries.js'
 
 class ItemComments extends React.Component {
   constructor(props) {
@@ -65,44 +67,9 @@ class ItemComments extends React.Component {
   }
 }
 
-const getItemComments = gql`
-  query itemComments($id: Int) {
-    item(id: $id) {
-      comments {
-        id
-        content
-        likes
-        user_id
-        event_id
-        item_id
-        user {
-          name
-        }
-      }
-    }
-  }
-`;
-
-const addComment = gql`
-  mutation addComment(
-    $content: String!,
-    $user_id: Int!,
-    $item_id: Int!,
-    $event_id: Int!
-  ) {
-    addComment(
-      content: $content,
-      user_id: $user_id,
-      item_id: $item_id,
-      event_id: $event_id
-    ) {
-      id
-    }
-  }
-`;
 
 const GqlItemComments = compose(
-  graphql(getItemComments, {
+  graphql(COMMENTS_QUERY, {
     options: (props) => {
       return { variables: { id: props.itemId } };
     },

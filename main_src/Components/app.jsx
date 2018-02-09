@@ -39,7 +39,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
     axios
       .get('/user')
       .then(data => {
@@ -71,7 +70,7 @@ refreshDash(){
           <Header refresh={this.refreshDash}/>
             <Switch>
               <Route
-                path="/dashboard"
+                exact path="/"
                 render={() => (
                   <DashboardWithData
                     history={browserHistory}
@@ -80,7 +79,7 @@ refreshDash(){
                 )}
               />
               <Route
-                path="/eventPage"
+                exact path="/eventPage"
                 render={() => (
                   <EventPageWithData
                     currentUser={this.state.currentUser}
@@ -88,7 +87,7 @@ refreshDash(){
                 )}
               />
               <Route
-                path="/createEvent"
+                exact path="/createEvent"
                 render={() => (
                   <CreateEventWithMutations
                     currentUser={this.state.currentUser}

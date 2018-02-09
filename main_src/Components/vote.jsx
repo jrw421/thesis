@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 
 import gql from 'graphql-tag';
+import { upVote, downVote } from '../mutations.js'
+import { VOTES_QUERY } from '../queries.js'
 
 class Vote extends Component {
   constructor(props) {
@@ -62,39 +64,11 @@ class Vote extends Component {
   }
 }
 
-const upVote = gql`
-  mutation upVoteItem($user_id: Int!, $item_id: Int!) {
-    upVoteItem(user_id: $user_id, item_id: $item_id) {
-      id
-    }
-  }
-`;
-
-const downVote = gql`
-  mutation downVoteItem($user_id: Int!, $item_id: Int!) {
-    downVoteItem(user_id: $user_id, item_id: $item_id) {
-      id
-    }
-  }
-`;
-
-const getVotes = gql`
-  query item($id: Int!) {
-    item (id: $id) {
-      upVotes {
-        user_id
-      }
-      downVotes {
-        user_id
-      }
-    }
-  }
-`
 
 const GqlVote = compose(
   graphql(upVote, { name: 'upVote' }),
   graphql(downVote, { name: 'downVote' }),
-  graphql(getVotes, { 
+  graphql(VOTES_QUERY, { 
     options: (props) => {
       return { variables: { id: props.item_id } };
     },

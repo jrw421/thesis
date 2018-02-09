@@ -14,6 +14,7 @@ import request from 'superagent';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { addItems, addRecipients, addEvent } from '../mutations.js'
 
 const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
 const CLOUDINARY_UPLOAD_URL =
@@ -305,48 +306,6 @@ class CreateEvent extends React.Component {
     );
   }
 }
-
-const addEvent = gql`
-  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String, $time: String, $date: Int) {
-    addEvent(
-      name: $name
-      host_id: $host_id
-      description: $description
-      location: $location
-      img: $img,
-      time: $time,
-      date: $date
-    ) {
-      name
-      host_id
-      description
-      location
-      img
-      id
-      time
-      date
-    }
-  }
-`;
-
-const addItems = gql`
-  mutation addItems($itemNames: [String]!, $event_id: Int!) {
-    addItems(itemNames: $itemNames, event_id: $event_id) {
-        id
-        name
-        user_id
-        event_id
-    }
-  }
-`;
-
-const addRecipients = gql`
-  mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int) {
-    addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id) {
-      name
-    }
-  }
-`;
 
 const CreateEventWithMutations = compose(
   graphql(addEvent, { name: 'addEvent' }),
