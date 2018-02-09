@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemList from './itemList.jsx';
-import EditEvent from './editEvent.jsx';
+import EventFocus from './eventFocus.jsx';
+import EditEventFields from './editEventFields.jsx';
 // import ItemList from './itemList.jsx';
 import Map from './map.jsx';
 import { withRouter } from 'react-router';
@@ -40,13 +41,21 @@ class EventPage extends React.Component {
       } 
 
       if (this.props.guestsQuery.event){
+
+
+      //   <EventFocus
+      //   event={this.props.location.state.event}
+      //   currentUser={this.props.currentUser}
+      //   guests={this.props.guestsQuery.event.users}
+      //   refresh={this.refresh}
+      // />
         return (
-            <EditEvent
-              event={this.props.location.state.event}
-              currentUser={this.props.currentUser}
-              guests={this.props.guestsQuery.event.users}
-              refresh={this.refresh}
-            />
+            <EditEventFields
+            event={this.props.location.state.event}
+            currentUser={this.props.currentUser}
+            guests={this.props.guestsQuery.event.users}
+            refresh={this.refresh}
+              />
          )
       }
       

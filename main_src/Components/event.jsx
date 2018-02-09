@@ -23,9 +23,5 @@ const Event = ({ event, handleEventClick }) => (
   </Card>
 );
 
-Event.propTypes = {
-  // event: PropTypes.shape.isRequired,
-  handleEventClick: PropTypes.func.isRequired,
-};
 
 export default Event;

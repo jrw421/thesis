@@ -91,9 +91,6 @@ class EventList extends React.Component {
   }
 }
 
-EventList.propTypes = {
-  events: PropTypes.shape.isRequired,
-  handleEventClick: PropTypes.func.isRequired,
-};
+
 
 export default EventList;

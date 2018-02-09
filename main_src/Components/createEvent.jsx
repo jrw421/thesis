@@ -313,13 +313,7 @@ const CreateEventWithMutations = compose(
   graphql(addRecipients, { name: 'addRecipients' })
 )(CreateEvent);
 
-CreateEvent.propTypes = {
-  addEvent: PropTypes.func.isRequired,
-  addItems: PropTypes.func.isRequired,
-  addRecipients: PropTypes.func.isRequired,
-  // history: ReactRouterPropTypes.history.isRequired,
-  currentUser: PropTypes.shape({}).isRequired,
-};
+
 
 
 export default withRouter(CreateEventWithMutations);
