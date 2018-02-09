@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import Event from './event';
 

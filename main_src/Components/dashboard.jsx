@@ -2,7 +2,6 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
 import Loader from 'react-loader-spinner'
 
 
