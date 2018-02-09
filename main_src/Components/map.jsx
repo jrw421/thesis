@@ -42,7 +42,7 @@ class Map extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("props in map 1 ", prevProps, prevState)
+    // console.log("props in map 1 ", prevProps, prevState)
      if (this.props.props.google && !this.state.toggleMap) {
        this.loadMap();
        this.plotCurrentLocation();

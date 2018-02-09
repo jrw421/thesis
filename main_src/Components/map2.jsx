@@ -17,12 +17,11 @@ class Map2 extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-     this.initialize()
+  componentDidMount() {
+    this.initialize()
   }
 
     initialize() {
-      console.log('you are beinging itin itniatlnka;sflas ')
       var eventLoc = new google.maps.LatLng(this.props.props.latLng);
 
       let map = new google.maps.Map(document.getElementById('map'), {
@@ -42,9 +41,11 @@ class Map2 extends React.Component {
 
     getResults(results, status) {
       console.log('what is results ', results)
+      // if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
           var place = results[i];
           console.log('what is place ', place)
+          // this.createMarker(results[i]);
 
            var placeLoc = place.geometry.location;
 
@@ -61,11 +62,8 @@ class Map2 extends React.Component {
                infowindow.setContent(place.name);
                infowindow.open(map,marker);
            });
-
       };
-
     }
-
 
     render() {
       const style = {
@@ -77,15 +75,18 @@ class Map2 extends React.Component {
       }
       console.log( 'google ', this.state.currLocation)
       console.log('anything here? ' , this.props.props.props.google)
-
+      // console.log( 'use This ', this.props.useThis)
       if (!this.props.props.props.google) {
         return <div>loading...</div>
       }
       return (
         <div>
 
-         <div id="map" ref="map" style={style}>
+         <div id="map"  style={style}>
+           Loading...
          </div>
+
+
 
       </div>
       )
