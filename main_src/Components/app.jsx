@@ -32,7 +32,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: undefined,
-      refresh: true
+      refresh: true,
+      contact: [],
+      emails: [],
     };
 
     this.refreshDash = this.refreshDash.bind(this)
@@ -45,15 +47,24 @@ class App extends React.Component {
         axios
           .post('/contacts', {'accessToken': data.data.user.accessToken})
           .then((result) => {
-            result = result.data.entry.map(contact => {
+            
+            let contacts = result.data.entry.map(contact => {
               if (contact.gd$name && contact.gd$email) {
-                return [contact.gd$name.gd$fullName.$t, contact.gd$email[0].address]
+                return contacts.gd$name.gd$fullName.$t
               }
             }).filter(entry => entry)
+
+            let emails = result.data.entry.map(email => {
+              if (contact.gd$name && contact.gd$email) {
+                return contacts.gd$email[0].address
+              }
+            }).filter(entry => entry)
+
             this.setState({
               currentUser: data.data.user,
-              contacts: result
-            }, () => {console.log('state set')});
+              contacts,
+              emails
+            });
           })
           .catch(error => {console.log('this is an error', error)})  
       })
@@ -102,6 +113,8 @@ refreshDash(){
                 render={() => (
                   <CreateEventWithMutations
                     currentUser={this.state.currentUser}
+                    contacts={this.state.contacts}
+                    emails={this.state.emails}
                   />
                 )}
               />
