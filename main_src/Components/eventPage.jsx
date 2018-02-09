@@ -11,6 +11,7 @@ import {GoogleApiWrapper} from 'google-maps-react'
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import Loader from 'react-loader-spinner'
 
 
 class EventPage extends React.Component {
@@ -27,7 +28,13 @@ class EventPage extends React.Component {
    render() {
     if (this.props.guestsQuery){
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
-        return <div>Loading...</div>
+        return (<Loader 
+          type="Puff"
+          color="#00BFFF"
+          height="100"	
+          width="100"
+          />   
+        );
       }
       
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event){

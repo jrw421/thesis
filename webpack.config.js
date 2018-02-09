@@ -20,7 +20,7 @@ const config = {
   module: {
     loaders: [
       {
-        test: /\.scss$/,
+        test: /\.(scss||css)$/,
         use: [
           'style-loader',
           'css-loader',
