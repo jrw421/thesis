@@ -9,17 +9,12 @@ class ItemList extends React.Component {
     super(props);
     this.handleItemClick = this.handleItemClick.bind(this);
   }
-  handleItemClick = e => {
-    console.log('item clicked', e.target.textContent);
-    //Pass in query to toggle that item that was clicked.
-  };
 
   refreshItemList() {
     this.props.itemsQuery.refetch()
   }
 
   render() {
-    console.log('props inside itemlist', this.props)
     if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
       this.props.itemsQuery.refetch()
       return <div>Error!</div>

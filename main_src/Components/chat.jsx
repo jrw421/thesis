@@ -17,10 +17,8 @@ class Chat extends Component {
     const messagesRef = firebase.database().ref(`${this.props.event.id}`);
     messagesRef.on('value', (snapshot) => {
       let messages = snapshot.val();
-      console.log(messages)
       let newState = [];
       for (let message in messages) {
-        console.log('message', message)
         newState.push({
           username: messages[message].user.name,
           message: messages[message].message,

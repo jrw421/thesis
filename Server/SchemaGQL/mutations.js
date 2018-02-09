@@ -133,7 +133,6 @@ const mutations = new GraphQLObjectType({
         event_id: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve(parentValues, args) {
-        console.log('add items resolve args', args)
         return db.item
           .addMultiple({
             name: args.itemNames,

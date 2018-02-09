@@ -84,7 +84,6 @@ class CreateEvent extends React.Component {
   }
 
   addGuest() {
-    console.log('this', this)
     this.setState({
       guests: this.state.guests.concat([
         `${this.state.guestName}*${this.state.guestEmail}`,

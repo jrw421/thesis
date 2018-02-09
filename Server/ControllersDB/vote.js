@@ -26,7 +26,7 @@ const VoteController = {
             .then(result => result)
             .catch(error => ['upvote2', error]);
         }
-        console.log('results', results[0])
+
         return knex('votes')
           .where('id', '=', results[0].id)
           .update({ vote: 1 })

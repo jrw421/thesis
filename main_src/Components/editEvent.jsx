@@ -48,8 +48,10 @@ class EditEvent extends React.Component {
   addressToLatLong(){ //this should be in componentDidMount
     geocodeByAddress(this.props.event.location)
       .then(results => getLatLng(results[0]))
-      .then(latLng => {console.log('Success', latLng); this.setState({latLng: latLng}); console.log("HERE ", this.state.latLng)}) //send this to the map component to put the marker
-      // .then(() => console.log('here is state ? ', this.state.latLng))
+      .then(latLng => {
+        this.setState({latLng: latLng}); 
+        //send this to the map component to put the marker
+      })
       .catch(error => console.error('Error', error))
   }
 

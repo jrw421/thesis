@@ -71,7 +71,6 @@ eventController = {
     
   },
   getCurrentEvents: function(user_id) {
-    console.log('get curr events, id:', user_id)
     let current = createDateNum()
     return knex
     .select('*')
