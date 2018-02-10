@@ -115,10 +115,7 @@ class Map2 extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-<<<<<<< HEAD
-=======
       const res = this.state.results
->>>>>>> markers
 
       if (!this.props.props.props.google) {
         return <div>loading...</div>

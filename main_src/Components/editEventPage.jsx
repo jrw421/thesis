@@ -1,7 +1,9 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { ITEMS_QUERY } from '../queries';
+import { addItems, deleteItem } from '../mutations';
 import RaisedButton from 'material-ui/RaisedButton';
 import ItemList from './itemList';
 
@@ -50,9 +52,22 @@ class EditEventPage extends React.Component {
     .catch((err) => console.log(err))
   }
 
+  deleteItem(id) {
+    this.props.deleteItem({
+      variables: {
+      id: id
+      }
+    })
+    .then(() => {
+      this.props.itemsQuery.refetch()
+      console.log(this.props.itemsQuery)
+    })
+  }
+
  
 
   render() {
+    console.log(this.props.ITEMS_QUERY)
 
     let event = this.props.event;
 
@@ -68,12 +83,14 @@ class EditEventPage extends React.Component {
       <input type="text" placeholder={event.time} className="eventPage time" onChange={(e) => this.setState({time: e.target.value})}></input>
       <input type="text" placeholder={event.description} className="eventPage" onChange={(e) => this.setState({description: e.target.value})}></input>
 
-     
-          <ItemList
-            currentUser={this.props.currentUser}
-            event={event}
-          />
-          <ul />
+     <ul>
+        { this.props.itemsQuery.event.items.map((item) => (
+          <li key={item.id}>
+            {item.name} <span onClick={this.deleteItem.bind(this, item.id)}>X</span>
+          </li>
+        ))
+        } 
+    </ul>
   
           <img
           style={{ height: '400px', width: '400px' }}
@@ -89,6 +106,25 @@ class EditEventPage extends React.Component {
 
 }
 
+const EditEventPageWithData = compose(
+  graphql(ITEMS_QUERY, {
+    options: props => ({ variables: { 
+      id: props.event.id } }),
+   name: 'itemsQuery'}),
+  graphql(addItems, { name: 'addItems' }),
+  graphql(deleteItem, { name: 'deleteItem' })
+)(EditEventPage)
 
 
-export default EditEventPage
+export default EditEventPageWithData
+
+// const CreateEventWithMutations = compose(
+//   graphql(addEvent, { name: 'addEvent' }),
+//   graphql(addItems, { name: 'addItems' }),
+//   graphql(addRecipients, { name: 'addRecipients' })
+// )(CreateEvent);
+
+// const ItemListWithData = graphql(ITEMS_QUERY, {
+//   options: props => ({ variables: { id: props.event.id } }),
+//   name: 'itemsQuery'
+// })(ItemList);
