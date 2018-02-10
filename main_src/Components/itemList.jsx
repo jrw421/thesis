@@ -26,22 +26,35 @@ class ItemList extends React.Component {
     let items = this.props.itemsQuery.event.items;
 
     return (
-      <ul>
-        {items.map((item, i) => {
-          return (
-            <ItemWithData
-              style={{ textAlign: 'center', align: 'center' }}
-              name={item.name}
-              id={item.id}
-              key={item.id}
-              claimedBy={item.user}
-              currentUser={this.props.currentUser}
-              eventId={this.props.event.id}
-              refresh={this.refreshItemList}
-            />
-          );
-        })}
-      </ul>
+      <div>
+      {items !== null ? (
+
+
+        <ul>
+          {items.map((item, i) => {
+            return (
+              <ItemWithData
+                style={{ textAlign: 'center', align: 'center' }}
+                name={item.name}
+                id={item.id}
+                key={item.id}
+                claimedBy={item.user}
+                currentUser={this.props.currentUser}
+                eventId={this.props.event.id}
+                refresh={this.refreshItemList}
+              />
+            );
+          })}
+        </ul>
+
+
+      ) : (
+        <div>loading...</div>
+      )
+
+    }
+
+    </div>
     );
   }
 }
