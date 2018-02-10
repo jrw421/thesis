@@ -5,6 +5,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import axios from 'axios';
 import { withApollo } from 'react-apollo';
 import * as Colors from 'material-ui/styles/colors';
+import babelPolyfill from 'babel-polyfill';
 
 import Header from './header';
 import DashboardWithData from './dashboard';
@@ -47,7 +48,7 @@ class App extends React.Component {
         axios
           .post('/contacts', {'accessToken': data.data.user.accessToken})
           .then((result) => {
-            
+
             let contacts = result.data.entry.map(contact => {
               if (contact.gd$name && contact.gd$email) {
                 return contact.gd$name.gd$fullName.$t
@@ -66,7 +67,7 @@ class App extends React.Component {
               emails
             });
           })
-          .catch(error => {console.log('this is an error', error)})  
+          .catch(error => {console.log('this is an error', error)})
       })
       .catch((error) => {
         return ['componentwillmount', error];

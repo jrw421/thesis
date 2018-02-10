@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
+import {withGoogleMap, GoogleMap, Marker, Map, InfoWindow} from 'react-google-maps';
 import Modal from 'react-modal';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import {GoogleApiWrapper} from 'google-maps-react'
@@ -13,8 +13,12 @@ class Map2 extends React.Component {
       currLocation: {},
       directions: [],
       latLng: [],
-      isModalOpen: false
+      isModalOpen: false,
+      results: []
     }
+    this.getResults = this.getResults.bind(this)
+    this.initialize = this.initialize.bind(this)
+    this.createMarkers = this.createMarkers.bind(this)
   }
 
   componentDidMount() {
@@ -24,9 +28,9 @@ class Map2 extends React.Component {
     initialize() {
       var eventLoc = new google.maps.LatLng(this.props.props.latLng);
 
-      let map = new google.maps.Map(document.getElementById('map'), {
+      this.map = new google.maps.Map(document.getElementById('map'), {
           center: eventLoc,
-          zoom: 15
+          zoom: 10
         });
 
       var request = {
@@ -35,32 +39,73 @@ class Map2 extends React.Component {
         type: ['supermarket', 'convenience_store', 'liquor_store']
       };
 
-      let service = new google.maps.places.PlacesService(map);
+      let service = new google.maps.places.PlacesService(this.map);
       service.nearbySearch(request, this.getResults);
     }
 
-    getResults(results, status) {
-      // if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-          var place = results[i];
+     async getResults (results, status) {
+      let res = await results
 
-           var placeLoc = place.geometry.location;
+      if (res) {
+        this.setState({
+          results: res
+        })
+      }
 
-           var image = 'img/flag.png';
-           var marker = new google.maps.Marker({
-               map: map,
-               position: place.geometry.location,
-               title: place.name,
-               animation: google.maps.Animation.DROP,
-               icon: image
-           });
-
-           google.maps.event.addListener(marker, 'click', function() {
-               infowindow.setContent(place.name);
-               infowindow.open(map,marker);
-           });
-      };
+      for (var i = 0 ; i < res.length; i++) {
+        this.createMarkers(res[i])
+      }
     }
+
+
+
+      createMarkers(place) {
+        var bounds = new google.maps.LatLngBounds();
+        var placesList = document.getElementById('map');
+
+          if (place.name === 'Brooklyn' || place.name === 'New York') {
+            return null;
+          }
+          var image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+          var marker = new google.maps.Marker({
+            map: this.map,
+            icon: image,
+            // label: place.name,
+            title: place.name,
+            position: place.geometry.location
+          });
+
+         let service = new google.maps.places.PlacesService(this.map);
+
+          const infoWindow = new google.maps.InfoWindow();
+          google.maps.event.addListener(marker, 'click', function() {
+            service.getDetails(place, function(result, status) {
+              console.log('what is result ', result)
+              if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                console.error(status);
+                return;
+              }
+              infoWindow.setContent('<div><strong>' + result.name + '</strong><br>' +
+                '<p>' + result.formatted_address + '</p>' +
+                `<p><a href=${result.url}><strong>Get Directions</strong> </a></p>` +
+                '</div>')
+
+              infoWindow.open(map, marker);
+            });
+          });
+
+          bounds.extend(place.geometry.location);
+
+        this.map.fitBounds(bounds);
+      }
+
+
 
     render() {
       const style = {
@@ -70,18 +115,20 @@ class Map2 extends React.Component {
         position: 'fixed',
         left: '25%'
       }
+<<<<<<< HEAD
+=======
+      const res = this.state.results
+>>>>>>> markers
 
       if (!this.props.props.props.google) {
         return <div>loading...</div>
       }
+      const results = this.state.results
       return (
         <div>
-
          <div id="map"  style={style}>
            Loading...
          </div>
-
-
 
       </div>
       )
