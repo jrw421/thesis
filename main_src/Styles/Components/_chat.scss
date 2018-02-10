@@ -1,0 +1,68 @@
+.chat {
+  border: 1px solid black;
+  width: 50%;
+  margin: auto;
+}
+
+.chat ul {
+  padding-left: 0;
+}
+
+// messages from current user
+.chatGrid {
+  list-style: none;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr 1fr 5fr;
+  grid-auto-rows: minmax(40px, auto);
+  grid-gap: 10px;
+  max-width: 960px;
+  margin-top: 2.5%;
+}
+
+.chatImageGrid {
+  justify-self: stretch;
+  align-self: start;
+}
+
+.chatImage {
+  padding: 10%;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.chatUsernameGrid {
+  align-self: start;
+  justify-self: stretch;  
+}
+
+.chatUsernameGrid p {
+  margin: 0px;
+  padding-top: 15%;
+  font-size: .8em;
+  font-style: italic;
+}
+
+.chatMessageGrid p {
+  border-radius: 0px 25px 25px 25px;
+  padding: 2.5%;
+  display: inline-block;
+  background-color: #2C666E;
+  margin-top: 10px;
+  margin-right: 25px;
+}
+
+// messages for other users
+
+
+
+.chatInput {
+  width: 90%;
+  margin: auto;
+}
+
+.chatButton {
+  width: 90%;
+  margin: auto;
+}

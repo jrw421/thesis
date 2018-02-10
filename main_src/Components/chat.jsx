@@ -22,7 +22,8 @@ class Chat extends Component {
         newState.push({
           username: messages[message].user.name,
           message: messages[message].message,
-          img: messages[message].user.img
+          img: messages[message].user.img,
+          id: messages[message].user.id
         });
       }
       this.setState({
@@ -55,14 +56,31 @@ class Chat extends Component {
 
   render() {
     return (
-      <div>
+      <div className="chat">
         <ul>
           {this.state.messages.map(message => {
-            return <li><img src={message.img} /> {message.username}: {message.message}</li>
+            return (
+              <li className="chatGrid">
+                <div className="chatImageGrid">
+                  <img src={message.img} className="chatImage"/> 
+                </div>
+                <div className="chatUsernameGrid">
+                  <p>{message.username}: </p>
+                </div>
+                <div className="chatMessageGrid">
+                  <p>{message.message}</p>
+                </div>
+              </li>
+            )
           })}
         </ul>
-        <input type="text" value={this.state.message} onChange={this.handleChange}/>
-        <button onClick={this.handleSubmit}>Submit</button>
+        <input 
+          type="text" 
+          value={this.state.message} 
+          onChange={this.handleChange}
+          className="chatInput"
+        />
+        <button onClick={this.handleSubmit} className="chatButton">Submit</button>
       </div>
     );
   }

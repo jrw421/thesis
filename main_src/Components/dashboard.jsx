@@ -79,9 +79,11 @@ class Dashboard extends React.Component {
 const DashboardWithData =
 
   graphql(DASHBOARD_QUERY, {
-    skip: props =>
-      props.currentUser === undefined ,
-    options: props => ({ variables: { id: props.currentUser.id } }),
+    skip: props => props.currentUser === undefined ,
+    options: props => ({ 
+      variables: { id: props.currentUser.id },
+      errorPolicy: 'all',
+    }),
     name: 'dashboardQuery',
   })(Dashboard);
 

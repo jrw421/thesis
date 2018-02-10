@@ -27,7 +27,7 @@ class EventList extends React.Component {
   }
 
   render() {
-    if (this.props.events.length === 0) {
+    if (!this.props.events || this.props.events.length === 0) {
       return null;
     }
     return (

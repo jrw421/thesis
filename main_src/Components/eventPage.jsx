@@ -67,7 +67,10 @@ class EventPage extends React.Component {
 
 
 const EventPageWithData = graphql(GUESTS_QUERY, {
-  options: props => ({ variables: { id: props.location.state.event.id } }),
+  options: props => ({ 
+    variables: { id: props.location.state.event.id },
+    errorPolicy: 'all', 
+  }),
   name: 'guestsQuery',
 })(EventPage);
 

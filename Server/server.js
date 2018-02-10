@@ -78,6 +78,8 @@ app.use(
   expressGraphQL({
     schema: schema,
     graphiql: true,
+    tracing: true,
+    cacheControl: true,
     //this allows the graphiql interface (GQL's postman) to load in browser
     //to access: 'localhost:4000/graphiql'
     formatError: error => ({
