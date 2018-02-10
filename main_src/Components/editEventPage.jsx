@@ -42,7 +42,6 @@ class EditEventPage extends React.Component {
       }
       console.log('filteredResults', filteredResults)
       this.props.updateEventState(filteredResults)
-      this.props.editEventFields.refetch()
     })
     .catch((err) => console.log(err))
     .then(() => {
