@@ -13,8 +13,10 @@ import {GoogleApiWrapper} from 'google-maps-react'
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
-import { GUESTS_QUERY } from '../queries.js'
 import Loader from 'react-loader-spinner'
+import { GUESTS_QUERY, CHECK_EVENT_QUERY } from '../queries.js'
+import { saveEvent } from '../mutations.js'
+
 
 
 class EventPage extends React.Component {
@@ -29,6 +31,8 @@ class EventPage extends React.Component {
       hostId: '',
       time: '',
       currentlyEditing : false
+      event : ''
+
     }
     this.refresh = this.refresh.bind(this)
     this.toggleEditState = this.toggleEditState.bind(this)
@@ -36,8 +40,24 @@ class EventPage extends React.Component {
   }
 
  refresh(){
-    this.props.guestsQuery.refetch()
+    this.props.guestsQuery ? this.props.guestsQuery.refetch() : this.props.checkEvent.refetch()
   }
+
+  componentWillReceiveProps(next){
+    console.log('next',next)
+    this.setState({
+      event: next.location.state ? next.location.state.event : next.checkEvent.user.lastEvent
+    }, () => {
+      console.log('params', this.props.currentUser.id, this.state.event)
+      this.props.saveEvent({
+        variables : {
+          id: this.props.currentUser.id,
+          lastEvent: this.state.event.id
+        }
+      })
+    })
+  }
+
 
   toggleEditState() {
     this.setState({currentlyEditing: !this.state.currentlyEditing })
@@ -46,6 +66,7 @@ class EventPage extends React.Component {
   updateEventState(object) {
     this.setState(object)
   }
+
 
    render() {
     if (this.props.guestsQuery){
@@ -104,24 +125,50 @@ class EventPage extends React.Component {
           </div>
          );
       }
-      
       return null
-    } 
-    
+    }
+
+    if(this.props.checkEvent){
+      if (this.props.checkEvent.loading && !this.props.checkEvent.user){
+        return <div>Loading...</div>
+      }
+      
+      if (this.props.checkEvent.error && !this.props.checkEvent.user){
+        return <div>Error</div>
+      }
+
+      if (this.props.checkEvent.user){
+        return (
+            <EditEvent
+              event={this.props.checkEvent.user.lastEvent}
+              currentUser={this.props.currentUser}
+              guests={this.props.checkEvent.user.lastEvent.users}
+              refresh={this.refresh}
+            />
+         )
+      }
+      return null
+    }
     return null
-    
   }
 }
 
 
 const EventPageWithData = compose(
   graphql(GUESTS_QUERY, {
-  options: props => ({ variables: { 
-    id: props.location.state.event.id } }),
+    skip: props => props.location.state === undefined,  
+    options: props => ({ variables: { id: props.location.state.event.id } }),
     name: 'guestsQuery',
-  }),
+  }), 
+  graphql(saveEvent, {
+    name: 'saveEvent'
+  }), 
   graphql(editEventFields, { name: 'editEventFields' }),
-)(EventPage);
+  graphql(CHECK_EVENT_QUERY, {
+    name: 'checkEvent', 
+     options: props => ({ variables: { id: props.currentUser.id } }),
+    skip: props => props.location.state !== undefined 
+  }))(EventPage);
 
 export default withRouter(EventPageWithData);
 

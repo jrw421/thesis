@@ -40,6 +40,7 @@ const userController = {
       google_id: body.google_id,
       email: body.email,
       accessToken: body.accessToken,
+      refreshToken: body.refreshToken
     });
 
     return newUser
@@ -87,6 +88,7 @@ const userController = {
         .select('*')
         .from('user')
         .where('google_id', google_id)
+        .then(x => x)
       } catch(error) {
         return[4, error];
       }
@@ -96,7 +98,8 @@ const userController = {
         result = await knex
           .select('*')
           .from('user')
-          .where('hash', hash);
+          .where('hash', hash)
+          .then(x => x)
       } catch (error) {
         return [5, error];
       }
@@ -107,31 +110,37 @@ const userController = {
         .select('*')
         .from('user')
         .where('id', id)
+        .then(x => x)
+
       } catch(error){
         return[6, 'await catach', error];
       }
-      console.log(6,  'result1', result)
-      if (result){
-        console.log(6, 'result2', result[0])
-      return result[0];
-    } else {
-      return null
-    }
+        if (result){
+        return result[0];
+      } else {
+        return null
+      }
     }
   },
   getToken: (id) => {
     return knex
       .select('accessToken')
       .from('user')
-      .where('id', id);
+      .where('id', id)
+      .then(x => x)
+      .catch(err => err)
   },
   findAll: () => {
-    return knex.select('*').from('user');
+    return knex.select('*').from('user')
+       .then(x => x)
+      .catch(err => err)
   },
   deleteUser: (id) => {
     return knex('user')
       .where('id', id)
-      .del();
+      .del()
+      .then(x => x)
+      .catch(err => err)
   },
   editField: (id, field, newValue) => {
     return knex('user')
@@ -140,6 +149,7 @@ const userController = {
       .then((result) => {
         this.getUserById(id)
           .then((result) => {
+            console.log('edit field result', result)
             return result;
           })
           .catch((error) => {
@@ -153,7 +163,19 @@ const userController = {
   editFields: (id, obj) => {
     return knex('user')
       .where('id', id)
-      .update(obj);
+      .update(obj)
+      .then((result) => {
+        this.getUserById(id)
+          .then((result) => {
+            return result;
+          })
+          .catch((error) => {
+            return['edit field error', error];
+          });
+      })
+      .catch(error => {
+        return ['editfield error2', error];
+      });
   }
 };
 

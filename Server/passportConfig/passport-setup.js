@@ -28,6 +28,7 @@ passport.use(
         name: profile.displayName,
         img: profile.photos[0].value,
         accessToken: accessToken,
+        refreshToken: refreshToken,
         email: profile.emails[0].value
       };
 
@@ -44,7 +45,7 @@ passport.use(
               );
           } else {
             db.user
-              .editField(user.id, 'accessToken', body.accessToken)
+              .editFields(user.id, {'accessToken' : body.accessToken, 'refreshToken' : body.refreshToken})
               .then(user => {
                 done(null, user);
               })

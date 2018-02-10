@@ -28,9 +28,9 @@ class Dashboard extends React.Component {
 
     if (this.props.dashboardQuery) {
 
-      if (this.props.dashboardQuery.error && !this.props.dashboardQuery.user) {
-        return <div>Error2</div>;
-      }
+      // if (this.props.dashboardQuery.error && !this.props.dashboardQuery.user) {
+      //   return <div>Error2</div>;
+      // }
 
       if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.user) {
          return (<Loader 
@@ -63,6 +63,15 @@ class Dashboard extends React.Component {
               style={{ fontFamily: 'Noto Sans' }}
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.hostedEvents}
+              handleEventClick={this.handleEventClick}
+            />
+             <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+              Past Events:
+            </h3>
+            <EventList
+              style={{ fontFamily: 'Noto Sans' }}
+              // img={this.props.dashboardQuery.user.img}
+              events={this.props.dashboardQuery.user.pastEvents}
               handleEventClick={this.handleEventClick}
             />
           </div>

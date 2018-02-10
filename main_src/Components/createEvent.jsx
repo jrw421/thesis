@@ -46,6 +46,9 @@ class CreateEvent extends React.Component {
       guestEmail: '',
       guests: [],
       uploadedFileCloudinaryUrl: '',
+      endTime: '',
+      dateTimeStart: '', 
+      dateTimeEnd: ''
     };
 
     this.handleItems = this.handleItems.bind(this);
@@ -116,7 +119,8 @@ class CreateEvent extends React.Component {
 
       alert('All fields must be entered!')
     } else {
-    const { name, location, date, time, description, uploadedFileCloudinaryUrl } = this.state;
+    const { name, location, date, time, description, uploadedFileCloudinaryUrl, endTime, dateTimeStart, dateTimeEnd} = this.state;
+
     this.props
       .addEvent({
         variables: {
@@ -126,7 +130,8 @@ class CreateEvent extends React.Component {
           location,
           img: uploadedFileCloudinaryUrl,
           time,
-          date
+          date, 
+          endTime
         }
       })
       .then(event => {
@@ -143,7 +148,9 @@ class CreateEvent extends React.Component {
                 variables: {
                   nameEmail: this.state.guests,
                   event_id: event.data.addEvent.id,
-                  id: this.props.currentUser.id
+                  id: this.props.currentUser.id, 
+                  dateTimeStart, 
+                  dateTimeEnd
                 }
               })
               .then(() => {
@@ -282,7 +289,7 @@ class CreateEvent extends React.Component {
             let clockTime = hour + ':' + minutes
 
             this.setState({ date: Number(date) })
-            this.setState({ time: clockTime  })
+            this.setState({ time: clockTime  , dateTimeStart: time.toISOString()})
           }
         }
         />

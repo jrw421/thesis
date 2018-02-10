@@ -24,6 +24,8 @@ knex.schema
           table.string('accessToken', 200);
           table.string('hash', 200);
           table.integer('guest_event_id');
+          table.integer('lastEvent');
+          table.string('refreshToken', 200)
         })
         .then(res => {
           console.log(res);
@@ -48,6 +50,10 @@ knex.schema.hasTable('event').then(function(exists) {
         table.string('name', 500);
         table.integer('date', 8);
         table.string('location', 100);
+        table.string('dateTimeStart', 25);
+        table.string('time', 20);
+        table.string('endTime', 20);
+        table.string('dateTimeEnd', 25);
       })
       .then(res => {
         console.log(res);

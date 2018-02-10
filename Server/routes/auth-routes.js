@@ -17,7 +17,9 @@ router.get(
       'https://mail.google.com/',
       'https://www.google.com/m8/feeds/contacthttps://www.googleapis.com/auth/calendars', 
       'https://www.googleapis.com/auth/calendar'
-    ]
+    ], 
+    access_type: 'offline',
+    prompt: 'consent'
   })
 );
 
