@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import {withGoogleMap, GoogleMap, Marker, Map} from 'react-google-maps';
+import {withGoogleMap, GoogleMap, Marker, Map, InfoWindow} from 'react-google-maps';
 import Modal from 'react-modal';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import {GoogleApiWrapper} from 'google-maps-react'
@@ -35,8 +35,7 @@ class Map2 extends React.Component {
 
       var request = {
         location: eventLoc,
-        radius: '500'
-        ,
+        radius: '500',
         type: ['supermarket', 'convenience_store', 'liquor_store']
       };
 
@@ -63,6 +62,9 @@ class Map2 extends React.Component {
         // console.log('places are in createMarkers ', places)
         for (var i = 0; i < places.length; i++) {
           let place = places[i]
+          if (place.name === 'Brooklyn' || place.name === 'New York') {
+            continue;
+          }
           var image = {
             url: place.icon,
             size: new google.maps.Size(71, 71),
@@ -73,31 +75,40 @@ class Map2 extends React.Component {
           // console.log('here is the place ', place.geometry.location)
           var marker = new google.maps.Marker({
             map: this.map,
-            // icon: "https://openclipart.org/image/300px/svg_to_png/89179/Location-marker.png&disposition=attachment",
-            label: place.name,
+            icon: image,
+            // label: place.name,
             title: place.name,
             position: place.geometry.location
           });
 
-          let infoWindow = new google.maps.InfoWindow({
-            content: name
-          });
+          // let infoWindow = new google.maps.InfoWindow({
+          //   content: name
+          // });
 
          let service = new google.maps.places.PlacesService(this.map);
-
-          google.maps.event.addListener(marker, 'click', () => {
-            service.getDetails(place, (result, status) => {
+         // const infowindow = new google.maps.InfoWindow({
+         //   content: place.url
+         // });
+        // infoWindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+        //     '<p>' + place.formatted_address + '</p>' +
+        //     '<p><a href="https://www.google.com/maps?cid=16447453841236865516"><strong>Get Directions / Larger Map</strong> </a></p>' +
+        //     '</div>');
+          const infoWindow = new google.maps.InfoWindow();
+          google.maps.event.addListener(marker, 'click', function() {
+            service.getDetails(place, function(result, status) {
+              console.log('what is result ', result)
               if (status !== google.maps.places.PlacesServiceStatus.OK) {
                 console.error(status);
                 return;
               }
-              // infoWindow.setContent(result.name);
-              // infoWindow.open(map, marker);
-              window.open(result.url);
+              infoWindow.setContent('<div><strong>' + result.name + '</strong><br>' +
+                '<p>' + result.formatted_address + '</p>' +
+                '<p><a href="https://www.google.com/maps?cid=16447453841236865516"><strong>Get Directions</strong> </a></p>' +
+                '</div>')
+
+              infoWindow.open(map, marker);
             });
           });
-
-          // placesList.innerHTML += '<li>' + place.name + '</li>';
 
           bounds.extend(place.geometry.location);
         }
@@ -114,11 +125,8 @@ class Map2 extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-      // console.log( 'RESULTS IN STTE ', this.state.results)
       const res = this.state.results
-      // console.log( 'google ', this.state.currLocation)
-      // console.log('anything here? ' , this.props.props.props.google)
-      // console.log( 'use This ', this.props.useThis)
+
       if (!this.props.props.props.google) {
         return <div>loading...</div>
       }
@@ -135,30 +143,3 @@ class Map2 extends React.Component {
 }
 
 export default Map2;
-
-// {res.map((marker, idx) => {
-//   console.log('here is the marker ', marker)
-//   const lat = marker.geometry.location.lat();
-//   const lng = marker.geometry.location.lng();
-//   console.log('coords ', lat, lng)
-//   const name = marker.name;
-//   return (
-//
-//     let markerA = new google.maps.Marker({
-//       position: marker.geometry.location,
-//       title: marker.name,
-//       label: marker.name,
-//       map: map
-//     });
-//
-//   )
-//
-//   //   (<Marker
-//   //     // onClick={this.onMarkerHover}
-//   //     key={idx} info={marker}
-//   //     position={{lat, lng}}
-//   //   />
-//   // )
-//
-//
-// })}
