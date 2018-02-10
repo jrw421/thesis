@@ -174,8 +174,7 @@ class Map extends React.Component {
     ) : (
 
           <div>
-            <div ref="map" style={style}>
-            </div>
+
           <div>
             <Map2 props={this.props} latLng={this.state.latLng}/>
           </div>
