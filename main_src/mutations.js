@@ -105,7 +105,18 @@ const editEventFields = gql`  mutation editEventFields($id: Int!, $name: String,
   location
   img
   }
-}`
+}`;
+
+
+const deleteItem = gql`
+mutation deleteItem($id: Int!) {
+  deleteItem(id: $id) {
+    id
+    name
+    event_id
+    user_id 
+    }
+  }`;
 
 module.exports = {
   addRecipients, 
@@ -117,5 +128,6 @@ module.exports = {
   downVote, 
   addComment, 
   toggleClaimOfItem,
-  editEventFields
+  editEventFields,
+  deleteItem
 }

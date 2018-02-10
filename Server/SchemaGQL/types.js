@@ -121,7 +121,12 @@ const ItemsType = new GraphQLObjectType({
   resolve(parentValue, args) {
     return db.items
       .getItemsByEventId(parentValue.event_id)
-      .then(item => item);
+      .then((item) => { 
+        return item
+      })
+      .catch((error) => {
+        return error
+      })
   }
 });
 
