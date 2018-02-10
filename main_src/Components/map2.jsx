@@ -116,9 +116,7 @@ class Map2 extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-
       const res = this.state.results
-
 
       if (!this.props.props.props.google) {
         return <div>loading...</div>

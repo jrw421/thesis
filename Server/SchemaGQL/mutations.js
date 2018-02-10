@@ -164,6 +164,23 @@ const mutations = new GraphQLObjectType({
           .catch(error => ['151', error]);
       },
     },
+    deleteItem: {
+      type: new GraphQLList(ItemType),
+      args: {
+        user_id: { type: GraphQLInt },
+        event_id: { type: GraphQLInt },
+        id: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      async resolve(parentValues, args) {
+        try {
+          let deletion = await db.item.deleteItem(args.id)
+          let query = await db.item.getItemsByEventId(args.event_id) 
+          return query
+        } catch(e) {
+          return e
+        }
+      },
+    },
     addComment: {
       type: ItemCommentType,
       args: {
