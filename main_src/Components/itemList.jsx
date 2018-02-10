@@ -27,7 +27,7 @@ class ItemList extends React.Component {
 
     return (
       <div>
-      {items.length ? (
+      {items !== null ? (
 
 
         <ul>
