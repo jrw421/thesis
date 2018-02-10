@@ -24,6 +24,7 @@
     "ajax": "0.0.4",
     "apollo-client-preset": "^1.0.6",
     "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "bookshelf": "^0.12.1",
