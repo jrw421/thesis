@@ -30,7 +30,7 @@ class Map2 extends React.Component {
 
       this.map = new google.maps.Map(document.getElementById('map'), {
           center: eventLoc,
-          zoom: 10
+          zoom: 35
         });
 
       var request = {
@@ -41,6 +41,7 @@ class Map2 extends React.Component {
 
       let service = new google.maps.places.PlacesService(this.map);
       service.nearbySearch(request, this.getResults);
+      this.map.setZoom(10)
     }
 
      async getResults (results, status) {
@@ -100,9 +101,9 @@ class Map2 extends React.Component {
             });
           });
 
-          bounds.extend(place.geometry.location);
-
+        bounds.extend(place.geometry.location);
         this.map.fitBounds(bounds);
+        this.map.setZoom(15)
       }
 
 
@@ -115,10 +116,9 @@ class Map2 extends React.Component {
         position: 'fixed',
         left: '25%'
       }
-<<<<<<< HEAD
-=======
+
       const res = this.state.results
->>>>>>> markers
+
 
       if (!this.props.props.props.google) {
         return <div>loading...</div>
