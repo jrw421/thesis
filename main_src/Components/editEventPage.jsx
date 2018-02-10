@@ -4,17 +4,17 @@ import gql from 'graphql-tag';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import ItemList from './itemList';
-import { editEventFields } from '../mutations.js'
 
 class EditEventPage extends React.Component {
   constructor(props) {
     super(props)
     this.state= {
-      name: "",
-      location: "",
-      date: "",
-      time: "",
-      description: ""
+      name: this.props.event.name,
+      location: this.props.event.location,
+      date: this.props.event.date,
+      time: this.props.event.time,
+      description: this.props.event.description,
+      img: this.props.event.img
     }
     this.submitChanges = this.submitChanges.bind(this)
   }
@@ -22,18 +22,33 @@ class EditEventPage extends React.Component {
   submitChanges() {
     this.props.editEventFields({
       variables: {
+        id: this.props.event.id,
         name: this.state.name,
         host_id: this.props.currentUser.id,
         description: this.state.description,
         time: this.state.time,
-        date: this.state.description,
+        date: this.state.date,
         location: this.state.location,
         img: this.state.img
       }
     })
+    .then((results) => {
+      console.log(results.data)
+      let filteredResults = {}
+      for (var key in results.data.editEventFields) {
+        if (key !== "__typename") {
+          filteredResults[key] = results.data.editEventFields[key]
+        }
+      }
+      console.log('filteredResults', filteredResults)
+      this.props.updateEventState(filteredResults)
+      this.props.editEventFields.refetch()
+    })
+    .catch((err) => console.log(err))
     .then(() => {
       this.props.toggleEditState()
     })
+    .catch((err) => console.log(err))
   }
 
  
@@ -75,7 +90,6 @@ class EditEventPage extends React.Component {
 
 }
 
-const EditEventPageWithMutation = graphql(editEventFields, { name: 'editEventFields' })(EditEventPage)
 
 
-export default EditEventPageWithMutation
+export default EditEventPage
