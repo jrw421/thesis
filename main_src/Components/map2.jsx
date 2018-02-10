@@ -19,7 +19,6 @@ class Map2 extends React.Component {
     this.getResults = this.getResults.bind(this)
     this.initialize = this.initialize.bind(this)
     this.createMarkers = this.createMarkers.bind(this)
-    // this.map = null
   }
 
   componentDidMount() {
@@ -31,14 +30,14 @@ class Map2 extends React.Component {
 
       this.map = new google.maps.Map(document.getElementById('map'), {
           center: eventLoc,
-          zoom: 15
+          zoom: 25
         });
 
       var request = {
         location: eventLoc,
         radius: '500'
-        // ,
-        // type: ['supermarket', 'convenience_store', 'liquor_store']
+        ,
+        type: ['supermarket', 'convenience_store', 'liquor_store']
       };
 
       let service = new google.maps.places.PlacesService(this.map);
@@ -53,22 +52,7 @@ class Map2 extends React.Component {
           results: res
         })
       }
-      // console.log(res)
       this.createMarkers(res)
-      // var marker = new google.maps.Marker({
-      //   map: this.map,
-      //   label: 'hello',
-      //   title: 'hello',
-      //   position: {lat: 44.475, lng: 44.475}
-      // });
-      // setTimeout(() => {
-      //   var marker = new google.maps.Marker({
-      //     map: this.map,
-      //     label: 'hello',
-      //     title: 'hello',
-      //     position: {lat: 44.475, lng: 44.475}
-      //   })
-      // }, 2000)
     }
 
 
@@ -89,10 +73,28 @@ class Map2 extends React.Component {
           // console.log('here is the place ', place.geometry.location)
           var marker = new google.maps.Marker({
             map: this.map,
-            icon: image,
+            // icon: "https://openclipart.org/image/300px/svg_to_png/89179/Location-marker.png&disposition=attachment",
             label: place.name,
             title: place.name,
             position: place.geometry.location
+          });
+
+          let infoWindow = new google.maps.InfoWindow({
+            content: name
+          });
+
+         let service = new google.maps.places.PlacesService(this.map);
+
+          google.maps.event.addListener(marker, 'click', () => {
+            service.getDetails(place, (result, status) => {
+              if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                console.error(status);
+                return;
+              }
+              // infoWindow.setContent(result.name);
+              // infoWindow.open(map, marker);
+              window.open(result.url);
+            });
           });
 
           // placesList.innerHTML += '<li>' + place.name + '</li>';
