@@ -2,6 +2,7 @@ import React from 'react';
 import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
 import EditEventPage from './editEventPage.jsx';
+import { editEventFields } from '../mutations';
 // import ItemList from './itemList.jsx';
 import Map from './map.jsx';
 import { withRouter } from 'react-router';
@@ -20,10 +21,18 @@ class EventPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      date: null,
+      location: '',
+      img: '',
+      id: '',
+      hostId: '',
+      time: null,
       currentlyEditing : false
     }
     this.refresh = this.refresh.bind(this)
     this.toggleEditState = this.toggleEditState.bind(this)
+    this.updateEventState = this.updateEventState.bind(this)
   }
 
  refresh(){
@@ -32,6 +41,10 @@ class EventPage extends React.Component {
 
   toggleEditState() {
     this.setState({currentlyEditing: !this.state.currentlyEditing })
+  }
+
+  updateEventState(object) {
+    this.setState(object)
   }
 
    render() {
@@ -67,6 +80,8 @@ class EventPage extends React.Component {
             refresh={this.refresh}
             editingState={this.editingState}
             toggleEditState={this.toggleEditState}
+            editEventFields={this.props.editEventFields}
+            updateEventState={this.updateEventState}
             />
           </div>
          ) : (
@@ -91,9 +106,26 @@ class EventPage extends React.Component {
 }
 
 
-const EventPageWithData = graphql(GUESTS_QUERY, {
-  options: props => ({ variables: { id: props.location.state.event.id } }),
-  name: 'guestsQuery',
-})(EventPage);
+const EventPageWithData = compose(
+  graphql(GUESTS_QUERY, {
+  options: props => ({ variables: { 
+    id: props.location.state.event.id } }),
+    name: 'guestsQuery',
+  }),
+  graphql(editEventFields, { name: 'editEventFields' }),
+)(EventPage);
 
 export default withRouter(EventPageWithData);
+
+
+// const EventFocusWithData = compose(
+//   graphql(confirmPresence, { name: 'confirmPresence' }),
+//   graphql(denyPresence, { name: 'denyPresence' }),
+//   GoogleApiWrapper({
+//     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
+//     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
+//   })
+// )(EventFocus);
+
+// export default EventFocusWithData
+
