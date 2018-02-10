@@ -4,6 +4,7 @@ import {withGoogleMap, GoogleMap, Marker, Map, InfoWindow} from 'react-google-ma
 import Modal from 'react-modal';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import {GoogleApiWrapper} from 'google-maps-react'
+import FlatButton from 'material-ui/FlatButton';
 
 class Map2 extends React.Component {
   constructor(props) {
