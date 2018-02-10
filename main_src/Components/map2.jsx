@@ -30,7 +30,7 @@ class Map2 extends React.Component {
 
       this.map = new google.maps.Map(document.getElementById('map'), {
           center: eventLoc,
-          zoom: 25
+          zoom: 10
         });
 
       var request = {
@@ -51,19 +51,20 @@ class Map2 extends React.Component {
           results: res
         })
       }
-      this.createMarkers(res)
+
+      for (var i = 0 ; i < res.length; i++) {
+        this.createMarkers(res[i])
+      }
     }
 
 
 
-      createMarkers(places) {
+      createMarkers(place) {
         var bounds = new google.maps.LatLngBounds();
         var placesList = document.getElementById('map');
-        // console.log('places are in createMarkers ', places)
-        for (var i = 0; i < places.length; i++) {
-          let place = places[i]
+
           if (place.name === 'Brooklyn' || place.name === 'New York') {
-            continue;
+            return null;
           }
           var image = {
             url: place.icon,
@@ -72,7 +73,6 @@ class Map2 extends React.Component {
             anchor: new google.maps.Point(17, 34),
             scaledSize: new google.maps.Size(25, 25)
           };
-          // console.log('here is the place ', place.geometry.location)
           var marker = new google.maps.Marker({
             map: this.map,
             icon: image,
@@ -81,18 +81,8 @@ class Map2 extends React.Component {
             position: place.geometry.location
           });
 
-          // let infoWindow = new google.maps.InfoWindow({
-          //   content: name
-          // });
-
          let service = new google.maps.places.PlacesService(this.map);
-         // const infowindow = new google.maps.InfoWindow({
-         //   content: place.url
-         // });
-        // infoWindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-        //     '<p>' + place.formatted_address + '</p>' +
-        //     '<p><a href="https://www.google.com/maps?cid=16447453841236865516"><strong>Get Directions / Larger Map</strong> </a></p>' +
-        //     '</div>');
+
           const infoWindow = new google.maps.InfoWindow();
           google.maps.event.addListener(marker, 'click', function() {
             service.getDetails(place, function(result, status) {
@@ -103,7 +93,7 @@ class Map2 extends React.Component {
               }
               infoWindow.setContent('<div><strong>' + result.name + '</strong><br>' +
                 '<p>' + result.formatted_address + '</p>' +
-                '<p><a href="https://www.google.com/maps?cid=16447453841236865516"><strong>Get Directions</strong> </a></p>' +
+                `<p><a href=${result.url}><strong>Get Directions</strong> </a></p>` +
                 '</div>')
 
               infoWindow.open(map, marker);
@@ -111,7 +101,7 @@ class Map2 extends React.Component {
           });
 
           bounds.extend(place.geometry.location);
-        }
+
         this.map.fitBounds(bounds);
       }
 
