@@ -22,6 +22,7 @@ class EventFocus extends React.Component {
     this.clickAttending = this.clickAttending.bind(this)
     this.clickNotAttending = this.clickNotAttending.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.determineWhatToRender = this.determineWhatToRender.bind(this)
   }
 
   clickAttending() {
@@ -60,14 +61,27 @@ class EventFocus extends React.Component {
     this.props.toggleEditState()
   }
 
-  render() {
+  determineWhatToRender(stateOption, eventOption) {
+    if (stateOption === null || stateOption === undefined || stateOption.length === 0 || stateOption === 0) {
+      return eventOption
+    } else {
+      return stateOption
+    }
+  }
 
+ 
+
+
+  render() {
       let event = this.props.event;
       let checkIfHostOfEvent = this.props.currentUser.id === this.props.event.host_id
 
+  
+
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">
-      <h1 className="eventPage">{event.name}</h1>
+      <h1 className="eventPage">{ this.determineWhatToRender(this.props.name, event.name) }</h1>
+
       { checkIfHostOfEvent && <RaisedButton label="Edit Event" primary={true} onClick={this.handleClick}/> }
       { !checkIfHostOfEvent && (
           <div style={{ textAlign: 'center', align: 'center' }}>
@@ -85,10 +99,15 @@ class EventFocus extends React.Component {
 
       )
       }
-      <div className="eventPage">{event.location}</div>
-      <div className="eventPage">{event.date}</div>
-      <div className="eventPage time">{event.time}</div>
-      <div className="eventPage">{event.description}</div>
+      <img
+      style={{ height: '400px', width: '400px' }}
+      src={this.props.event.img}
+      alt=""
+    />
+      <div className="eventPage">location {this.determineWhatToRender(this.props.location, event.location)}</div>
+      <div className="eventPage">date: {this.determineWhatToRender(this.props.date, event.date)}</div>
+      <div className="eventPage time">time: {this.props.time || event.time}</div>
+      <div className="eventPage">description: {this.determineWhatToRender(this.props.description, event.description)}</div>
 
         <div>
           <h2>Who's Coming</h2>
@@ -117,11 +136,7 @@ class EventFocus extends React.Component {
           />
           <ul />
         </div>
-          <img
-          style={{ height: '400px', width: '400px' }}
-          src={event.img}
-          alt=""
-        />
+     
         <Chat
           user={this.props.currentUser}
           event={event}

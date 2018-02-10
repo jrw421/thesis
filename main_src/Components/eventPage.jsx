@@ -27,7 +27,7 @@ class EventPage extends React.Component {
       img: '',
       id: '',
       hostId: '',
-      time: null,
+      time: '',
       currentlyEditing : false
     }
     this.refresh = this.refresh.bind(this)
@@ -92,6 +92,14 @@ class EventPage extends React.Component {
             guests={this.props.guestsQuery.event.users}
             refresh={this.refresh}
             toggleEditState={this.toggleEditState}
+            name={this.state.name}
+            date={this.state.date}
+            location={this.state.location}
+            description={this.state.description}
+            img={this.state.img}
+            id={this.state.id}
+            hostId={this.state.hostId}
+            time={this.state.time}
             />
           </div>
          );
