@@ -167,7 +167,7 @@ const UserType = new GraphQLObjectType({
         let x = await db.event.getPastHostedEvents(parentValue.id)
         return db.event.getPastAttendingEvents(parentValue.id).then(res => {
             if (res && x){
-              console.log('res and x', res, x)
+              console.log('res and x', Array.isArray(res), Array.isArray(x))
               return res.concat(x)
             } else {
               console.log('fail')

@@ -65,15 +65,6 @@ class Dashboard extends React.Component {
               events={this.props.dashboardQuery.user.hostedEvents}
               handleEventClick={this.handleEventClick}
             />
-             <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
-              Past Events:
-            </h3>
-            <EventList
-              style={{ fontFamily: 'Noto Sans' }}
-              // img={this.props.dashboardQuery.user.img}
-              events={this.props.dashboardQuery.user.pastEvents}
-              handleEventClick={this.handleEventClick}
-            />
           </div>
         );
       }
