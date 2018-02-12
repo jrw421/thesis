@@ -1,20 +1,46 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ItemWithData from './item.jsx';
 import { ITEMS_QUERY } from '../queries.js'
+import { addItems, deleteItem } from '../mutations';
+
 
 class ItemList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleItemClick = this.handleItemClick.bind(this)
-    this.refreshItemList = this.refreshItemList.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
   }
 
   refreshItemList() {
+    console.log('refresh item list')
     this.props.itemsQuery.refetch()
   }
+
+  // componentWillReceiveProps(newProps){
+  //   console.log('component will receipe props')
+  //   this.setState({
+  //     items: newProps.itemsQuery.event ? newProps.itemsQuery.event.items : []
+  //   })
+  // }
+
+  deleteItem(id) {
+    this.props.deleteItem({
+      variables: {
+      id: id,
+      event_id: this.props.event.id
+      }
+    })
+    .then(() => {
+      this.refreshItemList()
+      // this.forceUpdate()
+    })
+    .catch((error) => {
+      return error
+    })
+  }
+
 
   render() {
     if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
@@ -26,16 +52,23 @@ class ItemList extends React.Component {
       return <div>loading...</div>;
     }
 
-    let items = this.props.itemsQuery.event.items;
-
-    return (
-
+    
+    return this.props.currentlyEditing ? (
       <div>
-      {items !== null ? (
-
-
+      <ul>
+        { this.props.itemsQuery.event.items.map((item) => (
+          <li key={item.id}>
+            {item.name} <span onClick={(e)=> this.deleteItem(item.id, e)}>X</span>
+          </li>
+        ))
+        } 
+      </ul>
+      </div>
+    ) : (
+      <div>
+      {this.props.itemsQuery.event.items !== null ? (
         <ul>
-          {items.map((item, i) => {
+          {this.props.itemsQuery.event.items.map((item, i) => {
             return (
               <ItemWithData
                 style={{ textAlign: 'center', align: 'center' }}
@@ -50,12 +83,9 @@ class ItemList extends React.Component {
             );
           })}
         </ul>
-
-
       ) : (
         <div>loading...</div>
       )
-
     }
 
     </div>
@@ -63,9 +93,14 @@ class ItemList extends React.Component {
   }
 }
 
-const ItemListWithData = graphql(ITEMS_QUERY, {
+const ItemListWithData = compose(
+  graphql(ITEMS_QUERY, {
   options: props => ({ variables: { id: props.event.id } }),
-  name: 'itemsQuery'
-})(ItemList);
+  name: 'itemsQuery'}),
+  graphql(addItems, { name: 'addItems' }),
+  graphql(deleteItem, { name: 'deleteItem' })
+)(ItemList)
 
 export default ItemListWithData;
+
+
