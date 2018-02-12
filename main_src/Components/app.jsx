@@ -12,7 +12,7 @@ import DashboardWithData from './dashboard';
 import EventPageWithData from './eventPage';
 import CreateEventWithMutations from './createEvent';
 import '../Styles/styles.scss';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
 
 // import register from '../../swCheck';
 
