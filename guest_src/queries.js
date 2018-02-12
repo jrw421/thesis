@@ -14,6 +14,7 @@ const GUEST_QUERY = gql `
         users {
          name
          id
+         memberReply
        }
           id
           name
@@ -49,7 +50,7 @@ const ITEMS_QUERY = gql `
   }
 `
 module.exports = {
-  ITEMS_QUERY, 
+  ITEMS_QUERY,
   GUEST_QUERY,
   GUEST_QUERY2
 }

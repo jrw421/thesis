@@ -24,19 +24,22 @@ class EventPage2 extends React.Component {
   }
 
   clickAttending(name) {
+    console.log("this should be showing up on the page ", name, this.props.guestQuery.guestUser.guestEvent.users)
     alert("Great! Can't wait to see you there!")
     console.log('event id ', this.props.guestQuery.guestUser.id, this.props.guestQuery.guestUser.guestEvent.id)
 
     this.setState({
       guests: [...this.state.guests, name]
     })
-   // console.log('event id ', this.props.guestQuery.user.id, this.props.guestQuery.user.guestEvent.id)
+
     this.props.confirmPresence({
       variables: {
         user_id: this.props.guestQuery.guestUser.id,
         event_id: this.props.guestQuery.guestUser.guestEvent.id
       }
     })
+    .then(() => this.props.guestQuery.refetch())
+    // this.forceUpdate()
   }
 
   clickNotAttending() {
@@ -48,7 +51,8 @@ class EventPage2 extends React.Component {
         event_id: this.props.guestQuery.guestUser.guestEvent.id
       }
     })
-    window.location ='/'
+    .then(() => this.props.guestQuery.refetch())
+    // this.forceUpdate()
   }
 
   returnHome() {
@@ -59,11 +63,10 @@ class EventPage2 extends React.Component {
     if (this.props.guestQuery.loading || this.props.guestQuery.error) {
       return null
     }
-    // console.log('event id ', this.props.guestQuery.user.guestEvent.id)
-    // console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
-    console.log('props in eventPage ', this.props)
-    let users = this.props.guestQuery.guestUser.guestEvent.users
 
+    let users = this.props.guestQuery.guestUser.guestEvent.users
+    console.log('what is users and can I get memberReply ', users)
+    console.log('what is props ', this.props)
     return(
     <div>
 
@@ -90,7 +93,10 @@ class EventPage2 extends React.Component {
                 {users.map((name, i) => {
                   return (
                     <div key={i} style={{"textAlign": "center", "align":"center"}}>
-                    <a>{name.name}</a>
+                    <div>
+                      <a>{name.name}</a>
+                      <a>{name.memberReply === 0 ? ': Not attending' : name.memberReply === 1 ? ': Attending' : ': Pending'}</a>
+                    </div>
                   </div>
                   )
                 })}
@@ -121,10 +127,13 @@ class EventPage2 extends React.Component {
 const GuestInfo = compose (
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence'}),
+
   graphql(GUEST_QUERY, {
     options: (props) => ({variables: {id: props.currentUser.params.id}}),
     name: 'guestQuery'
-}))(EventPage2)
+})
+
+)(EventPage2)
 
 
 export default withRouter(GuestInfo)
