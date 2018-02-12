@@ -138,12 +138,8 @@ module.exports = {
   upVote, 
   downVote, 
   addComment, 
-<<<<<<< HEAD
-  toggleClaimOfItem,
   editEventFields,
-  deleteItem
-=======
+  deleteItem,
   toggleClaimOfItem, 
   saveEvent
->>>>>>> google calendar works. past events appears to be working
 }
