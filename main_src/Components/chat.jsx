@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebaseConfig.js';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import isSameDay from 'date-fns/is_same_day';
+// import isSameDay from 'date-fns/is_same_day';
 
 class Chat extends Component {
   constructor(props) {
