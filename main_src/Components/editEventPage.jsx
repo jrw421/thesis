@@ -57,7 +57,6 @@ class EditEventPage extends React.Component {
  
 
   render() {
-    console.log(this.props.ITEMS_QUERY)
 
     let event = this.props.event;
 
