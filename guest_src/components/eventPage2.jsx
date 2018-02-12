@@ -24,6 +24,7 @@ class EventPage2 extends React.Component {
   }
 
   clickAttending(name) {
+    console.log("this should be showing up on the page ", name, this.props.guestQuery.guestUser.guestEvent.users)
     alert("Great! Can't wait to see you there!")
     console.log('event id ', this.props.guestQuery.guestUser.id, this.props.guestQuery.guestUser.guestEvent.id)
 
@@ -59,9 +60,7 @@ class EventPage2 extends React.Component {
     if (this.props.guestQuery.loading || this.props.guestQuery.error) {
       return null
     }
-    // console.log('event id ', this.props.guestQuery.user.guestEvent.id)
-    // console.log('HEY DUDE ', this.props.guestQuery.user.guestEvent.users[0]) //array of users attending
-    console.log('props in eventPage ', this.props)
+
     let users = this.props.guestQuery.guestUser.guestEvent.users
 
     return(

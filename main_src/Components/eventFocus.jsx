@@ -51,7 +51,7 @@ class EventFocus extends React.Component {
     geocodeByAddress(this.props.event.location)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        this.setState({latLng: latLng}); 
+        this.setState({latLng: latLng});
         //send this to the map component to put the marker
       })
       .catch(error => console.error('Error', error))
@@ -69,14 +69,16 @@ class EventFocus extends React.Component {
     }
   }
 
- 
+
 
 
   render() {
+
+      console.log('this should be an array of guests ', this.props.guests)
       let event = this.props.event;
       let checkIfHostOfEvent = this.props.currentUser.id === this.props.event.host_id
 
-  
+
 
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">
@@ -136,7 +138,7 @@ class EventFocus extends React.Component {
           />
           <ul />
         </div>
-     
+
         <Chat
           user={this.props.currentUser}
           event={event}

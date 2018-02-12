@@ -50,24 +50,24 @@ class EventPage extends React.Component {
    render() {
     if (this.props.guestsQuery){
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
-        return (<Loader 
+        return (<Loader
           type="Puff"
           color="#00BFFF"
-          height="100"	
+          height="100"
           width="100"
-          />   
+          />
         );
       }
-      
+
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event){
         return <div>Error</div>
       }
 
       if (this.props.location.state.event === undefined) {
         return null;
-      } 
+      }
 
-      if (this.props.guestsQuery.event){
+      if (this.props.guestsQuery.event) {
 
 
       return this.state.currentlyEditing ?
@@ -104,19 +104,19 @@ class EventPage extends React.Component {
           </div>
          );
       }
-      
+
       return null
-    } 
-    
+    }
+
     return null
-    
+
   }
 }
 
 
 const EventPageWithData = compose(
   graphql(GUESTS_QUERY, {
-  options: props => ({ variables: { 
+  options: props => ({ variables: {
     id: props.location.state.event.id } }),
     name: 'guestsQuery',
   }),
@@ -136,4 +136,3 @@ export default withRouter(EventPageWithData);
 // )(EventFocus);
 
 // export default EventFocusWithData
-
