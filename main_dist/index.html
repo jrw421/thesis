@@ -4,11 +4,29 @@
 <head>
     <meta charset="utf-8">
     <title>Host.ly</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
     <div id="root"></div>
     <script type="text/javascript" src="bundle.js"></script>
+    <!-- <script>
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        console.log('Service Worker and Push is supported');
+      
+        navigator.serviceWorker.register('sw.js')
+        .then(function(swReg) {
+          console.log('Service Worker is registered', swReg);     
+          swRegistration = swReg;
+        })
+        .catch(function(error) {
+          console.error('Service Worker Error', error);
+        });
+      } else {
+        console.warn('Push messaging is not supported');
+      }</script>  -->
+      
+    <script type="text/javascript" src="swRegScript.js"></script>
 </body>
 
 </html>

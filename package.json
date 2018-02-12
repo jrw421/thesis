@@ -32,6 +32,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.4",
     "css-loader": "^0.28.9",
     "ejs": "^2.5.7",
     "emoji-mart": "^2.4.2",
@@ -82,7 +83,8 @@
     "react-validation": "^3.0.7",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
-    "superagent": "^3.8.2"
+    "superagent": "^3.8.2",
+    "web-push": "^3.2.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
