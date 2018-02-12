@@ -11,7 +11,7 @@ const createDateNum = function(){
 }
 
 eventController = {
-  addEvent: async body => {
+  addEvent: async function(body) {
     console.log('add event body', body)
     const newEvent = new Event({
       name: body.name,

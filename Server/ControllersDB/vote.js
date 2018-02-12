@@ -2,7 +2,7 @@ const knex = require('../dbConfig.js').knex;
 const Vote = require('../ModelsDB/vote.js');
 
 const VoteController = {
-  upVote: (item_id, user_id) => {
+  upVote: function (item_id, user_id) {
     // check if user has already voted on item
     return knex('votes')
       .where('item_id', '=', item_id)
@@ -35,7 +35,7 @@ const VoteController = {
       })
       .catch(error => ['upvote3', error]);
   },
-  downVote: (item_id, user_id) => {
+  downVote: function(item_id, user_id)  {
     return knex('votes')
       .where('item_id', '=', item_id)
       .andWhere('user_id', '=', user_id)

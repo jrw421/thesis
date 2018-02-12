@@ -2,7 +2,7 @@ const knex = require('../dbConfig.js').knex;
 const User = require('../ModelsDB/user.js');
 
 const userController = {
-  findOrCreateUser: (body) => {
+  findOrCreateUser: function(body){
     return knex
       .select('*')
       .from('user')
@@ -33,7 +33,7 @@ const userController = {
       })
       .catch(error => [2, error]);
   },
-  createUserOnSignup: (body) => {
+  createUserOnSignup: function(body){
     const newUser = new User({
       name: body.name,
       img: body.img,
@@ -48,7 +48,7 @@ const userController = {
       .then(user => user.attributes)
       .catch(error => ['100', error]);
   },
-  getUserById: (id) => {
+  getUserById: function(id){
     return knex
       .select('*')
       .from('user')
@@ -58,7 +58,7 @@ const userController = {
       })
       .catch(error => ['error: getuserbyid', error]);
   },
-  getUserByGoogleId: (google_id) => {
+  getUserByGoogleId: function(google_id){
     return knex
       .select('*')
       .from('user')
@@ -70,7 +70,7 @@ const userController = {
         return ['error get userbygooglid: ', error];
       });
   },
-  getUserByHash: (hash) => {
+  getUserByHash: function(hash) {
     return knex
       .select('*')
       .from('user')
@@ -80,7 +80,7 @@ const userController = {
       })
       .catch(error => ['error getuserbyhash: ', error]);
   },
-  getUser: async (id, google_id, hash) => {
+  getUser: async function(id, google_id, hash) {
     let result;
     if (google_id !== null && google_id !== undefined) {
       try{
@@ -122,7 +122,7 @@ const userController = {
       }
     }
   },
-  getToken: (id) => {
+  getToken: function(id) {
     return knex
       .select('accessToken')
       .from('user')
@@ -130,19 +130,19 @@ const userController = {
       .then(x => x)
       .catch(err => err)
   },
-  findAll: () => {
+  findAll: function() {
     return knex.select('*').from('user')
        .then(x => x)
       .catch(err => err)
   },
-  deleteUser: (id) => {
+  deleteUser: function(id){
     return knex('user')
       .where('id', id)
       .del()
       .then(x => x)
       .catch(err => err)
   },
-  editField: (id, field, newValue) => {
+  editField: function (id, field, newValue) {
     return knex('user')
       .where('id', id)
       .update(field, newValue)
@@ -160,7 +160,7 @@ const userController = {
         return ['editfield error2', error];
       });
   },
-  editFields: (id, obj) => {
+  editFields: function(id, obj) {
     return knex('user')
       .where('id', id)
       .update(obj)
