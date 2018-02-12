@@ -73,9 +73,10 @@ app.post('/contacts', function(req, res) {
       res.json(response.data.feed);
     })
     .catch(error => {
-      return error;
-    });
-});
+      console.log(error)
+      return error
+    })
+})
 
 app.get('/user', function(req, res) {
   console.log('re.user', req.user);
