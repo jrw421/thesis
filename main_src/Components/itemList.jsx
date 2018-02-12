@@ -65,7 +65,17 @@ class ItemList extends React.Component {
   render() {
     if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
       this.props.itemsQuery.refetch();
-      return <div>Error!</div>;
+      return
+        <div style={{"textAlign": "center", "marginTop": "225px"}}>
+          <Loader
+           type="Puff"
+           color="#00BFFF"
+           height="300"
+           width="300"
+           alignItems="center"
+           justifyContent='center'
+           />
+         </div>;
     }
 
     if (this.props.itemsQuery.loading) {
