@@ -64,7 +64,7 @@ app.post('/contacts', function(req, res) {
     })
     .catch(error => {
       console.log(error)
-      return error 
+      return error
     })
 })
 
