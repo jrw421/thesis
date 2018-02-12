@@ -12,8 +12,10 @@ class Chat extends Component {
       currentDay: undefined
     };
 
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   componentDidMount() {
@@ -30,16 +32,29 @@ class Chat extends Component {
           createdAt: messages[message].createdAt
         });
       }
-      this.setState({
-        messages: newState
-      });
+      this.setState(
+        {
+          messages: newState
+        },
+        () => {
+          this.scrollToBottom();
+        }
+      );
     });
   }
 
+  scrollToBottom() {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.handleSubmit(e);
+    }
+  }
+
   handleChange(e) {
-    this.setState({
-      message: e.target.value
-    });
+    this.setState({ message: e.target.value });
   }
 
   handleSubmit(e) {
@@ -62,11 +77,14 @@ class Chat extends Component {
   render() {
     return (
       <div className={`chat ${this.props.showChat}`}>
-        <ul>
+        <button className="closeChat" onClick={this.props.toggleChat}>
+          Close Chat
+        </button>
+        <div className="messages">
           {this.state.messages.map(message => {
             if (message.id === this.props.user.id) {
               return (
-                <li className="chatGrid" key={message.id}>
+                <div className="chatGrid" key={message.id}>
                   <div className="chatImageGrid">
                     <img src={message.img} className="chatImage" />
                   </div>
@@ -77,12 +95,12 @@ class Chat extends Component {
                   <div className="chatMessageGrid">
                     <p>{message.message}</p>
                   </div>
-                </li>
+                </div>
               );
             }
 
             return (
-              <li className="chatGridOther" key={message.id}>
+              <div className="chatGridOther" key={message.id}>
                 <div className="chatMessageGridOther">
                   <p>{message.message}</p>
                 </div>
@@ -93,19 +111,33 @@ class Chat extends Component {
                 <div className="chatImageGrid">
                   <img src={message.img} className="chatImage" />
                 </div>
-              </li>
+              </div>
             );
           })}
-        </ul>
-        <input
-          type="text"
-          value={this.state.message}
-          onChange={this.handleChange}
-          className="chatInput"
-        />
-        <button onClick={this.handleSubmit} className="chatButton">
-          Submit
-        </button>
+          <div
+            className="messagesEnd"
+            ref={el => {
+              this.messagesEnd = el;
+            }}
+          />
+        </div>
+        <div
+          className="input"
+          ref={input => {
+            this.chatInput = input;
+          }}
+        >
+          <input
+            type="text"
+            value={this.state.message}
+            onChange={this.handleChange}
+            className="chatInput"
+            onKeyPress={this.handleKeyPress}
+          />
+          <button onClick={this.handleSubmit} className="chatButton">
+            Submit
+          </button>
+        </div>
       </div>
     );
   }

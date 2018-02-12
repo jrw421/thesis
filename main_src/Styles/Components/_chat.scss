@@ -1,19 +1,48 @@
+// toggle chat button
+
+.showToggleChat {
+  position: fixed;
+  bottom: 0px;
+  right: 0;
+  left: 0;
+  margin: auto;
+  background-color: lavendar;
+  height: 25px;
+  width: 50%;
+}
+
+.noToggleChat {
+  display: none;
+}
+
+.closeChat {
+  width: 90%;
+  height: 5vh;
+}
+
+// chat
 .chat {
-  border: 1px solid black;
+  border: 2px solid rgb(6, 71, 73);
+  background-color: lavender;
   width: 50%;
   margin: auto;
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+}
+
+.messages {
+  padding-left: 0;
+  max-height: 60vh;
+  min-height: 60vh;
   overflow-y: scroll;
 }
 
-.chat ul {
-  padding-left: 0;
-}
-
 .true {
-  height: 50vh;
+  height: 75vh;
   transition: height 2s;
   z-index: 1;
-  position: absolute;
 }
 
 .false {
@@ -65,6 +94,9 @@
   background-color: #2c666e;
   margin-top: 10px;
   margin-right: 25px;
+  font-weight: bold;
+  font-family: san-serif;
+  color: white;
 }
 
 // messages for other users
@@ -93,13 +125,29 @@
 }
 
 // Chat Input
+.input {
+  height: 10vh;
+}
 
 .chatInput {
   width: 90%;
   margin: auto;
+  height: 5vh;
 }
 
 .chatButton {
   width: 90%;
   margin: auto;
+  height: 5vh;
+  background-color: #2c666e;
+}
+
+// Responsive Break Points
+@media only screen and (max-width: 768px) {
+  .chat {
+    width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+  }
 }

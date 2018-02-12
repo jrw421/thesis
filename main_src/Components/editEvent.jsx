@@ -20,7 +20,8 @@ class EditEvent extends React.Component {
     this.state = {
       latLng: [],
       guests: this.props.guests,
-      showChat: false
+      toggleChat: false,
+      toggleChatButton: true
     };
 
     this.clickAttending = this.clickAttending.bind(this);
@@ -66,7 +67,10 @@ class EditEvent extends React.Component {
   }
 
   toggleChat() {
-    this.setState({ showChat: !this.state.showChat });
+    this.setState({
+      toggleChat: !this.state.toggleChat,
+      toggleChatButton: !this.state.toggleChatButton
+    });
   }
 
   render() {
@@ -146,9 +150,17 @@ class EditEvent extends React.Component {
         <Chat
           user={this.props.currentUser}
           event={event}
-          showChat={this.state.showChat}
+          showChat={this.state.toggleChat}
+          toggleChat={this.toggleChat}
         />
-        <button onClick={this.toggleChat}>Chat</button>
+        <button
+          className={
+            this.state.toggleChatButton ? 'showToggleChat' : 'noToggleChat'
+          }
+          onClick={this.toggleChat}
+        >
+          Chat
+        </button>
       </div>
     );
   }
