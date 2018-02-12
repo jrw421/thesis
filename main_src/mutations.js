@@ -109,8 +109,8 @@ const editEventFields = gql`  mutation editEventFields($id: Int!, $name: String,
 
 
 const deleteItem = gql`
-mutation deleteItem($id: Int!) {
-  deleteItem(id: $id) {
+mutation deleteItem($id: Int!, $event_id: Int!) {
+  deleteItem(id: $id, event_id: $event_id) {
     id
     name
     event_id

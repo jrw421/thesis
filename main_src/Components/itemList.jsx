@@ -1,8 +1,10 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ItemWithData from './item.jsx';
 import { ITEMS_QUERY } from '../queries.js'
+import { addItems, deleteItem } from '../mutations';
+
 
 class ItemList extends React.Component {
   constructor(props) {
@@ -12,17 +14,30 @@ class ItemList extends React.Component {
   }
 
   refreshItemList() {
+    console.log('refresh item list')
     this.props.itemsQuery.refetch()
   }
+
+  // componentWillReceiveProps(newProps){
+  //   console.log('component will receipe props')
+  //   this.setState({
+  //     items: newProps.itemsQuery.event ? newProps.itemsQuery.event.items : []
+  //   })
+  // }
 
   deleteItem(id) {
     this.props.deleteItem({
       variables: {
-      id: id
+      id: id,
+      event_id: this.props.event.id
       }
     })
     .then(() => {
       this.refreshItemList()
+      // this.forceUpdate()
+    })
+    .catch((error) => {
+      return error
     })
   }
 
@@ -37,15 +52,13 @@ class ItemList extends React.Component {
       return <div>loading...</div>;
     }
 
-    let items = this.props.itemsQuery.event.items;
-
     
     return this.props.currentlyEditing ? (
       <div>
       <ul>
-        { this.props.itemsQuery.event.items.map((items) => (
-          <li key={items.id}>
-            {items.name} <span onClick={this.deleteItem.bind(this, items.id)}>X</span>
+        { this.props.itemsQuery.event.items.map((item) => (
+          <li key={item.id}>
+            {item.name} <span onClick={(e)=> this.deleteItem(item.id, e)}>X</span>
           </li>
         ))
         } 
@@ -53,9 +66,9 @@ class ItemList extends React.Component {
       </div>
     ) : (
       <div>
-      {items !== null ? (
+      {this.props.itemsQuery.event.items !== null ? (
         <ul>
-          {items.map((item, i) => {
+          {this.props.itemsQuery.event.items.map((item, i) => {
             return (
               <ItemWithData
                 style={{ textAlign: 'center', align: 'center' }}
@@ -80,9 +93,14 @@ class ItemList extends React.Component {
   }
 }
 
-const ItemListWithData = graphql(ITEMS_QUERY, {
+const ItemListWithData = compose(
+  graphql(ITEMS_QUERY, {
   options: props => ({ variables: { id: props.event.id } }),
-  name: 'itemsQuery'
-})(ItemList);
+  name: 'itemsQuery'}),
+  graphql(addItems, { name: 'addItems' }),
+  graphql(deleteItem, { name: 'deleteItem' })
+)(ItemList)
 
 export default ItemListWithData;
+
+

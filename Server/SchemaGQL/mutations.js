@@ -172,13 +172,14 @@ const mutations = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLInt) }
       },
       async resolve(parentValues, args) {
+        let query
         try {
           let deletion = await db.item.deleteItem(args.id)
-          let query = await db.item.getItemsByEventId(args.event_id) 
-          return query
+          query = await db.item.getItemsByEventId(args.event_id) 
         } catch(e) {
           return e
         }
+        return query
       },
     },
     addComment: {
