@@ -74,16 +74,16 @@ class ItemList extends React.Component {
       return <div>loading...</div>;
     }
 
-    
+
     return this.props.currentlyEditing ? (
       <div>
       <ul>
-        <li>      
-          <input 
+        <li>
+          <input
           type="text"
           placeholder="Add items to your registry"
           value={this.state.itemToAdd}
-          className="editEvent" 
+          className="editEvent"
           onChange={this.handleChange}
           onKeyPress={this.addItem}
           ></input>
@@ -93,7 +93,7 @@ class ItemList extends React.Component {
             {item.name} <span onClick={(e)=> this.deleteItem(item.id, e)}>X</span>
           </li>
         ))
-        } 
+        }
       </ul>
       </div>
     ) : (
@@ -134,5 +134,3 @@ const ItemListWithData = compose(
 )(ItemList)
 
 export default ItemListWithData;
-
-

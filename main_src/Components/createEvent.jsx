@@ -47,7 +47,7 @@ class CreateEvent extends React.Component {
       guests: [],
       uploadedFileCloudinaryUrl: '',
       endTime: '',
-      dateTimeStart: '', 
+      dateTimeStart: '',
       dateTimeEnd: ''
     };
 
@@ -86,13 +86,12 @@ class CreateEvent extends React.Component {
     });
   }
 
-  addGuest() {
-    console.log('what is guest name here ', this.state.guestName)
+  addGuest(e) {
     this.setState({
       guests: this.state.guests.concat([
         `${this.state.guestName}*${this.state.guestEmail}`,
       ]),
-      guestName: '' || 'Fred',
+      guestName: '',
       guestEmail: '',
       searchNames: ''
     });
@@ -100,20 +99,24 @@ class CreateEvent extends React.Component {
 
   handleUpdateSearch(e) {
     this.setState({searchNames: e, guestName: e})
-    e.preventDefault()
   }
 
-  handleContacts(chosenRequest, index) {
-    console.log('what is chosenRequest ', chosenRequest)
+  handleContacts(chosenRequest, index, e) {
     this.setState({
       guestName: chosenRequest,
       guestEmail: this.props.emails[index]
     })
-    e.preventDefault()
   }
 
 
   submitForm() {
+    const images = ['https://pmcvariety.files.wordpress.com/2016/06/the-women-of-hamilton-broadway.jpg?w=1000&h=562&crop=1',
+    'https://www.pifemaster.com/wp-content/uploads/jeremy-100.jpg',
+    'https://foodal.com/wp-content/uploads/2015/06/Best-Picnic-Basket-Reviews.jpg',
+    'http://themocracy.com/wp-content/uploads/2016/12/Parties.jpg',
+    'http://i1049.photobucket.com/albums/s394/onesheepishgirl/EmmaMagazineYarnPartyMay7_zpsa09bd3a1.jpg',
+    'http://www.sparqvault.com/wp-content/uploads/2012/12/shotski000.jpg',
+    'http://www.thebrookeeper.com/wp-content/uploads/2015/12/Formal-Dinner-Party-954x426.jpg']
 
     if (this.state.name === ''
       || this.state.location === ''
@@ -132,9 +135,9 @@ class CreateEvent extends React.Component {
           host_id: this.props.currentUser.id,
           description,
           location,
-          img: uploadedFileCloudinaryUrl,
+          img: uploadedFileCloudinaryUrl || images[Math.floor(Math.random()*images.length)],
           time,
-          date, 
+          date,
           endTime
         }
       })
@@ -152,8 +155,8 @@ class CreateEvent extends React.Component {
                 variables: {
                   nameEmail: this.state.guests,
                   event_id: event.data.addEvent.id,
-                  id: this.props.currentUser.id, 
-                  dateTimeStart, 
+                  id: this.props.currentUser.id,
+                  dateTimeStart,
                   dateTimeEnd
                 }
               })
@@ -190,6 +193,7 @@ class CreateEvent extends React.Component {
   }
 
   render() {
+    console.log('what is the guest list now ', this.state.guests)
     return (
       <div
         style={{

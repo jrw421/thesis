@@ -12,6 +12,7 @@ import DashboardWithData from './dashboard';
 import EventPageWithData from './eventPage';
 import CreateEventWithMutations from './createEvent';
 import '../Styles/styles.scss';
+import Loader from 'react-loader-spinner'
 
 // import register from '../../swCheck';
 
@@ -88,7 +89,15 @@ refreshDash(){
   render() {
 
     if (this.state.currentUser === undefined ) {
-      return null;
+      // return null;
+      return (<Loader
+       type="Puff"
+       color="#00BFFF"
+       height="100"
+       width="100"
+       />
+     );
+
     }
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
