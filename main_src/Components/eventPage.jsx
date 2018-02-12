@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
@@ -73,13 +74,13 @@ class EventPage extends React.Component {
     this.setState(object);
   }
 
-  formatTime(time) {
-    let timeString = time.toString();
-    let years = timeString.slice(0, 4);
-    let months = timeString.slice(4, 6);
-    let day = timeString.slice(6, 9);
+  formatTime (time) {
+    let timeString = time.toString()
+    let years = timeString.slice(0,4)
+    let months = timeString.slice(4,6)
+    let day = timeString.slice(6, 9)
 
-    return `${months} ${day} ${years}`;
+    return `${months} ${day} ${years}`
   }
 
   render() {

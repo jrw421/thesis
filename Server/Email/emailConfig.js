@@ -17,7 +17,7 @@ const generateID = function(event_id, name, email) {
       if (data.length) {
         generateID(event_id, name, email);
       } else {
-        
+
         knex.select('*').from('user').whereNot('member_status', 0).andWhere('email', user.attributes.email)
         .then(oldUser => {
 
@@ -30,7 +30,7 @@ const generateID = function(event_id, name, email) {
           }).save().then(user => {
 
           let idx = oldUser.length ? oldUser[0].id : user.attributes.id
-       
+
           db.event_attendee.add({user: idx, event: event_id}, function(err, res){
             if(err){
               return err
@@ -73,7 +73,7 @@ const sendMessage = function(recipients, account, event_id, start, end, cb) {
         accessToken: account.accessToken
       }
     };
-   
+
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         cb(error, null)
