@@ -121,12 +121,9 @@ const ItemsType = new GraphQLObjectType({
   resolve(parentValue, args) {
     return db.items
       .getItemsByEventId(parentValue.event_id)
-      .then((item) => { 
-        return item
-      })
-      .catch((error) => {
-        return error
-      })
+      .then(item => item)
+      .catch(err => err)
+
   }
 });
 
@@ -143,6 +140,13 @@ const UserType = new GraphQLObjectType({
     accessToken: { type: GraphQLString },
     hash: { type: GraphQLString },
     guest_event_id: { type: GraphQLInt },
+    lastEvent: {
+      type: EventType, 
+      resolve(parentValue, args){
+        console.log('is last event working?')
+        return db.event.lastEvent(parentValue.id)
+      }
+    },
     memberReply: {
      type: GraphQLInt,
      resolve(parentValue, args){
@@ -159,8 +163,17 @@ const UserType = new GraphQLObjectType({
     },
     pastEvents: {
       type: new GraphQLList(EventType),
-      resolve(parentValue, args) {
-        return db.event.getPastEvents(parentValue.id);
+      async resolve(parentValue, args) {
+        let x = await db.event.getPastHostedEvents(parentValue.id)
+        return db.event.getPastAttendingEvents(parentValue.id).then(res => {
+            if (res && x){
+              console.log('res and x', res, x)
+              return res.concat(x)
+            } else {
+              console.log('fail')
+              return []
+            }
+          }).catch(err=> err)
       }
     },
     currentEvents: {

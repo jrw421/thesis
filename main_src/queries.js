@@ -21,6 +21,15 @@ const DASHBOARD_QUERY = gql`
         img
         host_id
       }
+       pastEvents {
+        id
+        name
+        location
+        description
+        date
+        img
+        host_id
+      }
     }
   }
 `;
@@ -83,12 +92,34 @@ const VOTES_QUERY = gql`
       }
     }
   }
-`
+`;
+
+const CHECK_EVENT_QUERY = gql`
+  query checkEvent($id: Int){
+    user(id: $id){
+      lastEvent {
+        id
+        name
+        location
+        description
+        date
+        img
+        host_id
+        users{
+          name
+          id
+          memberReply
+        }
+      }
+    }
+  }
+`;
 
 module.exports = {
   DASHBOARD_QUERY, 
   GUESTS_QUERY, 
   COMMENTS_QUERY, 
   ITEMS_QUERY, 
-  VOTES_QUERY
+  VOTES_QUERY, 
+  CHECK_EVENT_QUERY
 }

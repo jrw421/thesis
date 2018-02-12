@@ -1,15 +1,16 @@
 import gql from 'graphql-tag';
 
 const addEvent = gql`
-  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String, $time: String, $date: Int) {
+  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String, $time: String, $date: Int, $endTime: String) {
     addEvent(
-      name: $name
-      host_id: $host_id
-      description: $description
-      location: $location
+      name: $name,
+      host_id: $host_id,
+      description: $description,
+      location: $location,
       img: $img,
       time: $time,
-      date: $date
+      date: $date,
+      endTime: $endTime
     ) {
       name
       host_id
@@ -35,8 +36,8 @@ const addItems = gql`
 `;
 
 const addRecipients = gql`
-  mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int) {
-    addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id) {
+  mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int, $dateTimeStart: String, $dateTimeEnd: String) {
+    addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id, dateTimeStart: $dateTimeStart, dateTimeEnd: $dateTimeEnd ) {
       name
     }
   }
@@ -95,6 +96,7 @@ const downVote = gql`
   }
 `;
 
+
 const editEventFields = gql`  mutation editEventFields($id: Int!, $name: String, $description: String, $date: Int, $time: String, $location: String, $img: String){
   editEventFields(id: $id, name: $name, description: $description, date: $date, time: $time, location: $location, img: $img){
   id
@@ -118,6 +120,15 @@ mutation deleteItem($id: Int!) {
     }
   }`;
 
+const saveEvent = gql`
+  mutation saveEvent($id: Int, $lastEvent: Int){
+    saveEvent(id: $id, lastEvent: $lastEvent){
+      id
+    }
+  }
+`;
+
+
 module.exports = {
   addRecipients, 
   addItems, 
@@ -127,7 +138,12 @@ module.exports = {
   upVote, 
   downVote, 
   addComment, 
+<<<<<<< HEAD
   toggleClaimOfItem,
   editEventFields,
   deleteItem
+=======
+  toggleClaimOfItem, 
+  saveEvent
+>>>>>>> google calendar works. past events appears to be working
 }

@@ -25,10 +25,13 @@ itemController = {
           return knex
             .select('*')
             .from('item')
-            .where('event_id', body.event_id);
+            .where('event_id', body.event_id)
+            .then(x => x)
+            .catch(err => err)
         }).catch(error => [19, error]);
       } else {
-        newItem.save();
+        newItem.save()
+        .catch(err => err);
       }
     }
   },
@@ -36,7 +39,9 @@ itemController = {
     let result = await knex
       .select('*')
       .from('item')
-      .where('id', id);
+      .where('id', id)
+      .then(x => x)
+      .catch(err => err)
     return result[0];
   },
   claimItem: function(id, user_id) {
@@ -70,7 +75,9 @@ itemController = {
               return knex
                 .select('*')
                 .from('item')
-                .where('id', id);
+                .where('id', id)
+                .then(x => x)
+                .catch(err => err)
             })
             .catch(error => [17, error]);
         }
@@ -81,26 +88,36 @@ itemController = {
     return knex
       .select('*')
       .from('item')
-      .where('user_id', user_id);
+      .where('user_id', user_id)
+      .then(x => x)
+      .catch(err => err)
   },
   getItemsByEventId: function(event_id) {
     return knex
       .select('*')
       .from('item')
-      .where('event_id', event_id);
+      .where('event_id', event_id)
+      .then(x => x)
+      .catch(err => err)
   },
   findAll: function() {
-    return knex.select('*').from('item');
+    return knex.select('*').from('item')
+            .then(x => x)
+            .catch(err => err)
   },
   deleteItem: function(id) {
     return knex('item')
       .where('id', id)
-      .del();
+      .del()
+      .then(x => x)
+      .catch(err => err)
   },
   updateField: function(id, field, newValue) {
     return knex('item')
       .where('id', id)
-      .update(field, newValue);
+      .update(field, newValue)
+      .then(x => x)
+      .catch(err => err)
   }
 };
 

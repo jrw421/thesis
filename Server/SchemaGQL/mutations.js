@@ -43,6 +43,7 @@ const mutations = new GraphQLObjectType({
         time: { type: GraphQLString },
         location: { type: GraphQLString },
         img: { type: GraphQLString },
+        endTime: {type: GraphQLString}
       },
       resolve(parentValue, args) {
         return db.event.addEvent({
@@ -53,6 +54,7 @@ const mutations = new GraphQLObjectType({
           time: args.time,
           location: args.location,
           img: args.img,
+          endTime: args.endTime
         });
       }
     },
@@ -204,6 +206,8 @@ const mutations = new GraphQLObjectType({
         nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
         id: { type: GraphQLInt },
         event_id: { type: GraphQLInt },
+        dateTimeStart: {type: GraphQLString},
+        dateTimeEnd: {type: GraphQLString}
       },
       resolve(parentValues, args) {
         return knex
@@ -217,7 +221,7 @@ const mutations = new GraphQLObjectType({
               return [arr[0], arr[1]];
             });
 
-            return sendMessage(guests, user, args.event_id);
+            return sendMessage(guests, user, args.event_id, args.dateTimeStart, args.dateTimeEnd);
           })
           .catch(x => ['addrecipients', x]);
       },
@@ -242,6 +246,17 @@ const mutations = new GraphQLObjectType({
         return db.vote.downVote(args.item_id, args.user_id);
       },
     },
+    saveEvent: {
+      type: UserType, 
+      args: {
+        id: {type: GraphQLInt}, 
+        lastEvent: {type: GraphQLInt}
+      }, 
+      resolve(parentValue, args){
+        console.log('save event params', args.id, args.lastEvent)
+        return db.user.editField(args.id, 'lastEvent', args.lastEvent)
+      }
+    }
   },
 });
 

@@ -19,12 +19,16 @@ itemCommentsController = {
   incrementLike: function(id) {
     knex('itemComments')
       .where('id', '=', `${id}`)
-      .increment('likes', 1);
+      .increment('likes', 1)
+      .then(x => x)
+      .catch(err => err)
   },
   descrementLike: function(id) {
     knex('itemComments')
       .where('id', '=', `${id}`)
-      .decrement('likes', 1);
+      .decrement('likes', 1)
+      .then(x => x)
+      .catch(err => err)
   },
   getItemComment: function(event_id, item_id) {
     return knex('itemComments')

@@ -52,6 +52,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+//args.dateTimeStart, args.dateTimeEnd
 const sendMessage = function(recipients, account, event_id) {
   recipients.forEach(async guest => {
     var id = await generateID(event_id, guest[0], guest[1]);
