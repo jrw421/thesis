@@ -97,6 +97,7 @@ class CreateEvent extends React.Component {
 
   handleUpdateSearch(e) {
     this.setState({searchNames: e, guestName: e})
+    e.preventDefault()
   }
 
   handleContacts(chosenRequest, index) {
@@ -105,6 +106,7 @@ class CreateEvent extends React.Component {
       guestName: chosenRequest,
       guestEmail: this.props.emails[index]
     })
+    e.preventDefault()
   }
 
 
@@ -181,7 +183,6 @@ class CreateEvent extends React.Component {
   }
 
   render() {
-    console.log('this is guest name ', this.state.guestName)
     return (
       <div
         style={{
