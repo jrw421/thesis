@@ -52,18 +52,6 @@ class EditEventPage extends React.Component {
     .catch((err) => console.log(err))
   }
 
-  deleteItem(id) {
-    this.props.deleteItem({
-      variables: {
-      id: id
-      }
-    })
-    .then(() => {
-      this.props.itemsQuery.refetch()
-      console.log(this.props.itemsQuery)
-    })
-  }
-
  
 
   render() {
@@ -84,12 +72,12 @@ class EditEventPage extends React.Component {
       <input type="text" placeholder={event.description} className="eventPage" onChange={(e) => this.setState({description: e.target.value})}></input>
 
      <ul>
-        { this.props.itemsQuery.event.items.map((item) => (
-          <li key={item.id}>
-            {item.name} <span onClick={this.deleteItem.bind(this, item.id)}>X</span>
-          </li>
-        ))
-        } 
+       <ItemList 
+       deleteItem={this.props.deleteItem}
+       event={this.props.event}
+       currentUser={this.props.currentUser}
+       currentlyEditing={this.props.currentlyEditing}
+        />
     </ul>
   
           <img

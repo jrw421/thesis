@@ -82,6 +82,7 @@ class EventPage extends React.Component {
             toggleEditState={this.toggleEditState}
             editEventFields={this.props.editEventFields}
             updateEventState={this.updateEventState}
+            currentlyEditing={this.state.currentlyEditing}
             />
           </div>
          ) : (
@@ -100,6 +101,8 @@ class EventPage extends React.Component {
             id={this.state.id}
             hostId={this.state.hostId}
             time={this.state.time}
+            currentlyEditing={this.state.currentlyEditing}
+          
             />
           </div>
          );

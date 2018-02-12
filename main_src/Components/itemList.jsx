@@ -7,11 +7,25 @@ import { ITEMS_QUERY } from '../queries.js'
 class ItemList extends React.Component {
   constructor(props) {
     super(props);
+
+    this.deleteItem = this.deleteItem.bind(this)
   }
 
   refreshItemList() {
     this.props.itemsQuery.refetch()
   }
+
+  deleteItem(id) {
+    this.props.deleteItem({
+      variables: {
+      id: id
+      }
+    })
+    .then(() => {
+      this.refreshItemList()
+    })
+  }
+
 
   render() {
     if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
@@ -25,11 +39,21 @@ class ItemList extends React.Component {
 
     let items = this.props.itemsQuery.event.items;
 
-    return (
+    
+    return this.props.currentlyEditing ? (
+      <div>
+      <ul>
+        { this.props.itemsQuery.event.items.map((items) => (
+          <li key={items.id}>
+            {items.name} <span onClick={this.deleteItem.bind(this, items.id)}>X</span>
+          </li>
+        ))
+        } 
+      </ul>
+      </div>
+    ) : (
       <div>
       {items !== null ? (
-
-
         <ul>
           {items.map((item, i) => {
             return (
@@ -46,12 +70,9 @@ class ItemList extends React.Component {
             );
           })}
         </ul>
-
-
       ) : (
         <div>loading...</div>
       )
-
     }
 
     </div>
