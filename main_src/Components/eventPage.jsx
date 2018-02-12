@@ -71,24 +71,24 @@ class EventPage extends React.Component {
    render() {
     if (this.props.guestsQuery){
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
-        return (<Loader 
+        return (<Loader
           type="Puff"
           color="#00BFFF"
-          height="100"	
+          height="100"
           width="100"
-          />   
+          />
         );
       }
-      
+
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event){
         return <div>Error</div>
       }
 
       if (this.props.location.state.event === undefined) {
         return null;
-      } 
+      }
 
-      if (this.props.guestsQuery.event){
+      if (this.props.guestsQuery.event) {
 
 
       return this.state.currentlyEditing ?
@@ -132,7 +132,7 @@ class EventPage extends React.Component {
       if (this.props.checkEvent.loading && !this.props.checkEvent.user){
         return <div>Loading...</div>
       }
-      
+
       if (this.props.checkEvent.error && !this.props.checkEvent.user){
         return <div>Error</div>
       }
@@ -156,18 +156,18 @@ class EventPage extends React.Component {
 
 const EventPageWithData = compose(
   graphql(GUESTS_QUERY, {
-    skip: props => props.location.state === undefined,  
+    skip: props => props.location.state === undefined,
     options: props => ({ variables: { id: props.location.state.event.id } }),
     name: 'guestsQuery',
-  }), 
+  }),
   graphql(saveEvent, {
     name: 'saveEvent'
-  }), 
+  }),
   graphql(editEventFields, { name: 'editEventFields' }),
   graphql(CHECK_EVENT_QUERY, {
-    name: 'checkEvent', 
+    name: 'checkEvent',
      options: props => ({ variables: { id: props.currentUser.id } }),
-    skip: props => props.location.state !== undefined 
+    skip: props => props.location.state !== undefined
   }))(EventPage);
 
 export default withRouter(EventPageWithData);
@@ -183,4 +183,3 @@ export default withRouter(EventPageWithData);
 // )(EventFocus);
 
 // export default EventFocusWithData
-
