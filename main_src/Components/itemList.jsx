@@ -8,7 +8,7 @@ class ItemList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleItemClick = this.handleItemClick.bind(this)
+    // this.handleItemClick = this.handleItemClick.bind(this)
     this.refreshItemList = this.refreshItemList.bind(this)
   }
 

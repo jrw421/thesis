@@ -47,7 +47,7 @@ class CreateEvent extends React.Component {
       guests: [],
       uploadedFileCloudinaryUrl: '',
       endTime: '',
-      dateTimeStart: '', 
+      dateTimeStart: '',
       dateTimeEnd: ''
     };
 
@@ -86,13 +86,12 @@ class CreateEvent extends React.Component {
     });
   }
 
-  addGuest() {
-    console.log('what is guest name here ', this.state.guestName)
+  addGuest(e) {
     this.setState({
       guests: this.state.guests.concat([
         `${this.state.guestName}*${this.state.guestEmail}`,
       ]),
-      guestName: '' || 'Fred',
+      guestName: '',
       guestEmail: '',
       searchNames: ''
     });
@@ -100,16 +99,13 @@ class CreateEvent extends React.Component {
 
   handleUpdateSearch(e) {
     this.setState({searchNames: e, guestName: e})
-    e.preventDefault()
   }
 
-  handleContacts(chosenRequest, index) {
-    console.log('what is chosenRequest ', chosenRequest)
+  handleContacts(chosenRequest, index, e) {
     this.setState({
       guestName: chosenRequest,
       guestEmail: this.props.emails[index]
     })
-    e.preventDefault()
   }
 
 
@@ -134,7 +130,7 @@ class CreateEvent extends React.Component {
           location,
           img: uploadedFileCloudinaryUrl,
           time,
-          date, 
+          date,
           endTime
         }
       })
@@ -152,8 +148,8 @@ class CreateEvent extends React.Component {
                 variables: {
                   nameEmail: this.state.guests,
                   event_id: event.data.addEvent.id,
-                  id: this.props.currentUser.id, 
-                  dateTimeStart, 
+                  id: this.props.currentUser.id,
+                  dateTimeStart,
                   dateTimeEnd
                 }
               })
@@ -190,6 +186,7 @@ class CreateEvent extends React.Component {
   }
 
   render() {
+    console.log('what is the guest list now ', this.state.guests)
     return (
       <div
         style={{
