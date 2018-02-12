@@ -88,7 +88,6 @@ class EventPage extends React.Component {
 
       if (this.props.location.state.event === undefined) {
         return null;
-<<<<<<< HEAD
       }
 
       if (this.props.guestsQuery.event) {
@@ -144,10 +143,6 @@ class EventPage extends React.Component {
       }
 
       if (this.props.checkEvent.user){
-=======
-      } 
-      if (this.props.guestsQuery.event){
->>>>>>> Ask permission to subscribe user to the db
         return (
             <EditEvent
               event={this.props.checkEvent.user.lastEvent}
@@ -157,15 +152,8 @@ class EventPage extends React.Component {
             />
          )
       }
-<<<<<<< HEAD
       return null
     }
-=======
-  
-      return null
-      
-    } 
->>>>>>> Ask permission to subscribe user to the db
     return null
   }
 }

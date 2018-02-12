@@ -142,11 +142,7 @@ const userController = {
       .then(x => x)
       .catch(err => err)
   },
-<<<<<<< HEAD
   editField: function (id, field, newValue) {
-=======
-  editField: function(id, field, newValue) {
->>>>>>> merge conflict resolved
     return knex('user')
       .where('id', id)
       .update(field, newValue)

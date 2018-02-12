@@ -24,12 +24,9 @@ knex.schema
           table.string('accessToken', 200);
           table.string('hash', 200);
           table.integer('guest_event_id');
-<<<<<<< HEAD
           table.integer('lastEvent');
           table.string('refreshToken', 200)
-=======
           table.string('subscription', 500);
->>>>>>> Ask permission to subscribe user to the db
         })
         .then(res => {
           console.log(res);
