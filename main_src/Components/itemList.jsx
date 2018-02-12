@@ -9,38 +9,60 @@ import { addItems, deleteItem } from '../mutations';
 class ItemList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      itemToAdd : ''
+    }
 
     this.deleteItem = this.deleteItem.bind(this)
+    this.addItem = this.addItem.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   refreshItemList() {
-    console.log('refresh item list')
     this.props.itemsQuery.refetch()
   }
 
-  // componentWillReceiveProps(newProps){
-  //   console.log('component will receipe props')
-  //   this.setState({
-  //     items: newProps.itemsQuery.event ? newProps.itemsQuery.event.items : []
-  //   })
-  // }
+
+  handleChange(e) {
+    this.setState({itemToAdd: e.target.value})
+  }
 
   deleteItem(id) {
     this.props.deleteItem({
       variables: {
-      id: id,
+      id,
       event_id: this.props.event.id
       }
     })
     .then(() => {
       this.refreshItemList()
-      // this.forceUpdate()
     })
     .catch((error) => {
       return error
     })
   }
 
+
+
+  addItem(e) {
+    if(e.key === 'Enter') {
+    this.props.addItems({
+      variables: {
+        itemNames: [this.state.itemToAdd],
+        event_id: this.props.event.id
+      }
+    })
+    .then((response) => {
+      console.log('what we get back from mut', response)
+      this.setState({itemToAdd: ''}, () => {
+        this.refreshItemList()
+      })
+    })
+    .catch((error) => {
+      return error
+    })
+  }
+  }
 
   render() {
     if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
@@ -56,6 +78,16 @@ class ItemList extends React.Component {
     return this.props.currentlyEditing ? (
       <div>
       <ul>
+        <li>      
+          <input 
+          type="text"
+          placeholder="Add items to your registry"
+          value={this.state.itemToAdd}
+          className="editEvent" 
+          onChange={this.handleChange}
+          onKeyPress={this.addItem}
+          ></input>
+        </li>
         { this.props.itemsQuery.event.items.map((item) => (
           <li key={item.id}>
             {item.name} <span onClick={(e)=> this.deleteItem(item.id, e)}>X</span>
