@@ -27,12 +27,12 @@ const generateID = function(event_id, name, email) {
           let idx = oldUser.length ? oldUser[0].id : user.attributes.id
           let newEventAttendee = new Event_Attendee({
             user_id: idx,
-            event_id: event_id, 
+            event_id: event_id,
             reply: 2
           });
 
           newEventAttendee.save().then(x => console.log('newPair', x)).catch(x => ['errorPair', x])
-      
+
         });
 
         return id;
@@ -54,6 +54,8 @@ const transporter = nodemailer.createTransport({
 
 //args.dateTimeStart, args.dateTimeEnd
 const sendMessage = function(recipients, account, event_id) {
+
+  console.log('what are your recipients ', recipients)
   recipients.forEach(async guest => {
     var id = await generateID(event_id, guest[0], guest[1]);
 

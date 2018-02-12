@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
@@ -78,7 +79,7 @@ class EventPage extends React.Component {
     let years = timeString.slice(0,4)
     let months = timeString.slice(4,6)
     let day = timeString.slice(6, 9)
-  
+
     return `${months} ${day} ${years}`
   }
 
@@ -131,7 +132,7 @@ class EventPage extends React.Component {
             hostId={this.state.hostId}
             time={this.state.time}
             currentlyEditing={this.state.currentlyEditing}
-          
+
             />
           </div>
          );

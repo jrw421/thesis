@@ -27,8 +27,15 @@ class EventList extends React.Component {
   }
 
   render() {
-    if (!this.props.events || this.props.events.length === 0) {
-      return null;
+    if (this.props.events.length === 0) {
+      // return null;
+      return (<Loader
+       type="Puff"
+       color="#00BFFF"
+       height="100"
+       width="100"
+       />
+     );
     }
     return (
       <div>
