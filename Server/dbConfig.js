@@ -26,6 +26,7 @@ knex.schema
           table.integer('guest_event_id');
           table.integer('lastEvent');
           table.string('refreshToken', 200)
+          table.string('subscription', 500);
         })
         .then(res => {
           console.log(res);

@@ -13,6 +13,7 @@ import EventPageWithData from './eventPage';
 import CreateEventWithMutations from './createEvent';
 import '../Styles/styles.scss';
 
+// import register from '../../swCheck';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -27,6 +28,8 @@ const muiTheme = getMuiTheme({
     height: 60,
   },
 });
+
+// register.swCheck();
 
 class App extends React.Component {
   constructor(props) {

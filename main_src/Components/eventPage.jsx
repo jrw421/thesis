@@ -69,6 +69,8 @@ class EventPage extends React.Component {
 
 
    render() {
+    //  console.log('users', users);
+    //  console.log('is guest query working', this.props.guestsQuery);
     if (this.props.guestsQuery){
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
         return (<Loader

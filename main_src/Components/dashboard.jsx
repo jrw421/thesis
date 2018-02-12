@@ -8,6 +8,8 @@ import Loader from 'react-loader-spinner'
 import EventList from './eventList';
 import { DASHBOARD_QUERY } from '../queries.js'
 
+
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -84,7 +86,6 @@ const DashboardWithData =
     options: props => ({ variables: { id: props.currentUser.id } }),
     name: 'dashboardQuery',
   })(Dashboard);
-
 
 
 export default withRouter(DashboardWithData);
