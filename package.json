@@ -32,6 +32,7 @@
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
     "css-loader": "^0.28.9",
+    "date-fns": "^1.29.0",
     "ejs": "^2.5.7",
     "emoji-mart": "^2.4.2",
     "express": "^4.16.2",
