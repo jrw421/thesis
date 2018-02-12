@@ -49,27 +49,38 @@ app.get('/', (req, res) => {
 
 // create private route
 app.use('/', express.static(path.join(__dirname, '../PublicProtected')));
-app.use('/dashboard', authCheck, express.static(path.join(__dirname, '../main_dist')));
-app.use('/eventPage/:id', express.static(path.join(__dirname, '../guest_dist')));
-
+app.use(
+  '/dashboard',
+  authCheck,
+  express.static(path.join(__dirname, '../main_dist'))
+);
+app.use(
+  '/eventPage/:id',
+  express.static(path.join(__dirname, '../guest_dist'))
+);
 
 //contacts///
 
 app.post('/contacts', function(req, res) {
-  console.log('are we in the post request')
-  axios.get(`https://www.google.com/m8/feeds/contacts/default/thin?access_token=${req.body.accessToken}&alt=json&max-results=500&v=3.0`)
+  console.log('are we in the post request');
+  axios
+    .get(
+      `https://www.google.com/m8/feeds/contacts/default/thin?access_token=${
+        req.body.accessToken
+      }&alt=json&max-results=500&v=3.0`
+    )
     .then(response => {
-      console.log('response.data.feed', response.data.feed)
-      res.json(response.data.feed)
+      console.log('response.data.feed', response.data.feed);
+      res.json(response.data.feed);
     })
     .catch(error => {
-      console.log(error)
-      return error 
-    })
-})
+      console.log(error);
+      return error;
+    });
+});
 
 app.get('/user', function(req, res) {
-  console.log('re.user', req.user)
+  console.log('re.user', req.user);
   if (req.user === undefined) {
     // The user is not logged in
     res.json({});
@@ -101,29 +112,33 @@ app.get('/user', function(req, res) {
 // };
 
 // save subscription sent from service worker
-app.post('/api/save-subscription/', function (req, res) {
+app.post('/api/save-subscription/', function(req, res) {
   console.log('CLIENT SENT FOLLOWING SUBSCR INFO', req.body);
   // if (!isValidSaveRequest(req, res)) {
   //   return;
   // }
   let userId = req.body.userId,
-  subscription = JSON.stringify(req.body.subscription);
+    subscription = JSON.stringify(req.body.subscription);
 
-  db.user.editField(userId, "subscription", subscription)
+  db.user
+    .editField(userId, 'subscription', subscription)
     .then(result => {
-      console.log('user updated with subscription data', result)
+      console.log('user updated with subscription data', result);
       res.send(JSON.stringify({ data: { success: true } }));
     })
     .catch(function(err) {
-        res.status(500);
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({
+      res.status(500);
+      res.setHeader('Content-Type', 'application/json');
+      res.send(
+        JSON.stringify({
           error: {
             id: 'unable-to-save-subscription',
-            message: 'The subscription was received but we were unable to save it to our database.'
+            message:
+              'The subscription was received but we were unable to save it to our database.'
           }
-        }));
-      });
+        })
+      );
+    });
 });
 
 // set up push to client
@@ -133,7 +148,6 @@ webpush.setVapidDetails(
   vapidKeys.public,
   vapidKeys.private
 );
-
 
 // graphql //
 ////////////
