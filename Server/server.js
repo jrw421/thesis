@@ -51,14 +51,20 @@ app.use('/eventPage/:id', express.static(path.join(__dirname, '../guest_dist')))
 //contacts///
 
 app.post('/contacts', function(req, res) {
+  console.log('are we in the post request')
   axios.get(`https://www.google.com/m8/feeds/contacts/default/thin?access_token=${req.body.accessToken}&alt=json&max-results=500&v=3.0`)
     .then(response => {
+      console.log('response.data.feed', response.data.feed)
       res.json(response.data.feed)
     })
-    .catch(error => {error})
+    .catch(error => {
+      console.log(error)
+      return error 
+    })
 })
 
 app.get('/user', function(req, res) {
+  console.log('re.user', req.user)
   if (req.user === undefined) {
     // The user is not logged in
     res.json({});

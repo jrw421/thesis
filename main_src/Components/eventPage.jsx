@@ -30,7 +30,7 @@ class EventPage extends React.Component {
       id: '',
       hostId: '',
       time: '',
-      currentlyEditing : false
+      currentlyEditing : false,
       event : ''
 
     }

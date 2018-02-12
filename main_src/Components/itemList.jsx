@@ -7,18 +7,10 @@ import { ITEMS_QUERY } from '../queries.js'
 class ItemList extends React.Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-  }
-=======
-    this.handleItemClick = this.handleItemClick.bind(this);
+
+    this.handleItemClick = this.handleItemClick.bind(this)
     this.refreshItemList = this.refreshItemList.bind(this)
   }
-
-  handleItemClick = e => {
-    console.log('item clicked', e.target.textContent);
-    //Pass in query to toggle that item that was clicked.
-  };
->>>>>>> google calendar works. past events appears to be working
 
   refreshItemList() {
     this.props.itemsQuery.refetch()
