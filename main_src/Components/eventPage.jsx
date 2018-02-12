@@ -76,15 +76,17 @@ class EventPage extends React.Component {
     let years = timeString.slice(0,4)
     let months = timeString.slice(4,6)
     let day = timeString.slice(6, 9)
+
     return `${months} ${day} ${years}`
   }
 
-   render() {
-
-    if (this.props.guestsQuery){
-      if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
+  render() {
+    //  console.log('users', users);
+    //  console.log('is guest query working', this.props.guestsQuery);
+    if (this.props.guestsQuery) {
+      if (this.props.guestsQuery.loading && !this.props.guestsQuery.event) {
         return (
-          <div style={{"textAlign": "center", "marginTop": "225px"}}>
+        <div style={{"textAlign": "center", "marginTop": "225px"}}>
           <Loader
            type="Puff"
            color="#00BFFF"
@@ -99,15 +101,28 @@ class EventPage extends React.Component {
 
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event) {
         console.log(this.props.guestsQuery.error);
-        return <div>Error</div>;
+        return
+        <div style={{"textAlign": "center", "marginTop": "225px"}}>
+          <Loader
+           type="Puff"
+           color="#00BFFF"
+           height="300"
+           width="300"
+           alignItems="center"
+           justifyContent='center'
+           />
+         </div>;
       }
 
       if (this.props.location.state.event === undefined) {
         return null;
       }
 
-      if (this.props.guestsQuery.event) {
-        return this.state.currentlyEditing ? (
+      if (this.props.guestsQuery.event){
+
+
+      return this.state.currentlyEditing ?
+        (
           <div>
             <EditEventPage
               event={this.props.location.state.event}
