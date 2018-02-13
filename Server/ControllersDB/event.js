@@ -100,7 +100,7 @@ eventController = {
         q += ", " + key + ' = ' + fields[key]
       } else {
         q += ", " + key + ' = ' + `"${fields[key]}"`
-      } 
+      }
     }
 
     conn.query(`update event set ${q.substring(2)} where id = ${id}`, function(err, results){
@@ -115,5 +115,3 @@ eventController = {
 };
 
 module.exports = eventController;
-
-
