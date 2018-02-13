@@ -1,11 +1,11 @@
-const mysql = require ('mysql')
+const mysql = require('mysql');
 const conn = mysql.createConnection({
-    host: 'thesis.ciqkxj8b112q.us-east-2.rds.amazonaws.com',
-    user: 'thesis',
-    port: '3307',
-    password: 'thesis12345',
-    database: 'thesis'
-})
+  host: 'thesis.ciqkxj8b112q.us-east-2.rds.amazonaws.com',
+  user: 'thesis',
+  port: '3307',
+  password: 'thesis12345',
+  database: 'thesis'
+});
 
 const knex = require('knex')({
   client: 'mysql',
@@ -34,7 +34,7 @@ knex.schema
           table.string('hash', 200);
           table.integer('guest_event_id');
           table.integer('lastEvent');
-          table.string('refreshToken', 200)
+          table.string('refreshToken', 200);
           table.string('subscription', 500);
         })
         .then(res => {
@@ -119,7 +119,7 @@ knex.schema.hasTable('itemComments').then(function(exists) {
         table.integer('user_id');
         table.integer('event_id');
         table.integer('item_id');
-        table.integer('likes');
+        table.integer('likes').defaultTo(0);
         table.timestamp('created_at').defaultTo(knex.fn.now());
       })
       .then(res => {
@@ -144,17 +144,15 @@ knex.schema.hasTable('votes').then(function(exists) {
         console.log(res);
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   }
-})
+});
 
 const bookshelf = require('bookshelf')(knex);
 
 module.exports = {
   knex,
-  bookshelf, 
+  bookshelf,
   conn
 };
-
-
