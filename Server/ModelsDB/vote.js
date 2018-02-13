@@ -1,7 +1,7 @@
 const bookshelf = require('../dbConfig.js').bookshelf;
 
 const Vote = bookshelf.Model.extend({
-  tableName: 'votes',
+  tableName: 'votes'
 });
 
 module.exports = Vote;

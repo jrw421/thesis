@@ -87,7 +87,6 @@ class CreateEvent extends React.Component {
   }
 
   addGuest() {
-    console.log('what is guest name here ', this.state.guestName)
     this.setState({
       guests: this.state.guests.concat([
         `${this.state.guestName}*${this.state.guestEmail}`,
@@ -100,16 +99,13 @@ class CreateEvent extends React.Component {
 
   handleUpdateSearch(e) {
     this.setState({searchNames: e, guestName: e})
-    e.preventDefault()
   }
 
   handleContacts(chosenRequest, index) {
-    console.log('what is chosenRequest ', chosenRequest)
     this.setState({
       guestName: chosenRequest,
       guestEmail: this.props.emails[index]
     })
-    e.preventDefault()
   }
 
 

@@ -21,8 +21,14 @@ class Dashboard extends React.Component {
   }
 
   render() {
+<<<<<<< Updated upstream
     if (this.props.refresh || !this.props.refresh) {
       this.props.dashboardQuery.refetch();
+=======
+    console.log('dashboard porps', this.props)
+    if (this.props.refresh || !this.props.refresh){
+      this.props.dashboardQuery.refetch()
+>>>>>>> Stashed changes
     }
 
     if (this.props.dashboardQuery) {
@@ -65,6 +71,15 @@ class Dashboard extends React.Component {
               events={this.props.dashboardQuery.user.hostedEvents}
               handleEventClick={this.handleEventClick}
             />
+             <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+              Past Events:
+            </h3>
+            <EventList
+              style={{ fontFamily: 'Noto Sans' }}
+              // img={this.props.dashboardQuery.user.img}
+              events={this.props.dashboardQuery.user.pastEvents}
+              handleEventClick={this.handleEventClick}
+            />
           </div>
         );
       }
@@ -74,12 +89,14 @@ class Dashboard extends React.Component {
   }
 }
 
-const DashboardWithData = graphql(DASHBOARD_QUERY, {
-  skip: props => props.currentUser === undefined,
-  options: props => ({
-    variables: { id: props.currentUser.id }
-  }),
-  name: 'dashboardQuery'
-})(Dashboard);
+
+const DashboardWithData =
+  graphql(DASHBOARD_QUERY, {
+    skip: props => props.currentUser === undefined ,
+    options: props => ({ variables: { id: props.currentUser.id } }),
+    name: 'dashboardQuery',
+  })(Dashboard);
+
+
 
 export default withRouter(DashboardWithData);

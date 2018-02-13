@@ -1,5 +1,7 @@
 const knex = require('../dbConfig.js').knex;
 const Event = require('../ModelsDB/event.js');
+const conn = require('../dbConfig.js').conn
+
 
 const createDateNum = function(){
   let current = new Date();
@@ -24,7 +26,7 @@ eventController = {
       endTime: body.endTime
     });
     let result
-    try{
+    try {
       result = await newEvent.save()
     } catch(error) {
       console.log([7, error])
@@ -32,57 +34,99 @@ eventController = {
     };
       return result.attributes;
   },
-  getHostedEvents: function(user_id) {
+  getHostedEvents: function(user_id, cb) {
     let current = createDateNum()
-    return knex
-    .select('*')
-    .from('event')
-    .where('host_id', '=', user_id)
-    .andWhere('date', '>', (current - 1))
-    .then(x => {
-      console.log('hosted', x)
-      return x
+    return conn.query(`select * from event where host_id = "${user_id}" and date > ${current - 1}`, function(err, results, fields){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)))
+      }
     })
-    .catch(err => err)
-    //commented out for MVP functionality
-    // let current = new Date()
-    // let dateNum = Number('' + current.getFullYear() + current.getMonth() + current.getDate())
-    // return knex('event').where('host_id', user_id).
+
+    // return knex('event')
+    // .where('date', '>', (current - 1))
+    // .andWhere('host_id', user_id)
+    // .then(x => {
+    //   console.log('hosted', x)
+    //   return x
+    // })
+    // .catch(err => err)
+
   },
-  getPastHostedEvents: async function(user_id) {
+  getCurrentEvents: function(user_id, cb) {
     let current = createDateNum()
-    return        knex
-                    .select('*')
-                    .from('event')
-                    .where('host_id', '=', user_id)
-                    .andWhere('date', '<', current)
-                    .then(results => results)
-                    .catch(err => err)
+    conn.query(`select * from event inner join event_attendee on (event_attendee.event_id = event.id and event_attendee.user_id = "${user_id}") where date > ${current - 1} `, function(err, results, fields){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)))
+      }
+    })
+
+    // let current = createDateNum()
+    // return knex
+    // .select('*')
+    // .from('event')
+    // .where('date', '>', current)
+    // .orWhere('date', '=', current)
+
+    // .innerJoin('event_attendee', {'event_attendee.user_id' : user_id, 'event_attendee.event_id' : 'event.id'})
+    // .then(x => {
+    //   console.log('curr events', x)
+    //   return x
+    // })
+    // .catch(err => err)
+  },
+  getPastEvents: function(user_id, cb){
+    let current = createDateNum()
+    return conn.query(`select * from event inner join event_attendee on (event_attendee.user_id = ${user_id} or host_id < ${user_id} and event_attendee.event_id = event.id) where date < ${current}`, function(err, results, fields){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)))
+      }
+    })
+  },
+  getPastHostedEvents: async function(user_id, cb) {
+    let current = createDateNum()
+    return conn.query(`select * from event where host_id = "${user_id}" and date < ${current}`, function(err, results, fields){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)))
+      }
+    })
+    // let current = createDateNum()
+    // return        knex
+    //                 .select('*')
+    //                 .from('event')
+    //                 .where('host_id', '=', user_id)
+    //                 .andWhere('date', '<', current)
+    //                 .then(results => results)
+    //                 .catch(err => err)
+
+
+    //                 `select * from event where host_id = "${user_id}" and date < ${current}`
     
   },
-  getPastAttendingEvents: function(user_id) {
+  getPastAttendingEvents: function(user_id, cb) {
     let current = createDateNum()
-    return        knex
-                    .select('*')
-                    .from('event')
-                    .where('date', '<', current)
-                    .innerJoin('event_attendee', {'event_attendee.user_id' : user_id, 'event_attendee.event_id' : 'event.id'})
-                    .then(x => x)
-                    .catch(err => err)
-  },
-  getCurrentEvents: function(user_id) {
-    let current = createDateNum()
-    return knex
-    .select('*')
-    .from('event')
-    .where('date', '>', current)
-    .orWhere('date', '=', current)
-    .innerJoin('event_attendee', {'event_attendee.user_id' : user_id, 'event_attendee.event_id' : 'event.id'})
-    .then(x => {
-      console.log('curr events', x)
-      return x
+    return conn.query(`select * from event inner join event_attendee on (event_attendee.user_id = ${user_id} and event_attendee.event_id = event.id) where date < ${current}`, function(err, results, fields){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)))
+      }
     })
-    .catch(err => err)
+    // let current = createDateNum()
+    // return        knex
+    //                 .select('*')
+    //                 .from('event')
+    //                 .where('date', '<', current)
+    //                 .innerJoin('event_attendee', {'event_attendee.user_id' : user_id, 'event_attendee.event_id' : 'event.id'})
+    //                 .then(x => x)
+    //                 .catch(err => err)
   },
   getEvent: async function(id) {
     let result
@@ -124,9 +168,6 @@ eventController = {
             })
             .catch(err => err)
   },
-  findAll: function() {
-    return knex.select('*').from('event');
-  },
   deleteEvent: function(id) {
     return knex('event')
       .where('id', id)
@@ -134,16 +175,18 @@ eventController = {
       .then((x) => x)
       .catch(err => err);
   },
-  editEventFields: function(id, fields) {
-    return knex('event')
-      .where('id', id)
-      .update(fields)
-      .then(() => {
-        return knex('event').where('id', id).then(x => x).catch(x => x)
-      })
-      .catch((err) => err)
+  editEventFields: function(id, fields, cb) {
+    return conn.query(`select * from event where id = ${id}`, function(err, results, fields){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)))
+      }
+    })
   }
 };
 
 
 module.exports = eventController;
+
+

@@ -33,7 +33,9 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: (parentValue, args) => {
         // return db.user.getUser(args.id, args.google_id, args.hash);
-        return db.user.getUserById(args.id);
+        return db.user.getUserById(args.id)
+                .then(x => x)
+                .catch(err => err)
       }
     },
     guestUser: {
@@ -45,30 +47,38 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: (parentValue, args) => {
         // return db.user.getUser(args.id, args.google_id, args.hash);
-        return db.user.getUserByHash(args.hash);
+        return db.user.getUserByHash(args.hash)  
+                  .then(x => x)
+                  .catch(err => err)
       }
     },
     events: {
       type: new GraphQLList(EventType),
       args: { id: { type: GraphQLInt } },
       resolve(parentValue, args) {
-        return db.event.findAll().catch(err => console.log(29, err));
-      }
+        return db.event.findAll()
+                        .then(x => x)
+                        .catch(err => err)
+        }
     },
     event: {
       type: EventType,
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
-        return db.event.getEvent(args.id);
+        return db.event.getEvent(args.id)
+                     .then(x => x)
+                    .catch(err => err)
       }
     },
     item: {
       type: ItemType,
       args: { id: { type: GraphQLInt } },
       resolve: (parentValue, args) => {
-        return db.item.getItem(args.id);
+        return db.item.getItem(args.id)
+        .then(x => x)
+        .catch(err => err)
       }
-    }
+    },
   })
 });
 

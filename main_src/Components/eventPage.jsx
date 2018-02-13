@@ -108,49 +108,50 @@ class EventPage extends React.Component {
         ) : (
           <div>
             <EventFocus
-              event={this.props.location.state.event}
-              currentUser={this.props.currentUser}
-              guests={this.props.guestsQuery.event.users}
-              refresh={this.refresh}
-              toggleEditState={this.toggleEditState}
-              name={this.state.name}
-              date={this.state.date}
-              location={this.state.location}
-              description={this.state.description}
-              img={this.state.img}
-              id={this.state.id}
-              hostId={this.state.hostId}
-              time={this.state.time}
-              currentlyEditing={this.state.currentlyEditing}
+            event={this.props.location.state.event}
+            currentUser={this.props.currentUser}
+            guests={this.props.guestsQuery.event.users}
+            refresh={this.refresh}
+            toggleEditState={this.toggleEditState}
+            name={this.state.name}
+            date={this.state.date}
+            location={this.state.location}
+            description={this.state.description}
+            img={this.state.img}
+            id={this.state.id}
+            hostId={this.state.hostId}
+            time={this.state.time}
+            currentlyEditing={this.state.currentlyEditing}
+          
             />
           </div>
-        );
+         );
       }
-      return null;
+      return null
     }
 
-    // if (this.props.checkEvent) {
-    //   if (this.props.checkEvent.loading && !this.props.checkEvent.user) {
-    //     return <div>Loading...</div>;
+    // if(this.props.checkEvent){
+    //   if (this.props.checkEvent.loading && !this.props.checkEvent.user){
+    //     return <div>Loading...</div>
     //   }
 
-    //   if (this.props.checkEvent.error && !this.props.checkEvent.user) {
-    //     return <div>Error</div>;
+    //   if (this.props.checkEvent.error && !this.props.checkEvent.user){
+    //     return <div>Error</div>
     //   }
 
-    //   if (this.props.checkEvent.user) {
+    //   if (this.props.checkEvent.user){
     //     return (
-    //       <EditEvent
-    //         event={this.props.checkEvent.user.lastEvent}
-    //         currentUser={this.props.currentUser}
-    //         guests={this.props.checkEvent.user.lastEvent.users}
-    //         refresh={this.refresh}
-    //       />
-    //     );
+    //         <EditEvent
+    //           event={this.props.checkEvent.user.lastEvent}
+    //           currentUser={this.props.currentUser}
+    //           guests={this.props.checkEvent.user.lastEvent.users}
+    //           refresh={this.refresh}
+    //         />
+    //      )
     //   }
-    //   return null;
+    //   return null
     // }
-    return null;
+    return null
   }
 }
 

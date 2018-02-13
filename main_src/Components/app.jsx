@@ -48,11 +48,10 @@ class App extends React.Component {
     axios
       .get('/user')
       .then(data => {
-        console.log('data', data)
         axios
           .post('/contacts', {'accessToken': data.data.user.accessToken})
           .then((result) => {
-            console.log('data', data, result)
+
             let contacts = result.data.entry.map(contact => {
               if (contact.gd$name && contact.gd$email) {
                 return contact.gd$name.gd$fullName.$t
@@ -71,11 +70,9 @@ class App extends React.Component {
               emails
             });
           })
-          .catch(error => {console.log('this is an error', error)})
+          .catch(error =>  error)
       })
-      .catch((error) => {
-        return ['componentwillmount', error];
-      });
+      .catch(err => err)
   }
 
 
