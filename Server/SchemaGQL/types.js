@@ -22,23 +22,33 @@ const EventType = new GraphQLObjectType({
     host_id: { type: GraphQLInt },
     user_id: { type: GraphQLInt },
     img: { type: GraphQLString },
+    endTime: {type: GraphQLString},
+    dateTimeStart: {type: GraphQLString},
+    dateTimeEnd: {type: GraphQLString},
     host: {
       type: UserType,
       resolve(parentValue, args) {
-        return db.user.getUserById(parentValue.host_id);
+        return db.user.getUserById(parentValue.host_id)
+        .then(x => x)
+        .catch(err => err)
       }
     },
     reply: { type: GraphQLInt },
     users: {
       type: new GraphQLList(UserType),
       resolve(parentValue, args) {
-        return db.event_attendee.getUsers(parentValue.id);
+        return db.event_attendee.getUsers(parentValue.id)
+        .then(x => x)
+        .catch(err => err)
+
       }
     },
     items: {
       type: new GraphQLList(ItemType),
       resolve(parentValue, args) {
-        return db.item.getItemsByEventId(parentValue.id).catch(err => console.log(30, err));
+        return db.item.getItemsByEventId(parentValue.id)
+        .then(x => x)
+        .catch(err => err)
       }
     }
   })
@@ -55,30 +65,40 @@ const ItemType = new GraphQLObjectType({
       type: UserType,
       resolve(parentValue, args) {
         return db.user.getUser(parentValue.user_id)
+        .then(x => x)
+        .catch(err => err)
       }
     },
     event: {
       type: EventType,
       resolve(parentValue, args) {
         return db.user.getUser(parentValue.user_id)
+        .then(x => x)
+        .catch(err => err)
       }
     },
     comments: {
       type: new GraphQLList(ItemCommentType),
       resolve(parentValue, args) {
-        return db.itemComments.getItemCommentsByItemId(parentValue.id);
+        return db.itemComments.getItemCommentsByItemId(parentValue.id)
+        .then(x => x)
+        .catch(err => err)
       }
     },
     upVotes: {
       type: new GraphQLList(VoteType),
       resolve(parentValue, args) {
         return db.vote.getUpVotesForItem(parentValue.id)
+        .then(x => x)
+        .catch(err => err)
       }
     },
     downVotes: {
       type: new GraphQLList(VoteType),
       resolve(parentValue, args) {
         return db.vote.getDownVotesForItem(parentValue.id)
+        .then(x => x)
+        .catch(err => err)
       }
     }
   })
@@ -107,6 +127,8 @@ const ItemCommentType = new GraphQLObjectType({
       type: UserType,
       resolve(parentValue, args) {
         return db.user.getUserById(parentValue.user_id)
+        .then(x => x)
+        .catch(err => err)
       }
     }
   })
@@ -140,11 +162,14 @@ const UserType = new GraphQLObjectType({
     accessToken: { type: GraphQLString },
     hash: { type: GraphQLString },
     guest_event_id: { type: GraphQLInt },
+    refreshToken: {type: GraphQLString},
+    subscription: {type: GraphQLString},
     lastEvent: {
       type: EventType, 
       resolve(parentValue, args){
-        console.log('is last event working?')
         return db.event.lastEvent(parentValue.id)
+        .then(x => x)
+        .catch(err => err)
       }
     },
     memberReply: {
@@ -157,35 +182,62 @@ const UserType = new GraphQLObjectType({
    },
     hostedEvents: {
       type: new GraphQLList(EventType),
-      resolve(parentValue, args) {
-        return db.event.getHostedEvents(parentValue.id)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.getHostedEvents(parentValue.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       return response 
       }
     },
     pastEvents: {
       type: new GraphQLList(EventType),
-      async resolve(parentValue, args) {
-        let x = await db.event.getPastHostedEvents(parentValue.id)
-        return db.event.getPastAttendingEvents(parentValue.id).then(res => {
-            if (res && x){
-              console.log('res and x', Array.isArray(res), Array.isArray(x))
-              return res.concat(x)
-            } else {
-              console.log('fail')
-              return []
+        async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.getPastEvents(parentValue.id, function(err, res){
+            if (err){
+             reject(err)
             }
-          }).catch(err=> err)
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       console.log('past', response)
+       return response 
       }
     },
     currentEvents: {
       type: new GraphQLList(EventType),
-      resolve(parentValue, args) {
-        return db.event.getCurrentEvents(parentValue.id)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.getCurrentEvents(parentValue.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       return response 
       }
     },
     guestEvent: {
       type: EventType,
       resolve(parentValue, args) {
-        return db.event.getEvent(parentValue.guest_event_id);
+        return db.event.getEvent(parentValue.guest_event_id)
+        .then(x => x)
+        .catch(err => err)
       }
     }
   })

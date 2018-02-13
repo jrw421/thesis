@@ -1,3 +1,12 @@
+const mysql = require ('mysql')
+const conn = mysql.createConnection({
+    host: 'thesis.ciqkxj8b112q.us-east-2.rds.amazonaws.com',
+    user: 'thesis',
+    port: '3307',
+    password: 'thesis12345',
+    database: 'thesis'
+})
+
 const knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -144,5 +153,8 @@ const bookshelf = require('bookshelf')(knex);
 
 module.exports = {
   knex,
-  bookshelf
+  bookshelf, 
+  conn
 };
+
+

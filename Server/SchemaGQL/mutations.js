@@ -30,7 +30,7 @@ const mutations = new GraphQLObjectType({
         id: { type: GraphQLInt }
       },
       resolve(parentValue, args) {
-        return db.user.deleteUser(args.id).then(item => item).catch(err => [20, err]);
+        return db.user.deleteUser(args.id).then(item => item).catch(err => err);
       }
     },
     addEvent: {
@@ -55,7 +55,8 @@ const mutations = new GraphQLObjectType({
           location: args.location,
           img: args.img,
           endTime: args.endTime
-        });
+        })   .then(x => x)
+        .catch(err => err)
       }
     },
     editEventFields: {
@@ -72,7 +73,7 @@ const mutations = new GraphQLObjectType({
       resolve(parentValues, args) {
         return db.event
           .editEventFields(args.id, args)
-          .then(editedEvent => editedEvent[0]).catch(err => [21, err]);
+          .then(editedEvent => editedEvent[0]).catch(err => err);
       }
     },
     toggleClaimOfItem: {
@@ -84,7 +85,7 @@ const mutations = new GraphQLObjectType({
       resolve(parentValues, args) {
         return db.item
           .claimItem(args.id, args.user_id)
-          .then(response => response[0]).catch(err => [22, err]);
+          .then(response => response[0]).catch(err =>  err);
       }
     },
     findOrCreateUser: {
@@ -100,7 +101,7 @@ const mutations = new GraphQLObjectType({
         return db.user
           .findOrCreateUser(args)
           .then(response => response)
-          .catch(error => [23, error]);
+          .catch(error => error);
       }
     },
 
@@ -125,7 +126,7 @@ const mutations = new GraphQLObjectType({
       resolve(parentValues, args) {
         return db.event_attendee.denyPresence(args.id, args.guest_event_id)
           .then(user => user)
-          .catch(error => [24, error]);
+          .catch(error => error);
       }
     },
     addItems: {
@@ -163,7 +164,7 @@ const mutations = new GraphQLObjectType({
             event_id: args.event_id,
           })
           .then(item => item)
-          .catch(error => ['151', error]);
+          .catch(error => error);
       },
     },
     deleteItem: {
@@ -198,7 +199,8 @@ const mutations = new GraphQLObjectType({
           user_id: args.user_id,
           item_id: args.item_id,
           event_id: args.event_id,
-        });
+        }).then(x => x)
+        .catch(err => err)
       },
     },
     addRecipients: {
@@ -224,7 +226,7 @@ const mutations = new GraphQLObjectType({
 
             return sendMessage(guests, user, args.event_id, args.dateTimeStart, args.dateTimeEnd);
           })
-          .catch(x => ['addrecipients', x]);
+          .catch(x => x);
       },
     },
     upVoteItem: {
@@ -234,7 +236,8 @@ const mutations = new GraphQLObjectType({
         item_id: { type: GraphQLInt },
       },
       resolve(parentValue, args) {
-        return db.vote.upVote(args.item_id, args.user_id);
+        return db.vote.upVote(args.item_id, args.user_id)   .then(x => x)
+        .catch(err => err)
       },
     },
     downVoteItem: {
@@ -244,7 +247,8 @@ const mutations = new GraphQLObjectType({
         item_id: { type: GraphQLInt },
       },
       resolve(parentValue, args) {
-        return db.vote.downVote(args.item_id, args.user_id);
+        return db.vote.downVote(args.item_id, args.user_id)   .then(x => x)
+        .catch(err => err)
       },
     },
     saveEvent: {
@@ -255,7 +259,8 @@ const mutations = new GraphQLObjectType({
       }, 
       resolve(parentValue, args){
         console.log('save event params', args.id, args.lastEvent)
-        return db.user.editField(args.id, 'lastEvent', args.lastEvent)
+        return db.user.editField(args.id, 'lastEvent', args.lastEvent)   .then(x => x)
+        .catch(err => err)
       }
     }
   },

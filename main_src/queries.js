@@ -21,6 +21,15 @@ const DASHBOARD_QUERY = gql`
         img
         host_id
       }
+      pastEvents {
+        id
+        name
+        location
+        description
+        date
+        img
+        host_id
+      }
     }
   }
 `;
