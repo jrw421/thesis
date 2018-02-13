@@ -1,0 +1,54 @@
+.edit-event-container {
+  margin: auto;
+  // height: 40rem;
+  // width: 85vw;
+  background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+  // margin: 25px;
+
+  .edit-event-grid {
+    display: grid;
+    height: 50rem;
+  }
+
+
+  .background-img {
+    background-image: 
+    linear-gradient(105deg, 
+                    rgba($color-primary, .9) 0%,
+                    rgba($color-primary, .9) 50%,
+                    transparent 50% ),
+                    url('https://images.pexels.com/https://images.pexels.com/photos/697244/pexels-photo-697244.jpeg?w=940&h=650&auto=compress&cs=tinysrgb/313715/pexels-photo-313715.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb');
+    background-size: 100%;
+    border-radius: 3px;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, .2);
+
+    h1 {
+      font-family: 'Comfortaa';
+      color: $color-tertiary;
+      margin: auto;
+    }
+  }
+
+  RaisedButton {
+    width: 300px;
+    height: auto;
+  }
+  
+
+  .inputs {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding:30px;
+    margin: 30px;
+    color: $color-tertiary;
+    // z-index: 2;
+
+    .input {
+      margin: 15px;
+    }
+
+  }
+
+
+}

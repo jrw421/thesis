@@ -70,11 +70,9 @@ app.post('/contacts', function(req, res) {
       }&alt=json&max-results=500&v=3.0`
     )
     .then(response => {
-      console.log('response.data.feed', response.data.feed);
       res.json(response.data.feed);
     })
     .catch(error => {
-      console.log(error);
       return error;
     });
 });
