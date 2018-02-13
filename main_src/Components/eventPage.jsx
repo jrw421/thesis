@@ -4,7 +4,6 @@ import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
 import EditEventPage from './editEventPage.jsx';
 import { editEventFields } from '../mutations';
-// import ItemList from './itemList.jsx';
 import Map from './map.jsx';
 import { withRouter } from 'react-router';
 import { Switch, Route, browserHistory } from 'react-router-dom';
@@ -13,13 +12,11 @@ import { graphql, compose } from 'react-apollo';
 import { GoogleApiWrapper } from 'google-maps-react';
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete';
-import Loader from 'react-loader-spinner';
-import { GUESTS_QUERY, CHECK_EVENT_QUERY } from '../queries.js';
-import { saveEvent } from '../mutations.js';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import Loader from 'react-loader-spinner'
+import { GUESTS_QUERY, CHECK_EVENT_QUERY } from '../queries.js'
+import { saveEvent } from '../mutations.js'
+
 
 class EventPage extends React.Component {
   constructor(props) {
@@ -79,16 +76,25 @@ class EventPage extends React.Component {
     let years = timeString.slice(0,4)
     let months = timeString.slice(4,6)
     let day = timeString.slice(6, 9)
-
     return `${months} ${day} ${years}`
   }
 
-  render() {
-    //  console.log('users', users);
-    //  console.log('is guest query working', this.props.guestsQuery);
-    if (this.props.guestsQuery) {
-      if (this.props.guestsQuery.loading && !this.props.guestsQuery.event) {
-        return <Loader type="Puff" color="#00BFFF" height="100" width="100" />;
+   render() {
+
+    if (this.props.guestsQuery){
+      if (this.props.guestsQuery.loading && !this.props.guestsQuery.event){
+        return (
+          <div style={{"textAlign": "center", "marginTop": "225px"}}>
+          <Loader
+           type="Puff"
+           color="#00BFFF"
+           height="300"
+           width="300"
+           alignItems="center"
+           justifyContent='center'
+           />
+         </div>
+        );
       }
 
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event) {
