@@ -90,12 +90,17 @@ refreshDash(){
 
     if (this.state.currentUser === undefined ) {
       // return null;
-      return (<Loader
+      return (
+      <div style={{"textAlign": "center", "marginTop": "225px"}}>
+      <Loader
        type="Puff"
        color="#00BFFF"
-       height="100"
-       width="100"
+       height="300"
+       width="300"
+       alignItems="center"
+       justifyContent='center'
        />
+     </div>
      );
 
     }

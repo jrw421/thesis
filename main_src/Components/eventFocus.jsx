@@ -70,15 +70,11 @@ class EventFocus extends React.Component {
   }
 
 
-
-
   render() {
 
-      console.log('this should be an array of guests ', this.props.guests)
+      console.log('props of event ', this.props.event)
       let event = this.props.event;
       let checkIfHostOfEvent = this.props.currentUser.id === this.props.event.host_id
-
-
 
       return (
       <div style={{ textAlign: 'center' }} className="eventPage">
