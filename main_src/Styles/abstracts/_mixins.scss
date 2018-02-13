@@ -1,0 +1,13 @@
+@mixin respond($breakpoint) {
+  @if $breakpoint == phone {
+      @media only screen and (max-width: 37.5em) { @content };    //600px
+  }
+  @if $breakpoint == big-desktop {
+      @media only screen and (min-width: 112.5em) { @content };    //1800
+  }
+}
+
+// To include inside a component style:
+// @include respond(phone) {
+//   transform: translateX(-3rem) skewX(0);
+// }

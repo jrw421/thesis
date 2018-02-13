@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 import ItemList from './itemList';
 
 class EditEventPage extends React.Component {
@@ -61,17 +62,18 @@ class EditEventPage extends React.Component {
     let event = this.props.event;
 
     return(
-      <div>
-
-     
-      <div style={{ textAlign: 'center' }} className="eventPage">
-      <RaisedButton label="Submit Changes" primary={true} onClick={this.submitChanges} />
-      <input type="text" placeholder={event.name} className="eventPage" onChange={(e) => this.setState({name: e.target.value})}></input>
-      <input type="text" placeholder={event.location} className="eventPage" onChange={(e) => this.setState({location: e.target.value})}></input>
-      <input type="text" placeholder={event.date} className="eventPage" onChange={(e) => this.setState({date: e.target.value})}></input>
-      <input type="text" placeholder={event.time} className="eventPage time" onChange={(e) => this.setState({time: e.target.value})}></input>
-      <input type="text" placeholder={event.description} className="eventPage" onChange={(e) => this.setState({description: e.target.value})}></input>
-
+      <section className="edit-event-container">
+      <div className="edit-event-grid">
+      <div className="edit-event background-img">
+      <h1>Edit Event</h1>
+        <div className="edit-event inputs">
+          <TextField type="text" placeholder={event.name} className="input" secondary={true} onChange={(e) => this.setState({name: e.target.value})}></TextField>
+          <TextField type="text" placeholder={event.location} className="input" secondary={true} onChange={(e) => this.setState({location: e.target.value})}></TextField>
+          <TextField type="text" placeholder={event.date} className="input" secondary={true} onChange={(e) => this.setState({date: e.target.value})}></TextField>
+          <TextField type="text" placeholder={event.time} className="input" secondary={true} onChange={(e) => this.setState({time: e.target.value})}></TextField>
+          <TextField type="text" placeholder={event.description} className="input" secondary={true} onChange={(e) => this.setState({description: e.target.value})}></TextField>
+          <RaisedButton label="Submit Changes" primary={true} onClick={this.submitChanges} />
+        </div>
      <ul>
        <ItemList 
        event={this.props.event}
@@ -79,6 +81,7 @@ class EditEventPage extends React.Component {
        currentlyEditing={this.props.currentlyEditing}
         />
     </ul>
+    </div>
   
           <img
           style={{ height: '400px', width: '400px' }}
@@ -88,7 +91,8 @@ class EditEventPage extends React.Component {
     
       </div>
 
-      </div>
+
+      </section>
     )
   }
 

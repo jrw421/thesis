@@ -70,14 +70,12 @@ app.post('/contacts', function(req, res) {
       }&alt=json&max-results=500&v=3.0`
     )
     .then(response => {
-      res.json(response.data.feed)
+      res.json(response.data.feed);
     })
     .catch(error => {
-
-      return error 
-    })
-})
-
+      return error;
+    });
+});
 
 app.get('/user', function(req, res) {
   console.log('re.user', req.user);
