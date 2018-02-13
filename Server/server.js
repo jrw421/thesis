@@ -62,7 +62,6 @@ app.use(
 //contacts///
 
 app.post('/contacts', function(req, res) {
-  console.log('are we in the post request');
   axios
     .get(
       `https://www.google.com/m8/feeds/contacts/default/thin?access_token=${
@@ -78,12 +77,10 @@ app.post('/contacts', function(req, res) {
 });
 
 app.get('/user', function(req, res) {
-  console.log('re.user', req.user);
   if (req.user === undefined) {
     // The user is not logged in
     res.json({});
   } else {
-    console.log('user info from /user', req.user);
     res.json({
       user: req.user
     });
@@ -111,7 +108,6 @@ app.get('/user', function(req, res) {
 
 // save subscription sent from service worker
 app.post('/api/save-subscription/', function(req, res) {
-  console.log('CLIENT SENT FOLLOWING SUBSCR INFO', req.body);
   // if (!isValidSaveRequest(req, res)) {
   //   return;
   // }
@@ -121,7 +117,6 @@ app.post('/api/save-subscription/', function(req, res) {
   db.user
     .editField(userId, 'subscription', subscription)
     .then(result => {
-      console.log('user updated with subscription data', result);
       res.send(JSON.stringify({ data: { success: true } }));
     })
     .catch(function(err) {

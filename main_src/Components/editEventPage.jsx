@@ -34,14 +34,12 @@ class EditEventPage extends React.Component {
       }
     })
     .then((results) => {
-      console.log(results.data)
       let filteredResults = {}
       for (var key in results.data.editEventFields) {
         if (key !== "__typename") {
           filteredResults[key] = results.data.editEventFields[key]
         }
       }
-      console.log('filteredResults', filteredResults)
       this.props.updateEventState(filteredResults)
     })
     .catch((err) => {
@@ -58,40 +56,36 @@ class EditEventPage extends React.Component {
  
 
   render() {
+  //   <img
+  //   style={{ height: '400px', width: '400px' }}
+  //   src={event.img}
+  //   alt=""
+  // />
 
     let event = this.props.event;
 
     return(
-      <section className="edit-event-container">
-      <div className="edit-event-grid">
-      <div className="edit-event background-img">
-      <h1>Edit Event</h1>
-        <div className="edit-event inputs">
-          <TextField type="text" placeholder={event.name} className="input" secondary={true} onChange={(e) => this.setState({name: e.target.value})}></TextField>
-          <TextField type="text" placeholder={event.location} className="input" secondary={true} onChange={(e) => this.setState({location: e.target.value})}></TextField>
-          <TextField type="text" placeholder={event.date} className="input" secondary={true} onChange={(e) => this.setState({date: e.target.value})}></TextField>
-          <TextField type="text" placeholder={event.time} className="input" secondary={true} onChange={(e) => this.setState({time: e.target.value})}></TextField>
-          <TextField type="text" placeholder={event.description} className="input" secondary={true} onChange={(e) => this.setState({description: e.target.value})}></TextField>
-          <RaisedButton label="Submit Changes" primary={true} onClick={this.submitChanges} />
+      <section className="edit-event">
+        <div className="edit-event-grid">
+          <div className="edit-event-background-img">
+          <div className="edit-event-inputs">
+          <h1>Edit Event</h1>
+                <TextField type="text" placeholder={event.name} className="input" secondary={true} onChange={(e) => this.setState({name: e.target.value})}></TextField>
+                <TextField type="text" placeholder={event.location} className="input" secondary={true} onChange={(e) => this.setState({location: e.target.value})}></TextField>
+                <TextField type="text" placeholder={event.date} className="input" secondary={true} onChange={(e) => this.setState({date: e.target.value})}></TextField>
+                <TextField type="text" placeholder={event.time} className="input" secondary={true} onChange={(e) => this.setState({time: e.target.value})}></TextField>
+                <TextField type="text" placeholder={event.description} className="input" secondary={true} onChange={(e) => this.setState({description: e.target.value})}></TextField>
+                <RaisedButton label="Submit Changes" primary={true} onClick={this.submitChanges} />
+              </div>
+            <ul>
+              <ItemList 
+              event={this.props.event}
+              currentUser={this.props.currentUser}
+              currentlyEditing={this.props.currentlyEditing}
+                />
+            </ul>
+          </div>
         </div>
-     <ul>
-       <ItemList 
-       event={this.props.event}
-       currentUser={this.props.currentUser}
-       currentlyEditing={this.props.currentlyEditing}
-        />
-    </ul>
-    </div>
-  
-          <img
-          style={{ height: '400px', width: '400px' }}
-          src={event.img}
-          alt=""
-        />
-    
-      </div>
-
-
       </section>
     )
   }
