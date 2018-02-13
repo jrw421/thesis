@@ -22,7 +22,7 @@ eventController = {
       time: body.time,
       date: body.date,
       location: body.location,
-      img: body.img, 
+      img: body.img,
       endTime: body.endTime
     });
     let result
@@ -108,7 +108,7 @@ eventController = {
 
 
     //                 `select * from event where host_id = "${user_id}" and date < ${current}`
-    
+
   },
   getPastAttendingEvents: function(user_id, cb) {
     let current = createDateNum()
@@ -188,5 +188,3 @@ eventController = {
 
 
 module.exports = eventController;
-
-
