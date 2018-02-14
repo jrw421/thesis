@@ -29,8 +29,18 @@ const mutations = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve(parentValue, args) {
-        return db.user.deleteUser(args.id).then(item => item).catch(err => err);
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.user.deleteUser(args.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     addEvent: {
@@ -45,18 +55,27 @@ const mutations = new GraphQLObjectType({
         img: { type: GraphQLString },
         endTime: {type: GraphQLString}
       },
-      resolve(parentValue, args) {
-        return db.event.addEvent({
-          host_id: args.host_id,
-          name: args.name,
-          description: args.description,
-          date: args.date,
-          time: args.time,
-          location: args.location,
-          img: args.img,
-          endTime: args.endTime
-        })   .then(x => x)
-        .catch(err => err)
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.addEvent({
+            host_id: args.host_id,
+            name: args.name,
+            description: args.description,
+            date: args.date,
+            time: args.time,
+            location: args.location,
+            img: args.img,
+            endTime: args.endTime
+          }, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     editEventFields: {
@@ -70,10 +89,18 @@ const mutations = new GraphQLObjectType({
         location: { type: GraphQLString },
         img: { type: GraphQLString }
       },
-      resolve(parentValues, args) {
-        return db.event
-          .editEventFields(args.id, args)
-          .then(editedEvent => editedEvent[0]).catch(err => err);
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.editEventFields(args.id, args, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     toggleClaimOfItem: {
@@ -82,10 +109,18 @@ const mutations = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLInt) },
         user_id: { type: new GraphQLNonNull(GraphQLInt) }
       },
-      resolve(parentValues, args) {
-        return db.item
-          .claimItem(args.id, args.user_id)
-          .then(response => response[0]).catch(err =>  err);
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.item.claimItem(args.id, args.user_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     findOrCreateUser: {
@@ -97,24 +132,38 @@ const mutations = new GraphQLObjectType({
         etag: { type: new GraphQLNonNull(GraphQLString) },
         email: { type: GraphQLString }
       },
-      resolve(parentValues, args) {
-        return db.user
-          .findOrCreateUser(args)
-          .then(response => response)
-          .catch(error => error);
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.user.findOrCreateUser(args, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
-
     confirmPresence: {
       type: UserType,
       args: {
         id: { type: new GraphQLNonNull(GraphQLInt)},
         guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
       },
-      resolve(parentValues, args) {
-        return db.event_attendee.confirmPresence(args.id, args.guest_event_id)
-          .then(user => user)
-          .catch(error => error)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event_attendee.confirmPresence(args.id, args.guest_event_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     denyPresence: {
@@ -123,31 +172,43 @@ const mutations = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLInt)},
         guest_event_id: { type: new GraphQLNonNull(GraphQLInt) }
       },
-      resolve(parentValues, args) {
-        return db.event_attendee.denyPresence(args.id, args.guest_event_id)
-          .then(user => user)
-          .catch(error => error);
+      async resolve(parentValue, args) {
+        console.log('args', args)
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event_attendee.denyPresence(args.id, args.guest_event_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
+
     addItems: {
       type: new GraphQLList(ItemType),
       args: {
         itemNames: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
         event_id: { type: new GraphQLNonNull(GraphQLInt) }
       },
-      resolve(parentValues, args) {
-        return db.item
-          .addMultiple({
-            name: args.itemNames,
-            event_id: args.event_id
-          })
-          .then(() => {
-            return db.item.getItemsByEventId(args.event_id);
-          })
-          .catch(err => {
-            return err
-          });
-      },
+       async resolve(parentValue, args) {
+
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.item.addMultiple({name: args.itemNames, event_id: args.event_id}, function(err, res){
+            console.log('items resolve', err, res)
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
+      }
     },
     addItem: {
       type: ItemType,
@@ -156,16 +217,20 @@ const mutations = new GraphQLObjectType({
         user_id: { type: GraphQLInt },
         event_id: { type: new GraphQLNonNull(GraphQLInt) },
       },
-      resolve(parentValues, args) {
-        return db.item
-          .add({
-            name: args.name,
-            user_id: args.user_id,
-            event_id: args.event_id,
-          })
-          .then(item => item)
-          .catch(error => error);
-      },
+       async resolve(parentValue, args) {
+
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.item.add({name: args.name,  user_id: args.user_id, event_id: args.event_id}, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
+      }
     },
     deleteItem: {
       type: new GraphQLList(ItemType),
@@ -174,16 +239,19 @@ const mutations = new GraphQLObjectType({
         event_id: { type: GraphQLInt },
         id: { type: new GraphQLNonNull(GraphQLInt) }
       },
-      async resolve(parentValues, args) {
-        let query
-        try {
-          let deletion = await db.item.deleteItem(args.id)
-          query = await db.item.getItemsByEventId(args.event_id) 
-        } catch(e) {
-          return e
-        }
-        return query
-      },
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.item.deleteItem(args.id, args.event_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
+      }
     },
     addComment: {
       type: ItemCommentType,
@@ -204,7 +272,7 @@ const mutations = new GraphQLObjectType({
       },
     },
     addRecipients: {
-      type: new GraphQLList(UserType),
+      type: EventType,
       args: {
         nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
         id: { type: GraphQLInt },
@@ -212,21 +280,42 @@ const mutations = new GraphQLObjectType({
         dateTimeStart: {type: GraphQLString},
         dateTimeEnd: {type: GraphQLString}
       },
-      resolve(parentValues, args) {
-        return knex
-          .select('*')
-          .from('user')
-          .where('id', args.id)
-          .then((res) => {
-            const user = res[0];
-            const guests = args.nameEmail.map((n) => {
+      async resolve(parentValue, args) {
+        let wait = new Promise((resolve, reject) => {
+           db.user.getUserById(args.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       let user = await wait
+       let guests = args.nameEmail.map((n) => {
               const arr = n.split('*');
               return [arr[0], arr[1]];
-            });
+        });
+    
+        let email = new Promise((reject, resolve) => {
+           sendMessage(guests, user, args.event_id, args.dateTimeStart, args.dateTimeEnd, function(err, res){
+            if (err) {
+              console.log('one error', err)
+              reject(err)
+            } else {
+              console.log('a resolve', res)
+              resolve(res)
+            }
+           })
+        })
 
-            return sendMessage(guests, user, args.event_id, args.dateTimeStart, args.dateTimeEnd);
-          })
-          .catch(x => x);
+        return email.then(event => {
+                          console.log('sucess??', event)
+                          event
+                        })
+                        .catch(err => {
+                          console.log('last error', err)
+                          err
+                        })
+                        
       },
     },
     upVoteItem: {
@@ -235,10 +324,19 @@ const mutations = new GraphQLObjectType({
         user_id: { type: GraphQLInt },
         item_id: { type: GraphQLInt },
       },
-      resolve(parentValue, args) {
-        return db.vote.upVote(args.item_id, args.user_id)   .then(x => x)
-        .catch(err => err)
-      },
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+           db.vote.upVote(args.item_id, args.user_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
+      }
     },
     downVoteItem: {
       type: VoteType,
@@ -246,10 +344,19 @@ const mutations = new GraphQLObjectType({
         user_id: { type: GraphQLInt },
         item_id: { type: GraphQLInt },
       },
-      resolve(parentValue, args) {
-        return db.vote.downVote(args.item_id, args.user_id)   .then(x => x)
-        .catch(err => err)
-      },
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+           db.vote.downVote(args.item_id, args.user_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
+      }
     },
     saveEvent: {
       type: UserType, 
@@ -257,10 +364,16 @@ const mutations = new GraphQLObjectType({
         id: {type: GraphQLInt}, 
         lastEvent: {type: GraphQLInt}
       }, 
-      resolve(parentValue, args){
-        console.log('save event params', args.id, args.lastEvent)
-        return db.user.editField(args.id, 'lastEvent', args.lastEvent)   .then(x => x)
-        .catch(err => err)
+      async resolve(parentValue, args) {
+        let wait = new Promise((resolve, reject) => {
+          db.user.editField(args.id, 'lastEvent', args.lastEvent, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       return await wait
       }
     }
   },

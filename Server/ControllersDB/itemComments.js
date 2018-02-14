@@ -1,5 +1,6 @@
 const knex = require('../dbConfig.js').knex;
 const ItemComment = require('../ModelsDB/itemComments.js');
+const conn = require('../dbConfig.js').conn
 
 itemCommentsController = {
   addItemComment: function(itemComment) {

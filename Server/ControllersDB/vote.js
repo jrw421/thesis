@@ -1,5 +1,6 @@
 const knex = require('../dbConfig.js').knex;
 const Vote = require('../ModelsDB/vote.js');
+const conn = require('../dbConfig.js').conn
 
 const VoteController = {
   upVote: function (item_id, user_id) {

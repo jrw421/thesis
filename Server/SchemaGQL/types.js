@@ -27,28 +27,52 @@ const EventType = new GraphQLObjectType({
     dateTimeEnd: {type: GraphQLString},
     host: {
       type: UserType,
-      resolve(parentValue, args) {
-        return db.user.getUserById(parentValue.host_id)
-        .then(x => x)
-        .catch(err => err)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.user.getUserById(parentValue.host_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     reply: { type: GraphQLInt },
     users: {
       type: new GraphQLList(UserType),
-      resolve(parentValue, args) {
-        return db.event_attendee.getUsers(parentValue.id)
-        .then(x => x)
-        .catch(err => err)
-
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event_attendee.getUsers(parentValue.id, function(err, res){
+            console.log('err response get users for evetn', err, res)
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     items: {
       type: new GraphQLList(ItemType),
-      resolve(parentValue, args) {
-        return db.item.getItemsByEventId(parentValue.id)
-        .then(x => x)
-        .catch(err => err)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.item.getItemsByEventId(parentValue.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     }
   })
@@ -63,18 +87,35 @@ const ItemType = new GraphQLObjectType({
     event_id: { type: GraphQLInt },
     user: {
       type: UserType,
-      resolve(parentValue, args) {
-        return db.user.getUser(parentValue.user_id)
-        .then(x => x)
-        .catch(err => err)
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.user.getUserById(parentValue.user_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     },
     event: {
       type: EventType,
-      resolve(parentValue, args) {
-        return db.user.getUser(parentValue.user_id)
-        .then(x => x)
-        .catch(err => err)
+       async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.user.getUserById(parentValue.user_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       return response 
       }
     },
     comments: {
@@ -125,10 +166,19 @@ const ItemCommentType = new GraphQLObjectType({
     item_id: { type: GraphQLInt },
     user: {
       type: UserType,
-      resolve(parentValue, args) {
-        return db.user.getUserById(parentValue.user_id)
-        .then(x => x)
-        .catch(err => err)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.user.getUserById(parentValue.user_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       return response 
       }
     }
   })
@@ -140,12 +190,19 @@ const ItemsType = new GraphQLObjectType({
     event_id: { type: GraphQLInt },
     items: { type: GraphQLList(ItemType) }
   }),
-  resolve(parentValue, args) {
-    return db.items
-      .getItemsByEventId(parentValue.event_id)
-      .then(item => item)
-      .catch(err => err)
+   async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.items.getItemsByEventId(parentValue.event_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
 
+       response = await wait
+       return response 
   }
 });
 
@@ -166,19 +223,37 @@ const UserType = new GraphQLObjectType({
     subscription: {type: GraphQLString},
     lastEvent: {
       type: EventType, 
-      resolve(parentValue, args){
-        return db.event.lastEvent(parentValue.id)
-        .then(x => x)
-        .catch(err => err)
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.lastEvent(parentValue.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       return response 
       }
     },
     memberReply: {
      type: GraphQLInt,
-     resolve(parentValue, args){
-       return db.event_attendee.checkReply(parentValue.id, parentValue.event_id)
-       .then(x =>  x[0].reply)
-       .catch(err => err)
-     }
+     async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event_attendee.checkReply(parentValue.id, parentValue.event_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+
+       response = await wait
+       return response 
+      }
    },
     hostedEvents: {
       type: new GraphQLList(EventType),
@@ -227,17 +302,24 @@ const UserType = new GraphQLObjectType({
              resolve(res)
            })
        })
-
        response = await wait
        return response 
       }
     },
     guestEvent: {
-      type: EventType,
-      resolve(parentValue, args) {
-        return db.event.getEvent(parentValue.guest_event_id)
-        .then(x => x)
-        .catch(err => err)
+      type: EventType,  
+      async resolve(parentValue, args) {
+        let response
+        let wait = new Promise((resolve, reject) => {
+          db.event.getEvent(parentValue.guest_event_id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       response = await wait
+       return response 
       }
     }
   })

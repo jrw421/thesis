@@ -43,14 +43,17 @@ const addRecipients = gql`
   }
 `;
 const confirmPresence = gql`
-  mutation confirmPresence($user_id: Int, $event_id: Int){
-    confirmPresence(id: $user_id, guest_event_id: $event_id)
+  mutation confirmPresence($user_id: Int!, $event_id: Int!){
+    confirmPresence(id: $user_id, guest_event_id: $event_id){
+      id
+    }
   }
 `
-
 const denyPresence = gql`
-  mutation denyPresence($user_id: Int, $event_id: Int){
-    denyPresence(id: $user_id, guest_event_id: $event_id)
+  mutation denyPresence($user_id: Int!, $event_id: Int!){
+    denyPresence(id: $user_id, guest_event_id: $event_id){
+      id
+    }
   }
 `
 

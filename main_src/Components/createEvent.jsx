@@ -135,6 +135,7 @@ class CreateEvent extends React.Component {
         }
       })
       .then(event => {
+        console.log('event, event', event)
         this.props
           .addItems({
             variables: {

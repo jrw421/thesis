@@ -21,14 +21,8 @@ class Dashboard extends React.Component {
   }
 
   render() {
-<<<<<<< Updated upstream
     if (this.props.refresh || !this.props.refresh) {
       this.props.dashboardQuery.refetch();
-=======
-    console.log('dashboard porps', this.props)
-    if (this.props.refresh || !this.props.refresh){
-      this.props.dashboardQuery.refetch()
->>>>>>> Stashed changes
     }
 
     if (this.props.dashboardQuery) {

@@ -51,7 +51,7 @@ class App extends React.Component {
         axios
           .post('/contacts', {'accessToken': data.data.user.accessToken})
           .then((result) => {
-
+            console.log('results', result)
             let contacts = result.data.entry.map(contact => {
               if (contact.gd$name && contact.gd$email) {
                 return contact.gd$name.gd$fullName.$t
