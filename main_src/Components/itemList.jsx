@@ -2,8 +2,10 @@ import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ItemWithData from './item.jsx';
+import Chip from 'material-ui/Chip';
 import { ITEMS_QUERY } from '../queries.js';
 import { addItems, deleteItem } from '../mutations';
+import TextField from 'material-ui/TextField'
 
 class ItemList extends React.Component {
   constructor(props) {
@@ -71,20 +73,13 @@ class ItemList extends React.Component {
       return <div>loading...</div>;
     }
 
-    const deleteIcon = <svg xmlns="http://www.w3.org/2000/svg" 
-    width="12" 
-    height="12" 
-    viewBox="0 0 24 24">
-    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.151 17.943l-4.143-4.102-4.117 4.159-1.833-1.833 4.104-4.157-4.162-4.119 1.833-1.833 4.155 4.102 4.106-4.16 1.849 1.849-4.1 4.141 4.157 4.104-1.849 1.849z"/></svg>
-
     return this.props.currentlyEditing ? (
       <div className="item-list-two">
-      <h1> Add or delete items from your registry</h1>
+      <h1> Add/delete items from your registry</h1>
         <ul>
           <li>
-            <input
+            <TextField
               type="text"
-              placeholder="Add items to your registry"
               value={this.state.itemToAdd}
               className="item-list-two-items"
               onChange={this.handleChange}
@@ -93,10 +88,9 @@ class ItemList extends React.Component {
           </li>
           <div className="item-list-list">
           {this.props.itemsQuery.event.items.map(item => (
-            <li key={item.id} className="item-list-item">
+            <Chip key={item.id} className="item-list-item" onRequestDelete={e => this.deleteItem(item.id, e)}>
               <span>{item.name}</span>
-              <span onClick={e => this.deleteItem(item.id, e)}>{deleteIcon}</span>
-            </li>
+              </Chip>
           ))}
           </div>
         </ul>

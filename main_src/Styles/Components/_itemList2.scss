@@ -2,15 +2,29 @@
 
   h1 {
     color: $color-tertiary;
+    width: 60%;
   }
 
   .item-list-two-items {
-  
+
     li {
       font-family: 'Raleway';
       padding: 10px;
-      font-size: 1em;
+      font-size: 12px;
   
     }
+  }
+
+  .item-list-list {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+  }
+
+  .item-list-item {
+    font-family: 'Raleway';
+    color: $color-tertiary;
+    margin: 3px !important;
+    // padding: 5px;
   }
 }
