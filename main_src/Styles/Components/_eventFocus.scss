@@ -3,6 +3,7 @@
   max-height: 80vh;
   padding: 20px;
   background-color: $color-white;
+  font-family: 'Comfortaa';
 }
 
 .event-page-grid {
@@ -27,24 +28,25 @@
     text-transform: uppercase;
     color: #a7b3a5;
     text-align: center;
+    margin-top: 0px;
   }
 
   img {
     border: 1px solid black;
-    height: 90%;
-    width: 75%;
+    min-height: 90%;
+    min-width: 75%;
     margin-left: 12.5%;
   }
 }
 
 .event-page-title {
-  height: 20%;
+  height: 15%;
   width: 100%;
   margin: auto;
 }
 
 .event-page-image {
-  height: 80%;
+  height: 85%;
   width: 100%;
   margin: auto;
 }
@@ -64,17 +66,63 @@
 }
 
 .event-page-info {
-  margin-top: 15%;
   height: 100%;
-  padding: 5%;
+  padding: 0 5%;
   text-align: center;
   line-height: 2em;
   grid-column-start: 1;
   grid-column-end: 7;
   grid-row-start: 7;
-  grid-row-end: 11;
+  grid-row-end: 12;
   background-color: $color-secondary-dark;
   box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.2);
+
+  button {
+    background-color: $color-secondary-dark;
+  }
+}
+.event-page-info-buttons {
+  height: 20%;
+}
+
+.event-page-info-buttons-text {
+  font-size: 0.5em;
+  line-height: 0.5em;
+}
+
+.event-page-description {
+  padding-top: 5%;
+  height: 30%;
+  box-sizing: border-box;
+}
+
+.border1 {
+  border-bottom: 1px solid black;
+  margin-bottom: 2px;
+}
+.border2 {
+  border-bottom: 2px solid black;
+}
+
+.event-page-date-time {
+  width: 100%;
+  margin-top: 10px;
+  height: 20%;
+}
+
+.event-page-date {
+  width: 45%;
+  display: inline-block;
+  font-size: 0.8rem;
+}
+
+.event-page-time {
+  width: 45%;
+  display: inline-block;
+}
+
+.event-page-location {
+  height: 20%;
 }
 
 .event-page-sidebar {

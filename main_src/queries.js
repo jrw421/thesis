@@ -11,6 +11,7 @@ const DASHBOARD_QUERY = gql`
         date
         img
         host_id
+        dateTimeStart
       }
       currentEvents {
         id
@@ -20,6 +21,7 @@ const DASHBOARD_QUERY = gql`
         date
         img
         host_id
+        dateTimeStart
       }
       pastEvents {
         id
@@ -29,6 +31,7 @@ const DASHBOARD_QUERY = gql`
         date
         img
         host_id
+        dateTimeStart
       }
     }
   }
@@ -37,7 +40,7 @@ const DASHBOARD_QUERY = gql`
 const GUESTS_QUERY = gql`
   query guestsQuery($id: Int) {
     event(id: $id) {
-      users{
+      users {
         name
         id
         memberReply
@@ -64,7 +67,6 @@ const COMMENTS_QUERY = gql`
   }
 `;
 
-
 const ITEMS_QUERY = gql`
   query itemsQuery($id: Int) {
     event(id: $id) {
@@ -72,7 +74,7 @@ const ITEMS_QUERY = gql`
       items {
         id
         name
-        user{
+        user {
           id
           name
         }
@@ -83,7 +85,7 @@ const ITEMS_QUERY = gql`
 
 const VOTES_QUERY = gql`
   query item($id: Int!) {
-    item (id: $id) {
+    item(id: $id) {
       upVotes {
         user_id
       }
@@ -95,8 +97,8 @@ const VOTES_QUERY = gql`
 `;
 
 const CHECK_EVENT_QUERY = gql`
-  query checkEvent($id: Int){
-    user(id: $id){
+  query checkEvent($id: Int) {
+    user(id: $id) {
       lastEvent {
         id
         name
@@ -105,7 +107,7 @@ const CHECK_EVENT_QUERY = gql`
         date
         img
         host_id
-        users{
+        users {
           name
           id
           memberReply
@@ -116,10 +118,10 @@ const CHECK_EVENT_QUERY = gql`
 `;
 
 module.exports = {
-  DASHBOARD_QUERY, 
-  GUESTS_QUERY, 
-  COMMENTS_QUERY, 
-  ITEMS_QUERY, 
-  VOTES_QUERY, 
+  DASHBOARD_QUERY,
+  GUESTS_QUERY,
+  COMMENTS_QUERY,
+  ITEMS_QUERY,
+  VOTES_QUERY,
   CHECK_EVENT_QUERY
-}
+};

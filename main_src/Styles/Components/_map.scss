@@ -3,9 +3,22 @@
 }
 
 .map-element-buttons-container {
-  height: 10%;
+  height: 20%;
+  button {
+    width: 50%;
+    display: inline-block;
+    height: 100%;
+  }
 }
 
 .map-element-map-container {
   height: 90%;
+}
+
+.map-element-map {
+  height: 100%;
+}
+
+.map-element-map2 {
+  height: 100%;
 }

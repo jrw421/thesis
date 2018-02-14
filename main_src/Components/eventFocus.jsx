@@ -13,6 +13,54 @@ import Map from './map.jsx';
 import Chat from './chat';
 import { confirmPresence, denyPresence } from '../mutations.js';
 
+let months = {
+  '01': 'January',
+  '02': 'February',
+  '03': 'March',
+  '04': 'April',
+  '05': 'May',
+  '06': 'June',
+  '07': 'July',
+  '08': 'August',
+  '09': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December'
+};
+
+let days = {
+  '1': '1st',
+  '2': '2nd',
+  '3': '3rd',
+  '4': '4th',
+  '5': '5th',
+  '6': '6th',
+  '7': '7th',
+  '8': '8th',
+  '9': '9th',
+  '10': '10th',
+  '11': '11th',
+  '12': '12th',
+  '13': '13th',
+  '14': '14th',
+  '15': '15th',
+  '16': '16th',
+  '17': '17th',
+  '18': '18th',
+  '19': '19th',
+  '20': '20th',
+  '21': '21st',
+  '22': '22nd',
+  '23': '23rd',
+  '24': '24th',
+  '25': '25th',
+  '26': '26th',
+  '27': '27th',
+  '28': '28th',
+  '29': '29th',
+  '30': '30th',
+  '31': '31st'
+};
 class EventFocus extends React.Component {
   constructor(props) {
     super(props);
@@ -36,6 +84,21 @@ class EventFocus extends React.Component {
     this.toggleItemsView = this.toggleItemsView.bind(this);
     this.toggleAttendingView = this.toggleAttendingView.bind(this);
     this.toggleMapImage = this.toggleMapImage.bind(this);
+    this.formatDate = this.formatDate.bind(this);
+  }
+
+  formatDate(strDate, strDate2) {
+    if (strDate) {
+      strDate = strDate.toString();
+      return `${months[strDate.slice(4, 6)]} ${
+        days[strDate.slice(7)]
+      }, ${strDate.slice(0, 4)}`;
+    } else {
+      strDate2 = strDate2.toString();
+      return `${months[strDate2.slice(4, 6)]} ${
+        days[strDate2.slice(7)]
+      }, ${strDate2.slice(0, 4)}`;
+    }
   }
 
   toggleMapImage() {
@@ -125,13 +188,22 @@ class EventFocus extends React.Component {
   }
 
   render() {
-    console.log('what is props in event focus ', this.props)
     let event = this.props.event;
     let checkIfHostOfEvent =
       this.props.currentUser.id === this.props.event.host_id;
     let guestsArray = this.props.guests;
+    const mapSvg = (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M17.545 5l-5.545-4-5.545 4-6.455-4v18l6.455 4 5.545-4 5.545 4 6.455-4v-18l-6.455 4zm-10.545 2.073l4-2.886v13.068l-4 2.885v-13.067zm6-2.886l4 2.886v13.068l-4-2.885v-13.069zm-11 .405l4 2.479v13.294l-4-2.479v-13.294zm20 13.295l-4 2.479v-13.295l4-2.479v13.295z" />
+      </svg>
+    );
     if (guestsArray === undefined) {
-       guestsArray = [];
+      guestsArray = [];
     }
 
     return (
@@ -172,7 +244,9 @@ class EventFocus extends React.Component {
             </div>
             <div
               className={
-                this.state.image ? 'event-page-image' : 'event-page-image-hide'
+                this.state.imageView
+                  ? 'event-page-image'
+                  : 'event-page-image-hide'
               }
             >
               <img src={this.props.event.img} alt="" />
@@ -192,27 +266,33 @@ class EventFocus extends React.Component {
           </div>
 
           <div className="event-page-info">
-            {/* Event Location */}
-            <div className="event-page-location">
-              location{' '}
-              {this.determineWhatToRender(this.props.location, event.location)}
-              <button onClick={this.toggleMapImage}>Toggle Map</button>
-            </div>
-            {/* Event Date */}
-            <div className="event-page-location">
-              date: {this.determineWhatToRender(this.props.date, event.date)}
-            </div>
-            {/* Event Time */}
-            <div className="event-page-time">
-              time: {this.props.time || event.time}
-            </div>
             {/* Event Description */}
             <div className="event-page-description">
-              description:{' '}
               {this.determineWhatToRender(
                 this.props.description,
                 event.description
               )}
+            </div>
+            <div className="border1" />
+            <div className="border2" />
+            <div className="event-page-date-time">
+              <div className="event-page-date">
+                {this.formatDate(this.props.date, event.date)}
+              </div>
+              @
+              {/* Event Time */}
+              <div className="event-page-time">
+                {this.props.time || event.time}
+              </div>
+            </div>
+            {/* Event Date */}
+            {/* Event Location */}
+            <div className="event-page-location">
+              {this.determineWhatToRender(this.props.location, event.location)}
+            </div>
+            <div className="event-page-info-buttons">
+              <button onClick={this.toggleMapImage}>{mapSvg}</button>
+              <div className="event-page-info-buttons-text">Map</div>
             </div>
           </div>
 
