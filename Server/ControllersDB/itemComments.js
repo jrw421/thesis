@@ -2,6 +2,7 @@ const knex = require('../dbConfig.js').knex;
 const ItemComment = require('../ModelsDB/itemComments.js');
 const conn = require('../dbConfig.js').conn;
 
+
 itemCommentsController = {
   addItemComment: function(itemComment, cb) {
     const { content, user_id, item_id, event_id } = itemComment;

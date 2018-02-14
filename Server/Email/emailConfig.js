@@ -3,6 +3,8 @@ const knex = require('../dbConfig.js').knex;
 const User = require('../ModelsDB/user.js');
 const Event_Attendee = require('../ModelsDB/event_attendee.js');
 const nodemailer = require('nodemailer');
+const conn = require('../dbConfig.js').conn;
+const db = require('../ControllersDB/mainController.js');
 
 
 const generateID = function(event_id, name, email) {
@@ -15,29 +17,31 @@ const generateID = function(event_id, name, email) {
       if (data.length) {
         generateID(event_id, name, email);
       } else {
-        const newUser = new User({
-          name: name,
-          hash: id,
-          member_status: 0,
-          email: email,
-          guest_event_id: event_id
-        }).save().then(async user => {
+        
+        knex.select('*').from('user').whereNot('member_status', 0).andWhere('email', user.attributes.email)
+        .then(oldUser => {
 
-          let oldUser = await knex.select('*').from('user').where('email', user.attributes.email).andWhere('member_status', 1)
+          const newUser = new User({
+            name: name,
+            hash: id,
+            member_status: oldUser.length ? oldUser[0].id : 0,
+            email: email,
+            guest_event_id: event_id
+          }).save().then(user => {
+
           let idx = oldUser.length ? oldUser[0].id : user.attributes.id
-          let newEventAttendee = new Event_Attendee({
-            user_id: idx,
-            event_id: event_id, 
-            reply: 2
-          });
-
-          newEventAttendee.save().then(x => console.log('newPair', x)).catch(x => ['errorPair', x])
-      
-        });
+       
+          db.event_attendee.add({user: idx, event: event_id}, function(err, res){
+            if(err){
+              return err
+            }
+            })
+          }).catch(err => err)
+        }).catch(err => err)
 
         return id;
       }
-    });
+    }).catch(err => err)
 };
 
 const transporter = nodemailer.createTransport({
@@ -53,7 +57,7 @@ const transporter = nodemailer.createTransport({
 });
 
 //args.dateTimeStart, args.dateTimeEnd
-const sendMessage = function(recipients, account, event_id) {
+const sendMessage = function(recipients, account, event_id, start, end, cb) {
   recipients.forEach(async guest => {
     var id = await generateID(event_id, guest[0], guest[1]);
 
@@ -69,24 +73,22 @@ const sendMessage = function(recipients, account, event_id) {
         accessToken: account.accessToken
       }
     };
-
+   
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        return console.log('send mail error', error);
-      } else {
-        console.log('Message sent. Response Info:  ', info);
-      }
-    });
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return error;
-      }
-      return knex
+        cb(error, null)
+      } else if (mailOptions.to === `${recipients[recipients.length - 1][0]} <${recipients[recipients.length - 1][1]}>`){
+        knex
         .select('*')
         .from('event')
         .where('id', event_id)
-        .then(x => x[0]);
+        .then(x => {
+          cb(null, x[0])
+        })
+        .catch(err => {
+          cb(err, null)
+        });
+      }
     });
   });
 };

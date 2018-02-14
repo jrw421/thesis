@@ -1,182 +1,123 @@
 const knex = require('../dbConfig.js').knex;
 const User = require('../ModelsDB/user.js');
+const conn = require('../dbConfig.js').conn
+
 
 const userController = {
-  findOrCreateUser: function(body){
-    return knex
-      .select('*')
-      .from('user')
-      .where('google_id', body.google_id)
-      .then((profileCheck) => {
-        if (profileCheck.length > 0) {
-          const updates = {
-            email: body.email,
-            accessToken: body.accessToken,
-          };
-          return this.editFields(profileCheck[0].id, updates)
-            .then(() => this.getUser(null, body.google_id))
-            .catch(error => [3, error]);
-        }
-
-        const newUser = new User({
-          name: body.name,
-          img: body.img,
-          google_id: body.google_id,
-          email: body.email,
-          accessToken: body.accessToken,
-          member_status: 1,
-        });
-        return newUser
-          .save()
-          .then(user => user.attributes)
-          .catch(error => [1, error]);
-      })
-      .catch(error => [2, error]);
-  },
-  createUserOnSignup: function(body){
-    const newUser = new User({
-      name: body.name,
-      img: body.img,
-      google_id: body.google_id,
-      email: body.email,
-      accessToken: body.accessToken,
-      refreshToken: body.refreshToken
-    });
-
-    return newUser
-      .save()
-      .then(user => user.attributes)
-      .catch(error => ['100', error]);
-  },
-  getUserById: function(id){
-    return knex
-      .select('*')
-      .from('user')
-      .where('id', id)
-      .then((result) => {
-        return result[0];
-      })
-      .catch(error => ['error: getuserbyid', error]);
-  },
-  getUserByGoogleId: function(google_id){
-    return knex
-      .select('*')
-      .from('user')
-      .where('google_id', google_id)
-      .then((result) => {
-        return result[0];
-      })
-      .catch((error) => {
-        return ['error get userbygooglid: ', error];
-      });
-  },
-  getUserByHash: function(hash) {
-    return knex
-      .select('*')
-      .from('user')
-      .where('hash', hash)
-      .then((result) => {
-        return result[0];
-      })
-      .catch(error => ['error getuserbyhash: ', error]);
-  },
-  getUser: async function(id, google_id, hash) {
-    let result;
-    if (google_id !== null && google_id !== undefined) {
-      try{
-      result = await knex
-        .select('*')
-        .from('user')
-        .where('google_id', google_id)
-        .then(x => x)
-      } catch(error) {
-        return[4, error];
-      }
-      return result[0];
-    } else if (hash !== null && hash !== undefined) {
-      try {
-        result = await knex
-          .select('*')
-          .from('user')
-          .where('hash', hash)
-          .then(x => x)
-      } catch (error) {
-        return [5, error];
-      }
-      return result[0];
-    } else {
-      try{
-      result = await knex
-        .select('*')
-        .from('user')
-        .where('id', id)
-        .then(x => x)
-
-      } catch(error){
-        return[6, 'await catach', error];
-      }
-        if (result){
-        return result[0];
+  findOrCreateUser: function(body, cb){
+    conn.query(`select * from user where google_id = "${google_id}"`, function(err, results, fields){
+      if (err){
+        cb(err, null)
       } else {
-        return null
+        if (results.length > 0){
+          conn.query(`update user set email = "${body.email}", accessToken = '${body.accessToken}', refreshToken = "${body.refreshToken}" where google_id = "${body.google_id}"`, function(err1, results1, fields){
+            if (err1){
+              cb(err1, null)
+            } else {
+               conn.query(`select * from user where google_id = "${google_id}")`, function(error, res, fields){
+                if (error){
+                  cb(error, null)
+                } else {
+                  cb(null, JSON.parse(JSON.stringify(res[0])))
+                }
+              })
+            }
+          })
+        } else {
+          conn.query(`insert into user (name, img, google_id, email, accessToken, refreshToken) values ("${name}", "${img}", "${google_id}", "${email}", "${accessToken}", "${refreshToken}")`, function(err, results){
+            if (err){
+              cb(err, null)
+            } else {
+              cb(null, JSON.parse(JSON.stringify(results)).attributes)
+            }
+          })
+        }
       }
+    })
+  },
+  createUserOnSignup: function(body, cb){
+    const {name, img, google_id, email, accessToken, refreshToken} = body
+    conn.query(`insert into user (name, img, google_id, email, accessToken, refreshToken) values ("${name}", "${img}", "${google_id}", "${email}", "${accessToken}", "${refreshToken}")`, function(err, results){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results)).attributes)
+      }
+    })
+  },
+  getUserById: function(id, cb){
+    conn.query(`select * from user where id = ${id}`, function(err, results){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results))[0])
+      }
+    })
+  },
+  getUserByGoogleId: function(google_id, cb){
+    conn.query(`select * from user where google_id = "${google_id}"`, function(err, results){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results))[0])
+      }
+    })
+  },
+  getUserByHash: function(hash, cb) {
+    conn.query(`select * from user where hash = "${hash}"`, function(err, results){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(results))[0])
+      }
+    })
+  },
+  editField: function (id, field, newValue, cb) {
+    let q = ""
+    if (typeof newValue !== "string"){
+        q +=  field + ' = ' + newValue
+    } else {
+        q +=  field + ' = ' + `'${newValue}'`
+    } 
+    
+    conn.query(`update user set ${q} where id = ${id}`, function(err, results){
+      if (err){
+        cb(err, null)
+      } else {
+         conn.query(`select * from user where id = ${id}`, function(error, res){
+          if (error){
+            cb(error, null)
+          } else {
+            cb(null, JSON.parse(JSON.stringify(res))[0])
+          }
+        })
+      }
+    })
+  },
+  editFields: function(id, obj, cb) {
+    let q = ""
+    for (let key in obj){
+      if (typeof obj[key] !== "string"){
+        q += ", " + key + ' = ' + obj[key]
+      } else {
+        q += ", " + key + ' = ' + `"${obj[key]}"`
+      } 
     }
+
+    conn.query(`update user set ${q.substring(2)} where id = ${id}`, function(err, results){
+      if (err){
+        cb(err, null)
+      } else {
+         conn.query(`select * from user where id = ${id}`, function(error, res){
+          if (error){
+            cb(error, null)
+          } else {
+            cb(null, JSON.parse(JSON.stringify(res))[0])
+          }
+        })
+      }
+    })
   },
-  getToken: function(id) {
-    return knex
-      .select('accessToken')
-      .from('user')
-      .where('id', id)
-      .then(x => x)
-      .catch(err => err)
-  },
-  findAll: function() {
-    return knex.select('*').from('user')
-       .then(x => x)
-      .catch(err => err)
-  },
-  deleteUser: function(id){
-    return knex('user')
-      .where('id', id)
-      .del()
-      .then(x => x)
-      .catch(err => err)
-  },
-  editField: function (id, field, newValue) {
-    return knex('user')
-      .where('id', id)
-      .update(field, newValue)
-      .then((result) => {
-        this.getUserById(id)
-          .then((result) => {
-            console.log('edit field result', result)
-            return result;
-          })
-          .catch((error) => {
-            return['edit field error', error];
-          });
-      })
-      .catch(error => {
-        return ['editfield error2', error];
-      });
-  },
-  editFields: function(id, obj) {
-    return knex('user')
-      .where('id', id)
-      .update(obj)
-      .then((result) => {
-        this.getUserById(id)
-          .then((result) => {
-            return result;
-          })
-          .catch((error) => {
-            return['edit field error', error];
-          });
-      })
-      .catch(error => {
-        return ['editfield error2', error];
-      });
-  }
 };
 
 module.exports = userController;
