@@ -41,7 +41,7 @@ eventController = {
   },
   getCurrentEvents: function(user_id, cb) {
     let current = createDateNum()
-    conn.query(`select * from event inner join event_attendee on (event_attendee.event_id = event.id and event_attendee.user_id = ${user_id}) where date > ${current - 1} `, function(err, results){
+    conn.query(`select * from event right join event_attendee on (event_attendee.event_id = event.id and event_attendee.user_id = ${user_id}) where date > ${current - 1} `, function(err, results){
       if (err){
         cb(err, null)
       } else {
