@@ -2,8 +2,10 @@ import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ItemWithData from './item.jsx';
+import Chip from 'material-ui/Chip';
 import { ITEMS_QUERY } from '../queries.js';
 import { addItems, deleteItem } from '../mutations';
+import TextField from 'material-ui/TextField'
 
 class ItemList extends React.Component {
   constructor(props) {
@@ -51,7 +53,6 @@ class ItemList extends React.Component {
           }
         })
         .then(response => {
-          console.log('what we get back from mut', response);
           this.setState({ itemToAdd: '' }, () => {
             this.refreshItemList();
           });
@@ -91,24 +92,24 @@ class ItemList extends React.Component {
 
     return this.props.currentlyEditing ? (
       <div className="item-list-two">
-      <h1> Add or delete items from your registry</h1>
+      <h1> Add/delete items from your registry</h1>
         <ul>
           <li>
-            <input
+            <TextField
               type="text"
-              placeholder="Add items to your registry"
               value={this.state.itemToAdd}
               className="item-list-two-items"
               onChange={this.handleChange}
               onKeyPress={this.addItem}
             />
           </li>
+          <div className="item-list-list">
           {this.props.itemsQuery.event.items.map(item => (
-            <li key={item.id}>
-              {item.name}
-              <span onClick={e => this.deleteItem(item.id, e)}>{deleteIcon}</span>
-            </li>
+            <Chip key={item.id} className="item-list-item" onRequestDelete={e => this.deleteItem(item.id, e)}>
+              <span>{item.name}</span>
+              </Chip>
           ))}
+          </div>
         </ul>
       </div>
     ) : (
