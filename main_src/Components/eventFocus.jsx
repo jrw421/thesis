@@ -11,7 +11,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import Map from './map.jsx';
 import Chat from './chat';
-import { confirmPresence, denyPresence } from '../mutations.js';
+import { confirmPresence, denyPresence, addToCalendar } from '../mutations.js';
 
 class EventFocus extends React.Component {
   constructor(props) {
@@ -33,6 +33,7 @@ class EventFocus extends React.Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.toggleItemsView = this.toggleItemsView.bind(this);
     this.toggleAttendingView = this.toggleAttendingView.bind(this);
+    this.addToCalendar = this.addToCalendar.bind(this)
   }
 
   toggleItemsView() {
@@ -114,6 +115,21 @@ class EventFocus extends React.Component {
     });
   }
 
+  addToCalendar(){
+    let { description, name, location, dateTimeStart, id } = this.props.event
+    let user_id = this.props.currentUser.id
+    this.props.addToCalendar({
+      variables: {
+        description, 
+        name, 
+        location, 
+        dateTimeStart, 
+        user_id, 
+        id
+      }
+    })
+  }
+
   render() {
     let event = this.props.event;
     let checkIfHostOfEvent =
@@ -180,6 +196,7 @@ class EventFocus extends React.Component {
                 event.description
               )}
             </div>
+            <button onClick={this.addToCalendar}>+ Add Event To Google Calendar</button>
             {/* Map
             <div className="event-page-map">
               <Map
@@ -282,6 +299,7 @@ class EventFocus extends React.Component {
 const EventFocusWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence' }),
+  graphql(addToCalendar, {name: 'addToCalendar'}),
   GoogleApiWrapper({
     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'

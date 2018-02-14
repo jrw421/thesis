@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const addEvent = gql`
-  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String, $time: String, $date: Int, $endTime: String) {
+  mutation addEvent($name: String!, $host_id: Int!, $description: String!, $location: String!, $img: String, $time: String, $date: Int, $dateTimeStart: String) {
     addEvent(
       name: $name,
       host_id: $host_id,
@@ -10,7 +10,7 @@ const addEvent = gql`
       img: $img,
       time: $time,
       date: $date,
-      endTime: $endTime
+      dateTimeStart: $dateTimeStart
     ) {
       name
       host_id
@@ -36,8 +36,8 @@ const addItems = gql`
 `;
 
 const addRecipients = gql`
-  mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int, $dateTimeStart: String, $dateTimeEnd: String) {
-    addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id, dateTimeStart: $dateTimeStart, dateTimeEnd: $dateTimeEnd ) {
+  mutation addRecipients($nameEmail: [String]!, $event_id: Int, $id: Int) {
+    addRecipients(nameEmail: $nameEmail, event_id: $event_id, id: $id) {
       name
     }
   }
@@ -131,6 +131,13 @@ const saveEvent = gql`
   }
 `;
 
+const addToCalendar = gql`
+  mutation addToCalendar($description: String, $name: String, $location: String, $dateTimeStart: String, $user_id: Int, $id: Int){
+    addToCalendar(description: $description, name: $name, location: $location, dateTimeStart: $dateTimeStart, user_id: $user_id, id: $id){
+      name
+    }
+  }
+`;
 
 module.exports = {
   addRecipients, 
@@ -144,5 +151,6 @@ module.exports = {
   editEventFields,
   deleteItem,
   toggleClaimOfItem, 
-  saveEvent
+  saveEvent, 
+  addToCalendar
 }

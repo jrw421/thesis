@@ -131,7 +131,7 @@ class CreateEvent extends React.Component {
           img: uploadedFileCloudinaryUrl,
           time,
           date, 
-          endTime
+          dateTimeStart
         }
       })
       .then(event => {
@@ -150,8 +150,7 @@ class CreateEvent extends React.Component {
                   nameEmail: this.state.guests,
                   event_id: event.data.addEvent.id,
                   id: this.props.currentUser.id, 
-                  dateTimeStart, 
-                  dateTimeEnd
+                  dateTimeStart
                 }
               })
               .then(() => {

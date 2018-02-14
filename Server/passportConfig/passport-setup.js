@@ -18,11 +18,11 @@ passport.use(
   new GoogleStrategy(
     {
       callbackURL: '/auth/google/redirect',
-      clientID:
-        '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
+      clientID: '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com',
       clientSecret: '4qDzcSsqkWieHEABXAf1XMpH'
     },
     (accessToken, refreshToken, profile, done) => {
+      console.log('refreshtoken', refreshToken)
       const body = {
         google_id: profile.id,
         name: profile.displayName,
@@ -45,7 +45,7 @@ passport.use(
               }
             })
           } else {
-            let obj = body.refreshToken !== undefined ? {'accessToken' : body.accessToken, 'refreshToken' : body.refreshToken } : {'accessToken' : body.accessToken}
+            let obj = {'accessToken' : body.accessToken}
             db.user.editFields(user.id, obj, function(err2, res){
               if(err2){
                 done(err2, null)
