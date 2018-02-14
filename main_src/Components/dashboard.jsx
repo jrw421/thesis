@@ -51,7 +51,6 @@ class Dashboard extends React.Component {
       }
 
       if (this.props.dashboardQuery.user) {
-        console.log('mememem?')
         return (
           <div>
             <h1 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
