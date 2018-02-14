@@ -1,4 +1,8 @@
 .edit-event {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-around;
   margin: auto;
@@ -46,17 +50,18 @@
       color: $color-white;
   }
 
-    edit-event-inputs-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      margin: 10px;
 
-
-      .svg {
-        float: right;
-      }
-    }
   }
 
+
+
+
+&-inputs-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
 }
+
+}
+
+
