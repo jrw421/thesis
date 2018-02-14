@@ -1,0 +1,24 @@
+
+.item-vote {
+  button {
+    background-color: $color-primary;
+  }
+
+  .item-vote-up {
+    display: flex;
+  }
+
+  .item-vote-down {
+    display: flex;
+  }
+
+  span {
+    display: block;
+  }
+
+}
+
+.item-claim {
+  display: flex;
+  flex-direction: column;
+}

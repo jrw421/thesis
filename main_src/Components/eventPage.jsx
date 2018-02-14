@@ -44,7 +44,6 @@ class EventPage extends React.Component {
   }
 
   componentWillReceiveProps(next) {
-    console.log('next', next);
     this.setState(
       {
         event: next.location.state
@@ -52,14 +51,12 @@ class EventPage extends React.Component {
           : next.checkEvent.user.lastEvent
       },
       () => {
-        console.log('params', this.props.currentUser.id, this.state.event);
         this.props.saveEvent({
           variables: {
             id: this.props.currentUser.id,
             lastEvent: this.state.event.id
           }
         }).then(result => {
-          console.log('is this running', result)
         })
       }
     );
@@ -103,7 +100,6 @@ class EventPage extends React.Component {
       }
 
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event) {
-        console.log(this.props.guestsQuery.error);
         return
         <div style={{"textAlign": "center", "marginTop": "225px"}}>
           <Loader
@@ -118,7 +114,6 @@ class EventPage extends React.Component {
       }
 
       if (this.props.location.state.event === undefined) {
-        console.log('location state event is undefined return null')
         return null;
       }
 
@@ -162,7 +157,6 @@ class EventPage extends React.Component {
           </div>
         );
       }
-      console.log('before last null', this.props.events, this.props.location.state )
       return <div>THINKING</div>
     }
 

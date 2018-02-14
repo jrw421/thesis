@@ -64,7 +64,6 @@ class ItemList extends React.Component {
   }
 
   render() {
-    console.log('this is props in item list ', this.props)
     if (this.props.itemsQuery.error && !this.props.itemsQuery.event) {
       this.props.itemsQuery.refetch();
       return
