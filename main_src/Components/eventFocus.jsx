@@ -23,7 +23,9 @@ class EventFocus extends React.Component {
       toggleChat: false,
       toggleChatButton: true,
       toggleItemsView: true,
-      toggleAttendanceView: false
+      toggleAttendanceView: false,
+      mapView: false,
+      imageView: true
     };
 
     this.clickAttending = this.clickAttending.bind(this);
@@ -33,6 +35,14 @@ class EventFocus extends React.Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.toggleItemsView = this.toggleItemsView.bind(this);
     this.toggleAttendingView = this.toggleAttendingView.bind(this);
+    this.toggleMapImage = this.toggleMapImage.bind(this);
+  }
+
+  toggleMapImage() {
+    this.setState({
+      mapView: !this.state.mapView,
+      imageView: !this.state.imageView
+    });
   }
 
   toggleItemsView() {
@@ -155,12 +165,30 @@ class EventFocus extends React.Component {
             )}
           </div> */}
           {/* Event Image */}
-          <div className="event-page-image">
+          <div className="event-page-image-container">
             {/* Event Title */}
             <div className="event-page-title">
               <h1>{this.determineWhatToRender(this.props.name, event.name)}</h1>
             </div>
-            <img src={this.props.event.img} alt="" />
+            <div
+              className={
+                this.state.image ? 'event-page-image' : 'event-page-image-hide'
+              }
+            >
+              <img src={this.props.event.img} alt="" />
+            </div>
+            {/* Map */}
+            <div
+              className={
+                this.state.mapView ? 'event-page-map' : 'event-page-map-hide'
+              }
+            >
+              <Map
+                useThis={this.props.event.location}
+                props={this.props}
+                latLng={this.state.latLng}
+              />
+            </div>
           </div>
 
           <div className="event-page-info">
@@ -168,6 +196,7 @@ class EventFocus extends React.Component {
             <div className="event-page-location">
               location{' '}
               {this.determineWhatToRender(this.props.location, event.location)}
+              <button onClick={this.toggleMapImage}>Toggle Map</button>
             </div>
             {/* Event Date */}
             <div className="event-page-location">
@@ -185,14 +214,6 @@ class EventFocus extends React.Component {
                 event.description
               )}
             </div>
-            {/* Map
-            <div className="event-page-map">
-              <Map
-                useThis={this.props.event.location}
-                props={this.props}
-                latLng={this.state.latLng}
-              />
-            </div> */}
           </div>
 
           <div className="event-page-sidebar">
