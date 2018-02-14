@@ -139,27 +139,7 @@ class EventPage extends React.Component {
       return null
     }
 
-    // if(this.props.checkEvent){
-    //   if (this.props.checkEvent.loading && !this.props.checkEvent.user){
-    //     return <div>Loading...</div>
-    //   }
 
-    //   if (this.props.checkEvent.error && !this.props.checkEvent.user){
-    //     return <div>Error</div>
-    //   }
-
-    //   if (this.props.checkEvent.user){
-    //     return (
-    //         <EditEvent
-    //           event={this.props.checkEvent.user.lastEvent}
-    //           currentUser={this.props.currentUser}
-    //           guests={this.props.checkEvent.user.lastEvent.users}
-    //           refresh={this.refresh}
-    //         />
-    //      )
-    //   }
-    //   return null
-    // }
     return null
   }
 }
@@ -183,13 +163,3 @@ const EventPageWithData = compose(
 
 export default withRouter(EventPageWithData);
 
-// const EventFocusWithData = compose(
-//   graphql(confirmPresence, { name: 'confirmPresence' }),
-//   graphql(denyPresence, { name: 'denyPresence' }),
-//   GoogleApiWrapper({
-//     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
-//     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
-//   })
-// )(EventFocus);
-
-// export default EventFocusWithData
