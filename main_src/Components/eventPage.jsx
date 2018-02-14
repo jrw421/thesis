@@ -14,11 +14,7 @@ import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import Loader from 'react-loader-spinner'
-<<<<<<< HEAD
-import { GUESTS_QUERY, CHECK_EVENT_QUERY } from '../queries.js'
-=======
 import { GUESTS_QUERY, CHECK_EVENT_QUERY, DASHBOARD_QUERY } from '../queries.js'
->>>>>>> fixStuff
 import { saveEvent } from '../mutations.js'
 
 

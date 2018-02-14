@@ -214,7 +214,7 @@ class EventFocus extends React.Component {
             >
               <h1>Who's Coming</h1>
               <ul>
-                {this.props.guests.map(guest => {
+                {guestsArray.map(guest => {
                   return (
                     <div>
                       <a>{guest.name}</a>
