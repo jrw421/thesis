@@ -59,4 +59,15 @@
     }
   }
 
+
+}
+
+
+
+.item-list-item {
+  width: 40%;
+  font-family: 'Raleway';
+  color: $color-tertiary;
+  display: flex;
+  justify-content: space-between;
 }

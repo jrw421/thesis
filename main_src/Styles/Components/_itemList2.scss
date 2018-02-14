@@ -5,8 +5,12 @@
   }
 
   .item-list-two-items {
-    font-family: 'Raleway';
-    padding: 10px;
-    font-size: 2em;
+  
+    li {
+      font-family: 'Raleway';
+      padding: 10px;
+      font-size: 1em;
+  
+    }
   }
 }
