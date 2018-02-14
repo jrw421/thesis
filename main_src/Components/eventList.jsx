@@ -1,6 +1,8 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Event from './event';
+import Loader from 'react-loader-spinner';
+
 
 class EventList extends React.Component {
   constructor(props) {

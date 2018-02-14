@@ -14,7 +14,7 @@ import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import Loader from 'react-loader-spinner'
-import { GUESTS_QUERY, CHECK_EVENT_QUERY } from '../queries.js'
+import { GUESTS_QUERY, CHECK_EVENT_QUERY, DASHBOARD_QUERY } from '../queries.js'
 import { saveEvent } from '../mutations.js'
 
 
@@ -58,7 +58,9 @@ class EventPage extends React.Component {
             id: this.props.currentUser.id,
             lastEvent: this.state.event.id
           }
-        });
+        }).then(result => {
+          console.log('is this running', result)
+        })
       }
     );
   }
@@ -83,7 +85,8 @@ class EventPage extends React.Component {
   render() {
     //  console.log('users', users);
     //  console.log('is guest query working', this.props.guestsQuery);
-    if (this.props.guestsQuery) {
+    // console.log('inside render', this.props.location.state)
+    if (this.props.location.state.event) {
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event) {
         return (
         <div style={{"textAlign": "center", "marginTop": "225px"}}>
@@ -115,10 +118,11 @@ class EventPage extends React.Component {
       }
 
       if (this.props.location.state.event === undefined) {
+        console.log('location state event is undefined return null')
         return null;
       }
 
-      if (this.props.guestsQuery.event){
+      if (this.props.location.state.event){
 
 
       return this.state.currentlyEditing ?
@@ -127,7 +131,7 @@ class EventPage extends React.Component {
             <EditEventPage
               event={this.props.location.state.event}
               currentUser={this.props.currentUser}
-              guests={this.props.guestsQuery.event.users}
+              guests={this.props.location.state.event.users}
               refresh={this.refresh}
               editingState={this.editingState}
               toggleEditState={this.toggleEditState}
@@ -141,7 +145,7 @@ class EventPage extends React.Component {
             <EventFocus
             event={this.props.location.state.event}
             currentUser={this.props.currentUser}
-            guests={this.props.guestsQuery.event.users}
+            guests={this.props.location.state.event.users}
             refresh={this.refresh}
             toggleEditState={this.toggleEditState}
             name={this.state.name}
@@ -158,18 +162,19 @@ class EventPage extends React.Component {
           </div>
          );
       }
-      return null
+      console.log('before last null', this.props.events, this.props.location.state )
+      return <div>THINKING</div>
     }
 
     // if(this.props.checkEvent){
     //   if (this.props.checkEvent.loading && !this.props.checkEvent.user){
     //     return <div>Loading...</div>
     //   }
-
+    //
     //   if (this.props.checkEvent.error && !this.props.checkEvent.user){
     //     return <div>Error</div>
     //   }
-
+    //
     //   if (this.props.checkEvent.user){
     //     return (
     //         <EditEvent
@@ -182,7 +187,7 @@ class EventPage extends React.Component {
     //   }
     //   return null
     // }
-    return null
+    // return null
   }
 }
 
@@ -200,6 +205,11 @@ const EventPageWithData = compose(
     name: 'checkEvent',
     options: props => ({ variables: { id: props.currentUser.id } }),
     skip: props => props.location.state !== undefined
+  }),
+  graphql(DASHBOARD_QUERY, {
+    skip: props => props.currentUser === undefined ,
+    options: props => ({ variables: { id: props.currentUser.id } }),
+    name: 'dashboardQuery',
   })
 )(EventPage);
 
