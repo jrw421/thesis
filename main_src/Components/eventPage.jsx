@@ -73,18 +73,16 @@ class EventPage extends React.Component {
     this.setState(object);
   }
 
-  formatTime (time) {
-    let timeString = time.toString()
-    let years = timeString.slice(0,4)
-    let months = timeString.slice(4,6)
-    let day = timeString.slice(6, 9)
-  
-    return `${months} ${day} ${years}`
+  formatTime(time) {
+    let timeString = time.toString();
+    let years = timeString.slice(0, 4);
+    let months = timeString.slice(4, 6);
+    let day = timeString.slice(6, 9);
+
+    return `${months} ${day} ${years}`;
   }
 
   render() {
-    //  console.log('users', users);
-    //  console.log('is guest query working', this.props.guestsQuery);
     if (this.props.guestsQuery) {
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event) {
         return <Loader type="Puff" color="#00BFFF" height="100" width="100" />;
@@ -117,50 +115,28 @@ class EventPage extends React.Component {
         ) : (
           <div>
             <EventFocus
-            event={this.props.location.state.event}
-            currentUser={this.props.currentUser}
-            guests={this.props.guestsQuery.event.users}
-            refresh={this.refresh}
-            toggleEditState={this.toggleEditState}
-            name={this.state.name}
-            date={this.state.date}
-            location={this.state.location}
-            description={this.state.description}
-            img={this.state.img}
-            id={this.state.id}
-            hostId={this.state.hostId}
-            time={this.state.time}
-            currentlyEditing={this.state.currentlyEditing}
-          
+              event={this.props.location.state.event}
+              currentUser={this.props.currentUser}
+              guests={this.props.guestsQuery.event.users}
+              refresh={this.refresh}
+              toggleEditState={this.toggleEditState}
+              name={this.state.name}
+              date={this.state.date}
+              location={this.state.location}
+              description={this.state.description}
+              img={this.state.img}
+              id={this.state.id}
+              hostId={this.state.hostId}
+              time={this.state.time}
+              currentlyEditing={this.state.currentlyEditing}
             />
           </div>
-         );
+        );
       }
-      return null
+      return null;
     }
 
-    // if(this.props.checkEvent){
-    //   if (this.props.checkEvent.loading && !this.props.checkEvent.user){
-    //     return <div>Loading...</div>
-    //   }
-
-    //   if (this.props.checkEvent.error && !this.props.checkEvent.user){
-    //     return <div>Error</div>
-    //   }
-
-    //   if (this.props.checkEvent.user){
-    //     return (
-    //         <EditEvent
-    //           event={this.props.checkEvent.user.lastEvent}
-    //           currentUser={this.props.currentUser}
-    //           guests={this.props.checkEvent.user.lastEvent.users}
-    //           refresh={this.refresh}
-    //         />
-    //      )
-    //   }
-    //   return null
-    // }
-    return null
+    return null;
   }
 }
 
@@ -182,14 +158,3 @@ const EventPageWithData = compose(
 )(EventPage);
 
 export default withRouter(EventPageWithData);
-
-// const EventFocusWithData = compose(
-//   graphql(confirmPresence, { name: 'confirmPresence' }),
-//   graphql(denyPresence, { name: 'denyPresence' }),
-//   GoogleApiWrapper({
-//     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
-//     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
-//   })
-// )(EventFocus);
-
-// export default EventFocusWithData

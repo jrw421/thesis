@@ -94,7 +94,7 @@ class ItemList extends React.Component {
         </ul>
       </div>
     ) : (
-      <div>
+      <div className="itemList">
         {this.props.itemsQuery.event.items !== null ? (
           <ul>
             {this.props.itemsQuery.event.items.map((item, i) => {
