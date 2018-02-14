@@ -32,28 +32,30 @@ passport.use(
         email: profile.emails[0].value
       };
 
-      db.user
-        .getUserByGoogleId(body.google_id)
-        .then(user => {
+      db.user.getUserByGoogleId(body.google_id, function(err, user){
+        if(err){
+          done(err, null)
+        } else {
           if (user === undefined) {
-            db.user
-              .createUserOnSignup(body)
-              .then(user => {
-                done(null, user);
-              })
-              .catch(error => ['passport.use', error]
-              );
+            db.user.createUserOnSignup(body, function(error, user2){
+              if (error){
+                done(error, null)
+              } else {
+                done(null, user2)
+              }
+            })
           } else {
-            db.user
-              .editFields(user.id, {'accessToken' : body.accessToken, 'refreshToken' : body.refreshToken})
-              .then(user => {
-                done(null, user);
-              })
-              .catch(error => ['passport.use2', error]);
-            done(null, user);
+            let obj = body.refreshToken !== undefined ? {'accessToken' : body.accessToken, 'refreshToken' : body.refreshToken } : {'accessToken' : body.accessToken}
+            db.user.editFields(user.id, obj, function(err2, res){
+              if(err2){
+                done(err2, null)
+              } else {
+                done(null, res)
+              }
+            })
           }
-        })
-        .catch(error => ['passportuse', 50, error]);
+        }
+      })
     }
   )
 );

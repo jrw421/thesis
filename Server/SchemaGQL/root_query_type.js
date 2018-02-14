@@ -13,17 +13,6 @@ const RootQueryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: () => ({
     //this ^ callback can be omitted, but resolves certain errors in definition and invocation order
-    allUsers: {
-      type: new GraphQLList(UserType),
-      args: { id: { type: GraphQLInt } },
-      resolve: (parentValue, args) => {
-        return db.user.findAll().catch(err => console.log(28, err));
-      }
-      //this is where ^ controller functions would be input
-
-      //args is an object that gets called for whatever we input into our query
-      // the resolve function looks for the exact data we're looking for
-    },
     user: {
       type: UserType,
       args: {
@@ -31,11 +20,16 @@ const RootQueryType = new GraphQLObjectType({
         google_id: { type: GraphQLInt },
         hash: { type: GraphQLString }
       },
-      resolve: (parentValue, args) => {
-        // return db.user.getUser(args.id, args.google_id, args.hash);
-        return db.user.getUserById(args.id)
-                .then(x => x)
-                .catch(err => err)
+       async resolve(parentValue, args) {
+        let wait = new Promise((resolve, reject) => {
+          db.user.getUserById(args.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       return await wait
       }
     },
     guestUser: {
@@ -45,38 +39,48 @@ const RootQueryType = new GraphQLObjectType({
         // google_id: { type: GraphQLInt },
         hash: { type: GraphQLString }
       },
-      resolve: (parentValue, args) => {
-        // return db.user.getUser(args.id, args.google_id, args.hash);
-        return db.user.getUserByHash(args.hash)  
-                  .then(x => x)
-                  .catch(err => err)
+      async resolve(parentValue, args) {
+        let wait = new Promise((resolve, reject) => {
+          db.user.getUserByHash(args.hash, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       return await wait
       }
-    },
-    events: {
-      type: new GraphQLList(EventType),
-      args: { id: { type: GraphQLInt } },
-      resolve(parentValue, args) {
-        return db.event.findAll()
-                        .then(x => x)
-                        .catch(err => err)
-        }
     },
     event: {
       type: EventType,
       args: { id: { type: GraphQLInt } },
-      resolve: (parentValue, args) => {
-        return db.event.getEvent(args.id)
-                     .then(x => x)
-                    .catch(err => err)
+      async resolve(parentValue, args) {
+        let wait = new Promise((resolve, reject) => {
+          db.event.getEvent(args.id, function(err, res){
+            if (err){
+            console.log('event err', err)
+             reject(err)
+            }
+            console.log('event res', res)
+             resolve(res)
+           })
+       })
+       return await wait
       }
     },
     item: {
       type: ItemType,
       args: { id: { type: GraphQLInt } },
-      resolve: (parentValue, args) => {
-        return db.item.getItem(args.id)
-        .then(x => x)
-        .catch(err => err)
+      async resolve(parentValue, args) {
+        let wait = new Promise((resolve, reject) => {
+          db.item.getItem(args.id, function(err, res){
+            if (err){
+             reject(err)
+            }
+             resolve(res)
+           })
+       })
+       return await wait
       }
     },
   })

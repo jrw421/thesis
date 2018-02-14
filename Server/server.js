@@ -76,6 +76,7 @@ app.post('/contacts', function(req, res) {
     });
 });
 
+
 app.get('/user', function(req, res) {
   if (req.user === undefined) {
     // The user is not logged in
@@ -112,14 +113,11 @@ app.post('/api/save-subscription/', function(req, res) {
   //   return;
   // }
   let userId = req.body.userId,
-    subscription = JSON.stringify(req.body.subscription);
+  subscription = JSON.stringify(req.body.subscription);
 
-  db.user
-    .editField(userId, 'subscription', subscription)
-    .then(result => {
-      res.send(JSON.stringify({ data: { success: true } }));
-    })
-    .catch(function(err) {
+
+  db.user.editField(userId, 'subscription', subscription, function(err, results){
+    if (err){
       res.status(500);
       res.setHeader('Content-Type', 'application/json');
       res.send(
@@ -131,7 +129,10 @@ app.post('/api/save-subscription/', function(req, res) {
           }
         })
       );
-    });
+    } else {
+      res.send(JSON.stringify({ data: { success: true } }))
+    }
+  })
 });
 
 // set up push to client
