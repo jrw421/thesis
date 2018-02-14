@@ -142,7 +142,6 @@ class CreateEvent extends React.Component {
         }
       })
       .then(event => {
-        console.log('event, event', event)
         this.props
           .addItems({
             variables: {
@@ -150,7 +149,13 @@ class CreateEvent extends React.Component {
               event_id: event.data.addEvent.id
             }
           })
-          .then(() => {
+          .then((second) => {
+            if (this.state.guests.length === 0) {
+              this.props.history.push({
+                pathname: '/eventPage',
+                state: { event: event.data.addEvent }
+              });
+            }
             this.props
               .addRecipients({
                 variables: {
@@ -161,7 +166,7 @@ class CreateEvent extends React.Component {
                   dateTimeEnd
                 }
               })
-              .then(() => {
+              .then((item) => {
                 // if (this.state.items === [] || this.state.items) {
                 this.props.history.push({
                   pathname: '/eventPage',
@@ -194,7 +199,6 @@ class CreateEvent extends React.Component {
   }
 
   render() {
-    console.log('what is the guest list now ', this.state.guests)
     return (
       <div
         style={{
