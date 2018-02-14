@@ -6,9 +6,10 @@
   right: 0;
   left: 0;
   margin: auto;
-  background-color: lavendar;
+  background-color: white;
   height: 25px;
   width: 50%;
+  font-family: 'Raleway';
 }
 
 .noToggleChat {
@@ -19,13 +20,14 @@
 .closeChat {
   width: 90%;
   height: 5vh;
+  margin: 0 5%;
 }
 
 // chat
 .chat {
   border: 2px solid rgb(6, 71, 73);
-  background-color: lavender;
-  width: 50%;
+  background-color: white;
+  width: 95%;
   margin: auto;
   position: fixed;
   bottom: 0px;
@@ -35,13 +37,13 @@
 
 .messages {
   padding-left: 0;
-  max-height: 60vh;
-  min-height: 60vh;
+  max-height: 75vh;
+  min-height: 75vh;
   overflow-y: scroll;
 }
 
 .true {
-  height: 75vh;
+  height: 90vh;
   transition: height 2s;
   z-index: 1;
 }
@@ -49,6 +51,7 @@
 .false {
   height: 0vh;
   transition: height 2s;
+  border: 0px;
 }
 
 // messages from current user
@@ -67,6 +70,7 @@
 .chatImageGrid {
   justify-self: stretch;
   align-self: start;
+  margin: auto;
 }
 
 .chatImage {
@@ -79,6 +83,7 @@
 .chatUsernameGrid {
   align-self: start;
   justify-self: stretch;
+  margin: auto;
 }
 
 .chatUsernameGrid p {
@@ -92,12 +97,10 @@
   border-radius: 0px 25px 25px 25px;
   padding: 2.5%;
   display: inline-block;
-  background-color: #2c666e;
+  background-color: $color-secondary-light;
   margin-top: 10px;
   margin-right: 25px;
   font-weight: bold;
-  font-family: sans-serif;
-  color: white;
 }
 
 // messages for other users
@@ -121,8 +124,9 @@
   border-radius: 25px 0px 25px 25px;
   padding: 2.5%;
   display: inline-block;
-  background-color: #2c666e;
+  background-color: $color-primary;
   margin-top: 10px;
+  font-weight: bold;
 }
 
 // Chat Input
@@ -132,21 +136,21 @@
 
 .chatInput {
   width: 90%;
-  margin: auto;
+  margin: 0 5%;
   height: 5vh;
 }
 
 .chatButton {
   width: 90%;
-  margin: auto;
-  height: 5vh;
-  background-color: #2c666e;
+  margin: 0 5%;
+  height: 3.5vh;
+  background-color: $color-primary;
 }
 
 // Responsive Break Points
 @media only screen and (max-width: 768px) {
   .chat {
-    width: 90%;
+    width: 95%;
     margin: auto;
     left: 0;
     right: 0;

@@ -84,32 +84,33 @@ class Chat extends Component {
           {this.state.messages.map(message => {
             if (message.id === this.props.user.id) {
               return (
-                <div className="chatGrid" key={message.id}>
-                  <div className="chatImageGrid">
-                    <img src={message.img} className="chatImage" />
+                <div className="chatGridOther" key={message.id}>
+                  <div className="chatMessageGridOther">
+                    <p>{message.message}</p>
                   </div>
                   <div className="chatUsernameGrid">
                     <p>{message.username}</p>
                     <p>{distanceInWordsToNow(message.createdAt) || ''}</p>
                   </div>
-                  <div className="chatMessageGrid">
-                    <p>{message.message}</p>
+
+                  <div className="chatImageGrid">
+                    <img src={message.img} className="chatImage" />
                   </div>
                 </div>
               );
             }
 
             return (
-              <div className="chatGridOther" key={message.id}>
-                <div className="chatMessageGridOther">
-                  <p>{message.message}</p>
+              <div className="chatGrid" key={message.id}>
+                <div className="chatImageGrid">
+                  <img src={message.img} className="chatImage" />
                 </div>
                 <div className="chatUsernameGrid">
                   <p>{message.username}</p>
                   <p>{distanceInWordsToNow(message.createdAt) || ''} ago</p>
                 </div>
-                <div className="chatImageGrid">
-                  <img src={message.img} className="chatImage" />
+                <div className="chatMessageGrid">
+                  <p>{message.message}</p>
                 </div>
               </div>
             );
