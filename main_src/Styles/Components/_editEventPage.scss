@@ -40,12 +40,23 @@
       color: $color-tertiary;
       margin: auto;
     }
-  
 
     .input {
       margin: 15px;
       color: $color-white;
   }
+
+    edit-event-inputs-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 10px;
+
+
+      .svg {
+        float: right;
+      }
+    }
   }
 
 }
