@@ -1,6 +1,8 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Event from './event';
+import Loader from 'react-loader-spinner';
+import '../Styles/Components/_dashboard.scss';
 
 class EventList extends React.Component {
   constructor(props) {
@@ -27,11 +29,25 @@ class EventList extends React.Component {
   }
 
   render() {
-    if (!this.props.events || this.props.events.length === 0) {
-      return null;
+    if (this.props.events.length === 0) {
+      // return null;
+      return (
+
+      <div style={{"textAlign": "center", "marginTop": "225px"}}>
+        <Loader
+         type="Puff"
+         color="#00BFFF"
+         height="300"
+         width="300"
+         alignItems="center"
+         justifyContent='center'
+         />
+       </div>
+     );
     }
     return (
-      <div>
+      <div id="container">
+
         <Event event={this.props.events[this.state.currentEvent]} handleEventClick={this.props.handleEventClick} />
         <FlatButton
           label="previous"

@@ -115,9 +115,14 @@ class EventFocus extends React.Component {
   }
 
   render() {
+    console.log('what is props in event focus ', this.props)
     let event = this.props.event;
     let checkIfHostOfEvent =
       this.props.currentUser.id === this.props.event.host_id;
+    let guestsArray = this.props.guests;
+    if (guestsArray === undefined) {
+       guestsArray = [];
+    }
 
     return (
       <div className="event-page">
@@ -209,7 +214,7 @@ class EventFocus extends React.Component {
             >
               <h1>Who's Coming</h1>
               <ul>
-                {this.props.guests.map(guest => {
+                {guestsArray.map(guest => {
                   return (
                     <div>
                       <a>{guest.name}</a>

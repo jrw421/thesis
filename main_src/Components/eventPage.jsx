@@ -1,9 +1,9 @@
+
 import React from 'react';
 import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
 import EditEventPage from './editEventPage.jsx';
 import { editEventFields } from '../mutations';
-// import ItemList from './itemList.jsx';
 import Map from './map.jsx';
 import { withRouter } from 'react-router';
 import { Switch, Route, browserHistory } from 'react-router-dom';
@@ -12,13 +12,11 @@ import { graphql, compose } from 'react-apollo';
 import { GoogleApiWrapper } from 'google-maps-react';
 import gql from 'graphql-tag';
 import FlatButton from 'material-ui/FlatButton';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete';
-import Loader from 'react-loader-spinner';
-import { GUESTS_QUERY, CHECK_EVENT_QUERY } from '../queries.js';
-import { saveEvent } from '../mutations.js';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import Loader from 'react-loader-spinner'
+import { GUESTS_QUERY, CHECK_EVENT_QUERY, DASHBOARD_QUERY } from '../queries.js'
+import { saveEvent } from '../mutations.js'
+
 
 class EventPage extends React.Component {
   constructor(props) {
@@ -60,7 +58,9 @@ class EventPage extends React.Component {
             id: this.props.currentUser.id,
             lastEvent: this.state.event.id
           }
-        });
+        }).then(result => {
+          console.log('is this running', result)
+        })
       }
     );
   }
@@ -73,37 +73,65 @@ class EventPage extends React.Component {
     this.setState(object);
   }
 
-  formatTime(time) {
-    let timeString = time.toString();
-    let years = timeString.slice(0, 4);
-    let months = timeString.slice(4, 6);
-    let day = timeString.slice(6, 9);
+  formatTime (time) {
+    let timeString = time.toString()
+    let years = timeString.slice(0,4)
+    let months = timeString.slice(4,6)
+    let day = timeString.slice(6, 9)
 
-    return `${months} ${day} ${years}`;
+    return `${months} ${day} ${years}`
   }
 
   render() {
-    if (this.props.guestsQuery) {
+    //  console.log('users', users);
+    //  console.log('is guest query working', this.props.guestsQuery);
+    // console.log('inside render', this.props.location.state)
+    if (this.props.location.state.event) {
       if (this.props.guestsQuery.loading && !this.props.guestsQuery.event) {
-        return <Loader type="Puff" color="#00BFFF" height="100" width="100" />;
+        return (
+        <div style={{"textAlign": "center", "marginTop": "225px"}}>
+          <Loader
+           type="Puff"
+           color="#00BFFF"
+           height="300"
+           width="300"
+           alignItems="center"
+           justifyContent='center'
+           />
+         </div>
+        );
       }
 
       if (this.props.guestsQuery.error && !this.props.guestsQuery.event) {
         console.log(this.props.guestsQuery.error);
-        return <div>Error</div>;
+        return
+        <div style={{"textAlign": "center", "marginTop": "225px"}}>
+          <Loader
+           type="Puff"
+           color="#00BFFF"
+           height="300"
+           width="300"
+           alignItems="center"
+           justifyContent='center'
+           />
+         </div>;
       }
 
       if (this.props.location.state.event === undefined) {
+        console.log('location state event is undefined return null')
         return null;
       }
 
-      if (this.props.guestsQuery.event) {
-        return this.state.currentlyEditing ? (
+      if (this.props.location.state.event){
+
+
+      return this.state.currentlyEditing ?
+        (
           <div>
             <EditEventPage
               event={this.props.location.state.event}
               currentUser={this.props.currentUser}
-              guests={this.props.guestsQuery.event.users}
+              guests={this.props.location.state.event.users}
               refresh={this.refresh}
               editingState={this.editingState}
               toggleEditState={this.toggleEditState}
@@ -115,28 +143,51 @@ class EventPage extends React.Component {
         ) : (
           <div>
             <EventFocus
-              event={this.props.location.state.event}
-              currentUser={this.props.currentUser}
-              guests={this.props.guestsQuery.event.users}
-              refresh={this.refresh}
-              toggleEditState={this.toggleEditState}
-              name={this.state.name}
-              date={this.state.date}
-              location={this.state.location}
-              description={this.state.description}
-              img={this.state.img}
-              id={this.state.id}
-              hostId={this.state.hostId}
-              time={this.state.time}
-              currentlyEditing={this.state.currentlyEditing}
+            event={this.props.location.state.event}
+            currentUser={this.props.currentUser}
+            guests={this.props.location.state.event.users}
+            refresh={this.refresh}
+            toggleEditState={this.toggleEditState}
+            name={this.state.name}
+            date={this.state.date}
+            location={this.state.location}
+            description={this.state.description}
+            img={this.state.img}
+            id={this.state.id}
+            hostId={this.state.hostId}
+            time={this.state.time}
+            currentlyEditing={this.state.currentlyEditing}
+
             />
           </div>
         );
       }
-      return null;
+      console.log('before last null', this.props.events, this.props.location.state )
+      return <div>THINKING</div>
     }
 
-    return null;
+    // if(this.props.checkEvent){
+    //   if (this.props.checkEvent.loading && !this.props.checkEvent.user){
+    //     return <div>Loading...</div>
+    //   }
+    //
+    //   if (this.props.checkEvent.error && !this.props.checkEvent.user){
+    //     return <div>Error</div>
+    //   }
+    //
+    //   if (this.props.checkEvent.user){
+    //     return (
+    //         <EditEvent
+    //           event={this.props.checkEvent.user.lastEvent}
+    //           currentUser={this.props.currentUser}
+    //           guests={this.props.checkEvent.user.lastEvent.users}
+    //           refresh={this.refresh}
+    //         />
+    //      )
+    //   }
+    //   return null
+    // }
+    // return null
   }
 }
 
@@ -154,6 +205,11 @@ const EventPageWithData = compose(
     name: 'checkEvent',
     options: props => ({ variables: { id: props.currentUser.id } }),
     skip: props => props.location.state !== undefined
+  }),
+  graphql(DASHBOARD_QUERY, {
+    skip: props => props.currentUser === undefined ,
+    options: props => ({ variables: { id: props.currentUser.id } }),
+    name: 'dashboardQuery',
   })
 )(EventPage);
 

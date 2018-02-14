@@ -39,12 +39,19 @@ eventController = {
       }
     })
   },
+
   getCurrentEvents: function(user_id, cb) {
+    console.log('what is the user_id ', user_id)
     let current = createDateNum()
-    conn.query(`select * from event inner join event_attendee on (event_attendee.event_id = event.id and event_attendee.user_id = ${user_id}) where date > ${current - 1} `, function(err, results){
+    conn.query(`select * from event
+      RIGHT JOIN event_attendee ON
+      event_attendee.event_id = event.id
+      AND event_attendee.user_id = "${user_id}"
+      WHERE date > ${current - 1} `, function(err, results, fields){
       if (err){
         cb(err, null)
       } else {
+        console.log('Here are the current Event results ', JSON.parse(JSON.stringify(results)))
         cb(null, JSON.parse(JSON.stringify(results)))
       }
     })
@@ -100,7 +107,7 @@ eventController = {
         q += ", " + key + ' = ' + fields[key]
       } else {
         q += ", " + key + ' = ' + `"${fields[key]}"`
-      } 
+      }
     }
 
     conn.query(`update event set ${q.substring(2)} where id = ${id}`, function(err, results){
@@ -115,5 +122,3 @@ eventController = {
 };
 
 module.exports = eventController;
-
-

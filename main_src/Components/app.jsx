@@ -12,6 +12,7 @@ import DashboardWithData from './dashboard';
 import EventPageWithData from './eventPage';
 import CreateEventWithMutations from './createEvent';
 import '../Styles/main.scss';
+import Loader from 'react-loader-spinner';
 
 // import register from '../../swCheck';
 
@@ -85,7 +86,21 @@ refreshDash(){
   render() {
 
     if (this.state.currentUser === undefined ) {
-      return null;
+      // return null;
+      return (
+
+      <div style={{"textAlign": "center", "marginTop": "225px"}}>
+        <Loader
+         type="Puff"
+         color="#00BFFF"
+         height="300"
+         width="300"
+         alignItems="center"
+         justifyContent='center'
+         />
+       </div>
+     );
+
     }
     return (
       <MuiThemeProvider muiTheme={muiTheme}>

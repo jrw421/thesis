@@ -20,7 +20,8 @@ class Header extends Component {
       <div>
         <AppBar title="Host.ly"
           showMenuIconButton={false}
-           onTitleClick={ () =>  this.titleClick()}
+          style={{"cursor":"pointer"}}
+          onTitleClick={ () =>  this.titleClick()}
           >
           <Tabs onChange={this.changeTab}>
             <Tab
