@@ -41,7 +41,6 @@ class ItemComments extends React.Component {
 
     if (this.props.itemComments.error) {
       this.props.itemComments.refetch()
-      console.log('error', this.props.itemComments.error)
       return <div>Error!</div>
     }
 

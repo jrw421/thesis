@@ -29,15 +29,7 @@ class Item extends React.Component {
   }
 
   handleItemClick = e => {
-    if (this.state.clicked === false) {
-      this.setState({
-        clicked: true
-      });
-    } else {
-      this.setState({
-        clicked: false
-      });
-    }
+    this.setState({clicked: !this.state.clicked})
     this.props
       .toggleClaimOfItem({
         variables: {
@@ -45,23 +37,20 @@ class Item extends React.Component {
           user_id: this.props.currentUser.id
         }
       })
-      .then(() => this.props.refresh());
+      .then(() => { 
+        this.props.refresh() 
+      })
+      .catch((error) => error)
     // mutation to toggle that item that was clicked.
     // render onclick a div that says <name> claimed item!
   };
 
   addItemToSearch(item) {
-    console.log('item ', item);
-    this.setState(
-      {
-        search: item
-      },
-      console.log('state ', this.state.search)
-    );
+    this.setState({search: item});
   }
 
   render() {
-    console.log('here is what you want to serach ', this.state.search);
+
     const isClicked = this.state.clicked;
     if (
       this.props.claimedBy !== null &&
@@ -70,9 +59,14 @@ class Item extends React.Component {
     ) {
       return (
         <div className="item">
-          <a>
-            {this.props.name} was claimed by {this.props.claimedBy.name}
-          </a>
+          <div className="item-claim">
+            <div>
+            {this.props.name}
+            </div>
+            <div>
+            {this.props.claimedBy.name}
+            </div>
+          </div>
           <GqlItemComments
             itemId={this.props.id}
             userId={this.props.currentUser.id}
@@ -87,9 +81,24 @@ class Item extends React.Component {
     } else {
       return (
         <div className="item">
-          {isClicked ? (
-            <a onClick={e => this.handleItemClick(e)}>
-              {this.props.name} was claimed by {this.props.currentUser.name}
+        <GqlVote
+        item_id={this.props.id}
+        user_id={this.props.currentUser.id}
+      />
+      
+      {isClicked ? (
+        <div>
+        <div className="item-claim">
+        <div>
+        <a onClick={e => this.handleItemClick(e)}>
+              {this.props.name} 
+              </a>
+            </div>
+            <div>
+              {this.props.currentUser.name}
+            </div>
+            </div>
+             
               <button
                 onClick={() => {
                   window.location.href = `https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=${
@@ -99,8 +108,9 @@ class Item extends React.Component {
               >
                 BUY ME
               </button>
-            </a>
+          </div>
           ) : (
+           
             <a
               onClick={e => {
                 this.handleItemClick(e);
@@ -115,12 +125,9 @@ class Item extends React.Component {
             userId={this.props.currentUser.id}
             eventId={this.props.eventId}
           />
-          <GqlVote
-            item_id={this.props.id}
-            user_id={this.props.currentUser.id}
-          />
+       
         </div>
-      );
+      )
     }
   }
 }
