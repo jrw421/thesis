@@ -115,9 +115,14 @@ class EventFocus extends React.Component {
   }
 
   render() {
+    console.log('what is props in event focus ', this.props)
     let event = this.props.event;
     let checkIfHostOfEvent =
       this.props.currentUser.id === this.props.event.host_id;
+    let guestsArray = this.props.guests;
+    if (guestsArray === undefined) {
+       guestsArray = [];
+    }
 
     return (
       <div className="event-page">

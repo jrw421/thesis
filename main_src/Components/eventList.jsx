@@ -1,6 +1,8 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Event from './event';
+import Loader from 'react-loader-spinner';
+import '../Styles/Components/_dashboard.scss';
 
 class EventList extends React.Component {
   constructor(props) {
@@ -44,7 +46,8 @@ class EventList extends React.Component {
      );
     }
     return (
-      <div>
+      <div id="container">
+
         <Event event={this.props.events[this.state.currentEvent]} handleEventClick={this.props.handleEventClick} />
         <FlatButton
           label="previous"

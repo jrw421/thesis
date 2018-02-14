@@ -11,7 +11,7 @@ import Header from './header';
 import DashboardWithData from './dashboard';
 import EventPageWithData from './eventPage';
 import CreateEventWithMutations from './createEvent';
-import '../Styles/styles.scss';
+import '../Styles/main.scss';
 import Loader from 'react-loader-spinner';
 
 // import register from '../../swCheck';
