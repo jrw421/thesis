@@ -46,7 +46,7 @@ passport.use(
             })
           } else {
 
-            let obj = body.refreshToken ? {'accessToken' : body.accessToken, 'refreshToken': body.refreshToken} : {'accessToken' : body.accessToken}
+            let obj = body.refreshToken ? {'accessToken' : body.accessToken, 'refreshToken': body.refreshToken4} : {'accessToken' : body.accessToken}
 
             db.user.editFields(user.id, obj, function(err2, res){
               if(err2){
