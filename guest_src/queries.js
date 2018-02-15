@@ -20,6 +20,8 @@ const GUEST_QUERY = gql `
           name
           description
           img
+          location
+          dateTimeStart
        }
     }
   }

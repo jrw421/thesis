@@ -48,7 +48,23 @@ const RootQueryType = new GraphQLObjectType({
              resolve(res)
            })
        })
-       return await wait
+
+       let hashUser = await wait
+
+       if (hashUser.member_status == 0){
+         return hashUser
+       } else {
+        let user = new Promise((resolve, reject) => {
+          db.user.getUserById(hashUser.member_status, function(err, res){
+             if (err){
+             reject(err)
+            }
+             resolve(res)
+           }, hashUser.guest_event_id)
+        })
+        return user.then(data => data).catch(err => err)
+         
+       }
       }
     },
     event: {
