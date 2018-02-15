@@ -150,7 +150,7 @@ class CreateEvent extends React.Component {
               event_id: event.data.addEvent.id
             }
           })
-          .then((second) => {
+          .then(() => {
             if (this.state.guests.length === 0) {
               this.props.history.push({
                 pathname: '/eventPage',

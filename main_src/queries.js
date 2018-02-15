@@ -12,6 +12,7 @@ const DASHBOARD_QUERY = gql`
         img
         host_id
         dateTimeStart
+        time
       }
       currentEvents {
         id
@@ -22,6 +23,7 @@ const DASHBOARD_QUERY = gql`
         img
         host_id
         dateTimeStart
+        time
       }
       pastEvents {
         id
@@ -32,6 +34,7 @@ const DASHBOARD_QUERY = gql`
         img
         host_id
         dateTimeStart
+        time
       }
     }
   }
