@@ -270,6 +270,7 @@ const mutations = new GraphQLObjectType({
         dateTimeStart: { type: GraphQLString }
       },
       async resolve(parentValue, args) {
+        console.log('do we get here?')
         let wait = new Promise((resolve, reject) => {
            db.user.getUserById(args.id, function(err, res){
             if (err){
