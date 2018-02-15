@@ -277,7 +277,7 @@ class Map extends React.Component {
           </div>
         ) : (
           <div className="map-element-map-container">
-            <div>
+            <div style={{ width: '100%', height: '100%' }}>
               <Map2 props={this.props} latLng={this.state.latLng} />
             </div>
 
