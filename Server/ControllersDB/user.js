@@ -144,7 +144,7 @@ const userController = {
       if (err){
         cb(err, null)
       } else {
-        cb(null, JSON.parse(JSON.stringify(res)))
+        cb(null, JSON.parse(JSON.stringify(res))[0].hash)
       }
     })
   },

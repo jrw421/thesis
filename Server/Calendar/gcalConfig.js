@@ -38,8 +38,7 @@ async function addToCal(event, user_id, host){
 
   if (!host){
     hashed.then(hash => {
-      url = `http://localhost:4000/eventPage/${hash[0].hash}` 
-
+      url = `http://localhost:4000/eventPage/${hash}` 
     var event = {
       'summary': name,
       'location': location,
@@ -63,6 +62,7 @@ async function addToCal(event, user_id, host){
         ],
     },
   };
+  console.log('event', event)
       calendar.events.insert({
         auth: oauth,
         calendarId: 'primary',
@@ -74,8 +74,49 @@ async function addToCal(event, user_id, host){
         }
         console.log('Event created: %s', event.htmlLink);
       });
-    }).catch(err => err)
+    }).catch(err => {
+        if (err.length === 40){
+          url = `http://localhost:4000/eventPage/${err}` 
+        
+        var event = {
+          'summary': name,
+          'location': location,
+          'description': description,
+          'start': {
+            'dateTime': dateTimeStart,
+          },
+          'end': {
+            'dateTime': dateTimeStart,
+          },
+          'colorId' : 3,  
+          'source' : {
+            'title' : 'View event on Host.ly', 
+            'url' : url
+          },
+          'reminders': {
+            'useDefault': false,
+            'overrides': [
+              {'method': 'email', 'minutes': 24 * 60 * 2},
+              {'method': 'popup', 'minutes': 120},
+            ],
+        },
+      };
+      console.log('event', event)
+          calendar.events.insert({
+            auth: oauth,
+            calendarId: 'primary',
+            resource: event,
+          }, function(err, event) {
+            if (err) {
+              console.log('There was an error contacting the Calendar service: ' + err);
+              return;
+            }
+            console.log('Event created: %s', event.htmlLink);
+          });
+        }
+    })
   } else {
+    console.log('nah')
     url = `http://localhost:4000/` 
      var event = {
       'summary': name,
@@ -100,7 +141,6 @@ async function addToCal(event, user_id, host){
         ],
     },
   };
-      console.log('event before insertion host', event)
       calendar.events.insert({
           auth: oauth,
           calendarId: 'primary',

@@ -116,7 +116,8 @@ class EventFocus extends React.Component {
   }
 
   addToCalendar(){
-    let { description, name, location, dateTimeStart, id } = this.props.event
+    let event = this.props.event
+    let { description, name, location, dateTimeStart, id } = event
     let user_id = this.props.currentUser.id
     this.props.addToCalendar({
       variables: {
