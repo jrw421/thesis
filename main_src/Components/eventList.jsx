@@ -36,6 +36,11 @@ class EventList extends React.Component {
 
   changeEventBack() {
       var events = this.props.events;
+      // if (this.state.currentPic < 0) {
+      //   this.setState({
+      //
+      //   })
+      // }
       this.setState({
         currentPic: (this.state.currentPic - 1) % events.length
       });
