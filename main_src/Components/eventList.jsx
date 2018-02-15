@@ -67,8 +67,8 @@ class EventList extends React.Component {
 
           <Event event={this.props.events[this.state.currentPic]}  handleEventClick={this.props.handleEventClick} />
           {/* leave the bottom two lines commented out if you have less than three events in any section*/}
-         {/* <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} />
-          {this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}*/}
+        {/* <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} />*/}
+          {/*{this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}*/}
 
       <div className="event-grid-buttons-right" onClick={this.changeEvent} style={{"alignSelf": "center"}}>
         {rightArrow}

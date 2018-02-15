@@ -342,7 +342,7 @@ class CreateEvent extends React.Component {
             }}
             secondary={true}
           />
-          <div class="spinner"><img src="https://raw.githubusercontent.com/hackreactor/hrnyc12-chatterbox-client/solution/client/images/spiffygif_46x46.gif?token=ASoxz0P442N1Nt4XDN_nsGMcMa5Re1q1ks5ajzrqwA%3D%3D"/></div>
+          <span class="spinner"><img src="https://raw.githubusercontent.com/hackreactor/hrnyc12-chatterbox-client/solution/client/images/spiffygif_46x46.gif?token=ASoxz0P442N1Nt4XDN_nsGMcMa5Re1q1ks5ajzrqwA%3D%3D"/></span>
       </div>
   </div>
 
