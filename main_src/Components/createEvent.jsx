@@ -28,7 +28,7 @@ const dropzoneStyle = {
 
 const imageStyle = {
   height: '300px',
-  width: '300px',
+  width: '100%',
   margin: 'auto'
 };
 
@@ -231,9 +231,17 @@ class CreateEvent extends React.Component {
         </div>
 
         <div className="create-event-dropzone">
-          <Dropzone multiple={false} accept="image/*" onDrop={this.onImageDrop}>
-            <p>Drop an image or click to select a file to upload.</p>
-          </Dropzone>
+          {this.state.uploadedFileCloudinaryUrl === '' ? (
+            <Dropzone
+              multiple={false}
+              accept="image/*"
+              onDrop={this.onImageDrop}
+            >
+              <p>Drop an image or click to select a file to upload.</p>
+            </Dropzone>
+          ) : (
+            <div />
+          )}
         </div>
 
         <div className="create-event-uploadedImage-container">
@@ -274,6 +282,8 @@ class CreateEvent extends React.Component {
             onNewRequest={this.handleContacts}
             onUpdateInput={this.handleUpdateSearch}
             fullwidth={true}
+            openOnFocus={true}
+            anchorOrigin={{ horizontal: 'center', vertical: 'left' }}
           />
         </div>
 
@@ -355,8 +365,18 @@ class CreateEvent extends React.Component {
 
         <div className="create-event-item-list">
           <List style={{ textAlign: 'center' }}>
-            {this.state.items.map(item => {
-              return <ListItem primaryText={item} />;
+            {this.state.items.map((item, i) => {
+              return (
+                <ListItem
+                  key={i}
+                  primaryText={item}
+                  style={{
+                    height: '33%',
+                    fontSize: '1.5em',
+                    marginBottom: '0 !important'
+                  }}
+                />
+              );
             })}
           </List>
         </div>

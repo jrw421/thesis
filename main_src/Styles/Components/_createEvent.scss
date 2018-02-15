@@ -7,14 +7,14 @@
 .create-event-container {
   width: 100vw;
   font-family: 'Comfortaa';
-  div {
-    margin-bottom: 25px;
-  }
+  // div {
+  //   margin-bottom: 25px;
+  // }
 }
 
 .create-event-header {
   width: 50%;
-  margin: 0 auto 20px;
+  margin: 0 auto 25px;
   font-weight: bold;
   h1 {
     text-align: center;
@@ -22,8 +22,9 @@
 }
 
 .create-event-name {
+  // margin-bottom: 25px;
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
 }
 
 .create-event-name-material {
@@ -39,7 +40,7 @@
 
 .create-event-dropzone {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
   div {
     width: 100% !important;
     p {
@@ -51,12 +52,16 @@
 
 .create-event-uploadedImage-container {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
+}
+
+.create-event-uploadedImage-show {
+  width: 100%;
 }
 
 .create-event-location {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
   div {
     width: 100% !important;
     input {
@@ -77,7 +82,7 @@
 
 .create-event-name-input {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
   div {
     width: 100% !important;
     input {
@@ -103,7 +108,7 @@
 
 .create-event-email-input {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
   input {
     color: rgba(130, 119, 23, 0.9) !important;
     font-size: 1.5em !important;
@@ -120,7 +125,7 @@
 
 .create-event-contacts-button {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
   button {
     width: 100% !important;
     margin: 0 auto !important;
@@ -129,7 +134,7 @@
 
 .create-event-date-time-picker {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
 }
 
 .create-event-date-time-picker-material {
@@ -148,7 +153,7 @@
 
 .create-event-description {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
 }
 
 .create-event-description-material {
@@ -163,7 +168,7 @@
 
 .create-event-item-input {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 25px;
 }
 
 .create-event-item-input-material {
@@ -187,13 +192,15 @@
 
 .create-event-submit {
   width: 50%;
-  margin: 0 auto;
+  margin: 25px auto 25px;
+  font-size: 1.5em !important;
 }
 
 .create-event-submit-material {
   width: 100% !important;
   text-align: center !important;
   height: 5% !important;
+  font-size: 1.5em !important;
   button {
     div {
       span {
@@ -203,5 +210,3 @@
     }
   }
 }
-
-// 130  119 23
