@@ -17,7 +17,7 @@ const Event = ({ event, handleEventClick }) => (
       <CardMedia
         overlay={<CardTitle title="Nothing" subtitle="so sad" />}
       >
-        <img src="http://www.htmlcsscolor.com/preview/gallery/95524C.png" alt="" />
+        <img style={{ height: '250px', width: '550px' }} src="http://www.htmlcsscolor.com/preview/gallery/95524C.png" alt="" />
       </CardMedia>
     </Card>
   ) : (
@@ -30,7 +30,7 @@ const Event = ({ event, handleEventClick }) => (
         <CardMedia
           overlay={<CardTitle title={event.name} subtitle={event.description} />}
           >
-            <img src={event.img} alt="" />
+            <img style={{ height: '250px', width: '550px' }} src={event.img} alt="" />
           </CardMedia>
         </Card>
       )

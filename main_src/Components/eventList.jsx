@@ -22,7 +22,6 @@ class EventList extends React.Component {
   }
 
   componentDidMount() {
-
       this.setState({
         events: this.props.events
       })
