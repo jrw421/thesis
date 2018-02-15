@@ -1,21 +1,6 @@
 
 .item-vote {
-  button {
-    background-color: $color-primary;
-  }
-
-  .item-vote-up {
-    display: flex;
-  }
-
-  .item-vote-down {
-    display: flex;
-  }
-
-  span {
-    display: block;
-  }
-
+  font-size: 10px;
 }
 
 .item-claim {

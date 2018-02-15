@@ -47,7 +47,6 @@ class EventList extends React.Component {
     }
 
   render() {
-    console.log("events in event:ist ", this.state.events)
 
     if (this.props.events.length === 0) {
 
@@ -78,7 +77,7 @@ class EventList extends React.Component {
           </div>
 
           <Event event={this.props.events[this.state.currentPic]}  handleEventClick={this.props.handleEventClick} />
-          <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} />
+          {this.props.events[this.state.currentPic + 1] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}
           {this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}
 
       <div className="event-grid-buttons-right" onClick={this.changeEvent} style={{"alignSelf": "center"}}>
