@@ -43,8 +43,8 @@ eventController = {
   getCurrentEvents: function(user_id, cb) {
     console.log('what is the user_id ', user_id)
     let current = createDateNum()
-    conn.query(`select * from event
-      RIGHT JOIN event_attendee ON
+    conn.query(`select * from event_attendee
+      inner join event ON
       event_attendee.event_id = event.id
       AND event_attendee.user_id = "${user_id}"
       WHERE date > ${current - 1} `, function(err, results, fields){
@@ -58,7 +58,7 @@ eventController = {
   },
   getPastEvents: function(user_id, cb){
     let current = createDateNum()
-    conn.query(`select * from event inner join event_attendee on (event_attendee.user_id = ${user_id} or host_id < ${user_id} and event_attendee.event_id = event.id) where date < ${current}`, function(err, results){
+    conn.query(`select * from event_attendee inner join event on event_attendee.user_id = ${user_id} or event.host_id = ${user_id} and event_attendee.event_id = event.id where date < ${current}`, function(err, results){
       if (err){
         cb(err, null)
       } else {

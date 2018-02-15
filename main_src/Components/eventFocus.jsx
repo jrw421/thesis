@@ -12,55 +12,8 @@ import PlacesAutocomplete, {
 import Map from './map.jsx';
 import Chat from './chat';
 import { confirmPresence, denyPresence, addToCalendar } from '../mutations.js';
+import { days, months } from './days-months.js'
 
-let months = {
-  '01': 'January',
-  '02': 'February',
-  '03': 'March',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'August',
-  '09': 'September',
-  '10': 'October',
-  '11': 'November',
-  '12': 'December'
-};
-
-let days = {
-  '1': '1st',
-  '2': '2nd',
-  '3': '3rd',
-  '4': '4th',
-  '5': '5th',
-  '6': '6th',
-  '7': '7th',
-  '8': '8th',
-  '9': '9th',
-  '10': '10th',
-  '11': '11th',
-  '12': '12th',
-  '13': '13th',
-  '14': '14th',
-  '15': '15th',
-  '16': '16th',
-  '17': '17th',
-  '18': '18th',
-  '19': '19th',
-  '20': '20th',
-  '21': '21st',
-  '22': '22nd',
-  '23': '23rd',
-  '24': '24th',
-  '25': '25th',
-  '26': '26th',
-  '27': '27th',
-  '28': '28th',
-  '29': '29th',
-  '30': '30th',
-  '31': '31st'
-};
 class EventFocus extends React.Component {
   constructor(props) {
     super(props);
