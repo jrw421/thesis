@@ -7,8 +7,8 @@ import {
 } from 'material-ui/Card';
 
 const Event = ({ event, handleEventClick }) => (
-  <div>
-  {(event === null) ? (
+  <div className="event-space">
+  {(event === null || undefined) ? (
   <Card
       onClick={() => {
         handleEventClick(event);
@@ -21,7 +21,7 @@ const Event = ({ event, handleEventClick }) => (
       </CardMedia>
     </Card>
   ) : (
-
+    <div style={{"height": "100px"}}>
     <Card
       onClick={() => {
         handleEventClick(event);
@@ -33,6 +33,7 @@ const Event = ({ event, handleEventClick }) => (
             <img style={{ height: '250px', width: '550px' }} src={event.img} alt="" />
           </CardMedia>
         </Card>
+      </div>
       )
 }
 
