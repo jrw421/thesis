@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import DateTimePicker from 'material-ui-datetimepicker';
 import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog';
 import TimePickerDialog from 'material-ui/TimePicker/TimePickerDialog';
+import { List, ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
 
@@ -272,6 +273,7 @@ class CreateEvent extends React.Component {
             maxSearchResults={5}
             onNewRequest={this.handleContacts}
             onUpdateInput={this.handleUpdateSearch}
+            fullwidth={true}
           />
         </div>
 
@@ -299,6 +301,7 @@ class CreateEvent extends React.Component {
 
         <div className="create-event-date-time-picker">
           <DateTimePicker
+            className="create-event-date-time-picker-material"
             DatePicker={DatePickerDialog}
             TimePicker={TimePickerDialog}
             // value={this.state.date}
@@ -331,6 +334,7 @@ class CreateEvent extends React.Component {
 
         <div className="create-event-description">
           <TextField
+            className="create-event-description-material"
             value={this.state.description}
             type="text"
             placeholder="Tell people what your party is all about!"
@@ -340,6 +344,7 @@ class CreateEvent extends React.Component {
 
         <div className="create-event-item-input">
           <TextField
+            className="create-event-item-input-material"
             value={this.state.currentItem}
             type="text"
             placeholder="Whatcha want people to bring?"
@@ -349,15 +354,16 @@ class CreateEvent extends React.Component {
         </div>
 
         <div className="create-event-item-list">
-          <ul>
+          <List style={{ textAlign: 'center' }}>
             {this.state.items.map(item => {
-              return <li>{item}</li>;
+              return <ListItem primaryText={item} />;
             })}
-          </ul>
+          </List>
         </div>
 
         <div className="create-event-submit">
           <FlatButton
+            className="create-event-submit-material"
             label="Submit"
             value="Submit"
             type="submit"
