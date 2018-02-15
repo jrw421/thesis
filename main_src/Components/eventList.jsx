@@ -36,11 +36,6 @@ class EventList extends React.Component {
 
   changeEventBack() {
       var events = this.props.events;
-      // if (this.state.currentPic < 0) {
-      //   this.setState({
-      //
-      //   })
-      // }
       this.setState({
         currentPic: (this.state.currentPic - 1) % events.length
       });
@@ -77,9 +72,9 @@ class EventList extends React.Component {
             {leftArrow}
           </div>
 
-          <Event event={this.props.events[this.state.currentPic]}  handleEventClick={this.props.handleEventClick} />
-          <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} />
-          {this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}
+          <Event event={this.props.events[this.state.currentPic]}  handleEventClick={this.props.handleEventClick} className="event-list-first"/>
+          <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} className="event-list-second" />
+          {this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} className="event-list-third"/>) : (<Event event={null} />)}
 
       <div className="event-grid-buttons-right" onClick={this.changeEvent} style={{"alignSelf": "center"}}>
         {rightArrow}
