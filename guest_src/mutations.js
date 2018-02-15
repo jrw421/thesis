@@ -36,10 +36,20 @@ const editEventFields = gql`
     img
     }
   }
-`
+`;
+
+const addToCalendar = gql`
+  mutation addToCalendar($description: String, $name: String, $location: String, $dateTimeStart: String, $user_id: Int, $id: Int){
+    addToCalendar(description: $description, name: $name, location: $location, dateTimeStart: $dateTimeStart, user_id: $user_id, id: $id){
+      name
+    }
+  }
+`;
+
 module.exports = {
   confirmPresence, 
   denyPresence, 
   toggleClaim,
-  editEventFields
+  editEventFields, 
+  addToCalendar
 }

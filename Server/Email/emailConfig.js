@@ -17,8 +17,7 @@ const generateID = function(event_id, name, email) {
       if (data.length) {
         generateID(event_id, name, email);
       } else {
-
-        knex.select('*').from('user').whereNot('member_status', 0).andWhere('email', user.attributes.email)
+        knex.select('*').from('user').where('member_status', null).andWhere('email', email)
         .then(oldUser => {
 
           const newUser = new User({
@@ -57,7 +56,7 @@ const transporter = nodemailer.createTransport({
 });
 
 //args.dateTimeStart, args.dateTimeEnd
-const sendMessage = function(recipients, account, event_id, start, end, cb) {
+const sendMessage = function(recipients, account, event_id, cb) {
   recipients.forEach(async guest => {
     var id = await generateID(event_id, guest[0], guest[1]);
 
@@ -91,6 +90,20 @@ const sendMessage = function(recipients, account, event_id, start, end, cb) {
       }
     });
   });
+  if (!recipients.length){
+    knex
+      .select('*')
+      .from('event')
+      .where('id', event_id)
+      .then(x => {
+        cb(null, x[0])
+      })
+      .catch(err => {
+        cb(err, null)
+      });
+  }
 };
 
 module.exports = { generateID, transporter, sendMessage };
+
+

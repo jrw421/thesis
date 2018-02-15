@@ -1,53 +1,158 @@
 var google = require('googleapis');
 var { OAuth2Client }  = require('google-auth-library');
 var OAuth2 = google.auth.OAuth2;
-var refreshToken = '1/nom8spYHSl6NA4qJ6-4Y9wyrZ-BlgwBCBUCgc3JNl5Y'
-var accessToken = 'ya29.GlxeBbVnj1kiFQv7hl11ziBPo-bg6nnRqVxw5DC22-mo6v45lOnyQJGEi1L6z_9V9Yyexst4k4sJenVPOCu-MmZEYdSa0oS_42xSRXvcMWjd6znBlN7JRZu9dyYu0Q'
 var calendar = google.calendar('v3');
 var clientId = '958835359621-ar0pkshcuaba693ki10vaq1cc1j6qtk8.apps.googleusercontent.com'
 var clientSecret = '4qDzcSsqkWieHEABXAf1XMpH'
+const db = require('../ControllersDB/mainController.js');
 
+async function addToCal(event, user_id, host){
+  var wait = new Promise((reject, resolve) => {
+    db.user.getUserById(user_id, function(err, res){
+      if(err){
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    })
+  })
+  
+  var user = await wait.then(x => x).catch(x => x)
 
-var event = {
-  'summary': 'Google I/O 2015',
-  'location': '800 Howard St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2018-02-28T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'end': {
-    'dateTime': '2018-02-28T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles',
-  },
-  'attendees': [
-    {'email': 'cmourani12@yahoo.com'}
-  ],
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10},
-    ],
-  },
-};
+  var { description, name, location, dateTimeStart, id} = event
 
+  var auth = new OAuth2Client(clientId, clientSecret, '');
+  var oauth = new OAuth2(clientId, clientSecret, '')
 
-var auth = new OAuth2Client(clientId, clientSecret, '');
-var oauth = new OAuth2(clientId, clientSecret, '')
+  oauth.credentials = {access_token : user.accessToken, refresh_token : user.refreshToken}
 
-oauth.credentials = {access_token : accessToken, refresh_token : refreshToken}
+  var hashed = new Promise((reject, resolve) => {
+    db.user.getHashForUser(user_id, id, function(err, res){
+      if(err){
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    })
+  })
 
-calendar.events.insert({
-  auth: oauth,
-  calendarId: 'primary',
-  resource: event,
-}, function(err, event) {
-  if (err) {
-    console.log('There was an error contacting the Calendar service: ' + err);
-    return;
+  if (!host){
+    hashed.then(hash => {
+      url = `http://localhost:4000/eventPage/${hash}` 
+    var event = {
+      'summary': name,
+      'location': location,
+      'description': description,
+      'start': {
+        'dateTime': dateTimeStart,
+      },
+      'end': {
+        'dateTime': dateTimeStart,
+      },
+      'colorId' : 3,  
+      'source' : {
+        'title' : 'View event on Host.ly', 
+        'url' : url
+      },
+      'reminders': {
+        'useDefault': false,
+        'overrides': [
+          {'method': 'email', 'minutes': 24 * 60 * 2},
+          {'method': 'popup', 'minutes': 120},
+        ],
+    },
+  };
+  console.log('event', event)
+      calendar.events.insert({
+        auth: oauth,
+        calendarId: 'primary',
+        resource: event,
+      }, function(err, event) {
+        if (err) {
+          console.log('There was an error contacting the Calendar service: ' + err);
+          return;
+        }
+        console.log('Event created: %s', event.htmlLink);
+      });
+    }).catch(err => {
+        if (err.length === 40){
+          url = `http://localhost:4000/eventPage/${err}` 
+        
+        var event = {
+          'summary': name,
+          'location': location,
+          'description': description,
+          'start': {
+            'dateTime': dateTimeStart,
+          },
+          'end': {
+            'dateTime': dateTimeStart,
+          },
+          'colorId' : 3,  
+          'source' : {
+            'title' : 'View event on Host.ly', 
+            'url' : url
+          },
+          'reminders': {
+            'useDefault': false,
+            'overrides': [
+              {'method': 'email', 'minutes': 24 * 60 * 2},
+              {'method': 'popup', 'minutes': 120},
+            ],
+        },
+      };
+      console.log('event', event)
+          calendar.events.insert({
+            auth: oauth,
+            calendarId: 'primary',
+            resource: event,
+          }, function(err, event) {
+            if (err) {
+              console.log('There was an error contacting the Calendar service: ' + err);
+              return;
+            }
+            console.log('Event created: %s', event.htmlLink);
+          });
+        }
+    })
+  } else {
+    console.log('nah')
+    url = `http://localhost:4000/` 
+     var event = {
+      'summary': name,
+      'location': location,
+      'description': description,
+      'start': {
+        'dateTime': dateTimeStart,
+      },
+      'end': {
+        'dateTime': dateTimeStart,
+      },
+      'colorId' : 3,  
+      'source' : {
+        'title' : 'View event on Host.ly', 
+        'url' : url
+      },
+      'reminders': {
+        'useDefault': false,
+        'overrides': [
+          {'method': 'email', 'minutes': 24 * 60 * 2},
+          {'method': 'popup', 'minutes': 120},
+        ],
+    },
+  };
+      calendar.events.insert({
+          auth: oauth,
+          calendarId: 'primary',
+          resource: event,
+        }, function(err, event) {
+          if (err) {
+            console.log('There was an error contacting the Calendar service: ' + err);
+            return err;
+          }
+        console.log('Event created: %s', event.htmlLink);
+      })
   }
-  console.log('Event created: %s', event.htmlLink);
-});
+}
 
-
+module.exports = addToCal

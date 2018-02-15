@@ -41,16 +41,28 @@ const userController = {
       if (err){
         cb(err, null)
       } else {
-        cb(null, JSON.parse(JSON.stringify(results)).attributes)
+        conn.query(`select * from user where id = ${JSON.parse(JSON.stringify(results)).insertId}`, function(error, res){
+          if(error){
+            cb(error, null)
+          } else {
+            cb(null, JSON.parse(JSON.stringify(res))[0])
+          }
+        })
       }
     })
   },
-  getUserById: function(id, cb){
+  getUserById: function(id, cb, guest){
     conn.query(`select * from user where id = ${id}`, function(err, results){
       if (err){
         cb(err, null)
       } else {
-        cb(null, JSON.parse(JSON.stringify(results))[0])
+        if (guest) {
+          let user = JSON.parse(JSON.stringify(results))[0]
+          user.guest_event_id = guest
+          cb(null, user)
+        } else {
+          cb(null, JSON.parse(JSON.stringify(results))[0])
+        }
       }
     })
   },
@@ -115,6 +127,24 @@ const userController = {
             cb(null, JSON.parse(JSON.stringify(res))[0])
           }
         })
+      }
+    })
+  },
+  getMemberByEmail: function(email, cb){
+    conn.query(`select * from user where email = "${email}" and member_status != ${0}`, function(err, res){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(res))[0])
+      }
+    })
+  }, 
+  getHashForUser: function(user_id, event_id, cb){
+    conn.query(`select hash from user where member_status = ${user_id} and guest_event_id = ${event_id}`, function(err, res){
+      if (err){
+        cb(err, null)
+      } else {
+        cb(null, JSON.parse(JSON.stringify(res))[0].hash)
       }
     })
   },

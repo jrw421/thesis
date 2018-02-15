@@ -20,6 +20,7 @@ const {
   sendMessage
 } = require('../Email/emailConfig.js');
 const knex = require('../dbConfig.js').knex;
+const addToCal = require('../Calendar/gcalConfig.js')
 
 const mutations = new GraphQLObjectType({
   name: 'Mutation',
@@ -51,7 +52,7 @@ const mutations = new GraphQLObjectType({
         time: { type: GraphQLString },
         location: { type: GraphQLString },
         img: { type: GraphQLString },
-        endTime: { type: GraphQLString }
+        dateTimeStart: { type: GraphQLString }
       },
        async resolve(parentValue, args) {
         let wait = new Promise((resolve, reject) => {
@@ -63,7 +64,7 @@ const mutations = new GraphQLObjectType({
             time: args.time,
             location: args.location,
             img: args.img,
-            endTime: args.endTime
+            dateTimeStart: args.dateTimeStart
           }, function(err, res){
             if (err){
              reject(err)
@@ -71,7 +72,9 @@ const mutations = new GraphQLObjectType({
              resolve(res)
            })
        })
-       return await wait
+       let event = await wait
+       addToCal(event, args.host_id, true)
+       return event
       }
     },
     editEventFields: {
@@ -264,8 +267,7 @@ const mutations = new GraphQLObjectType({
         nameEmail: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
         id: { type: GraphQLInt },
         event_id: { type: GraphQLInt },
-        dateTimeStart: { type: GraphQLString },
-        dateTimeEnd: { type: GraphQLString }
+        dateTimeStart: { type: GraphQLString }
       },
       async resolve(parentValue, args) {
         let wait = new Promise((resolve, reject) => {
@@ -283,23 +285,20 @@ const mutations = new GraphQLObjectType({
         });
 
         let email = new Promise((reject, resolve) => {
-           sendMessage(guests, user, args.event_id, args.dateTimeStart, args.dateTimeEnd, function(err, res){
+           sendMessage(guests, user, args.event_id, function(err, res){
             if (err) {
-              console.log('one error', err)
               reject(err)
             } else {
-              console.log('a resolve', res)
+    
               resolve(res)
             }
            })
         })
 
         return email.then(event => {
-                          console.log('sucess??', event)
                           event
                         })
                         .catch(err => {
-                          console.log('last error', err)
                           err
                         })        
       },
@@ -360,7 +359,29 @@ const mutations = new GraphQLObjectType({
        })
        return await wait
       }
-    }
+    },  
+    addToCalendar: {
+      type: EventType, 
+      args: {
+          description: {type: GraphQLString}, 
+          name: {type: GraphQLString}, 
+          location: {type: GraphQLString}, 
+          dateTimeStart: {type: GraphQLString}, 
+          id: {type: GraphQLInt},
+          user_id: {type: GraphQLInt}
+      }, 
+      resolve(parentValue, args){
+        let event = {
+          description: args.description, 
+          name: args.name, 
+          location: args.location, 
+          dateTimeStart: args.dateTimeStart, 
+          id: args.id
+        }
+        addToCal(event, args.user_id)
+        return event
+      }
+    },
   }
 });
 

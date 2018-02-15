@@ -137,8 +137,9 @@ class CreateEvent extends React.Component {
           location,
           img: uploadedFileCloudinaryUrl || images[Math.floor(Math.random()*images.length)],
           time,
-          date,
-          endTime
+          date, 
+          dateTimeStart
+
         }
       })
       .then(event => {
@@ -161,9 +162,8 @@ class CreateEvent extends React.Component {
                 variables: {
                   nameEmail: this.state.guests,
                   event_id: event.data.addEvent.id,
-                  id: this.props.currentUser.id,
-                  dateTimeStart,
-                  dateTimeEnd
+                  id: this.props.currentUser.id, 
+                  dateTimeStart
                 }
               })
               .then((item) => {

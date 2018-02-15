@@ -17,15 +17,16 @@ router.get(
       'https://mail.google.com/',
       'https://www.google.com/m8/feeds/contacts',
       'https://www.googleapis.com/auth/calendar'
-    ], 
-    access_type: 'offline'
+    ],  
+    access_type: 'offline', 
+    prompt: 'consent'
   })
 );
 
 // callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 
-  res.redirect('/dashboard');
+  res.redirect('/dashboard/');
 
 });
 

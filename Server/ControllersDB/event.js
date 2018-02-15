@@ -14,8 +14,8 @@ const createDateNum = function(){
 
 eventController = {
   addEvent: function(body, cb) {
-    const {name, host_id, description, time, date, location, img, endTime } = body
-    conn.query(`insert into event (name, host_id, description, time, date, location, img, endTime) values ("${name}", ${host_id}, "${description}", "${time}", ${date}, "${location}", "${img}", "${endTime}")`, function(err, results){
+    const {name, host_id, description, time, date, location, img, dateTimeStart } = body
+    conn.query(`insert into event (name, host_id, description, time, date, location, img, dateTimeStart) values ("${name}", ${host_id}, "${description}", "${time}", ${date}, "${location}", "${img}", "${dateTimeStart}")`, function(err, results){
       if (err){
         cb(err, null)
       } else {

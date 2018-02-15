@@ -11,7 +11,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import Map from './map.jsx';
 import Chat from './chat';
-import { confirmPresence, denyPresence } from '../mutations.js';
+import { confirmPresence, denyPresence, addToCalendar } from '../mutations.js';
 
 let months = {
   '01': 'January',
@@ -83,6 +83,7 @@ class EventFocus extends React.Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.toggleItemsView = this.toggleItemsView.bind(this);
     this.toggleAttendingView = this.toggleAttendingView.bind(this);
+    this.addToCalendar = this.addToCalendar.bind(this)
     this.toggleMapImage = this.toggleMapImage.bind(this);
     this.formatDate = this.formatDate.bind(this);
   }
@@ -185,6 +186,22 @@ class EventFocus extends React.Component {
       toggleChat: !this.state.toggleChat,
       toggleChatButton: !this.state.toggleChatButton
     });
+  }
+
+  addToCalendar(){
+    let event = this.props.event
+    let { description, name, location, dateTimeStart, id } = event
+    let user_id = this.props.currentUser.id
+    this.props.addToCalendar({
+      variables: {
+        description, 
+        name, 
+        location, 
+        dateTimeStart, 
+        user_id, 
+        id
+      }
+    })
   }
 
   render() {
@@ -294,6 +311,7 @@ class EventFocus extends React.Component {
               <button onClick={this.toggleMapImage}>{mapSvg}</button>
               <div className="event-page-info-buttons-text">Map</div>
             </div>
+            <button onClick={this.addToCalendar}>+ Add Event To Google Calendar</button>
           </div>
 
           <div className="event-page-sidebar">
@@ -388,6 +406,7 @@ class EventFocus extends React.Component {
 const EventFocusWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence' }),
+  graphql(addToCalendar, {name: 'addToCalendar'}),
   GoogleApiWrapper({
     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
