@@ -1,8 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { GUEST_QUERY2 } from '../queries.js'
 import { toggleClaim } from '../mutations.js'
+
 
 
 class Item extends React.Component {
@@ -33,7 +33,7 @@ class Item extends React.Component {
          clicked: false
        });
      }
-     console.log('user in click', this.props.currentUser)
+
      this.props.toggleClaimOfItem({
        variables: {
          id: this.props.id,
@@ -45,56 +45,45 @@ class Item extends React.Component {
 
   render() {
 
-    if (this.props.guestQuery.loading || this.props.guestQuery.error
-       // || this.props.itemsQuery.loading || this.props.itemsQuery.error
-     ) {
-      return null
+    if((this.props.claimQuery.error || this.props.claimQuery.loading) && !this.props.claimQuery.user){
+      return <div />
     }
-// console.log('Props in itemLost ', this.props)
-  // console.log('this should be the user id for the item ', this.props.itemsQuery.event[0].user_id)
-  console.log('this should be the user id for the user ', this.props.currentId)
 
-    console.log('what is the id here ', this.props.currentId, this.props.id)
-    console.log('USER ID THIS THIS THIS', this.props.currentUser); //currentUser
-    // console.log('props in item ', this.props.itemsQuery.event)
+    if (this.props.claimQuery.user){
+      const isClicked = this.state.clicked
+      let hash = this.props.hash
 
-    const isClicked = this.state.clicked
-    let hash = this.props.hash
-
-    if (this.props.itemUserId !== null && this.props.currentId !== this.props.userToItem.name){ //this.props.itemsQuery.event.items(one).user_id
-      return(
-        <div style={{ textAlign: 'center', align: 'center' }}>
-         <a>{this.props.description} was claimed by {this.props.userToItem.name}</a>
-        </div>
-      )
-    } else {
-      return(
-        <div style={{ textAlign: 'center', align: 'center' }}>
-        {isClicked ?
-          <a onClick={e => this.handleItemClick(e)}>
-          {this.props.description} was claimed by {this.state.name}
-          </a>
-         :
-          <a onClick={e => this.handleItemClick(e)}>{this.props.description}</a>
-        }
-        </div>
-    )
+      if (this.props.itemUserId !== null && this.props.currentId !== this.props.userToItem.name){ //this.props.itemsQuery.event.items(one).user_id
+        return(
+          <div style={{ textAlign: 'center', align: 'center' }}>
+           <a>{this.props.name} was claimed by {this.props.userToItem.name}</a>
+          </div>
+        )
+      } else {
+        return(
+          <div style={{ textAlign: 'center', align: 'center' }}>
+          {isClicked ?
+            <a onClick={e => this.handleItemClick(e)}>
+            {this.props.description} was claimed by {this.state.name}
+            </a>
+           :
+            <a onClick={e => this.handleItemClick(e)}>{this.props.description}</a>
+          }
+          </div>
+        )
+      }
+    }
+    return <div />
   }
 }
-}
+    // hash={this.props.hash} 
+    //         currentUser={this.props.currentUser}
+    //         claimedBy={item.user_id} 
+    //         name={item.name} 
+    //         id={item.id} key={item.id}
+    //         eventId={this.props.eventId}
 
-
-//does this match your id
-//^ for GUEST_QUERY2
-
-//for the item where the user_id is equal to the user_id
-//^ for toggleClaim
-
-const guestClaim = compose(
-  graphql(toggleClaim, { name: 'toggleClaimOfItem' }),
-  graphql(GUEST_QUERY2, {
-    options: (props) => ({variables: {id: props.hash}}),
-    name: 'guestQuery'})
-)(Item)
+const guestClaim = 
+  graphql(toggleClaim, { name: 'toggleClaimOfItem' })(Item)
 
 export default guestClaim

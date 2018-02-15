@@ -27,6 +27,7 @@ async function addToCal(event, user_id, host){
   oauth.credentials = {access_token : user.accessToken, refresh_token : user.refreshToken}
 
   if (!host){
+    console.log('?')
   var hashed = new Promise((reject, resolve) => {
     db.user.getHashForUser(user_id, id, function(err, res){
       if(err){
@@ -115,6 +116,7 @@ async function addToCal(event, user_id, host){
         }
     })
   } else {
+    
     url = `http://localhost:4000/` 
      var event = {
       'summary': name,

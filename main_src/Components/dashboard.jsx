@@ -21,20 +21,14 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    console.log('dashboard porps', this.props)
+
     if (this.props.refresh || !this.props.refresh){
       this.props.dashboardQuery.refetch()
     }
 
     if (this.props.dashboardQuery) {
-      // if (this.props.dashboardQuery.error && !this.props.dashboardQuery.user) {
-      //   return <div>Error2</div>;
-      // }
-      if (this.props.dashboardQuery.error && !this.props.dashboardQuery.user) {
-        return <div>Error2</div>;
-      }
 
-      if (this.props.dashboardQuery.loading && !this.props.dashboardQuery.user) {
+      if ((this.props.dashboardQuery.error || this.props.dashboardQuery.loading) && !this.props.dashboardQuery.user) {
          return (
            <div style={{"textAlign": "center", "marginTop": "225px"}}>
            <Loader

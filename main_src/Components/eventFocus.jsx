@@ -264,7 +264,8 @@ class EventFocus extends React.Component {
               <button onClick={this.toggleMapImage}>{mapSvg}</button>
               <div className="event-page-info-buttons-text">Map</div>
             </div>
-            <button onClick={this.addToCalendar}>+ Add Event To Google Calendar</button>
+           { this.props.event.host_id !== this.props.currentUser.id &&
+            <button onClick={this.addToCalendar}>+ Add Event To Google Calendar</button> }
           </div>
 
           <div className="event-page-sidebar">

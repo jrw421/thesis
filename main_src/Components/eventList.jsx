@@ -51,18 +51,7 @@ class EventList extends React.Component {
 
     if (this.props.events.length === 0) {
 
-      return (
-      <div style={{"textAlign": "center", "marginTop": "225px"}}>
-        <Loader
-         type="Puff"
-         color="#00BFFF"
-         height="300"
-         width="300"
-         alignItems="center"
-         justifyContent='center'
-         />
-       </div>
-     );
+      return <div />
     }
 
     const rightArrow = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
@@ -78,8 +67,8 @@ class EventList extends React.Component {
           </div>
 
           <Event event={this.props.events[this.state.currentPic]}  handleEventClick={this.props.handleEventClick} />
-          <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} />
-          {this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}
+         {/* <Event event={this.props.events[this.state.currentPic + 1]}  handleEventClick={this.props.handleEventClick} />
+          {this.props.events[this.state.currentPic + 2] ? (<Event event={this.props.events[this.state.currentPic + 2]} handleEventClick={this.props.handleEventClick} />) : (<Event event={null} />)}*/}
 
       <div className="event-grid-buttons-right" onClick={this.changeEvent} style={{"alignSelf": "center"}}>
         {rightArrow}

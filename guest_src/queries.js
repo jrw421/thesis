@@ -7,9 +7,12 @@ const GUEST_QUERY = gql `
       name
       guestEvent{
         items {
-          name
-          user_id
           id
+          name
+          user {
+            id
+            name
+          }
         }
         users {
          name
@@ -26,33 +29,8 @@ const GUEST_QUERY = gql `
     }
   }
 `
-const GUEST_QUERY2 = gql `
-  query guestQuery ($id: String){
-    user(hash: $id) {
-      id
-      name
-    }
-  }
-`
 
-const ITEMS_QUERY = gql `
-  query itemsQuery ($id: Int){
-    event(id: $id) {
-      items{
-        id
-        name
-        user_id
-
-          user {
-            id
-            name
-          }
-      }
-    }
-  }
-`
 module.exports = {
-  ITEMS_QUERY,
-  GUEST_QUERY,
-  GUEST_QUERY2
+  CLAIM_QUERY,
+  GUEST_QUERY
 }
