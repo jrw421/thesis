@@ -26,6 +26,7 @@ async function addToCal(event, user_id, host){
 
   oauth.credentials = {access_token : user.accessToken, refresh_token : user.refreshToken}
 
+  if (!host){
   var hashed = new Promise((reject, resolve) => {
     db.user.getHashForUser(user_id, id, function(err, res){
       if(err){
@@ -35,8 +36,6 @@ async function addToCal(event, user_id, host){
       }
     })
   })
-
-  if (!host){
     hashed.then(hash => {
       url = `http://localhost:4000/eventPage/${hash}` 
     var event = {
@@ -62,7 +61,7 @@ async function addToCal(event, user_id, host){
         ],
     },
   };
-  console.log('event', event)
+
       calendar.events.insert({
         auth: oauth,
         calendarId: 'primary',
@@ -76,7 +75,7 @@ async function addToCal(event, user_id, host){
       });
     }).catch(err => {
         if (err.length === 40){
-          url = `http://localhost:4000/eventPage/${err}` 
+        url = `http://localhost:4000/eventPage/${err}` 
         
         var event = {
           'summary': name,
@@ -101,7 +100,7 @@ async function addToCal(event, user_id, host){
             ],
         },
       };
-      console.log('event', event)
+
           calendar.events.insert({
             auth: oauth,
             calendarId: 'primary',
@@ -116,7 +115,6 @@ async function addToCal(event, user_id, host){
         }
     })
   } else {
-    console.log('nah')
     url = `http://localhost:4000/` 
      var event = {
       'summary': name,
@@ -141,6 +139,7 @@ async function addToCal(event, user_id, host){
         ],
     },
   };
+
       calendar.events.insert({
           auth: oauth,
           calendarId: 'primary',
