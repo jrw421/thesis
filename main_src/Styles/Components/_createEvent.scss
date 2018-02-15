@@ -151,6 +151,20 @@
   }
 }
 
+.create-event-date-time-picker-material {
+  width: 100% !important;
+  input {
+    text-align: center !important;
+    width: 100% !important;
+    font-size: 1.5em !important;
+    color: rgba(130, 119, 23, 0.6) !important;
+    font-family: 'Raleway' !important;
+  }
+  button {
+    display: none !important;
+  }
+}
+
 .create-event-description {
   width: 50%;
   margin: 0 auto 25px;
@@ -166,9 +180,29 @@
   }
 }
 
+.create-event-description-material {
+  width: 100% !important;
+  input {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 1.5em !important;
+    font-family: 'Raleway' !important;
+  }
+}
+
 .create-event-item-input {
   width: 50%;
   margin: 0 auto 25px;
+}
+
+.create-event-item-input-material {
+  width: 100% !important;
+  input {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 1.5em !important;
+    font-family: 'Raleway' !important;
+  }
 }
 
 .create-event-item-input-material {
@@ -210,3 +244,19 @@
     }
   }
 }
+
+.create-event-submit-material {
+  width: 100% !important;
+  text-align: center !important;
+  height: 5% !important;
+  button {
+    div {
+      span {
+        font-size: 2em !important;
+        padding-top: 20px !important;
+      }
+    }
+  }
+}
+
+// 130  119 23
