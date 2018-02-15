@@ -46,7 +46,7 @@ eventController = {
     conn.query(`select * from event
       RIGHT JOIN event_attendee ON
       event_attendee.event_id = event.id
-      AND event_attendee.user_id = "${user_id}"
+      AND event_attendee.user_id = ${user_id}
       WHERE date > ${current - 1} `, function(err, results, fields){
       if (err){
         cb(err, null)
