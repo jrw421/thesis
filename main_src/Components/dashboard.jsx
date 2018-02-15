@@ -14,7 +14,6 @@ class Dashboard extends React.Component {
   }
 
   handleEventClick(event) {
-    console.log('jon is right')
     this.props.history.push({
       pathname: '/eventPage',
       state: { event }  //also pass down this.props.dashboardQuery.event
@@ -52,39 +51,55 @@ class Dashboard extends React.Component {
 
       if (this.props.dashboardQuery.user) {
         return (
-          <div>
-            <h1 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+          <div className="container-dashboard">
+            <div className="container-dashboard-title">
+            <h1>
               Your Events
             </h1>
-            <h3 style={{ textAlign: 'center' }}>
+            <h3>
               Click on an event to see page
             </h3>
-            <h3 style={{ textAlign: 'center' }}>Currently attending:</h3>
+          </div>
+
+
+            <div className="event-section-dashboard-attending">
+              <h3>Currently attending:</h3>
             <EventList
-              style={{ fontFamily: 'Noto Sans' }}
+
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.currentEvents}
               handleEventClick={this.handleEventClick}
             />
-            <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
-              Currently hosting:
-            </h3>
+            </div>
+
+
+            <div className="event-section-dashboard-hosting">
+              <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+                Currently hosting:
+              </h3>
             <EventList
-              style={{ fontFamily: 'Noto Sans' }}
+
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.hostedEvents}
               handleEventClick={this.handleEventClick}
             />
-            <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
-              Past Events:
-            </h3>
+          </div>
+
+
+            <div className="event-section-dashboard-past">
+              <h3 style={{ textAlign: 'center', fontFamily: 'Noto Sans' }}>
+                Past Events:
+              </h3>
             <EventList
-              style={{ fontFamily: 'Noto Sans' }}
+
               // img={this.props.dashboardQuery.user.img}
               events={this.props.dashboardQuery.user.pastEvents}
               handleEventClick={this.handleEventClick}
             />
           </div>
+
+
+        </div>
         );
       }
       return <div />;

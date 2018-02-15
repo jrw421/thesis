@@ -7,19 +7,39 @@ import {
 } from 'material-ui/Card';
 
 const Event = ({ event, handleEventClick }) => (
+  <div>
+  {({event} === null) ? (
   <Card
-    onClick={() => {
-      handleEventClick(event);
-    }}
-  >
-    <CardMedia
-      overlay={<CardTitle title={event.name} subtitle={event.description} />}
+      onClick={() => {
+        handleEventClick(event);
+      }}
     >
-      <img style={{ height: '400px', width: '150px' }} src={event.img} alt="" />
-    </CardMedia>
-    <CardTitle title="" subtitle="" />
-    <CardText>{/* {event.description} */}</CardText>
-  </Card>
+      <CardMedia
+        overlay={<CardTitle title="Nothing" subtitle="so sad" />}
+      >
+        {/* <img src={event.img} alt="" /> */}
+      </CardMedia>
+    </Card>
+  ) : (
+
+
+    <Card
+      onClick={() => {
+        handleEventClick(event);
+      }}
+      >
+        <CardMedia
+          overlay={<CardTitle title={event.name} subtitle={event.description} />}
+          >
+            <img src={event.img} alt="" />
+          </CardMedia>
+        </Card>
+
+  )
+
+}
+
+  </div>
 );
 
 export default Event;
