@@ -18,7 +18,7 @@ router.get(
       'https://www.google.com/m8/feeds/contacts',
       'https://www.googleapis.com/auth/calendar'
     ], 
-    access_type: offline
+    access_type: 'offline'
   })
 );
 

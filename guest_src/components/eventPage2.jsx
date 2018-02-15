@@ -106,8 +106,8 @@ class EventPage2 extends React.Component {
             <ItemList style={{"textAlign": "center", "align":"center"}}
               eventId={this.props.guestQuery.guestUser.guestEvent.id}
               hash={this.props.currentUser.params.id}
-              currentUser={this.props.match.params.id}
-              event={this.props.guestQuery}
+              currentUser={this.props.guestQuery.guestUser}
+              items={this.props.guestQuery.guestUser.guestEvent.items}
               ></ItemList>
             <ul></ul>
           </div>
