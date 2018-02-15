@@ -53,17 +53,17 @@ class Dashboard extends React.Component {
         return (
           <div className="container-dashboard">
             <div className="container-dashboard-title">
-            <h1>
+            <h1 style={{"textAlign": "center"}}>
               Your Events
             </h1>
-            <h3>
+            <h3 style={{"textAlign": "center"}}>
               Click on an event to see page
             </h3>
           </div>
 
 
             <div className="event-section-dashboard-attending">
-              <h3>Currently attending:</h3>
+              <h3 style={{"textAlign": "center"}}>Currently attending:</h3>
             <EventList
 
               // img={this.props.dashboardQuery.user.img}

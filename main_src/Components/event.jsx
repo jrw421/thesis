@@ -8,7 +8,7 @@ import {
 
 const Event = ({ event, handleEventClick }) => (
   <div>
-  {({event} === null) ? (
+  {(event === null) ? (
   <Card
       onClick={() => {
         handleEventClick(event);
@@ -17,11 +17,10 @@ const Event = ({ event, handleEventClick }) => (
       <CardMedia
         overlay={<CardTitle title="Nothing" subtitle="so sad" />}
       >
-        {/* <img src={event.img} alt="" /> */}
+        <img src="http://www.htmlcsscolor.com/preview/gallery/95524C.png" alt="" />
       </CardMedia>
     </Card>
   ) : (
-
 
     <Card
       onClick={() => {
@@ -34,9 +33,7 @@ const Event = ({ event, handleEventClick }) => (
             <img src={event.img} alt="" />
           </CardMedia>
         </Card>
-
-  )
-
+      )
 }
 
   </div>
