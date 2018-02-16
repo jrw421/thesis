@@ -116,18 +116,9 @@ async function addToCal(event, user_id, host){
         }
     })
   } else {
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     url = `http://localhost:4000/`
-=======
-    console.log('nah')
-    url = `http://localhost:4000/`
->>>>>>> dashboard styles
-=======
 
-    url = `http://localhost:4000/`
->>>>>>> guests
      var event = {
       'summary': name,
       'location': location,
