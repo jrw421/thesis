@@ -30,7 +30,39 @@ const GUEST_QUERY = gql `
   }
 `
 
-module.exports = {
+const VOTES_QUERY = gql`
+  query item($id: Int!) {
+    item(id: $id) {
+      upVotes {
+        user_id
+      }
+      downVotes {
+        user_id
+      }
+    }
+  }
+`;
 
-  GUEST_QUERY
+const COMMENTS_QUERY = gql`
+  query itemComments($id: Int) {
+    item(id: $id) {
+      comments {
+        id
+        content
+        likes
+        user_id
+        event_id
+        item_id
+        user {
+          name
+        }
+      }
+    }
+  }
+`;
+
+module.exports = {
+  GUEST_QUERY, 
+  VOTES_QUERY, 
+  COMMENTS_QUERY
 }
