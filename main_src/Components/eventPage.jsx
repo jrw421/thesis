@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ItemList from './itemList.jsx';
 import EventFocus from './eventFocus.jsx';
@@ -163,8 +162,8 @@ class EventPage extends React.Component {
          </div>
          )
       }
-    
-    
+
+
       if (this.props.checkEvent.user){
         return this.state.currentlyEditing ?
         (

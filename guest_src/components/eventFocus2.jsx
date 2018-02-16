@@ -1,14 +1,20 @@
-import React from 'react'
-import { withRouter } from 'react-router'
-import { Link } from 'react-router-dom'
-import { graphql, compose } from 'react-apollo'
-import ItemList from './itemList2.jsx'
-import gql from 'graphql-tag'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import React from 'react';
+// import ItemList from './itemList';
+import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import { confirmPresence, denyPresence } from '../mutations.js'
-import { GUEST_QUERY } from '../queries.js'
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
+import { GoogleApiWrapper, google } from 'google-maps-react';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from 'react-places-autocomplete';
+import Map from './map.jsx';
+// import Chat from './chat';
+import { confirmPresence, denyPresence, addToCalendar } from '../mutations.js';
+// import { days, months } from './days-months.js';
 
+///List Material UI////
 import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
@@ -22,65 +28,34 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import * as Colors from 'material-ui/styles/colors';
 
-import Loader from 'react-loader-spinner'
-import EventFocus2 from './eventFocus2.jsx'
-import Map from './map.jsx'
-
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete';
-
-class EventPage2 extends React.Component {
+class EventFocus extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      name: '',
-      date: null,
-      location: '',
-      img: '',
-      id: '',
-      hostId: '',
-      time: '',
-      currentlyEditing: false,
-      event: '',
-      guests: [],
-      imageView: true,
+      latLng: [],
+      guests: this.props.guests,
+      toggleChat: false,
+      toggleChatButton: true,
+      toggleItemsView: true,
       toggleAttendanceView: false,
       mapView: false,
-      toggleItemsView: true,
-      latLng: [],
-    }
-      this.determineWhatToRender = this.determineWhatToRender.bind(this);
-      this.formatDate = this.formatDate.bind(this)
-      this.formatTime = this.formatTime.bind(this)
-      this.postLoad = this.postLoad.bind(this)
-      this.clickAttending = this.clickAttending.bind(this)
-      this.clickNotAttending = this.clickNotAttending.bind(this)
-      this.returnHome = this.returnHome.bind(this)
-      this.toggleAttendingView = this.toggleAttendingView.bind(this)
-      this.toggleItemsView = this.toggleItemsView.bind(this)
-      this.toggleMapImage = this.toggleMapImage.bind(this)
-      // this.addressToLatLong = this.addressToLatLong.bind(this)
-  }
+      imageView: true,
+      attending: false,
+      notAttending: false
+    };
 
-  // componentDidMount() {
-  //   console.log('what is porps ', this.props)
-  //   this.addressToLatLong();
-  // }
-  //
-  // addressToLatLong() {
-  //   console.log('in method ', this.props.guestQuery)
-    //this should be in componentDidMount
-    // geocodeByAddress(this.props.guestQuery.guestUser.guestEvent.location)
-    //   .then(results => getLatLng(results[0]))
-    //   .then(latLng => {
-    //     this.setState({ latLng: latLng });
-    //     //send this to the map component to put the marker
-    //   })
-    //   .catch(error => console.error('Error', error));
-  // }
+    this.clickAttending = this.clickAttending.bind(this);
+    this.clickNotAttending = this.clickNotAttending.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.determineWhatToRender = this.determineWhatToRender.bind(this);
+    this.toggleChat = this.toggleChat.bind(this);
+    this.toggleItemsView = this.toggleItemsView.bind(this);
+    this.toggleAttendingView = this.toggleAttendingView.bind(this);
+    this.addToCalendar = this.addToCalendar.bind(this);
+    this.toggleMapImage = this.toggleMapImage.bind(this);
+    this.formatDate = this.formatDate.bind(this);
+  }
 
   formatDate(strDate, strDate2) {
     if (strDate) {
@@ -96,6 +71,84 @@ class EventPage2 extends React.Component {
     }
   }
 
+  toggleMapImage() {
+    this.setState({
+      mapView: !this.state.mapView,
+      imageView: !this.state.imageView
+    });
+  }
+
+  toggleItemsView() {
+    if (!this.state.toggleItemsView) {
+      this.setState({
+        toggleItemsView: !this.state.toggleItemsView,
+        toggleAttendanceView: !this.state.toggleAttendanceView
+      });
+    }
+  }
+
+  toggleAttendingView() {
+    if (!this.state.toggleAttendanceView) {
+      this.setState({
+        toggleAttendanceView: !this.state.toggleAttendanceView,
+        toggleItemsView: !this.state.toggleItemsView
+      });
+    }
+  }
+
+  clickAttending() {
+    this.props
+      .confirmPresence({
+        variables: {
+          user_id: this.props.currentUser.id,
+          event_id: this.props.event.id
+        }
+      })
+      .then(() => {
+        this.props.refresh();
+        this.setState({
+          attending: true,
+          notAttending: false
+        });
+      });
+  }
+
+  clickNotAttending() {
+    this.props
+      .denyPresence({
+        variables: {
+          user_id: this.props.currentUser.id,
+          event_id: this.props.event.id
+        }
+      })
+      .then(() => {
+        this.props.refresh();
+        this.setState({
+          notAttending: true,
+          attending: false
+        });
+      });
+  }
+
+  componentWillReceiveProps() {
+    this.addressToLatLong();
+  }
+
+  addressToLatLong() {
+    //this should be in componentDidMount
+    geocodeByAddress(this.props.event.location)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        this.setState({ latLng: latLng });
+        //send this to the map component to put the marker
+      })
+      .catch(error => console.error('Error', error));
+  }
+
+  handleClick() {
+    this.props.toggleEditState();
+  }
+
   determineWhatToRender(stateOption, eventOption) {
     if (
       stateOption === null ||
@@ -109,105 +162,55 @@ class EventPage2 extends React.Component {
     }
   }
 
-  formatTime (time) {
-    let timeString = time.toString()
-    let years = timeString.slice(0,4)
-    let months = timeString.slice(4,6)
-    let day = timeString.slice(6, 9)
-
-    return `${months} ${day} ${years}`
-  }
-
-  postLoad() {
+  toggleChat() {
     this.setState({
-      guests: this.props.guestQuery.guestUser.guestEvent.users
-    })
-  }
-
-  clickAttending(name) {
-    alert("Great! Can't wait to see you there!")
-
-    this.setState({
-      guests: [...this.state.guests, name]
-    })
-
-    this.props.confirmPresence({
-      variables: {
-        user_id: this.props.guestQuery.guestUser.id,
-        event_id: this.props.guestQuery.guestUser.guestEvent.id
-      }
-    })
-    .then(() => this.props.guestQuery.refetch())
-    // this.forceUpdate()
-  }
-
-  clickNotAttending() {
-    alert('So sad! You suck!')
-    this.props.denyPresence({
-      variables: {
-        user_id: this.props.guestQuery.guestUser.id,
-        event_id: this.props.guestQuery.guestUser.guestEvent.id
-      }
-    })
-    .then(() => this.props.guestQuery.refetch())
-    // this.forceUpdate()
-  }
-
-  toggleAttendingView() {
-    if (!this.state.toggleAttendanceView) {
-      this.setState({
-        toggleAttendanceView: !this.state.toggleAttendanceView,
-        toggleItemsView: !this.state.toggleItemsView
-      });
-    }
-  }
-
-  toggleItemsView() {
-    if (!this.state.toggleItemsView) {
-      this.setState({
-        toggleItemsView: !this.state.toggleItemsView,
-        toggleAttendanceView: !this.state.toggleAttendanceView
-      });
-    }
-  }
-
-  toggleMapImage() {
-    this.setState({
-      mapView: !this.state.mapView,
-      imageView: !this.state.imageView
+      toggleChat: !this.state.toggleChat,
+      toggleChatButton: !this.state.toggleChatButton
     });
   }
 
-  returnHome() {
-    window.location ='/'
+  addToCalendar() {
+    let event = this.props.event;
+    let { description, name, location, dateTimeStart, id } = event;
+    let user_id = this.props.currentUser.id;
+    this.props.addToCalendar({
+      variables: {
+        description,
+        name,
+        location,
+        dateTimeStart,
+        user_id,
+        id
+      }
+    });
+  }
+
+  componentWillMount() {
+    this.props.guests.map(guest => {
+      if (guest.id === this.props.currentUser.id) {
+        if (guest.memberReply < 2) {
+          guest.memberReply === 0
+            ? this.setState({
+                notAttending: true
+              })
+            : this.setState({
+                attending: true
+              });
+        }
+      }
+    });
   }
 
   render() {
-    console.log('what is porps in render ', this.props)
-    if ((this.props.guestQuery.loading || this.props.guestQuery.error) && !this.props.guestQuery.guestUser) {
-      return (
-        <div style={{"textAlign": "center", "marginTop": "225px"}}>
-        <Loader
-         type="Puff"
-         color="#00BFFF"
-         height="300"
-         width="300"
-         alignItems="center"
-         justifyContent='center'
-         />
-       </div>)
-    }
-
-    if (this.props.guestQuery.guestUser){
-    let users = this.props.guestQuery.guestUser.guestEvent.users
-
     const listStyle = {
       color: 'white',
       fontSize: '40%'
     };
 
     let event = this.props.event;
-    let guestsArray = this.props.guestQuery.guestUser.guestEvent.users;
+    let checkIfHostOfEvent =
+      this.props.currentUser.id === this.props.event.host_id;
+    let guestsArray = this.props.guests;
     const yesRsvp = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -266,28 +269,31 @@ class EventPage2 extends React.Component {
       guestsArray = [];
     }
 
-    return(
-    <div>
-
-        <div style={{"textAlign": "center", "align":"center"}}>
-        <FlatButton style={{"textAlign": "center", "align":"center"}}
-          onClick={() => this.clickAttending(this.props.guestQuery.guestUser.name)} //this.props.guestUser.name
-          label="I'll be there"/>
-        <FlatButton style={{"textAlign": "center", "align":"center"}}
-          onClick={() => this.clickNotAttending()}
-          label="Hell nah, I aint coming"/>
-          {/* <FlatButton style={{"textAlign": "center", "align":"center"}}
-            onClick={this.returnHome}
-            label="HOME"/> */}
-      </div>
-
+    return (
       <div className="event-page">
         <div className="event-page-grid">
-
+          {/* RSVP Buttons
+          <div className="event-page-rsvp-button">
+            {!checkIfHostOfEvent && (
+              <div style={{ textAlign: 'center', align: 'center' }}>
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickAttending}
+                  label="I'll be there"
+                />
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickNotAttending}
+                  label="Hell nah, I aint coming"
+                />
+              </div>
+            )}
+          </div> */}
+          {/* Event Image */}
           <div className="event-page-image-container">
-
+            {/* Event Title */}
             <div className="event-page-title">
-              <h1>{this.determineWhatToRender(this.props.guestQuery.guestUser.guestEvent.name, this.props.guestQuery.guestUser.guestEvent.name)}</h1>
+              <h1>{this.determineWhatToRender(this.props.name, event.name)}</h1>
             </div>
             <div
               className={
@@ -296,7 +302,7 @@ class EventPage2 extends React.Component {
                   : 'event-page-image-hide'
               }
             >
-              <img src={this.props.guestQuery.guestUser.guestEvent.img} alt="" />
+              <img src={this.props.event.img} alt="" />
             </div>
             {/* Map */}
             <div
@@ -304,11 +310,11 @@ class EventPage2 extends React.Component {
                 this.state.mapView ? 'event-page-map' : 'event-page-map-hide'
               }
             >
-              <Map
-                useThis={this.props.guestQuery.guestUser.guestEvent.name.location}
+              {/* <Map
+                useThis={this.props.event.location}
                 props={this.props}
                 latLng={this.state.latLng}
-              />
+              /> */}
             </div>
           </div>
 
@@ -316,28 +322,48 @@ class EventPage2 extends React.Component {
             {/* Event Description */}
             <div className="event-page-description">
               {this.determineWhatToRender(
-                this.props.guestQuery.guestUser.guestEvent.name,
-                this.props.guestQuery.guestUser.guestEvent.description
+                this.props.description,
+                event.description
               )}
             </div>
             <div className="border1" />
             <div className="border2" />
-            {/* <div className="event-page-date-time"> */}
-              {/* <div className="event-page-date">
-                {this.formatDate(this.props.guestQuery.guestUser.guestEvent.date, this.props.guestQuery.guestUser.guestEvent.date)}
+            <div className="event-page-date-time">
+              <div className="event-page-date">
+                {this.formatDate(this.props.date, event.date)}
               </div>
-              @ */}
+              @
               {/* Event Time */}
-              {/* <div className="event-page-time">
-                {this.props.guestQuery.guestUser.guestEvent.time || this.props.guestQuery.guestUser.guestEvent.time}
+              <div className="event-page-time">
+                {this.props.time || event.time}
               </div>
-            </div> */}
+            </div>
             {/* Event Date */}
             {/* Event Location */}
             <div className="event-page-location">
-              {this.determineWhatToRender(this.props.guestQuery.guestUser.guestEvent.location, this.props.guestQuery.guestUser.guestEvent.location)}
+              {this.determineWhatToRender(this.props.location, event.location)}
             </div>
+            {checkIfHostOfEvent ? (
+              <div className="event-page-info-buttons">
+                {/* <div className="event-page-edit-button">
+                  <RaisedButton
+                    label="Edit Event"
+                    primary={true}
+                    onClick={this.handleClick}
+                  />
+                </div> */}
 
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.handleClick}>{editSVG}</div>
+                  <div className="event-page-info-buttons-text">Edit Event</div>
+                </div>
+
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.toggleMapImage}>{mapSvg}</div>
+                  <div className="event-page-info-buttons-text">Map</div>
+                </div>
+              </div>
+            ) : (
               <div className="event-page-info-buttons">
                 <div className="event-page-info-buttons-unit">
                   <div onClick={this.toggleMapImage}>{mapSvg}</div>
@@ -353,16 +379,34 @@ class EventPage2 extends React.Component {
                     I'm Not Coming
                   </div>
                 </div>
-
+                {/* <div className="event-page-rsvp-button">
+                  {!checkIfHostOfEvent && (
+                    <div style={{ textAlign: 'center', align: 'center' }}>
+                      <FlatButton
+                        style={{ textAlign: 'center', align: 'center' }}
+                        onClick={this.clickAttending}
+                        label="I'll be there"
+                        primary={this.state.attending}
+                      />
+                      <FlatButton
+                        style={{ textAlign: 'center', align: 'center' }}
+                        onClick={this.clickNotAttending}
+                        label="Hell nah, I aint coming"
+                        primary={this.state.notAttending}
+                      />
+                    </div>
+                  )}
+                </div> */}
                 <div className="event-page-info-buttons-unit">
-                  <div onClick={this.addToCalendar}>{calendarSVG}</div>
+                  {/* <div onClick={this.addToCalendar}>{calendarSVG}</div> */}
                   <div className="event-page-info-buttons-text">
                     Add To Google Calendar
                   </div>
                 </div>
               </div>
+            )}
           </div>
-
+          {/* </div> */}
 
           <div className="event-page-sidebar">
             <div className="event-page-sidebar-buttons">
@@ -438,77 +482,43 @@ class EventPage2 extends React.Component {
                 </button>
               </div>
 
-              <ItemList
-                style={{"textAlign": "center", "align":"center"}}
-                  eventId={this.props.guestQuery.guestUser.guestEvent.id}
-                  hash={this.props.currentUser.params.id}
-                  currentUser={this.props.guestQuery.guestUser}
-                  items={this.props.guestQuery.guestUser.guestEvent.items}
-                // currentUser={this.props.currentUser} event={event}
-              />
+              <ItemList currentUser={this.props.currentUser} event={event} />
 
               {/* <ul /> */}
             </div>
           </div>
+
+          {/* Event Chat */}
+          <div className="event-page-chat">
+            <Chat
+              user={this.props.currentUser}
+              event={event}
+              showChat={this.state.toggleChat}
+              toggleChat={this.toggleChat}
+            />
+            <button
+              className={
+                this.state.toggleChatButton ? 'showToggleChat' : 'noToggleChat'
+              }
+              onClick={this.toggleChat}
+            >
+              Chat
+            </button>
+          </div>
         </div>
       </div>
-        {/* <div style={{"textAlign": "center"}} className="eventPage">
-          <h1 className="eventPage">{this.props.guestQuery.guestUser.guestEvent.name}</h1>
-          <div className="eventPage">{this.props.guestQuery.guestUser.guestEvent.location}</div>
-          <div className="eventPage">{this.props.guestQuery.guestUser.guestEvent.date}</div>
-          <div className="eventPage" >{this.props.guestQuery.guestUser.guestEvent.description}</div>
-          <div style={{"textAlign": "center", "align":"center"}}>
-            <h2>Who's Coming</h2>
-            <ul>
-                {users.map((name, i) => {
-                  return (
-                    <div key={i} style={{"textAlign": "center", "align":"center"}}>
-                    <div>
-                      <a>{name.name}</a>
-                      <a>{name.memberReply === 0 ? ': Not attending' : name.memberReply === 1 ? ': Attending' : ': Pending'}</a>
-                    </div>
-                  </div>
-                  )
-                })}
-            </ul>
-          </div>
-          <div style={{"textAlign": "center", "align":"center"}}>
-            <h2>Item Registery</h2>
-            <h3>Click on an item to claim it</h3>
-            <ItemList style={{"textAlign": "center", "align":"center"}}
-              eventId={this.props.guestQuery.guestUser.guestEvent.id}
-              hash={this.props.currentUser.params.id}
-              currentUser={this.props.guestQuery.guestUser}
-              items={this.props.guestQuery.guestUser.guestEvent.items}
-              ></ItemList>
-            <ul></ul>
-          </div>
-          <img
-            style={{"height":"400px", "width": "400px"}}
-            src={this.props.guestQuery.guestUser.guestEvent.img || "https://static.businessinsider.com/image/519e85e6ecad04337f000019/image.jpg"}
-            alt=""
-          />
-        </div> */}
-
-
-      </div>)
-    }
-    else {
-      return <div></div>
-    }
+    );
   }
 }
 
-
-const GuestInfo = compose (
+const EventFocusWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
-  graphql(denyPresence, { name: 'denyPresence'}),
-  graphql(GUEST_QUERY, {
-    options: (props) => ({variables: {id: props.currentUser.params.id}}),
-    name: 'guestQuery'
-})
+  graphql(denyPresence, { name: 'denyPresence' }),
+  // graphql(addToCalendar, { name: 'addToCalendar' }),
+  GoogleApiWrapper({
+    apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
+    apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
+  })
+)(EventFocus);
 
-)(EventPage2)
-
-
-export default withRouter(GuestInfo)
+export default EventFocusWithData;
