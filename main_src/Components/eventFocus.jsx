@@ -61,12 +61,12 @@ class EventFocus extends React.Component {
     if (strDate) {
       strDate = strDate.toString();
       return `${months[strDate.slice(4, 6)]} ${
-        days[strDate.slice(6)]
+        days[strDate.slice(7)]
       }, ${strDate.slice(0, 4)}`;
     } else {
       strDate2 = strDate2.toString();
       return `${months[strDate2.slice(4, 6)]} ${
-        days[strDate2.slice(6)]
+        days[strDate2.slice(7)]
       }, ${strDate2.slice(0, 4)}`;
     }
   }
@@ -272,6 +272,23 @@ class EventFocus extends React.Component {
     return (
       <div className="event-page">
         <div className="event-page-grid">
+          {/* RSVP Buttons
+          <div className="event-page-rsvp-button">
+            {!checkIfHostOfEvent && (
+              <div style={{ textAlign: 'center', align: 'center' }}>
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickAttending}
+                  label="I'll be there"
+                />
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickNotAttending}
+                  label="Hell nah, I aint coming"
+                />
+              </div>
+            )}
+          </div> */}
           {/* Event Image */}
           <div className="event-page-image-container">
             {/* Event Title */}
@@ -293,11 +310,11 @@ class EventFocus extends React.Component {
                 this.state.mapView ? 'event-page-map' : 'event-page-map-hide'
               }
             >
-              <Map
+              {/* <Map
                 useThis={this.props.event.location}
                 props={this.props}
                 latLng={this.state.latLng}
-              />
+              /> */}
             </div>
           </div>
 
@@ -309,7 +326,8 @@ class EventFocus extends React.Component {
                 event.description
               )}
             </div>
-       
+            <div className="border1" />
+            <div className="border2" />
             <div className="event-page-date-time">
               <div className="event-page-date">
                 {this.formatDate(this.props.date, event.date)}
@@ -392,10 +410,10 @@ class EventFocus extends React.Component {
 
           <div className="event-page-sidebar">
             <div className="event-page-sidebar-buttons">
-              <div onClick={this.toggleItemsView} className="tab">
+              <div style={{cursor: "pointer"}} onClick={this.toggleItemsView} className="tab">
                 Item Registery
               </div>
-              <div onClick={this.toggleAttendingView} className="tab">
+              <div style={{cursor: "pointer"}} onClick={this.toggleAttendingView} className="tab">
                 Attending
               </div>
             </div>
