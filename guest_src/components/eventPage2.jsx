@@ -24,6 +24,12 @@ import * as Colors from 'material-ui/styles/colors';
 
 import Loader from 'react-loader-spinner'
 import EventFocus2 from './eventFocus2.jsx'
+import Map from './map.jsx'
+
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from 'react-places-autocomplete';
 
 class EventPage2 extends React.Component {
   constructor(props) {
@@ -44,6 +50,7 @@ class EventPage2 extends React.Component {
       toggleAttendanceView: false,
       mapView: false,
       toggleItemsView: true,
+      latLng: [],
     }
       this.determineWhatToRender = this.determineWhatToRender.bind(this);
       this.formatDate = this.formatDate.bind(this)
@@ -52,8 +59,28 @@ class EventPage2 extends React.Component {
       this.clickAttending = this.clickAttending.bind(this)
       this.clickNotAttending = this.clickNotAttending.bind(this)
       this.returnHome = this.returnHome.bind(this)
-
+      this.toggleAttendingView = this.toggleAttendingView.bind(this)
+      this.toggleItemsView = this.toggleItemsView.bind(this)
+      this.toggleMapImage = this.toggleMapImage.bind(this)
+      // this.addressToLatLong = this.addressToLatLong.bind(this)
   }
+
+  // componentDidMount() {
+  //   console.log('what is porps ', this.props)
+  //   this.addressToLatLong();
+  // }
+  //
+  // addressToLatLong() {
+  //   console.log('in method ', this.props.guestQuery)
+    //this should be in componentDidMount
+    // geocodeByAddress(this.props.guestQuery.guestUser.guestEvent.location)
+    //   .then(results => getLatLng(results[0]))
+    //   .then(latLng => {
+    //     this.setState({ latLng: latLng });
+    //     //send this to the map component to put the marker
+    //   })
+    //   .catch(error => console.error('Error', error));
+  // }
 
   formatDate(strDate, strDate2) {
     if (strDate) {
@@ -126,11 +153,37 @@ class EventPage2 extends React.Component {
     // this.forceUpdate()
   }
 
+  toggleAttendingView() {
+    if (!this.state.toggleAttendanceView) {
+      this.setState({
+        toggleAttendanceView: !this.state.toggleAttendanceView,
+        toggleItemsView: !this.state.toggleItemsView
+      });
+    }
+  }
+
+  toggleItemsView() {
+    if (!this.state.toggleItemsView) {
+      this.setState({
+        toggleItemsView: !this.state.toggleItemsView,
+        toggleAttendanceView: !this.state.toggleAttendanceView
+      });
+    }
+  }
+
+  toggleMapImage() {
+    this.setState({
+      mapView: !this.state.mapView,
+      imageView: !this.state.imageView
+    });
+  }
+
   returnHome() {
     window.location ='/'
   }
 
   render() {
+    console.log('what is porps in render ', this.props)
     if ((this.props.guestQuery.loading || this.props.guestQuery.error) && !this.props.guestQuery.guestUser) {
       return (
         <div style={{"textAlign": "center", "marginTop": "225px"}}>
@@ -146,7 +199,6 @@ class EventPage2 extends React.Component {
     }
 
     if (this.props.guestQuery.guestUser){
-      console.log('props', this.props.guestQuery.guestUser)
     let users = this.props.guestQuery.guestUser.guestEvent.users
 
     const listStyle = {
@@ -155,9 +207,7 @@ class EventPage2 extends React.Component {
     };
 
     let event = this.props.event;
-    let checkIfHostOfEvent =
-      this.props.currentUser.id === this.props.guestQuery.guestUser.guestEvent.host_id;
-    let guestsArray = this.props.guestQuery.guestUser.guestEvent.guests;
+    let guestsArray = this.props.guestQuery.guestUser.guestEvent.users;
     const yesRsvp = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -226,9 +276,9 @@ class EventPage2 extends React.Component {
         <FlatButton style={{"textAlign": "center", "align":"center"}}
           onClick={() => this.clickNotAttending()}
           label="Hell nah, I aint coming"/>
-          <FlatButton style={{"textAlign": "center", "align":"center"}}
+          {/* <FlatButton style={{"textAlign": "center", "align":"center"}}
             onClick={this.returnHome}
-            label="HOME"/>
+            label="HOME"/> */}
       </div>
 
       <div className="event-page">
@@ -254,11 +304,11 @@ class EventPage2 extends React.Component {
                 this.state.mapView ? 'event-page-map' : 'event-page-map-hide'
               }
             >
-              {/* <Map
+              <Map
                 useThis={this.props.guestQuery.guestUser.guestEvent.name.location}
                 props={this.props}
                 latLng={this.state.latLng}
-              /> */}
+              />
             </div>
           </div>
 
@@ -272,16 +322,16 @@ class EventPage2 extends React.Component {
             </div>
             <div className="border1" />
             <div className="border2" />
-            <div className="event-page-date-time">
+            {/* <div className="event-page-date-time"> */}
               {/* <div className="event-page-date">
                 {this.formatDate(this.props.guestQuery.guestUser.guestEvent.date, this.props.guestQuery.guestUser.guestEvent.date)}
-              </div> */}
-              @
+              </div>
+              @ */}
               {/* Event Time */}
-              <div className="event-page-time">
+              {/* <div className="event-page-time">
                 {this.props.guestQuery.guestUser.guestEvent.time || this.props.guestQuery.guestUser.guestEvent.time}
               </div>
-            </div>
+            </div> */}
             {/* Event Date */}
             {/* Event Location */}
             <div className="event-page-location">
