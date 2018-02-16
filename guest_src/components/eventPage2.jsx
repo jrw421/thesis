@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import ItemList from './itemList.jsx'
+import ItemList from './itemList2.jsx'
 import gql from 'graphql-tag'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';

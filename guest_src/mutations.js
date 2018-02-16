@@ -38,18 +38,48 @@ const editEventFields = gql`
   }
 `;
 
-const addToCalendar = gql`
-  mutation addToCalendar($description: String, $name: String, $location: String, $dateTimeStart: String, $user_id: Int, $id: Int){
-    addToCalendar(description: $description, name: $name, location: $location, dateTimeStart: $dateTimeStart, user_id: $user_id, id: $id){
-      name
+
+const addComment = gql`
+  mutation addComment(
+    $content: String!,
+    $user_id: Int!,
+    $item_id: Int!,
+    $event_id: Int!
+  ) {
+    addComment(
+      content: $content,
+      user_id: $user_id,
+      item_id: $item_id,
+      event_id: $event_id
+    ) {
+      id
     }
   }
 `;
+
+const upVote = gql`
+  mutation upVoteItem($user_id: Int!, $item_id: Int!) {
+    upVoteItem(user_id: $user_id, item_id: $item_id) {
+      id
+    }
+  }
+`;
+
+const downVote = gql`
+  mutation downVoteItem($user_id: Int!, $item_id: Int!) {
+    downVoteItem(user_id: $user_id, item_id: $item_id) {
+      id
+    }
+  }
+`;
+
 
 module.exports = {
   confirmPresence, 
   denyPresence, 
   toggleClaim,
   editEventFields, 
-  addToCalendar
+  addComment, 
+  upVote, 
+  downVote
 }
