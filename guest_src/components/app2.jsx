@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import axios from 'axios'
 import { withApollo } from 'react-apollo';
+import babelPolyfill from 'babel-polyfill';
 
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'

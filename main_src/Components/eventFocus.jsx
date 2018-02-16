@@ -310,11 +310,11 @@ class EventFocus extends React.Component {
                 this.state.mapView ? 'event-page-map' : 'event-page-map-hide'
               }
             >
-              <Map
+              {/* <Map
                 useThis={this.props.event.location}
                 props={this.props}
                 latLng={this.state.latLng}
-              />
+              /> */}
             </div>
           </div>
 
