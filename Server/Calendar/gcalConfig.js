@@ -16,7 +16,7 @@ async function addToCal(event, user_id, host){
       }
     })
   })
-  
+
   var user = await wait.then(x => x).catch(x => x)
 
   var { description, name, location, dateTimeStart, id} = event
@@ -37,7 +37,7 @@ async function addToCal(event, user_id, host){
     })
   })
     hashed.then(hash => {
-      url = `http://localhost:4000/eventPage/${hash}` 
+      url = `http://localhost:4000/eventPage/${hash}`
     var event = {
       'summary': name,
       'location': location,
@@ -48,9 +48,9 @@ async function addToCal(event, user_id, host){
       'end': {
         'dateTime': dateTimeStart,
       },
-      'colorId' : 3,  
+      'colorId' : 3,
       'source' : {
-        'title' : 'View event on Host.ly', 
+        'title' : 'View event on Host.ly',
         'url' : url
       },
       'reminders': {
@@ -75,8 +75,9 @@ async function addToCal(event, user_id, host){
       });
     }).catch(err => {
         if (err.length === 40){
-        url = `http://localhost:4000/eventPage/${err}` 
-        
+
+        url = `http://localhost:4000/eventPage/${err}`
+
         var event = {
           'summary': name,
           'location': location,
@@ -87,9 +88,9 @@ async function addToCal(event, user_id, host){
           'end': {
             'dateTime': dateTimeStart,
           },
-          'colorId' : 3,  
+          'colorId' : 3,
           'source' : {
-            'title' : 'View event on Host.ly', 
+            'title' : 'View event on Host.ly',
             'url' : url
           },
           'reminders': {
@@ -115,8 +116,9 @@ async function addToCal(event, user_id, host){
         }
     })
   } else {
-    
-    url = `http://localhost:4000/` 
+
+    url = `http://localhost:4000/`
+
      var event = {
       'summary': name,
       'location': location,
@@ -127,9 +129,9 @@ async function addToCal(event, user_id, host){
       'end': {
         'dateTime': dateTimeStart,
       },
-      'colorId' : 3,  
+      'colorId' : 3,
       'source' : {
-        'title' : 'View event on Host.ly', 
+        'title' : 'View event on Host.ly',
         'url' : url
       },
       'reminders': {

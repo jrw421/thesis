@@ -14,6 +14,20 @@ import Chat from './chat';
 import { confirmPresence, denyPresence, addToCalendar } from '../mutations.js';
 import { days, months } from './days-months.js';
 
+///List Material UI////
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import * as Colors from 'material-ui/styles/colors';
+
 class EventFocus extends React.Component {
   constructor(props) {
     super(props);
@@ -188,10 +202,17 @@ class EventFocus extends React.Component {
   }
 
   render() {
+
+    const listStyle = {
+      color: 'white',
+      fontSize: '40%'
+    };
+
     let event = this.props.event;
     let checkIfHostOfEvent =
       this.props.currentUser.id === this.props.event.host_id;
     let guestsArray = this.props.guests;
+
     const mapSvg = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -357,44 +378,40 @@ class EventFocus extends React.Component {
                   : 'event-page-attendance-hide'
               }
             >
-              {/*  RSVP Buttons*/}
-              <div className="event-page-rsvp-button">
-                {!checkIfHostOfEvent && (
-                  <div style={{ textAlign: 'center', align: 'center' }}>
-                    <FlatButton
-                      style={{ textAlign: 'center', align: 'center' }}
-                      onClick={this.clickAttending}
-                      label="I'll be there"
-                      primary={this.state.attending}
-                    />
-                    <FlatButton
-                      style={{ textAlign: 'center', align: 'center' }}
-                      onClick={this.clickNotAttending}
-                      label="Hell nah, I aint coming"
-                      primary={this.state.notAttending}
-                    />
-                  </div>
-                )}
-              </div>
-              <h1>Who's Coming</h1>
-              <ul>
-                {guestsArray.map(guest => {
-                  return (
-                    <div>
-                      <a>{guest.name}</a>
-                      <a>
-                        {guest.memberReply === 0
-                          ? ': Not attending'
-                          : guest.memberReply === 1
-                            ? ': Attending'
-                            : ': Pending'}
-                      </a>
-                    </div>
+            <div style={{fontSize: "150%", marginTop: "0px"}}>
+              <h1 >Who's Coming</h1>
+            </div>
+
+              <div className="event-page-guests-header" style={listStyle}>
+
+                  <List style={{ textAlign: 'center' }}>
+                    {guestsArray.map((guest) => {
+                      return (
+                          <ListItem
+                            style={{
+                              color: "white", textAlign: "center", fontSize: "450%"
+                            }}
+                            primaryText={guest.name}
+                            secondaryText={
+                              <p>
+                                <a>
+                                  {guest.memberReply === 0
+                                    ? ': Not attending'
+                                    : guest.memberReply === 1
+                                      ? ': Attending'
+                                      : ': Pending'}
+                                </a>
+                              </p>
+                            }
+                      />
                   );
                 })}
-              </ul>
+              </List>
+
             </div>
-            {/* Item Registery */}
+
+            </div>
+
             <div
               className={
                 this.state.toggleItemsView

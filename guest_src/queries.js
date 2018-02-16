@@ -62,7 +62,7 @@ const COMMENTS_QUERY = gql`
 `;
 
 module.exports = {
-  GUEST_QUERY, 
-  VOTES_QUERY, 
+  GUEST_QUERY,
+  VOTES_QUERY,
   COMMENTS_QUERY
 }
