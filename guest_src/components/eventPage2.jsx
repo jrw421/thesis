@@ -39,9 +39,20 @@ class EventPage2 extends React.Component {
       time: '',
       currentlyEditing: false,
       event: '',
-      guests: []
+      guests: [],
+      imageView: true,
+      toggleAttendanceView: false,
+      mapView: false,
+      toggleItemsView: true,
     }
       this.determineWhatToRender = this.determineWhatToRender.bind(this);
+      this.formatDate = this.formatDate.bind(this)
+      this.formatTime = this.formatTime.bind(this)
+      this.postLoad = this.postLoad.bind(this)
+      this.clickAttending = this.clickAttending.bind(this)
+      this.clickNotAttending = this.clickNotAttending.bind(this)
+      this.returnHome = this.returnHome.bind(this)
+
   }
 
   formatDate(strDate, strDate2) {
@@ -277,21 +288,6 @@ class EventPage2 extends React.Component {
               {this.determineWhatToRender(this.props.guestQuery.guestUser.guestEvent.location, this.props.guestQuery.guestUser.guestEvent.location)}
             </div>
 
-            {checkIfHostOfEvent ? (
-              <div className="event-page-info-buttons">
-
-
-                <div className="event-page-info-buttons-unit">
-                  <div onClick={this.handleClick}>{editSVG}</div>
-                  <div className="event-page-info-buttons-text">Edit Event</div>
-                </div>
-
-                <div className="event-page-info-buttons-unit">
-                  <div onClick={this.toggleMapImage}>{mapSvg}</div>
-                  <div className="event-page-info-buttons-text">Map</div>
-                </div>
-              </div>
-            ) : (
               <div className="event-page-info-buttons">
                 <div className="event-page-info-buttons-unit">
                   <div onClick={this.toggleMapImage}>{mapSvg}</div>
@@ -315,7 +311,6 @@ class EventPage2 extends React.Component {
                   </div>
                 </div>
               </div>
-            )}
           </div>
 
 
