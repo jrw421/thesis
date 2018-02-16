@@ -14,6 +14,7 @@ import request from 'superagent';
 import { withRouter } from 'react-router';
 import $ from 'jquery';
 import { addItems, addRecipients, addEvent } from '../mutations.js';
+import { months, days } from './days-months.js'
 
 const CLOUDINARY_UPLOAD_PRESET = 'gvmf858k';
 const CLOUDINARY_UPLOAD_URL =
@@ -50,7 +51,8 @@ class CreateEvent extends React.Component {
       uploadedFileCloudinaryUrl: '',
       endTime: '',
       dateTimeStart: '',
-      dateTimeEnd: ''
+      dateTimeEnd: '', 
+      strDate: "Pick a day and time"
     };
 
     this.handleItems = this.handleItems.bind(this);
@@ -314,9 +316,8 @@ class CreateEvent extends React.Component {
             className="create-event-date-time-picker-material"
             DatePicker={DatePickerDialog}
             TimePicker={TimePickerDialog}
-            // value={this.state.date}
+            placeholder={this.state.strDate}
             // type="date"
-            placeholder="Pick a day and time"
             onChange={time => {
               let year = time.getFullYear();
               let month =
@@ -333,10 +334,16 @@ class CreateEvent extends React.Component {
               let minutes = time.getMinutes();
               let clockTime = hour + ':' + minutes;
 
+    
+              let strDate = `${months[date.slice(4, 6)]} ${
+                days[date.slice(7)]
+              }, ${date.slice(0, 4)}`
+
               this.setState({ date: Number(date) });
               this.setState({
                 time: clockTime,
-                dateTimeStart: time.toISOString()
+                dateTimeStart: time.toISOString(), 
+                strDate: strDate + ' ' + clockTime
               });
             }}
           />
