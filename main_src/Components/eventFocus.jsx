@@ -192,6 +192,27 @@ class EventFocus extends React.Component {
     let checkIfHostOfEvent =
       this.props.currentUser.id === this.props.event.host_id;
     let guestsArray = this.props.guests;
+    const yesRsvp = (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z" />
+      </svg>
+    );
+
+    const noRsvp = (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm9 12c0 1.94-.624 3.735-1.672 5.207l-12.535-12.535c1.472-1.048 3.267-1.672 5.207-1.672 4.962 0 9 4.038 9 9zm-18 0c0-1.94.624-3.735 1.672-5.207l12.534 12.534c-1.471 1.049-3.266 1.673-5.206 1.673-4.962 0-9-4.038-9-9z" />
+      </svg>
+    );
     const mapSvg = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -330,6 +351,34 @@ class EventFocus extends React.Component {
                   <div className="event-page-info-buttons-text">Map</div>
                 </div>
                 <div className="event-page-info-buttons-unit">
+                  <div onClick={this.clickAttending}>{yesRsvp}</div>
+                  <div className="event-page-info-buttons-text">I'm Coming</div>
+                </div>
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.clickNotAttending}>{noRsvp}</div>
+                  <div className="event-page-info-buttons-text">
+                    I'm Not Coming
+                  </div>
+                </div>
+                {/* <div className="event-page-rsvp-button">
+                  {!checkIfHostOfEvent && (
+                    <div style={{ textAlign: 'center', align: 'center' }}>
+                      <FlatButton
+                        style={{ textAlign: 'center', align: 'center' }}
+                        onClick={this.clickAttending}
+                        label="I'll be there"
+                        primary={this.state.attending}
+                      />
+                      <FlatButton
+                        style={{ textAlign: 'center', align: 'center' }}
+                        onClick={this.clickNotAttending}
+                        label="Hell nah, I aint coming"
+                        primary={this.state.notAttending}
+                      />
+                    </div>
+                  )}
+                </div> */}
+                <div className="event-page-info-buttons-unit">
                   <div onClick={this.addToCalendar}>{calendarSVG}</div>
                   <div className="event-page-info-buttons-text">
                     Add To Google Calendar
@@ -358,24 +407,6 @@ class EventFocus extends React.Component {
               }
             >
               {/*  RSVP Buttons*/}
-              <div className="event-page-rsvp-button">
-                {!checkIfHostOfEvent && (
-                  <div style={{ textAlign: 'center', align: 'center' }}>
-                    <FlatButton
-                      style={{ textAlign: 'center', align: 'center' }}
-                      onClick={this.clickAttending}
-                      label="I'll be there"
-                      primary={this.state.attending}
-                    />
-                    <FlatButton
-                      style={{ textAlign: 'center', align: 'center' }}
-                      onClick={this.clickNotAttending}
-                      label="Hell nah, I aint coming"
-                      primary={this.state.notAttending}
-                    />
-                  </div>
-                )}
-              </div>
               <h1>Who's Coming</h1>
               <ul>
                 {guestsArray.map(guest => {
