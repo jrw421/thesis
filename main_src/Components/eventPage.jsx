@@ -32,7 +32,6 @@ class EventPage extends React.Component {
       currentlyEditing: false,
       event: ''
     };
-
     this.refresh = this.refresh.bind(this);
     this.toggleEditState = this.toggleEditState.bind(this);
     this.updateEventState = this.updateEventState.bind(this);

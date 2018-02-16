@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-
+// import Dialog from 'material-ui/Dialog';
 import ItemComment from './itemComment.jsx'
 import { addComment } from '../mutations.js'
 import { COMMENTS_QUERY } from '../queries.js'
@@ -11,6 +11,7 @@ class ItemComments extends React.Component {
     super(props);
     this.state = {
       comment: '',
+      
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -57,6 +58,18 @@ class ItemComments extends React.Component {
             value={this.state.comment}
             onChange={this.onInputChange}
           />
+          <Dialog
+          title="Scrollable Dialog"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+          autoScrollBodyContent={true}
+        >
+        {this.props.itemComments.item.comments.map(itemComment => {
+          return <ItemComment itemComment={itemComment} />
+        })}
+        </Dialog>
           <button onClick={this.onButtonClick}>Comment</button>
         </div>
       );
