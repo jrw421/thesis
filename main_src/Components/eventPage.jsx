@@ -105,7 +105,7 @@ class EventPage extends React.Component {
               <EditEventPage
                 event={this.props.location.state.event}
                 currentUser={this.props.currentUser}
-                guests={this.props.guestsQuery.users}
+                guests={this.props.guestsQuery.event.users}
                 refresh={this.refresh}
                 editingState={this.editingState}
                 toggleEditState={this.toggleEditState}
@@ -119,7 +119,7 @@ class EventPage extends React.Component {
               <EventFocus
               event={this.props.location.state.event}
               currentUser={this.props.currentUser}
-              guests={this.props.guestsQuery.users}
+              guests={this.props.guestsQuery.event.users}
               refresh={this.refresh}
               toggleEditState={this.toggleEditState}
               name={this.state.name}

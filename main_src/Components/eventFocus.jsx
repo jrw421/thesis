@@ -26,7 +26,9 @@ class EventFocus extends React.Component {
       toggleItemsView: true,
       toggleAttendanceView: false,
       mapView: false,
-      imageView: true
+      imageView: true, 
+      attending: false, 
+      notAttending: false
     };
 
     this.clickAttending = this.clickAttending.bind(this);
@@ -88,7 +90,13 @@ class EventFocus extends React.Component {
           event_id: this.props.event.id
         }
       })
-      .then(() => this.props.refresh());
+      .then(() => {
+        this.props.refresh()
+        this.setState({
+          attending: true, 
+          notAttending: false
+        })
+      });
   }
 
   clickNotAttending() {
@@ -99,7 +107,13 @@ class EventFocus extends React.Component {
           event_id: this.props.event.id
         }
       })
-      .then(() => this.props.refresh());
+      .then(() => {
+        this.props.refresh()
+        this.setState({
+          notAttending: true, 
+          attending: false
+        })
+      });
   }
 
   componentWillReceiveProps() {
@@ -157,10 +171,26 @@ class EventFocus extends React.Component {
     })
   }
 
+  componentWillMount(){
+    this.props.guests.map(guest => {
+      if (guest.id === this.props.currentUser.id){
+        if (guest.memberReply < 2){
+          guest.memberReply === 0 ? 
+            this.setState({
+              notAttending: true
+            }) :
+             this.setState({
+              attending: true
+            })
+        } 
+      }
+    })
+  }
+
   render() {
     let event = this.props.event;
     let checkIfHostOfEvent =
-      this.props.currentUser.id === this.props.event.host_id;
+    this.props.currentUser.id === this.props.event.host_id;
     let guestsArray = this.props.guests;
     const mapSvg = (
       <svg
@@ -192,23 +222,7 @@ class EventFocus extends React.Component {
               />
             )}
           </div> */}
-          {/* RSVP Buttons
-          <div className="event-page-rsvp-button">
-            {!checkIfHostOfEvent && (
-              <div style={{ textAlign: 'center', align: 'center' }}>
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickAttending}
-                  label="I'll be there"
-                />
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickNotAttending}
-                  label="Hell nah, I aint coming"
-                />
-              </div>
-            )}
-          </div> */}
+
           {/* Event Image */}
           <div className="event-page-image-container">
             {/* Event Title */}
@@ -294,6 +308,25 @@ class EventFocus extends React.Component {
                   : 'event-page-attendance-hide'
               }
             >
+                   {/*  RSVP Buttons*/}
+          <div className="event-page-rsvp-button">
+            {!checkIfHostOfEvent && (
+              <div style={{ textAlign: 'center', align: 'center' }}>
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickAttending}
+                  label="I'll be there"
+                  primary={this.state.attending}
+                />
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickNotAttending}
+                  label="Hell nah, I aint coming"
+                  primary={this.state.notAttending}
+                />
+              </div>
+            )}
+          </div> 
               <h1>Who's Coming</h1>
               <ul>
                 {guestsArray.map(guest => {
