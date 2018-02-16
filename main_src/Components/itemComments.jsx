@@ -1,8 +1,11 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-// import Dialog from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import ItemComment from './itemComment.jsx'
+import TextField from 'material-ui/TextField'
 import { addComment } from '../mutations.js'
 import { COMMENTS_QUERY } from '../queries.js'
 
@@ -11,12 +14,21 @@ class ItemComments extends React.Component {
     super(props);
     this.state = {
       comment: '',
+      open: false,
       
     };
 
     this.onInputChange = this.onInputChange.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
   }
+
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
 
   onInputChange(e) {
     this.setState({ comment: e.target.value });
@@ -36,6 +48,23 @@ class ItemComments extends React.Component {
   }
 
   render() {
+
+    const actions = [
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onClick={this.onButtonClick}
+      />,
+      <FlatButton
+        label="Close"
+        primary={true}
+        keyboardFocused={true}
+        onClick={this.handleClose}
+      />,
+    ];
+
+
+
     if (this.props.itemComments.loading) {
       return <div>loading...</div>
     }
@@ -48,29 +77,28 @@ class ItemComments extends React.Component {
     if (this.props.itemComments.item) {
       return (
         <div>
-          <ul>
-            {this.props.itemComments.item.comments.map(itemComment => {
-              return <ItemComment itemComment={itemComment} />
-            })}
-          </ul>
-          <input 
-            type="text" 
-            value={this.state.comment}
-            onChange={this.onInputChange}
-          />
           <Dialog
-          title="Scrollable Dialog"
+          title="comments"
           actions={actions}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
+          className="item-comments-dialog"
         >
+        <TextField 
+        id="text-field-default"
+        defaultValue="Say something"
+        value={this.state.comment}
+        onChange={this.onInputChange}
+        />
         {this.props.itemComments.item.comments.map(itemComment => {
           return <ItemComment itemComment={itemComment} />
         })}
         </Dialog>
-          <button onClick={this.onButtonClick}>Comment</button>
+        <div className="raised-button">
+          <RaisedButton onClick={this.handleOpen} primary={true} className="raised-button"> See Comments </RaisedButton>
+        </div>
         </div>
       );
     }

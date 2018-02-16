@@ -246,8 +246,7 @@ class EventFocus extends React.Component {
                 event.description
               )}
             </div>
-            <div className="border1" />
-            <div className="border2" />
+       
             <div className="event-page-date-time">
               <div className="event-page-date">
                 {this.formatDate(this.props.date, event.date)}
@@ -263,6 +262,8 @@ class EventFocus extends React.Component {
             <div className="event-page-location">
               {this.determineWhatToRender(this.props.location, event.location)}
             </div>
+            <div className="border1" />
+            <div className="border2" />
             <div className="event-page-info-buttons">
             <div className="event-page-info-buttons-unit">
               <div onClick={this.toggleMapImage}>{mapSvg}</div>

@@ -103,6 +103,7 @@
   padding-top: 5%;
   height: 30%;
   box-sizing: border-box;
+  color: beige;
 }
 
 .border1 {
@@ -111,6 +112,7 @@
 }
 .border2 {
   border-bottom: 2px solid black;
+  margin-bottom: 10px;
 }
 
 .event-page-date-time {
@@ -122,16 +124,21 @@
 .event-page-date {
   width: 45%;
   display: inline-block;
-  font-size: 0.8rem;
+  color: beige;
+  font-size: 1.5rem;
 }
 
 .event-page-time {
   width: 45%;
   display: inline-block;
+  color: beige;
+  font-size: 2em;
 }
 
 .event-page-location {
   height: 20%;
+  color: beige;
+  font-size: 2em;
 }
 
 .event-page-sidebar {
