@@ -6,8 +6,11 @@
   font-family: 'Comfortaa';
 }
 
-.event-page-guests-header {
-  
+.event-page-attendance-show {
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 2;
+  grid-row-end: 9;
 }
 
 .event-page-grid {
