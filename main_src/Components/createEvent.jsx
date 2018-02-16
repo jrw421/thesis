@@ -336,7 +336,7 @@ class CreateEvent extends React.Component {
 
     
               let strDate = `${months[date.slice(4, 6)]} ${
-                days[date.slice(7)]
+                days[date.slice(6)]
               }, ${date.slice(0, 4)}`
 
               this.setState({ date: Number(date) });

@@ -61,12 +61,12 @@ class EventFocus extends React.Component {
     if (strDate) {
       strDate = strDate.toString();
       return `${months[strDate.slice(4, 6)]} ${
-        days[strDate.slice(7)]
+        days[strDate.slice(6)]
       }, ${strDate.slice(0, 4)}`;
     } else {
       strDate2 = strDate2.toString();
       return `${months[strDate2.slice(4, 6)]} ${
-        days[strDate2.slice(7)]
+        days[strDate2.slice(6)]
       }, ${strDate2.slice(0, 4)}`;
     }
   }
