@@ -1,3 +1,7 @@
+.datetime-container {
+  margin-left: 1.5%;
+}
+
 .edit-event {
   position: absolute;
   top: 50%;
@@ -15,30 +19,33 @@
     width: 80rem;
   }
 
-
   &-background-img {
-    background-image: 
-    linear-gradient(105deg, 
-                    rgba($color-primary, .9) 0%,
-                    rgba($color-primary, .9) 65%,
-                    transparent 50% ),
-                    url('https://images.pexels.com/photos/196634/pexels-photo-196634.jpeg?w=940&h=650&auto=compress&cs=tinysrgb');
+    background-image: linear-gradient(
+        105deg,
+        rgba($color-primary, 0.9) 0%,
+        rgba($color-primary, 0.9) 65%,
+        transparent 50%
+      ),
+      url('https://images.pexels.com/photos/196634/pexels-photo-196634.jpeg?w=940&h=650&auto=compress&cs=tinysrgb');
     background-size: cover;
     background-position: top;
     border-radius: 3px;
-    box-shadow: 0 1.5rem 4rem rgba($color-black, .2);
-
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.2);
   }
 
   &-inputs {
     width: 50%;
     display: flex;
     flex-direction: column;
-    padding:30px;
+    padding: 30px;
     margin: 30px;
     color: $color-tertiary;
     // z-index: 2;
-
+    div {
+      input {
+        color: white !important;
+      }
+    }
     h1 {
       font-family: 'Comfortaa';
       color: $color-tertiary;
@@ -47,21 +54,19 @@
 
     .input {
       margin: 15px;
-      color: $color-white;
+      // color: $color-white;
+    }
   }
 
-
+  &-inputs-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
   }
-
-
-
-
-&-inputs-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px;
 }
 
+.edit-item-list {
+  margin: 0px;
+  color: white;
+  font-size: 0.9em;
 }
-
-
