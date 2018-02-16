@@ -31,6 +31,6 @@ const GUEST_QUERY = gql `
 `
 
 module.exports = {
-  CLAIM_QUERY,
+
   GUEST_QUERY
 }
