@@ -45,11 +45,7 @@ class Item extends React.Component {
 
   render() {
 
-    if((this.props.claimQuery.error || this.props.claimQuery.loading) && !this.props.claimQuery.user){
-      return <div />
-    }
 
-    if (this.props.claimQuery.user){
       const isClicked = this.state.clicked
       let hash = this.props.hash
 
@@ -72,18 +68,18 @@ class Item extends React.Component {
           </div>
         )
       }
-    }
+
     return <div />
   }
 }
-    // hash={this.props.hash} 
+    // hash={this.props.hash}
     //         currentUser={this.props.currentUser}
-    //         claimedBy={item.user_id} 
-    //         name={item.name} 
+    //         claimedBy={item.user_id}
+    //         name={item.name}
     //         id={item.id} key={item.id}
     //         eventId={this.props.eventId}
 
-const guestClaim = 
+const guestClaim =
   graphql(toggleClaim, { name: 'toggleClaimOfItem' })(Item)
 
 export default guestClaim

@@ -75,13 +75,9 @@ async function addToCal(event, user_id, host){
       });
     }).catch(err => {
         if (err.length === 40){
-<<<<<<< HEAD
+
         url = `http://localhost:4000/eventPage/${err}`
 
-=======
-          url = `http://localhost:4000/eventPage/${err}`
-
->>>>>>> dashboard styles
         var event = {
           'summary': name,
           'location': location,
@@ -120,13 +116,8 @@ async function addToCal(event, user_id, host){
         }
     })
   } else {
-<<<<<<< HEAD
 
     url = `http://localhost:4000/`
-=======
-    console.log('nah')
-    url = `http://localhost:4000/`
->>>>>>> dashboard styles
      var event = {
       'summary': name,
       'location': location,
