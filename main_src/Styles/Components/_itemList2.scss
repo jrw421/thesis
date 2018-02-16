@@ -1,17 +1,14 @@
 .item-list-two {
-
   h1 {
     color: $color-tertiary;
     width: 60%;
   }
 
   .item-list-two-items {
-
     li {
       font-family: 'Raleway';
       padding: 10px;
       // font-size: 12px;
-  
     }
   }
 
@@ -26,5 +23,9 @@
     color: $color-tertiary;
     margin: 3px !important;
     // padding: 5px;
+  }
+
+  input {
+    color: white !important;
   }
 }
