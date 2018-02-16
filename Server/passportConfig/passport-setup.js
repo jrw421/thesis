@@ -22,6 +22,7 @@ passport.use(
       clientSecret: '4qDzcSsqkWieHEABXAf1XMpH'
     },
     (accessToken, refreshToken, profile, done) => {
+      console.log('profile', profile)
       console.log('refreshtoken', refreshToken)
       const body = {
         google_id: profile.id,

@@ -56,13 +56,24 @@ eventController = {
       }
     })
   },
+
+  //check for host id also, check date and date < ${current}
   getPastEvents: function(user_id, cb){
     let current = createDateNum()
-    conn.query(`select * from event_attendee inner join event on event_attendee.user_id = ${user_id} or event.host_id = ${user_id} and event_attendee.event_id = event.id where date < ${current}`, function(err, results){
+    conn.query(`select event_id from event_attendee where user_id = ${user_id}`, function(err, results){
       if (err){
         cb(err, null)
       } else {
-        cb(null, JSON.parse(JSON.stringify(results)))
+        let str = ''
+        JSON.parse(JSON.stringify(results)).forEach(obj => str +=  ', ' + obj.event_id)
+        str = str.length ? 'where id in (' + str.substring(2) + ') and date < ' + current + ' or' : 'where'
+        conn.query(`select * from event ${str} host_id = ${user_id} and date < ${current}`, function(error, res){
+          if (error){
+            cb(error, null)
+          } else {
+            cb(null, JSON.parse(JSON.stringify(res)))
+          }
+        })
       }
     })
   },
