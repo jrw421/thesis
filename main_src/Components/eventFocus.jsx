@@ -232,23 +232,6 @@ class EventFocus extends React.Component {
     return (
       <div className="event-page">
         <div className="event-page-grid">
-          {/* RSVP Buttons
-          <div className="event-page-rsvp-button">
-            {!checkIfHostOfEvent && (
-              <div style={{ textAlign: 'center', align: 'center' }}>
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickAttending}
-                  label="I'll be there"
-                />
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickNotAttending}
-                  label="Hell nah, I aint coming"
-                />
-              </div>
-            )}
-          </div> */}
           {/* Event Image */}
           <div className="event-page-image-container">
             {/* Event Title */}
