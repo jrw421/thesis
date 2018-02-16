@@ -326,8 +326,7 @@ class EventFocus extends React.Component {
                 event.description
               )}
             </div>
-            <div className="border1" />
-            <div className="border2" />
+       
             <div className="event-page-date-time">
               <div className="event-page-date">
                 {this.formatDate(this.props.date, event.date)}

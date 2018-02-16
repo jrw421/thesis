@@ -32,10 +32,6 @@ class EventPage extends React.Component {
       currentlyEditing: false,
       event: ''
     };
-<<<<<<< HEAD
-
-=======
->>>>>>> Remove console logs.
     this.refresh = this.refresh.bind(this);
     this.toggleEditState = this.toggleEditState.bind(this);
     this.updateEventState = this.updateEventState.bind(this);
@@ -84,13 +80,9 @@ class EventPage extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
 
     if (this.props.guestsQuery) {
 
-=======
-    if (this.props.guestQuery) {
->>>>>>> Remove console logs.
       if ((this.props.guestsQuery.error || this.props.guestsQuery.loading) && !this.props.guestsQuery.event) {
         return (
           <div style={{"textAlign": "center", "marginTop": "225px"}}>
@@ -104,7 +96,6 @@ class EventPage extends React.Component {
            />
          </div>)
       }
-<<<<<<< HEAD
 
       if (this.props.guestsQuery.event){
         return this.state.currentlyEditing ?
@@ -125,12 +116,6 @@ class EventPage extends React.Component {
           ) : (
             <div>
               <EventFocus
-=======
-      return this.state.currentlyEditing ?
-        (
-          <div>
-            <EditEventPage
->>>>>>> Remove console logs.
               event={this.props.location.state.event}
               currentUser={this.props.currentUser}
               guests={this.props.guestsQuery.event.users}
@@ -175,12 +160,8 @@ class EventPage extends React.Component {
            alignItems="center"
            justifyContent='center'
            />
-<<<<<<< HEAD
          </div>
          )
-=======
-         </div>)
->>>>>>> Remove console logs.
       }
     
     
