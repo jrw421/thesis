@@ -45,11 +45,6 @@ class Item extends React.Component {
 
   render() {
 
-    if((this.props.claimQuery.error || this.props.claimQuery.loading) && !this.props.claimQuery.user){
-      return <div />
-    }
-
-    if (this.props.claimQuery.user){
       const isClicked = this.state.clicked
       let hash = this.props.hash
 
@@ -72,9 +67,7 @@ class Item extends React.Component {
           </div>
         )
       }
-    }
-    return <div />
-  }
+    } 
 }
     // hash={this.props.hash} 
     //         currentUser={this.props.currentUser}
