@@ -6,11 +6,11 @@ const path = require('path');
 const graphql = require('graphql');
 const knex = require('./dbConfig.js').knex;
 const axios = require('axios');
-const webpush = require('web-push');
+// const webpush = require('web-push');
 const db = require('./ControllersDB/mainController.js');
 
 //  vapid keys
-const vapidKeys = require('../main_dist/swConfig');
+// const vapidKeys = require('../main_dist/swConfig');
 
 // auth dependencies
 const passportSetup = require('./passportConfig/passport-setup');
@@ -109,40 +109,40 @@ app.get('/user', function(req, res) {
 // };
 
 // save subscription sent from service worker
-app.post('/api/save-subscription/', function(req, res) {
-  // if (!isValidSaveRequest(req, res)) {
-  //   return;
-  // }
-  let userId = req.body.userId,
-  subscription = JSON.stringify(req.body.subscription);
+// app.post('/api/save-subscription/', function(req, res) {
+//   // if (!isValidSaveRequest(req, res)) {
+//   //   return;
+//   // }
+//   let userId = req.body.userId,
+//   subscription = JSON.stringify(req.body.subscription);
 
 
-  db.user.editField(userId, 'subscription', subscription, function(err, results){
-    if (err){
-      res.status(500);
-      res.setHeader('Content-Type', 'application/json');
-      res.send(
-        JSON.stringify({
-          error: {
-            id: 'unable-to-save-subscription',
-            message:
-              'The subscription was received but we were unable to save it to our database.'
-          }
-        })
-      );
-    } else {
-      res.send(JSON.stringify({ data: { success: true } }))
-    }
-  })
-});
+//   db.user.editField(userId, 'subscription', subscription, function(err, results){
+//     if (err){
+//       res.status(500);
+//       res.setHeader('Content-Type', 'application/json');
+//       res.send(
+//         JSON.stringify({
+//           error: {
+//             id: 'unable-to-save-subscription',
+//             message:
+//               'The subscription was received but we were unable to save it to our database.'
+//           }
+//         })
+//       );
+//     } else {
+//       res.send(JSON.stringify({ data: { success: true } }))
+//     }
+//   })
+// });
 
-// set up push to client
+// // set up push to client
 
-webpush.setVapidDetails(
-  'mailto:mavcro@gmail.com',
-  vapidKeys.public,
-  vapidKeys.private
-);
+// webpush.setVapidDetails(
+//   'mailto:mavcro@gmail.com',
+//   vapidKeys.public,
+//   vapidKeys.private
+// );
 
 // graphql //
 ////////////
