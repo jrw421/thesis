@@ -1,8 +1,7 @@
 .itemList {
   overflow-y: scroll;
   max-height: 75%;
-  padding: 0 5%;
-  margin: 5% 0;
+  padding: 5%;
 }
 
 .itemList ul {
@@ -16,13 +15,52 @@
   display: flex;
   justify-content: space-between;
   // grid-template-columns: repeat(6, 1fr);
+  background-color: $color-tertiary;
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  color: $color-grey-dark;
+
+
 
 }
 
 .item-claim-shop-svg {
-  float: left;
+  // grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
 }
 
 .item-claim-claimant {
   font-size: 10px;
 }
+
+.item-comments {
+  // grid-column: 5 / 7;
+}
+
+
+.item-vote {
+  font-size: 10px;
+  // grid-column: 1 / 2;
+}
+
+.item-claim {
+  // grid-column: 3 / 5;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-comments-dialog {
+  margin-left: 35% !important;
+  width: 25vw !important;
+}
+
+.raised-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+}
+
