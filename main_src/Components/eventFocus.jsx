@@ -12,7 +12,7 @@ import PlacesAutocomplete, {
 import Map from './map.jsx';
 import Chat from './chat';
 import { confirmPresence, denyPresence, addToCalendar } from '../mutations.js';
-import { days, months } from './days-months.js'
+import { days, months } from './days-months.js';
 
 class EventFocus extends React.Component {
   constructor(props) {
@@ -26,8 +26,8 @@ class EventFocus extends React.Component {
       toggleItemsView: true,
       toggleAttendanceView: false,
       mapView: false,
-      imageView: true, 
-      attending: false, 
+      imageView: true,
+      attending: false,
       notAttending: false
     };
 
@@ -38,7 +38,7 @@ class EventFocus extends React.Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.toggleItemsView = this.toggleItemsView.bind(this);
     this.toggleAttendingView = this.toggleAttendingView.bind(this);
-    this.addToCalendar = this.addToCalendar.bind(this)
+    this.addToCalendar = this.addToCalendar.bind(this);
     this.toggleMapImage = this.toggleMapImage.bind(this);
     this.formatDate = this.formatDate.bind(this);
   }
@@ -91,11 +91,11 @@ class EventFocus extends React.Component {
         }
       })
       .then(() => {
-        this.props.refresh()
+        this.props.refresh();
         this.setState({
-          attending: true, 
+          attending: true,
           notAttending: false
-        })
+        });
       });
   }
 
@@ -108,11 +108,11 @@ class EventFocus extends React.Component {
         }
       })
       .then(() => {
-        this.props.refresh()
+        this.props.refresh();
         this.setState({
-          notAttending: true, 
+          notAttending: true,
           attending: false
-        })
+        });
       });
   }
 
@@ -155,42 +155,42 @@ class EventFocus extends React.Component {
     });
   }
 
-  addToCalendar(){
-    let event = this.props.event
-    let { description, name, location, dateTimeStart, id } = event
-    let user_id = this.props.currentUser.id
+  addToCalendar() {
+    let event = this.props.event;
+    let { description, name, location, dateTimeStart, id } = event;
+    let user_id = this.props.currentUser.id;
     this.props.addToCalendar({
       variables: {
-        description, 
-        name, 
-        location, 
-        dateTimeStart, 
-        user_id, 
+        description,
+        name,
+        location,
+        dateTimeStart,
+        user_id,
         id
       }
-    })
+    });
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.guests.map(guest => {
-      if (guest.id === this.props.currentUser.id){
-        if (guest.memberReply < 2){
-          guest.memberReply === 0 ? 
-            this.setState({
-              notAttending: true
-            }) :
-             this.setState({
-              attending: true
-            })
-        } 
+      if (guest.id === this.props.currentUser.id) {
+        if (guest.memberReply < 2) {
+          guest.memberReply === 0
+            ? this.setState({
+                notAttending: true
+              })
+            : this.setState({
+                attending: true
+              });
+        }
       }
-    })
+    });
   }
 
   render() {
     let event = this.props.event;
     let checkIfHostOfEvent =
-    this.props.currentUser.id === this.props.event.host_id;
+      this.props.currentUser.id === this.props.event.host_id;
     let guestsArray = this.props.guests;
     const mapSvg = (
       <svg
@@ -203,8 +203,28 @@ class EventFocus extends React.Component {
       </svg>
     );
 
-    const calendarSVG = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17 1c0-.552-.447-1-1-1s-1 .448-1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2zm-12 2c0 .552-.447 1-1 1s-1-.448-1-1v-2c0-.552.447-1 1-1s1 .448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-.897 2-2 2s-2-.897-2-2v-1h-8v1c0 1.103-.897 2-2 2s-2-.897-2-2v-1h-2v18h20v-18zm-11.646 14c-1.318 0-2.192-.761-2.168-2.205h1.245c.022.64.28 1.107.907 1.107.415 0 .832-.247.832-.799 0-.7-.485-.751-1.3-.751v-.977c.573.05 1.196-.032 1.196-.608 0-.455-.369-.663-.711-.663-.575 0-.793.422-.782 1.003h-1.256c.052-1.401.902-2.107 2.029-2.107.968 0 1.969.613 1.969 1.64 0 .532-.234.945-.638 1.147.528.203.847.681.847 1.293-.001 1.201-.993 1.92-2.17 1.92zm5.46 0h-1.306v-3.748h-1.413v-1.027c.897.024 1.525-.233 1.657-1.113h1.062v5.888zm10.186-11v19h-22v-2h20v-17h2z"/></svg>
-    
+    const editSVG = (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M7 22v-2h6v2h-6zm7.311-7.662l9.689-9.804-4.536-4.534-9.69 9.802 4.537 4.536zm-7.311-6.338h1.743l1.978-2h-3.721v2zm11 8h2v-4.573l-2 2.023v2.55zm-9.576-4.718l-1.424 5.718 5.826-1.318-4.402-4.4zm-6.424-1.282v-2h3v-2h-5v4h2zm16 8v2h-3v2h5v-4h-2zm-13 2h-3v-2h-2v4h5v-2zm-5-4h2v-4h-2v4z" />
+      </svg>
+    );
+
+    const calendarSVG = (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M17 1c0-.552-.447-1-1-1s-1 .448-1 1v2c0 .552.447 1 1 1s1-.448 1-1v-2zm-12 2c0 .552-.447 1-1 1s-1-.448-1-1v-2c0-.552.447-1 1-1s1 .448 1 1v2zm13 5v10h-16v-10h16zm2-6h-2v1c0 1.103-.897 2-2 2s-2-.897-2-2v-1h-8v1c0 1.103-.897 2-2 2s-2-.897-2-2v-1h-2v18h20v-18zm-11.646 14c-1.318 0-2.192-.761-2.168-2.205h1.245c.022.64.28 1.107.907 1.107.415 0 .832-.247.832-.799 0-.7-.485-.751-1.3-.751v-.977c.573.05 1.196-.032 1.196-.608 0-.455-.369-.663-.711-.663-.575 0-.793.422-.782 1.003h-1.256c.052-1.401.902-2.107 2.029-2.107.968 0 1.969.613 1.969 1.64 0 .532-.234.945-.638 1.147.528.203.847.681.847 1.293-.001 1.201-.993 1.92-2.17 1.92zm5.46 0h-1.306v-3.748h-1.413v-1.027c.897.024 1.525-.233 1.657-1.113h1.062v5.888zm10.186-11v19h-22v-2h20v-17h2z" />
+      </svg>
+    );
+
     if (guestsArray === undefined) {
       guestsArray = [];
     }
@@ -212,17 +232,23 @@ class EventFocus extends React.Component {
     return (
       <div className="event-page">
         <div className="event-page-grid">
-          {/* Edit Event Button
-          <div className="event-page-edit-button">
-            {checkIfHostOfEvent && (
-              <RaisedButton
-                label="Edit Event"
-                primary={true}
-                onClick={this.handleClick}
-              />
+          {/* RSVP Buttons
+          <div className="event-page-rsvp-button">
+            {!checkIfHostOfEvent && (
+              <div style={{ textAlign: 'center', align: 'center' }}>
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickAttending}
+                  label="I'll be there"
+                />
+                <FlatButton
+                  style={{ textAlign: 'center', align: 'center' }}
+                  onClick={this.clickNotAttending}
+                  label="Hell nah, I aint coming"
+                />
+              </div>
             )}
           </div> */}
-
           {/* Event Image */}
           <div className="event-page-image-container">
             {/* Event Title */}
@@ -277,19 +303,42 @@ class EventFocus extends React.Component {
             <div className="event-page-location">
               {this.determineWhatToRender(this.props.location, event.location)}
             </div>
-            <div className="event-page-info-buttons">
-            <div className="event-page-info-buttons-unit">
-              <div onClick={this.toggleMapImage}>{mapSvg}</div>
-              <div className="event-page-info-buttons-text">Map</div>
+            {checkIfHostOfEvent ? (
+              <div className="event-page-info-buttons">
+                {/* <div className="event-page-edit-button">
+                  <RaisedButton
+                    label="Edit Event"
+                    primary={true}
+                    onClick={this.handleClick}
+                  />
+                </div> */}
+
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.handleClick}>{editSVG}</div>
+                  <div className="event-page-info-buttons-text">Edit Event</div>
+                </div>
+
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.toggleMapImage}>{mapSvg}</div>
+                  <div className="event-page-info-buttons-text">Map</div>
+                </div>
               </div>
-              <div className="event-page-info-buttons-unit">
-              <div onClick={this.addToCalendar}>{calendarSVG}</div>
-              <div className="event-page-info-buttons-text">Add To Google Calendar</div>
+            ) : (
+              <div className="event-page-info-buttons">
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.toggleMapImage}>{mapSvg}</div>
+                  <div className="event-page-info-buttons-text">Map</div>
+                </div>
+                <div className="event-page-info-buttons-unit">
+                  <div onClick={this.addToCalendar}>{calendarSVG}</div>
+                  <div className="event-page-info-buttons-text">
+                    Add To Google Calendar
+                  </div>
+                </div>
               </div>
-            </div>
-           { this.props.event.host_id !== this.props.currentUser.id &&
-            <button onClick={this.addToCalendar}>+ Add Event To Google Calendar</button> }
+            )}
           </div>
+          {/* </div> */}
 
           <div className="event-page-sidebar">
             <div className="event-page-sidebar-buttons">
@@ -308,25 +357,25 @@ class EventFocus extends React.Component {
                   : 'event-page-attendance-hide'
               }
             >
-                   {/*  RSVP Buttons*/}
-          <div className="event-page-rsvp-button">
-            {!checkIfHostOfEvent && (
-              <div style={{ textAlign: 'center', align: 'center' }}>
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickAttending}
-                  label="I'll be there"
-                  primary={this.state.attending}
-                />
-                <FlatButton
-                  style={{ textAlign: 'center', align: 'center' }}
-                  onClick={this.clickNotAttending}
-                  label="Hell nah, I aint coming"
-                  primary={this.state.notAttending}
-                />
+              {/*  RSVP Buttons*/}
+              <div className="event-page-rsvp-button">
+                {!checkIfHostOfEvent && (
+                  <div style={{ textAlign: 'center', align: 'center' }}>
+                    <FlatButton
+                      style={{ textAlign: 'center', align: 'center' }}
+                      onClick={this.clickAttending}
+                      label="I'll be there"
+                      primary={this.state.attending}
+                    />
+                    <FlatButton
+                      style={{ textAlign: 'center', align: 'center' }}
+                      onClick={this.clickNotAttending}
+                      label="Hell nah, I aint coming"
+                      primary={this.state.notAttending}
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div> 
               <h1>Who's Coming</h1>
               <ul>
                 {guestsArray.map(guest => {
@@ -402,7 +451,7 @@ class EventFocus extends React.Component {
 const EventFocusWithData = compose(
   graphql(confirmPresence, { name: 'confirmPresence' }),
   graphql(denyPresence, { name: 'denyPresence' }),
-  graphql(addToCalendar, {name: 'addToCalendar'}),
+  graphql(addToCalendar, { name: 'addToCalendar' }),
   GoogleApiWrapper({
     apiKey: 'AIzaSyCcyYySdneaabfsmmARXqAfGzpn9DCZ3dg',
     apiKey: 'AIzaSyCDVd2ErtvbrNJht5TENmZ54E9mMECUviA'
