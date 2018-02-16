@@ -1,7 +1,6 @@
 .spinner img {
-  height: 20px;
-  width: 20px;
-  padding-right: 5px;
+  height: 25px;
+  width: 25px;
   display: none;
 }
 .create-event-container {
@@ -225,7 +224,7 @@
 }
 
 .create-event-submit {
-  width: 50%;
+  width: 10%;
   margin: 25px auto 25px;
   font-size: 1.5em !important;
 }
@@ -236,27 +235,12 @@
   height: 5% !important;
   font-size: 1.5em !important;
   button {
-    div {
-      span {
-        font-size: 2em !important;
-        padding-top: 20px !important;
-      }
+    span {
+      font-size: 2em !important;
+      padding-top: 20px !important;
     }
   }
 }
 
-.create-event-submit-material {
-  width: 100% !important;
-  text-align: center !important;
-  height: 5% !important;
-  button {
-    div {
-      span {
-        font-size: 2em !important;
-        padding-top: 20px !important;
-      }
-    }
-  }
-}
 
 // 130  119 23
